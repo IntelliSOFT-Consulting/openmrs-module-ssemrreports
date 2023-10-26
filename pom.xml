@@ -1,0 +1,151 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.openmrs.maven.parents</groupId>
+        <artifactId>maven-parent-openmrs-module</artifactId>
+        <version>1.1.1</version>
+    </parent>
+
+	<groupId>org.openmrs.module</groupId>
+	<artifactId>ssemrreports</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>SSEMR Reports</name>
+	<description>South Sudan EMR Reports</description>
+
+	<url>https://wiki.openmrs.org/x/FQ4z</url>
+
+	<scm>
+		<connection>scm:git:git@github.com:openmrs/openmrs-module-ssemrreports.git</connection>
+		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-ssemrreports.git</developerConnection>
+		<url>https://github.com/openmrs/openmrs-module-ssemrreports/</url>
+	</scm>
+
+	<modules>
+		<module>api</module>
+		<module>omod</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>legacyui-omod</artifactId>
+			<version>${legacyUiVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>uiframework-api</artifactId>
+			<version>${uiframeworkVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>appframework-api</artifactId>
+			<version>${appframeworkVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>referenceapplication-omod</artifactId>
+			<version>${referenceapplicationVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>appui-omod</artifactId>
+			<version>${appuiVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>serialization.xstream-api</artifactId>
+			<version>${serializationxstreamVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>reporting-api</artifactId>
+			<version>${reportingVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>reportingcompatibility-api</artifactId>
+			<version>${reportingcompatibilityVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>calculation-api</artifactId>
+			<version>${calculationVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>coreapps-api</artifactId>
+			<version>${coraappVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>uicommons-omod</artifactId>
+			<version>${uicommonsVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>uicommons-omod</artifactId>
+			<version>${uicommonsVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>openmrs-repo</id>
+			<name>OpenMRS Nexus Repository</name>
+			<url>https://mavenrepo.openmrs.org/public</url>
+		</repository>
+		<repository>
+			<id>central</id>
+			<name>Maven Repository Switchboard</name>
+			<layout>default</layout>
+			<url>https://repo1.maven.org/maven2</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>openmrs-repo</id>
+			<name>OpenMRS Nexus Repository</name>
+			<url>https://mavenrepo.openmrs.org/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<properties>
+		<openmrsPlatformVersion>2.5.0</openmrsPlatformVersion>
+		<legacyUiVersion>1.2.3</legacyUiVersion>
+		<uicommonsVersion>2.19.0</uicommonsVersion>
+		<uiframeworkVersion>3.17.0</uiframeworkVersion>
+		<referenceapplicationVersion>2.10.0</referenceapplicationVersion>
+		<appuiVersion>1.12.0</appuiVersion>
+		<emrapiVersion>1.29.0</emrapiVersion>
+		<reportingVersion>1.21.0</reportingVersion>
+		<serializationxstreamVersion>0.2.14</serializationxstreamVersion>
+		<reportingcompatibilityVersion>2.0.7</reportingcompatibilityVersion>
+		<calculationVersion>1.2</calculationVersion>
+		<coraappVersion>1.34.0</coraappVersion>
+		<webservices.restModuleVersion>2.29.0</webservices.restModuleVersion>
+		<appframeworkVersion>2.14.0</appframeworkVersion>
+		<reportingUIVersion>1.9.0</reportingUIVersion>
+		<reportingRestVersion>1.11.0</reportingRestVersion>
+		<botswanaemrVersion>1.0.0-SNAPSHOT</botswanaemrVersion>
+	</properties>
+</project>

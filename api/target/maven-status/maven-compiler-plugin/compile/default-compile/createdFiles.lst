@@ -1,0 +1,6 @@
+org/openmrs/module/ssemrreports/api/dao/SSEMRReportsDao.class
+org/openmrs/module/ssemrreports/api/SSEMRReportsService.class
+org/openmrs/module/ssemrreports/Item.class
+org/openmrs/module/ssemrreports/api/impl/SSEMRReportsServiceImpl.class
+org/openmrs/module/ssemrreports/SSEMRReportsConfig.class
+org/openmrs/module/ssemrreports/SSEMRReportsActivator.class

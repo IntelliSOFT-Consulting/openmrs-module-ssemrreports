@@ -1,0 +1,6 @@
+/Users/komondi/Development/github.com/intellisoftkenya/openmrs-module-ssemrreports/api/src/main/java/org/openmrs/module/ssemrreports/api/SSEMRReportsService.java
+/Users/komondi/Development/github.com/intellisoftkenya/openmrs-module-ssemrreports/api/src/main/java/org/openmrs/module/ssemrreports/SSEMRReportsConfig.java
+/Users/komondi/Development/github.com/intellisoftkenya/openmrs-module-ssemrreports/api/src/main/java/org/openmrs/module/ssemrreports/api/impl/SSEMRReportsServiceImpl.java
+/Users/komondi/Development/github.com/intellisoftkenya/openmrs-module-ssemrreports/api/src/main/java/org/openmrs/module/ssemrreports/api/dao/SSEMRReportsDao.java
+/Users/komondi/Development/github.com/intellisoftkenya/openmrs-module-ssemrreports/api/src/main/java/org/openmrs/module/ssemrreports/Item.java
+/Users/komondi/Development/github.com/intellisoftkenya/openmrs-module-ssemrreports/api/src/main/java/org/openmrs/module/ssemrreports/SSEMRReportsActivator.java
