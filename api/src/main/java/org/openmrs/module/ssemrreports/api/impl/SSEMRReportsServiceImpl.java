@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.ssemrreports.api.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openmrs.api.APIException;
 import org.openmrs.api.UserService;
 import org.openmrs.api.impl.BaseOpenmrsService;
@@ -48,5 +49,13 @@ public class SSEMRReportsServiceImpl extends BaseOpenmrsService implements SSEMR
 		}
 		
 		return dao.saveItem(item);
+	}
+	
+	@Override
+	public void purgeReportDesignIfExists(String uuid) {
+		String serializedObjectUuid = dao.getSerializedObjectByReportDesignUUID(uuid);
+		if (StringUtils.isNotBlank(serializedObjectUuid)) {
+			dao.purgeReportDesign(uuid, serializedObjectUuid);
+		}
 	}
 }

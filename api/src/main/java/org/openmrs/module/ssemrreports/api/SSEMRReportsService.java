@@ -45,4 +45,7 @@ public interface SSEMRReportsService extends OpenmrsService {
 	@Authorized(SSEMRReportsConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Item saveItem(Item item) throws APIException;
+	
+	void purgeReportDesignIfExists(String uuid);
+	
 }

@@ -146,6 +146,6 @@
 		<appframeworkVersion>2.14.0</appframeworkVersion>
 		<reportingUIVersion>1.9.0</reportingUIVersion>
 		<reportingRestVersion>1.11.0</reportingRestVersion>
-		<botswanaemrVersion>1.0.0-SNAPSHOT</botswanaemrVersion>
+		<SSEMRVersion>1.0.0-SNAPSHOT</SSEMRVersion>
 	</properties>
 </project>
