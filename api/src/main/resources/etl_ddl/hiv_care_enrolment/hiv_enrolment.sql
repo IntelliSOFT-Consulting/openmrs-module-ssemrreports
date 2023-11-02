@@ -5,6 +5,8 @@ DROP TABLE IF EXISTS flat_encounter_hiv_care_enrolment;
 
 CREATE TABLE flat_encounter_hiv_care_enrolment
 (
+    patient_id                                        INT(15),
+    visit_date                                        DATE,
     date_first_tested_positive                        DATE,
     place_first_tested_positive                       VARCHAR(255),
     entry_point                                       VARCHAR(255),
@@ -12,7 +14,7 @@ CREATE TABLE flat_encounter_hiv_care_enrolment
     place_of_hiv_retesting_before_art                 VARCHAR(255),
     transferred_in_on_art_from_another_treatment_site VARCHAR(255),
     name_of_previous_clinic                           VARCHAR(255),
-    date_tranferred_in                                DATE,
+    date_transferred_in                                DATE,
     literate                                          VARCHAR(255),
     alcohol_intake                                    VARCHAR(255),
     drug_allergies                                    VARCHAR(255),

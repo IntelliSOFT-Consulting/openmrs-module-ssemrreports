@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS flat_encounter_high_viral_load;
 
 CREATE TABLE flat_encounter_high_viral_load
 (
+    patient_id                                INT(15),
+    visit_date                                DATE,
     arv_regimen                               VARCHAR(255),
     date_of_initiation_of_current_regimen     DATE,
     previous_vl                               INT(15),
