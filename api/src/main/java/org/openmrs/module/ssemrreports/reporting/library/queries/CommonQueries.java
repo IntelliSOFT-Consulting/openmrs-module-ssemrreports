@@ -272,4 +272,11 @@ public class CommonQueries {
 		
 		return sql;
 	}
+	
+	public static String getPatientsWithTodaysAppointments() {
+		String query = "SELTEC fp.patient_id FROM `ssemr_etl`.`flat_encounter_hiv_care_follow_up` fp where "
+		        + " fp.follow_up_date = CURDATE() and fp.location_id=:location";
+		
+		return query;
+	}
 }

@@ -55,4 +55,12 @@ public class BaseCohortQueries {
 		
 		return cd;
 	}
+	
+	public CohortDefinition getPatientsWithTodaysAppointments() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Todays appointment patient set");
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getPatientsWithTodaysAppointments());
+		return cd;
+	}
 }

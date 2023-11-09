@@ -16,7 +16,8 @@ CREATE TABLE flat_encounter_community_linkage
     client_met_cov_in_the_community    VARCHAR(255),
     date_client_met_cov                DATE,
     cov_knows_client_address           VARCHAR(255),
-    comments_                          VARCHAR(255)
+    comments                           VARCHAR(255),
+    location_id                        INT(15)
 );
 
     SELECT "Successfully created flat_encounter_community_linkage table";

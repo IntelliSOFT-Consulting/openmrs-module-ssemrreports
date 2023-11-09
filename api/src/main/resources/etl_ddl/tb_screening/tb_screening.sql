@@ -22,7 +22,8 @@ CREATE TABLE flat_encounter_tb_screening
     cxr_results                              VARCHAR(255),
     fna_culture_ultrasound_done              VARCHAR(255),
     tb_diagnosed                             VARCHAR(255),
-    hivtc_tb_type                            VARCHAR(255)
+    hivtc_tb_type                            VARCHAR(255),
+    location_id                              INT(15)
 );
     
     SELECT "Successfully created flat_encounter_tb_screening table";

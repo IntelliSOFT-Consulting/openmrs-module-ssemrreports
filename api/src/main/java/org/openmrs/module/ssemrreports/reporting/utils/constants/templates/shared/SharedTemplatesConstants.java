@@ -9,4 +9,6 @@ public class SharedTemplatesConstants {
 	public static final String HTS_REPORT_TEMPLATE = "45589b8a-9116-11ed-bdaa-8bdd313788ec";
 	
 	public static final String FACILITY_USAGE_REPORT_TEMPLATE = "52956bbf-e6dc-4455-a2b0-24b9b662b56d";
+	
+	public static final String APPOINTMENTS_DUE_TEMPLATE = "7a57711e-7f0c-11ee-b962-0242ac120002";
 }

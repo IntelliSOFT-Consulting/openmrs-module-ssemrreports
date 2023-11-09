@@ -61,7 +61,8 @@ CREATE TABLE flat_encounter_hiv_care_enrolment
     interruption_type                                 VARCHAR(255),
     art_treatment_stop_or_lost_date                   DATE,
     art_treatment_reasons_for_stop                    VARCHAR(255),
-    date_if_restarted                                 DATE
+    date_if_restarted                                 DATE,
+    location_id                                       INT(15)
 );
     
     SELECT "Successfully created flat_encounter_hiv_care_enrolment table";
