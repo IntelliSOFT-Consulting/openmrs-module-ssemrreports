@@ -64,6 +64,6 @@ target
 *.tar.gz
 *.rar
 
-/api/target/
-/omod/target/
-/.idea/
+api/target/
+omod/target/
+.idea/
