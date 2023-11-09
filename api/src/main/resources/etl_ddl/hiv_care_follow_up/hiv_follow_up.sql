@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS flat_encounter_hiv_care_follow_up;
 
 CREATE TABLE flat_encounter_hiv_care_follow_up
 (
+    patient_id                                   INT(15),
+    visit_date                                   DATE,
     date_of_death                                DATE,
     lost_to_follow_up                            VARCHAR(255),
     lost_follow_up_last_visit_date               DATE,

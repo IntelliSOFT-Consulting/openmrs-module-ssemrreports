@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS flat_encounter_community_linkage;
 
 CREATE TABLE flat_encounter_community_linkage
 (
+    patient_id                         INT(15),
+    visit_date                         DATE,
     s_number                           INT(15),
     date_of_entry                      DATE,
     uan                                VARCHAR(255),

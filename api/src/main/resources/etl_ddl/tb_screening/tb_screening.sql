@@ -7,7 +7,8 @@ DROP TABLE IF EXISTS flat_encounter_tb_screening;
 
 CREATE TABLE flat_encounter_tb_screening
 (
-    date_                                    DATE,
+    patient_id                               INT(15),
+    visit_date                               DATE,
     current_cough                            VARCHAR(255),
     tb_screening_fever                       VARCHAR(255),
     tb_screening_weight_loss                 VARCHAR(255),
