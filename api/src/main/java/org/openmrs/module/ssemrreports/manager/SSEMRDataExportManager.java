@@ -45,7 +45,7 @@ public abstract class SSEMRDataExportManager extends SSEMRReportManager {
 	        String reportDesignName, String excelDesignUuid, Map<? extends Object, ? extends Object> properties)
 	        throws IOException {
 		
-		SSEMRReportsService SSEMRReportsService = Context.getRegisteredComponent("bemrs.SSEMRReportsService",
+		SSEMRReportsService SSEMRReportsService = Context.getRegisteredComponent("ssemr.SSEMRReportsService",
 		    SSEMRReportsService.class);
 		if (StringUtils.isNotBlank(excelDesignUuid)) {
 			SSEMRReportsService.purgeReportDesignIfExists(excelDesignUuid);

@@ -16,7 +16,11 @@ import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.ssemrreports.Item;
 import org.openmrs.module.ssemrreports.api.SSEMRReportsService;
 import org.openmrs.module.ssemrreports.api.dao.SSEMRReportsDao;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
+@Component("ssemr.SSEMRReportsService")
 public class SSEMRReportsServiceImpl extends BaseOpenmrsService implements SSEMRReportsService {
 	
 	SSEMRReportsDao dao;
