@@ -63,4 +63,15 @@ public class BaseCohortQueries {
 		cd.setQuery(CommonQueries.getPatientsWithTodaysAppointments());
 		return cd;
 	}
+	
+	public CohortDefinition getPatientsWhoHaveHighVL() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Patient high VL list on Date");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getPatientsWithHighVL());
+		
+		return cd;
+	}
 }

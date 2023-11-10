@@ -274,9 +274,18 @@ public class CommonQueries {
 	}
 	
 	public static String getPatientsWithTodaysAppointments() {
-		String query = "SELTEC fp.patient_id FROM `ssemr_etl`.`flat_encounter_hiv_care_follow_up` fp where "
+		String query = "SELECT fp.patient_id FROM `ssemr_etl`.`flat_encounter_hiv_care_follow_up` fp where "
 		        + " fp.follow_up_date = CURDATE() and fp.location_id=:location";
 		
 		return query;
 	}
+	
+	public static String getPatientsWithHighVL() {
+		String query = "SELECT patient_id FROM ssemr_etl.flat_encounter_hiv_care_follow_up WHERE "
+		        + " (SELECT MAX(concat(visit_date, vl_results)) FROM ssemr_etl.flat_encounter_hiv_care_follow_up) >= 1000 "
+		        + " AND visit_date BETWEEN :startDate AND :endDate AND location_id=:location ";
+		
+		return query;
+	}
+	
 }
