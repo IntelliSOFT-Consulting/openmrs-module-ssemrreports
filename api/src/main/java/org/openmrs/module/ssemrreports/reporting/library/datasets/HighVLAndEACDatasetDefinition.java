@@ -26,13 +26,13 @@ import org.springframework.stereotype.Component;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 
 @Component
-public class HighVLDatasetDefinition extends SSEMRBaseDataSet {
+public class HighVLAndEACDatasetDefinition extends SSEMRBaseDataSet {
 	
-	public DataSetDefinition constructHighVLDatasetDefinition() {
+	public DataSetDefinition constructHighVLAndEACDatasetDefinition() {
 		
 		String DATE_FORMAT = "dd-MMM-yyyy";
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
-		dsd.setName("HVL");
+		dsd.setName("HVLEAC");
 		dsd.addParameters(getParameters());
 		dsd.setDescription("Patients with high VL");
 		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);

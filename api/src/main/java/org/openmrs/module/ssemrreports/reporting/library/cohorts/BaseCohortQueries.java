@@ -59,8 +59,10 @@ public class BaseCohortQueries {
 	public CohortDefinition getPatientsWithTodaysAppointments() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("Todays appointment patient set");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
-		cd.setQuery(CommonQueries.getPatientsWithTodaysAppointments());
+		cd.setQuery(CommonQueries.getPatientsWithAppointments());
 		return cd;
 	}
 	
@@ -74,4 +76,16 @@ public class BaseCohortQueries {
 		
 		return cd;
 	}
+	
+	public CohortDefinition getPatientsWhoHaveHighVLAndEAC() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Patient high VL list on Date");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getPatientsWithHighVLAndEAC());
+		
+		return cd;
+	}
+	
 }

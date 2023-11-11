@@ -73,10 +73,10 @@ public class SetupHighVLRegister extends SSEMRDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "reports/hvlRegister.xls",
-			    "Report for listing High VL clients", getExcelDesignUuid(), null);
+			reportDesign = createXlsReportDesign(reportDefinition, "hvlRegister.xls", "Report for listing High VL clients",
+			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:4,dataset:HVL");
+			props.put("repeatingSections", "sheet:1,row:3,dataset:HVL");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

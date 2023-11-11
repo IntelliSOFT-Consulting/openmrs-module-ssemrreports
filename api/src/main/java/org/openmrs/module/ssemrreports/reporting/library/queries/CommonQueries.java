@@ -273,9 +273,9 @@ public class CommonQueries {
 		return sql;
 	}
 	
-	public static String getPatientsWithTodaysAppointments() {
-		String query = "SELECT fp.patient_id FROM `ssemr_etl`.`flat_encounter_hiv_care_follow_up` fp where "
-		        + " fp.follow_up_date = CURDATE() and fp.location_id=:location";
+	public static String getPatientsWithAppointments() {
+		String query = "SELECT fp.patient_id FROM ssemr_etl.flat_encounter_hiv_care_follow_up fp where "
+		        + " fp.follow_up_date BETWEEN :startDate AND :endDate and fp.location_id=:location";
 		
 		return query;
 	}
@@ -284,6 +284,17 @@ public class CommonQueries {
 		String query = "SELECT patient_id FROM ssemr_etl.flat_encounter_hiv_care_follow_up WHERE "
 		        + " (SELECT MAX(concat(visit_date, vl_results)) FROM ssemr_etl.flat_encounter_hiv_care_follow_up) >= 1000 "
 		        + " AND visit_date BETWEEN :startDate AND :endDate AND location_id=:location ";
+		
+		return query;
+	}
+	
+	public static String getPatientsWithHighVLAndEAC() {
+		String query = "SELECT t.patient_id FROM " + " (SELECT patient_id, visit_date, location_id, "
+		        + " mid(max(concat(date(visit_date), recent_vl)), 11) as last_vl_result, "
+		        + " mid(max(concat(date(visit_date), first_eac_tools)), 11) as last_eac_tools "
+		        + " FROM ssemr_etl.flat_encounter_high_viral_load " + " GROUP BY patient_id, visit_date, location_id "
+		        + " HAVING last_eac_tools IS NOT NULL AND last_vl_result > 1000 "
+		        + " AND visit_date BETWEEN :startDate AND :endDate AND location_id=:location " + " ) t; ";
 		
 		return query;
 	}
