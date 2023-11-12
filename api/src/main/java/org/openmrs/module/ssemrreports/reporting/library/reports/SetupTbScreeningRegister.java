@@ -88,7 +88,7 @@ public class SetupTbScreeningRegister extends SSEMRDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "tbScreeningRegister.xls",
+			reportDesign = createXlsReportDesign(reportDefinition, "tb_screening_register.xls",
 			    "TB Screening Register Report", getExcelDesignUuid(), null);
 			Properties props = new Properties();
 			props.put("repeatingSections", "sheet:1,row:24,dataset:TBSCR");

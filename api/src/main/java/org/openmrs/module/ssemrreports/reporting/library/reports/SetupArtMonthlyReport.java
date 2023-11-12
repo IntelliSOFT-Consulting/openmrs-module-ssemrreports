@@ -59,18 +59,18 @@ public class SetupArtMonthlyReport extends SSEMRDataExportManager {
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		LocationAttributeType mflCodeAttributeType = Context.getLocationService().getLocationAttributeTypeByUuid(
-		    "8a845a89-6aa5-4111-81d3-0af31c45c002");
+		// LocationAttributeType mflCodeAttributeType = Context.getLocationService().getLocationAttributeTypeByUuid(
+		//    "8a845a89-6aa5-4111-81d3-0af31c45c002");
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.addParameters(districtDatasetDefinition.getParameters());
-		rd.addDataSetDefinition("DT", Mapped.mapStraightThrough(districtDatasetDefinition
-		        .getAddressDataset(mflCodeAttributeType.getLocationAttributeTypeId())));
+		//rd.addParameters(districtDatasetDefinition.getParameters());
+		//rd.addDataSetDefinition("DT", Mapped.mapStraightThrough(districtDatasetDefinition
+		//        .getAddressDataset(mflCodeAttributeType.getLocationAttributeTypeId())));
 		rd.addDataSetDefinition("ART", Mapped.mapStraightThrough(artDatasetDefinition.getArtDataset()));
-		rd.setBaseCohortDefinition(SSEMRReportUtils.map(
-		    baseCohortQueries.getPatientsEnrolledIntoProgramByEndOfReportingPeriod(SSEMRReportUtils.getProgramByIdOrUuid(
-		        SharedReportConstants.ART_PROGRAM_UUID).getId()), "endDate=${endDate+23h},location=${location}"));
+		//rd.setBaseCohortDefinition(SSEMRReportUtils.map(
+		//    baseCohortQueries.getPatientsEnrolledIntoProgramByEndOfReportingPeriod(SSEMRReportUtils.getProgramByIdOrUuid(
+		//       SharedReportConstants.ART_PROGRAM_UUID).getId()), "endDate=${endDate+23h},location=${location}"));
 		return rd;
 	}
 	
@@ -83,7 +83,7 @@ public class SetupArtMonthlyReport extends SSEMRDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "ART_MONTHLY.xls", "ART Monthly Report",
+			reportDesign = createXlsReportDesign(reportDefinition, "art_monthly.xls", "ART Monthly Report",
 			    getExcelDesignUuid(), null);
 		}
 		catch (IOException e) {

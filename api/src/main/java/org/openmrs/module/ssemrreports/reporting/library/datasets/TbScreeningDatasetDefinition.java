@@ -55,11 +55,11 @@ public class TbScreeningDatasetDefinition extends SSEMRBaseDataSet {
 		DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName} {middleName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
 		
-		PersonAttributeType contactAttributeType = Context.getPersonService().getPersonAttributeTypeByUuid(
-		    SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
+		//PersonAttributeType contactAttributeType = Context.getPersonService().getPersonAttributeTypeByUuid(
+		//    SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
 		
-		DataDefinition conctactDef = new ConvertedPersonDataDefinition("contact", new PersonAttributeDataDefinition(
-		        contactAttributeType.getName(), contactAttributeType), null);
+		//DataDefinition conctactDef = new ConvertedPersonDataDefinition("contact", new PersonAttributeDataDefinition(
+		//        contactAttributeType.getName(), contactAttributeType), null);
 		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		// dsd.addColumn("Psn", new PatientIdDataDefinition(), "", new ObjectCounterConverter());
@@ -67,7 +67,7 @@ public class TbScreeningDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Sex", new GenderDataDefinition(), "");
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
-		dsd.addColumn("CDTAILS", conctactDef, "");
+		// dsd.addColumn("CDTAILS", conctactDef, "");
 		
 		return dsd;
 		

@@ -22,7 +22,7 @@ public class SharedReportConstants {
 	
 	public static final String FEVER = "TO DEFINE";
 	
-	public static final String OPENMRS_ID_IDENTIFIER_TYPE = "TO DEFINE";
+	public static final String OPENMRS_ID_IDENTIFIER_TYPE = "05a29f94-c0ed-11e2-94be-8c13b969e334";
 	
 	public static final String PHONE_NUMBER_ATTRIBUTE_TYPE_UUID = "TO DEFINE";
 	

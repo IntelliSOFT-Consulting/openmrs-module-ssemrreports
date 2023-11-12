@@ -16,6 +16,8 @@ import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.ssemrreports.Item;
 import org.openmrs.module.ssemrreports.api.SSEMRReportsService;
 import org.openmrs.module.ssemrreports.api.dao.SSEMRReportsDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Component("ssemr.SSEMRReportsService")
 public class SSEMRReportsServiceImpl extends BaseOpenmrsService implements SSEMRReportsService {
 	
+	@Autowired
+	@Qualifier("ssemrreports.SSEMRReportsDao")
 	SSEMRReportsDao dao;
 	
 	UserService userService;

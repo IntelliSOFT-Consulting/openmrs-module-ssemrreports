@@ -9,8 +9,8 @@ import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.MissedAppointmentDatasetDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.tb.TbReportsConstants;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.tb.TbTemplatesConstants;
+import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.art.ArtReportsConstants;
+import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.art.ArtTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -34,12 +34,12 @@ public class SetupMissedAppointmentRegister extends SSEMRDataExportManager {
 	
 	@Override
 	public String getExcelDesignUuid() {
-		return TbTemplatesConstants.TB_MISSED_APPOINTMENT_TEMPLATE_UUID;
+		return ArtTemplatesConstants.MISSED_APPOINTMENTS_TEMPLATE_UUID;
 	}
 	
 	@Override
 	public String getUuid() {
-		return TbReportsConstants.TB_MISSED_APPOINTMENT_REGISTER_UUID;
+		return ArtReportsConstants.MISSED_APPOINTMENTS_REPORT_UUID;
 	}
 	
 	@Override
@@ -75,8 +75,8 @@ public class SetupMissedAppointmentRegister extends SSEMRDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "marRegister.xls", "Missed Appointment Register Report",
-			    getExcelDesignUuid(), null);
+			reportDesign = createXlsReportDesign(reportDefinition, "missed_appointment_register.xls",
+			    "Missed Appointment Register Report", getExcelDesignUuid(), null);
 			Properties props = new Properties();
 			props.put("repeatingSections", "sheet:1,row:4,dataset:MAR");
 			props.put("sortWeight", "5000");

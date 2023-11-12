@@ -74,7 +74,7 @@ public class SetupLtfuRegister extends SSEMRDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "ltfuRegister.xls", "Report for Lost to follow up",
+			reportDesign = createXlsReportDesign(reportDefinition, "ltfu_register.xls", "Report for Lost to follow up",
 			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
 			props.put("repeatingSections", "sheet:1,row:4,dataset:LTFUR");

@@ -75,7 +75,7 @@ public class SetupDefaultersRegister extends SSEMRDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "darRegister.xls", "Report for listing Defaulters",
+			reportDesign = createXlsReportDesign(reportDefinition, "dar_register.xls", "Report for listing Defaulters",
 			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
 			props.put("repeatingSections", "sheet:1,row:4,dataset:DAR");
