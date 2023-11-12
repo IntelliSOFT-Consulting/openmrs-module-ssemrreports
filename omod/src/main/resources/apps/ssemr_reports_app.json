@@ -1,0 +1,81 @@
+[
+  {
+    "id": "ssemr.reportingui.reports",
+    "description": "Homepage showing a list of different kinds of reports",
+    "order": 10,
+    "extensionPoints": [
+      {
+        "id": "org.openmrs.module.ssemr.reports.overview",
+        "description": "Links to available Facility level Reports",
+        "supportedExtensionTypes": [ "link" ]
+      },
+      {
+        "id": "org.openmrs.module.ssemr.reports.registers",
+        "description": "Links to available Register Reports",
+        "supportedExtensionTypes": [ "link" ]
+      },
+      {
+        "id": "org.openmrs.module.ssemr.reports.monthly",
+        "description": "Links to available Monthly Reports",
+        "supportedExtensionTypes": [ "link" ]
+      }
+    ],
+    "extensions": [
+      {
+        "id": "reportingui.reports.homepagelink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "SSEMR Reports",
+        "url": "reportingui/reportsapp/home.page",
+        "icon": "icon-list-alt",
+        "order": 5,
+        "requiredPrivilege": "App: reportingui.reports"
+      },
+      {
+        "id": "ssemr.hvl.register",
+        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "type": "link",
+        "label": "Clients with High VL",
+        "url": "reportingui/runReport.page?reportDefinition=6C5992CD-885B-4BDF-BAEE-6D9D8CE31796",
+        "order": 20,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.appointment.due.register",
+        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "type": "link",
+        "label": "Appointment Due Report",
+        "url": "reportingui/runReport.page?reportDefinition=948300f6-a0e1-47d6-a019-9d6e2ec122b2",
+        "order": 21,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.missed.appointment.register",
+        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "type": "link",
+        "label": "Missed Appointment Report",
+        "url": "reportingui/runReport.page?reportDefinition=17a9d6ce-7abe-42d2-a677-53195e22c46b",
+        "order": 21,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.art.monthly.Report",
+        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "type": "link",
+        "label": "ART Monthly Report",
+        "url": "reportingui/runReport.page?reportDefinition=7e6af78e-9f9d-47d0-8dbb-97a213313c3f",
+        "order": 5,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.pns.register.Report",
+        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "type": "link",
+        "label": "PNS Register Report",
+        "url": "reportingui/runReport.page?reportDefinition=0378b94a-a654-11ed-8e28-bb425a0d3867",
+        "order": 24,
+        "requiredPrivilege": ""
+      }
+    ]
+  }
+]
