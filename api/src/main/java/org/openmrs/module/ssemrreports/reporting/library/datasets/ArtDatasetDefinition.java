@@ -39,9 +39,9 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.setDescription("ART dataset");
 		dsd.addParameters(getParameters());
 		dsd.addDimension("gender", map(dimension.gender(), ""));
-		dsd.addDimension("type", map(dimension.getCitizenType(), ""));
+		// dsd.addDimension("type", map(dimension.getCitizenType(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
-		dsd.addDimension("other", map(dimension.getGeneralDisags(), mappings));
+		// dsd.addDimension("other", map(dimension.getGeneralDisags(), mappings));
 		
 		/*		Program artProgram = SSEMRReportUtils.getProgram(SharedReportConstants.ART_PROGRAM_UUID);
 				Concept programOutcome = SSEMRReportUtils.getConcept("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
