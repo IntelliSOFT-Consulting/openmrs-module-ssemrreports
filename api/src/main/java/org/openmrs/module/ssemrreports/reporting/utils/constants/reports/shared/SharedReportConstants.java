@@ -10,7 +10,7 @@ public class SharedReportConstants {
 	
 	public static final String FACILITY_USAGE_REPORT_UUID = "bd7462bd-02c9-4d42-8858-859e66ba30a4";
 	
-	public static final String TB_SCREENING_ENCOUNTER_TYPE_UUID = "TO DEFINE";
+	public static final String TB_SCREENING_ENCOUNTER_TYPE_UUID = "3c2ded2c-6856-11ee-8c99-0242ac120002";
 	
 	public static final String LAB_RESULT_ENCOUNTER_TYPE_UUID = "TO DEFINE";
 	

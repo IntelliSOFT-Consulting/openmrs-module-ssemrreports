@@ -81,15 +81,15 @@ public class TbScreeningDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addDimension("gender", SSEMRReportUtils.map(dimension.gender(), ""));
 		dsd.addDimension("age", SSEMRReportUtils.map(dimension.age(), "effectiveDate=${endDate}"));
 		
-		addRow(
-		    dsd,
-		    "TBNPS",
-		    "Number of people screened for TB",
-		    SSEMRReportUtils.map(
-		        indicator.getIndicator("Number of people screened for TB", SSEMRReportUtils.map(
-		            commonCohortQueries.getNumberPatientsSeenPerEncounter(Arrays.asList(SSEMRReportUtils.getEncounterType(
-		                SharedReportConstants.TB_SCREENING_ENCOUNTER_TYPE_UUID).getEncounterTypeId())), mappings)), mappings),
-		    getGenderAgeColumns());
+		//		addRow(
+		//		    dsd,
+		//		    "TBNPS",
+		//		    "Number of people screened for TB",
+		//		    SSEMRReportUtils.map(
+		//		        indicator.getIndicator("Number of people screened for TB", SSEMRReportUtils.map(
+		//		            commonCohortQueries.getNumberPatientsSeenPerEncounter(Arrays.asList(SSEMRReportUtils.getEncounterType(
+		//		                SharedReportConstants.TB_SCREENING_ENCOUNTER_TYPE_UUID).getEncounterTypeId())), mappings)), mappings),
+		//		    getGenderAgeColumns());
 		return dsd;
 	}
 	

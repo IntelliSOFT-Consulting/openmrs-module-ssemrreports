@@ -64,18 +64,18 @@ public class SetupTbScreeningRegister extends SSEMRDataExportManager {
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.addParameters(tbScreeningDatasetDefinition.getParameters());
-		LocationAttributeType mflCodeAttributeType = Context.getLocationService().getLocationAttributeTypeByUuid(
-		    "8a845a89-6aa5-4111-81d3-0af31c45c002");
-		rd.addDataSetDefinition("TBSCR",
-		    Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTbScreeningRegisterDefinition()));
-		rd.addDataSetDefinition("TBSCRC",
-		    Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTheAggregatePartOfTheScreeningRegister()));
-		rd.setBaseCohortDefinition(SSEMRReportUtils.map(
-		    baseCohortQueries.getPatientsWhoQualifiesForAgivenEncounter(Arrays.asList(SSEMRReportUtils.getEncounterType(
-		        SharedReportConstants.TB_SCREENING_ENCOUNTER_TYPE_UUID).getEncounterTypeId())),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
-		rd.addDataSetDefinition("DT", Mapped.mapStraightThrough(districtDatasetDefinition
-		        .getAddressDataset(mflCodeAttributeType.getLocationAttributeTypeId())));
+		//		LocationAttributeType mflCodeAttributeType = Context.getLocationService().getLocationAttributeTypeByUuid(
+		//		    "8a845a89-6aa5-4111-81d3-0af31c45c002");
+		//		rd.addDataSetDefinition("TBSCR",
+		//		    Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTbScreeningRegisterDefinition()));
+		//		rd.addDataSetDefinition("TBSCRC",
+		//		    Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTheAggregatePartOfTheScreeningRegister()));
+		//		rd.setBaseCohortDefinition(SSEMRReportUtils.map(
+		//		    baseCohortQueries.getPatientsWhoQualifiesForAgivenEncounter(Arrays.asList(SSEMRReportUtils.getEncounterType(
+		//		        SharedReportConstants.TB_SCREENING_ENCOUNTER_TYPE_UUID).getEncounterTypeId())),
+		//		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		//		rd.addDataSetDefinition("DT", Mapped.mapStraightThrough(districtDatasetDefinition
+		//		        .getAddressDataset(mflCodeAttributeType.getLocationAttributeTypeId())));
 		return rd;
 	}
 	
