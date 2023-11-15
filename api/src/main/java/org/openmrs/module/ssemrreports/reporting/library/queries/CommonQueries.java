@@ -299,4 +299,12 @@ public class CommonQueries {
 		return query;
 	}
 	
+	public static String getSupressedPatientsWithHVL() {
+		String query = "SELECT patient_id FROM ssemr_etl.flat_encounter_high_viral_load "
+		        + " WHERE (SELECT MAX(concat(visit_date, repeat_vl_result)) FROM ssemr_etl.flat_encounter_high_viral_load) < 1000 "
+		        + " AND visit_date BETWEEN :startDate AND :endDate AND location_id=:location;";
+		
+		return query;
+	}
+	
 }

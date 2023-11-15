@@ -88,4 +88,15 @@ public class BaseCohortQueries {
 		return cd;
 	}
 	
+	public CohortDefinition getPatientsWhoHaveHVLandSupressed() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Patient high VL list and are supressed on Date");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getSupressedPatientsWithHVL());
+		
+		return cd;
+	}
+	
 }
