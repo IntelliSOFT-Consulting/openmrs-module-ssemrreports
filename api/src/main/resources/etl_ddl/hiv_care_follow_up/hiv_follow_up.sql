@@ -42,7 +42,9 @@ CREATE TABLE flat_encounter_hiv_care_follow_up
     rpr_hb_sputum_cxr_bepb                       VARCHAR(255),
     rfts_lfts_and_other_lab_tests                VARCHAR(255),
     number_of_days_hospitalized                  INT(15),
-    clinician                                    VARCHAR(255)
+    clinician                                    VARCHAR(255),
+    regimen_line                                 VARCHAR(255),
+    regimen                                      VARCHAR(255)
 );
     
     SELECT "Successfully created flat_encounter_hiv_care_follow_up table";
