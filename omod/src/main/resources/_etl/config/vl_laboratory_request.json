@@ -1,0 +1,31 @@
+{
+    "report_name": "VL Laboratory Request Report",
+    "flat_table_name": "ssemr_flat_encounter_vl_laboratory_request",
+    "encounter_type_uuid": "82024e00-3f10-11e4-adec-0800271c1b75",
+    "concepts_locale": "en",
+    "table_columns": {
+        "date_of_sample_collection":"ed520e2d-acb4-4ea9-8ae5-16ca27ace96d",
+        "time_sample_collected":"9fc84874-ec1c-4f15-9e0d-5a73dd416667",
+        "sample_type":"7b532bef-9232-4675-a359-7b1310b66d3a",
+        "date_of_treatment_initiation":"44dba186-7507-41d4-811f-79eae073cdcc",
+        "date_of_initial_current_regimen":"30f1f347-d72c-4920-9962-6d55d138e8e5",
+        "patient_pregnant":"235a6246-6179-4309-ba84-6f0ec337eb48",
+        "patient_breastfeeding":"e288fc7d-bbc5-479a-b94d-857e3819f926",
+        "arv_adherence":"e126652c-8d02-4c4b-a49d-5bac03eb4d03",
+        "last_vl_date":"0ffdbc2e-8883-4648-905a-68ceab83bb6f",
+        "value":"db923866-cfc6-47a5-8ae4-1e37d75db195",
+        "last_vl_date_repeat":"acfbb9f8-8b3c-4f97-b47a-51851b063367",
+        "value_repeat":"5ad34c7c-3a92-496c-b7d7-2210aca554bd",
+        "last_vl_date_sus_treatment_failure":"b3b195ff-0e6c-420f-bf60-483f24902066",
+        "value_sus_treatment_failure":"7906cef9-4843-40f7-8fee-0e69cb00e7b8",
+        "clinician_name":"611d6c22-7c6d-47cf-a74e-190f9e3cdd47",
+        "clinician_phone":"4f968437-31cf-4cd9-bccf-c594618d12f5",
+        "date_requested":"b853ddc3-3d8c-4b0b-99ac-497624c9904d",
+        "vl_focal_person":"db73e6cd-57e7-4cca-83b7-7d4c532c5621",
+        "vl_focal_person_phone":"dff0ffef-5c14-458a-a4db-8b106daf3876",
+        "email_of_hf":"dfcedbb1-11fe-4e19-969c-f88539ebc31f",
+        "date_sample_received_lab":"0bfdbae3-ea5d-4173-a4e1-7f42d50e0bc6",
+        "date_results_dispatched":"4db52045-d459-4c3e-b0b4-b7d00b18ed1e",
+        "rejection":"5986b9bb-b9e0-4c8a-bf16-6562fc3076a6"
+    }
+}
