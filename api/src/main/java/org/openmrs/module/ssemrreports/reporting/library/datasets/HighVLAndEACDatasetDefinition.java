@@ -1,6 +1,7 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
 import java.util.Date;
+import org.openmrs.Location;
 
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
@@ -22,25 +23,27 @@ import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
+import org.openmrs.module.metadatadeploy.MetadataUtils;
 
 @Component
-public class LTFUDatasetDefinition extends SSEMRBaseDataSet {
+public class HighVLAndEACDatasetDefinition extends SSEMRBaseDataSet {
 	
-	public DataSetDefinition constructLtfuAppointmentRegisterDefinition() {
+	public DataSetDefinition constructHighVLAndEACDatasetDefinition() {
 		
 		String DATE_FORMAT = "dd-MMM-yyyy";
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
-		dsd.setName("LTFU");
+		dsd.setName("HVLEAC");
 		dsd.addParameters(getParameters());
-		dsd.setDescription("Report for Lost to follow up on Date");
+		dsd.setDescription("Patients with high VL");
 		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
+		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		DataConverter nameFormatter = new ObjectFormatter("{familyName} {givenName} {middleName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
-		PatientIdentifierType openmrsID = Context.getPatientService().getPatientIdentifierTypeByUuid(
-		    SharedReportConstants.OPENMRS_ID_IDENTIFIER_TYPE);
-		DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
+		// PatientIdentifierType openmrsID = MetadataUtils.existing(PatientIdentifierType.class,
+		//     SharedReportConstants.OPENMRS_ID_IDENTIFIER_TYPE);
+		// DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
 		// DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
 		//         openmrsID.getName(), openmrsID), identifierFormatter);
 		
@@ -48,8 +51,8 @@ public class LTFUDatasetDefinition extends SSEMRBaseDataSet {
 		// dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
-		dsd.addColumn("age", new AgeDataDefinition(), "", null);
-		dsd.addColumn("gender", new GenderDataDefinition(), "", null);
+		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
+		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		
 		return dsd;
 	}

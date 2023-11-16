@@ -44,10 +44,11 @@ CREATE TABLE flat_encounter_vl_laboratory_request
     plan_for_the_patient                      VARCHAR(255),
     new_regimen                               VARCHAR(255),
     date_                                     DATE,
-    _comments_                                VARCHAR(255),
+    comments                                  VARCHAR(255),
     art_provider_name                         VARCHAR(255),
     art_provider_signature                    VARCHAR(255),
-    _date_                                    DATE
+    date_created                              DATE,
+    location_id                               INT(15)
 );
 
     SELECT "Successfully created flat_encounter_vl_laboratory_request table";

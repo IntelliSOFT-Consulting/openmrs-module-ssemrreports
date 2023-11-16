@@ -1,6 +1,7 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
 import java.util.Date;
+import org.openmrs.Location;
 
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
@@ -24,16 +25,17 @@ import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.
 import org.springframework.stereotype.Component;
 
 @Component
-public class LTFUDatasetDefinition extends SSEMRBaseDataSet {
+public class AppointmentsDueDatasetDefinition extends SSEMRBaseDataSet {
 	
-	public DataSetDefinition constructLtfuAppointmentRegisterDefinition() {
+	public DataSetDefinition constructAppointmentsDueDatasetDefinition() {
 		
 		String DATE_FORMAT = "dd-MMM-yyyy";
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
-		dsd.setName("LTFU");
+		dsd.setName("APPDUE");
 		dsd.addParameters(getParameters());
-		dsd.setDescription("Report for Lost to follow up on Date");
+		dsd.setDescription("Report for todays appointments");
 		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
+		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		DataConverter nameFormatter = new ObjectFormatter("{familyName} {givenName} {middleName}");
@@ -48,8 +50,8 @@ public class LTFUDatasetDefinition extends SSEMRBaseDataSet {
 		// dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
-		dsd.addColumn("age", new AgeDataDefinition(), "", null);
-		dsd.addColumn("gender", new GenderDataDefinition(), "", null);
+		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
+		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		
 		return dsd;
 	}

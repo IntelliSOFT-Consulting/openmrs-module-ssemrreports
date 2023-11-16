@@ -40,14 +40,14 @@ public class DefaultersDatasetDefinition extends SSEMRBaseDataSet {
 		PatientIdentifierType openmrsID = Context.getPatientService().getPatientIdentifierTypeByUuid(
 		    SharedReportConstants.OPENMRS_ID_IDENTIFIER_TYPE);
 		DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
-		DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
-		        openmrsID.getName(), openmrsID), identifierFormatter);
+		// DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
+		//         openmrsID.getName(), openmrsID), identifierFormatter);
 		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
-		dsd.addColumn("Identifier", identifierDef, (String) null);
+		// dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
-		dsd.addColumn("age", new AgeDataDefinition(), "", null);
+		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		
 		return dsd;
 	}

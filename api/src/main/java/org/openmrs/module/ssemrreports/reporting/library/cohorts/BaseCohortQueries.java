@@ -55,4 +55,59 @@ public class BaseCohortQueries {
 		
 		return cd;
 	}
+	
+	public CohortDefinition getPatientsWithTodaysAppointments() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Todays appointment patient set");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getPatientsWithAppointments());
+		return cd;
+	}
+	
+	public CohortDefinition getPatientsWhoHaveHighVL() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Patient high VL list on Date");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getPatientsWithHighVL());
+		
+		return cd;
+	}
+	
+	public CohortDefinition getPatientsWhoHaveHighVLAndEAC() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Patient high VL list on Date");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getPatientsWithHighVLAndEAC());
+		
+		return cd;
+	}
+	
+	public CohortDefinition getPatientsWhoHaveHVLAndRepeatTestAfterEAC() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Patient high VL list and received repeat test after EAC on Date");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getPatientsWithHighVLAndRepeatTestAfterEAC());
+		
+		return cd;
+	}
+	
+	public CohortDefinition getPatientsWhoHaveHVLandSupressed() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Patient high VL list and are supressed on Date");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getSupressedPatientsWithHVL());
+		
+		return cd;
+	}
+	
 }

@@ -45,6 +45,7 @@ CREATE TABLE flat_encounter_hiv_care_follow_up
     clinician                                    VARCHAR(255),
     regimen_line                                 VARCHAR(255),
     regimen                                      VARCHAR(255)
+    location_id                                  INT(15)
 );
     
     SELECT "Successfully created flat_encounter_hiv_care_follow_up table";
