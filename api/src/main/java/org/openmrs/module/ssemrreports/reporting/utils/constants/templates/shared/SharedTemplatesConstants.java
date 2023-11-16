@@ -18,4 +18,5 @@ public class SharedTemplatesConstants {
 	
 	public static final String HIGH_VL_SUPRESSED_LIST_TEMPLATE = "16f78084-83e7-11ee-b962-0242ac120002";
 	
+	public static final String HIGH_VL_AND_REPEAT_TEST_AFTER_EAC_LIST_UUID_TEMPLATE = "f5726e3c-83ec-11ee-b962-0242ac120002";
 }

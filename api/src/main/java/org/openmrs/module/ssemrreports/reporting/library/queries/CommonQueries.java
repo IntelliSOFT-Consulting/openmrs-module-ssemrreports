@@ -299,6 +299,17 @@ public class CommonQueries {
 		return query;
 	}
 	
+	public static String getPatientsWithHighVLAndRepeatTestAfterEAC() {
+		String query = "SELECT t.patient_id FROM "
+		        + " (SELECT patient_id, mid(max(concat(date(visit_date), recent_vl)), 11) as last_vl_result, "
+		        + " mid(max(concat(date(visit_date), first_eac_tools)), 11) as last_eac_tools, "
+		        + " mid(max(concat(date(visit_date), repeat_vl_date)), 11) as last_repeat_vl_date "
+		        + " FROM ssemr_etl.flat_encounter_high_viral_load GROUP BY patient_id "
+		        + " HAVING last_eac_tools IS NOT NULL AND last_vl_result > 1000 AND last_repeat_vl_date) t;";
+		
+		return query;
+	}
+	
 	public static String getSupressedPatientsWithHVL() {
 		String query = "SELECT patient_id FROM ssemr_etl.flat_encounter_high_viral_load "
 		        + " WHERE (SELECT MAX(concat(visit_date, repeat_vl_result)) FROM ssemr_etl.flat_encounter_high_viral_load) < 1000 "

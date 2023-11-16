@@ -12,6 +12,8 @@ public class SharedReportConstants {
 	
 	public static final String HIGH_VL_AND_EAC_LIST_UUID = "44222cac-80af-11ee-b962-0242ac120002";
 	
+	public static final String HIGH_VL_AND_REPEAT_TEST_AFTER_EAC_LIST_UUID = "cea7db66-83ec-11ee-b962-0242ac120002";
+	
 	public static final String HIGH_VL_SUPRESSED_LIST_UUID = "dcd5f9f8-83e6-11ee-b962-0242ac120002";
 	
 	public static final String HTS_REPORT_UUID = "07327920-9116-11ed-95d0-1f48b914cc14";
