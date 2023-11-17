@@ -32,7 +32,81 @@ public class ArtCohortQueries {
 		
 		return sql;
 	}
-	
+
+	/**
+	 * Cumulative number of patients ever started on ART at this facility at the end of the previous reporting period
+	 * end of previous reporting period = start date - 1 day
+	 * @return
+	 */
+	public CohortDefinition getCumulativeEverOnARTAtThisFacilityCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select\n" +
+				"    patient_id\n" +
+				"from ssemr_etl.flat_encounter_hiv_care_enrolment\n" +
+				"where visit_date <= date_sub(date(:startDate), interval 1 day)\n" +
+				"and art_regimen is not null\n" +
+				"and transferred_in_on_art_from_another_treatment_site is not null";
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Cumulative patients started on ART at the end of the previous reporting period");
+
+		return cd;
+	}
+
+	/**
+	 * New persons started on ART at this facility during the reporting period
+	 * @return
+	 */
+	public CohortDefinition getNewOnARTCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select\n" +
+				"    patient_id\n" +
+				"from ssemr_etl.flat_encounter_hiv_care_enrolment\n" +
+				"where visit_date between :startDate and :endDate \n" +
+				"  and art_regimen is not null\n" +
+				"  and transferred_in_on_art_from_another_treatment_site is not null;";
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("New persons started on ART during the reporting period");
+
+		return cd;
+	}
+
+	public CohortDefinition getNewOnARTPregnantWomenCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select\n" +
+				"    patient_id\n" +
+				"from ssemr_etl.flat_encounter_hiv_care_enrolment\n" +
+				"where visit_date between :startDate and :endDate \n" +
+				"  and art_regimen is not null\n" +
+				"  and transferred_in_on_art_from_another_treatment_site is not null;";
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("New persons started on ART during the reporting period");
+
+		return cd;
+	}
+
+	public CohortDefinition getNewOnARTBreastfeedingWomenCohortDefinition() {
+		SqlCohortDefinition sql = new SqlCohortDefinition();
+
+		return sql;
+	}
+
+	public CohortDefinition getNewOnARTStartedOnTLDCohortDefinition() {
+		SqlCohortDefinition sql = new SqlCohortDefinition();
+
+		return sql;
+	}
+
+	public CohortDefinition getNewOnARTStartedOnOtherDTGRegimenCohortDefinition() {
+		SqlCohortDefinition sql = new SqlCohortDefinition();
+
+		return sql;
+	}
 	public CohortDefinition getART2CohortDefinition() {
 		SqlCohortDefinition sql = new SqlCohortDefinition();
 		
