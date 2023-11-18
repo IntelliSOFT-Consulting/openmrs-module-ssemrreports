@@ -115,23 +115,18 @@
 
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
-				<artifactId>metadatamapping-api</artifactId>
-				<version>${metadatamappingVersion}</version>
-				<type>jar</type>
-				<scope>provided</scope>
 				<artifactId>ohrimamba-core-omod</artifactId>
 				<version>${mambaETLCoreVersion}</version>
+				<type>jar</type>
+				<scope>provided</scope>
 			</dependency>
 
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
-				<artifactId>metadatasharing-api</artifactId>
-				<version>${metadatasharingVersion}</version>
-				<type>jar</type>
-				<scope>provided</scope>
 				<artifactId>ohrimamba-core-api</artifactId>
 				<version>${mambaETLCoreVersion}</version>
 				<type>jar</type>
+				<scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
