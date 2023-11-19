@@ -67,9 +67,14 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 	SSEMRBaseDataSet.ColumnParameters colTotal = new SSEMRBaseDataSet.ColumnParameters(null, "Total", null,"");
 
 	List<ColumnParameters> allAgeDisaggregation = Arrays.asList(
-			maleInfants, femaleInfants, male_1_to_4,  female_1_to_4, male_5_to_9, female_5_to_9, male_10_to_14, female_10_to_14,male_15_to_19, female_15_to_19,
-			male_20_to_24, female_20_to_24, male_25_to_29, female_25_to_29,male_30_to_34,female_30_to_34,male_35_to_39,female_35_to_39,male_40_to_44,female_40_to_44,
-			male_45_to_49,female_45_to_49,male_50_plus,female_50_plus, subTotalMales, subTotalFemales, colTotal);
+			femaleInfants, maleInfants, female_1_to_4,  male_1_to_4, female_5_to_9, male_5_to_9, female_10_to_14, male_10_to_14,female_15_to_19, male_15_to_19,
+			female_20_to_24, male_20_to_24, female_25_to_29, male_25_to_29,female_30_to_34,male_30_to_34, female_35_to_39, male_35_to_39, female_40_to_44,male_40_to_44,
+			female_45_to_49, male_45_to_49,female_50_plus, male_50_plus, subTotalFemales, subTotalMales, colTotal);
+
+	List<ColumnParameters> pbfDisaggregation = Arrays.asList(
+			female_10_to_14, female_15_to_19,
+			female_20_to_24,  female_25_to_29, female_30_to_34, female_35_to_39, female_40_to_44,
+			female_45_to_49, female_50_plus,  subTotalFemales, subTotalMales, colTotal);
 	@Autowired
 	public ArtDatasetDefinition(SSEMRCommonDimension dimension, SSEMRGeneralIndicator indicator,
 	    ArtCohortQueries artCohortQueries, CommonCohortQueries commonCohortQueries) {
@@ -83,7 +88,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		String mappings = "startDate=${startDate},endDate=${endDate+23h},location=${location}";
 		String mappings1 = "endDate=${endDate+23h},location=${location}";
-		dsd.setName("ART");
+		dsd.setName("CummAndNewOnArt");
 		dsd.setDescription("ART dataset");
 		dsd.addParameters(getParameters());
 		dsd.addDimension("gender", map(dimension.gender(), ""));
@@ -94,7 +99,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 				"Cumulative no ever started on ART at this facility",
 				map(indicator.getIndicator("Cumulative no ever started on ART at this facility",
 						map(artCohortQueries.getCumulativeEverOnARTAtThisFacilityCohortDefinition(), mappings)), mappings),
-				allAgeDisaggregation);
+				allAgeDisaggregation,Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
 
 		addRow(
 				dsd,
@@ -102,7 +107,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 				"New persons started on ART during the reporting period",
 				map(indicator.getIndicator("New persons started on ART during the reporting period",
 						map(artCohortQueries.getNewOnARTCohortDefinition(), mappings)), mappings),
-				allAgeDisaggregation);
+				allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
 
 		addRow(
 				dsd,
@@ -110,7 +115,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 				"Number of pregnant women among the new cases during the reporting period",
 				map(indicator.getIndicator("Number of pregnant women among the new cases during the reporting period",
 						map(artCohortQueries.getNewOnARTPregnantWomenCohortDefinition(), mappings)), mappings),
-				allAgeDisaggregation);
+				pbfDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"));
 
 		addRow(
 				dsd,
@@ -118,7 +123,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 				"Number of breastfeeding women among the new cases during the reporting period",
 				map(indicator.getIndicator("Number of breastfeeding women among the new cases during the reporting period",
 						map(artCohortQueries.getNewOnARTBreastfeedingWomenCohortDefinition(), mappings)), mappings),
-				allAgeDisaggregation);
+				pbfDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"));
 
 		addRow(
 				dsd,
@@ -126,7 +131,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 				"Started on TLD among new cases during the reporting period",
 				map(indicator.getIndicator("Started on TLD among new cases during the reporting period",
 						map(artCohortQueries.getNewOnARTStartedOnTLDCohortDefinition(), mappings)), mappings),
-				allAgeDisaggregation);
+				allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
 
 		addRow(
 				dsd,
@@ -134,7 +139,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 				"Started on other DTG based regimen among new cases during the reporting period",
 				map(indicator.getIndicator("Started on other DTG based regimen among new cases during the reporting period",
 						map(artCohortQueries.getNewOnARTStartedOnOtherDTGRegimenCohortDefinition(), mappings)), mappings),
-				allAgeDisaggregation);
+				allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
 
 		return dsd;
 	}

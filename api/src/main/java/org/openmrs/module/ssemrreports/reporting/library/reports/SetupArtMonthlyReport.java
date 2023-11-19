@@ -14,6 +14,7 @@ import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ArtDatasetDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.DistrictDatasetDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.datasets.SSEMRBaseDataSet;
 import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SetupArtMonthlyReport extends SSEMRDataExportManager {
-	
+
 	private final DistrictDatasetDefinition districtDatasetDefinition;
 	
 	private final ArtDatasetDefinition artDatasetDefinition;
@@ -68,9 +69,6 @@ public class SetupArtMonthlyReport extends SSEMRDataExportManager {
 		//rd.addDataSetDefinition("DT", Mapped.mapStraightThrough(districtDatasetDefinition
 		//        .getAddressDataset(mflCodeAttributeType.getLocationAttributeTypeId())));
 		rd.addDataSetDefinition("ART", Mapped.mapStraightThrough(artDatasetDefinition.getArtDataset()));
-		//rd.setBaseCohortDefinition(SSEMRReportUtils.map(
-		//    baseCohortQueries.getPatientsEnrolledIntoProgramByEndOfReportingPeriod(SSEMRReportUtils.getProgramByIdOrUuid(
-		//       SharedReportConstants.ART_PROGRAM_UUID).getId()), "endDate=${endDate+23h},location=${location}"));
 		return rd;
 	}
 	
