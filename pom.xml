@@ -136,8 +136,6 @@
 				<version>${metadatamappingVersion}</version>
 				<type>jar</type>
 				<scope>provided</scope>
-				<artifactId>ohrimamba-core-omod</artifactId>
-				<version>${mambaETLCoreVersion}</version>
 			</dependency>
 
 			<dependency>
@@ -146,6 +144,16 @@
 				<version>${metadatasharingVersion}</version>
 				<type>jar</type>
 				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>ohrimamba-core-omod</artifactId>
+				<version>${mambaETLCoreVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
 				<artifactId>ohrimamba-core-api</artifactId>
 				<version>${mambaETLCoreVersion}</version>
 				<type>jar</type>
@@ -482,9 +490,8 @@
 		<htmlformentryuiVersion>2.3.0</htmlformentryuiVersion>
 		<htmlformentryVersion>5.1.0</htmlformentryVersion>
 		<appointmentschedulingVersion>1.17.0</appointmentschedulingVersion>
-		<metadatamappingVersion>1.0.2</metadatamappingVersion>
 		<metadatadeployVersion>1.6</metadatadeployVersion>
-    <metadatasharingVersion>1.1.9</metadatasharingVersion>
+    	<metadatasharingVersion>1.9.0</metadatasharingVersion>
 		<metadatamappingVersion>1.6.0</metadatamappingVersion>
 		<mambaETLCoreVersion>2.0.1-SNAPSHOT</mambaETLCoreVersion>
 	</properties>
