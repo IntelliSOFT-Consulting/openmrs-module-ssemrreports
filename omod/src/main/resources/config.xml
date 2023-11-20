@@ -22,7 +22,7 @@
 	<require_modules>
 		<require_module version="${reportingUIVersion}">org.openmrs.module.reportingui</require_module>
 		<require_module version="${reportingRestVersion}">org.openmrs.module.reportingrest</require_module>
-		<require_module version="${mambaETLCoreVersion}">org.openmrs.module.ohrimambacore</require_module>
+<!--		<require_module version="${mambaETLCoreVersion}">org.openmrs.module.ohrimambacore</require_module>-->
 		<require_module version="${webservices.restModuleVersion}">org.openmrs.module.webservices.rest</require_module>
 	</require_modules>
 
@@ -34,7 +34,6 @@
 
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
-		<aware_of_module>org.openmrs.module.ohrimambacore</aware_of_module>
 	</aware_of_modules>
 
 
