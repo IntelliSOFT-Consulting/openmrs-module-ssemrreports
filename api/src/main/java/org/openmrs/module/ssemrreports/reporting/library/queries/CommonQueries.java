@@ -318,4 +318,12 @@ public class CommonQueries {
 		return query;
 	}
 	
+	public static String getMissedAppointments() {
+		String query = "select patient_id from patient_appointment "
+		        + " where status = 'Missed' and start_date_time between :startDate "
+		        + " and :endDate and location_id =:location and DATEDIFF(CURDATE(), start_date_time) <= 28;";
+		
+		return query;
+	}
+	
 }
