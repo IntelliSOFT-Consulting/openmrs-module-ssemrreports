@@ -274,46 +274,47 @@ public class CommonQueries {
 	}
 	
 	public static String getPatientsWithAppointments() {
-		String query = "SELECT fp.patient_id FROM ssemr_etl.flat_encounter_hiv_care_follow_up fp where "
+		String query = "SELECT fp.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp where "
 		        + " fp.follow_up_date BETWEEN :startDate AND :endDate and fp.location_id=:location";
 		
 		return query;
 	}
 	
 	public static String getPatientsWithHighVL() {
-		String query = "SELECT patient_id FROM ssemr_etl.flat_encounter_hiv_care_follow_up WHERE "
-		        + " (SELECT MAX(concat(visit_date, vl_results)) FROM ssemr_etl.flat_encounter_hiv_care_follow_up) >= 1000 "
-		        + " AND visit_date BETWEEN :startDate AND :endDate AND location_id=:location ";
+		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up WHERE "
+		        + " (SELECT MAX(concat(encounter_datetime, vl_results)) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up) >= 1000 "
+		        + " AND encounter_datetime BETWEEN :startDate AND :endDate AND location_id=:location ";
 		
 		return query;
 	}
 	
 	public static String getPatientsWithHighVLAndEAC() {
-		String query = "SELECT t.patient_id FROM " + " (SELECT patient_id, visit_date, location_id, "
-		        + " mid(max(concat(date(visit_date), recent_vl)), 11) as last_vl_result, "
-		        + " mid(max(concat(date(visit_date), first_eac_tools)), 11) as last_eac_tools "
-		        + " FROM ssemr_etl.flat_encounter_high_viral_load " + " GROUP BY patient_id, visit_date, location_id "
+		String query = "SELECT t.client_id FROM (SELECT client_id, encounter_datetime, location_id, "
+		        + " mid(max(concat(date(encounter_datetime), recent_vl)), 11) as last_vl_result, "
+		        + " mid(max(concat(date(encounter_datetime), first_eac_tools)), 11) as last_eac_tools "
+		        + " FROM ssemr_etl.ssemr_flat_encounter_high_viral_load GROUP BY client_id, encounter_datetime, location_id "
 		        + " HAVING last_eac_tools IS NOT NULL AND last_vl_result > 1000 "
-		        + " AND visit_date BETWEEN :startDate AND :endDate AND location_id=:location " + " ) t; ";
+		        + " AND encounter_datetime BETWEEN :startDate AND :endDate AND location_id=:location) t; ";
 		
 		return query;
 	}
 	
 	public static String getPatientsWithHighVLAndRepeatTestAfterEAC() {
-		String query = "SELECT t.patient_id FROM "
-		        + " (SELECT patient_id, mid(max(concat(date(visit_date), recent_vl)), 11) as last_vl_result, "
-		        + " mid(max(concat(date(visit_date), first_eac_tools)), 11) as last_eac_tools, "
-		        + " mid(max(concat(date(visit_date), repeat_vl_date)), 11) as last_repeat_vl_date "
-		        + " FROM ssemr_etl.flat_encounter_high_viral_load GROUP BY patient_id "
-		        + " HAVING last_eac_tools IS NOT NULL AND last_vl_result > 1000 AND last_repeat_vl_date) t;";
+		String query = "SELECT t.client_id FROM  (SELECT client_id, mid(max(concat(date(encounter_datetime), "
+		        + " recent_vl)), 11) as last_vl_result, encounter_datetime, "
+		        + " mid(max(concat(date(encounter_datetime), first_eac_tools)), 11) as last_eac_tools, "
+		        + " mid(max(concat(date(encounter_datetime), repeat_vl_date)), 11) as last_repeat_vl_date "
+		        + " FROM ssemr_etl.ssemr_flat_encounter_high_viral_load GROUP BY client_id, encounter_datetime "
+		        + " HAVING last_eac_tools IS NOT NULL AND last_vl_result > 1000 AND last_repeat_vl_date "
+		        + " AND encounter_datetime BETWEEN :startDate AND :endDate AND location_id=:location) t; ";
 		
 		return query;
 	}
 	
 	public static String getSupressedPatientsWithHVL() {
-		String query = "SELECT patient_id FROM ssemr_etl.flat_encounter_high_viral_load "
-		        + " WHERE (SELECT MAX(concat(visit_date, repeat_vl_result)) FROM ssemr_etl.flat_encounter_high_viral_load) < 1000 "
-		        + " AND visit_date BETWEEN :startDate AND :endDate AND location_id=:location;";
+		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_high_viral_load "
+		        + " WHERE (SELECT MAX(concat(encounter_datetime, repeat_vl_result)) FROM ssemr_etl.ssemr_flat_encounter_high_viral_load) < 1000 "
+		        + " AND encounter_datetime BETWEEN :startDate AND :endDate AND location_id=:location;";
 		
 		return query;
 	}
