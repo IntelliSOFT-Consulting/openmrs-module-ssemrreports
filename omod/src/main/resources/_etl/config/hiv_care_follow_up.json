@@ -39,7 +39,7 @@
         "rpr_hb_sputum_cxr_bepb":"f5b60f09-9d8a-4bda-9318-9ef097c77945",
         "rfts_lfts_and_other_lab_tests":"1efadff1-daa0-45b8-a765-77f540e9f253",
         "number_of_days_hospitalized":"73aeaec5-4169-40a9-8b59-f799b28a548c",
-        "clinician":"611d6c22-7c6d-47cf-a74e-190f9e3cdd47"    
+        "clinician":"611d6c22-7c6d-47cf-a74e-190f9e3cdd47",
+        "currently_breastfeeding": "cf5c7deb-f67c-4406-82ea-d619e502f47c"
      }
   }
-  
