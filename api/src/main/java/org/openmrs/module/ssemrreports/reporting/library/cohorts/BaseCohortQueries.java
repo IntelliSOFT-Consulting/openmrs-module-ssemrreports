@@ -117,11 +117,10 @@ public class BaseCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		cd.setQuery(CommonQueries.getPatientsEligibleForVL());
-    
-    return cd;
-	}
 		
-
+		return cd;
+	}
+	
 	public CohortDefinition getPatientsWhoMissedAppointment() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("Missed appointments patient set");
@@ -129,7 +128,7 @@ public class BaseCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		cd.setQuery(CommonQueries.getMissedAppointments());
-    
+		
 		return cd;
 	}
 	

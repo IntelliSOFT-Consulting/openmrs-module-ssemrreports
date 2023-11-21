@@ -323,10 +323,10 @@ public class CommonQueries {
 		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
 		        + " where encounter_datetime between :startDate and :endDate and location_id =:locationId "
 		        + " GROUP BY client_id HAVING DATEDIFF( CURDATE(),MAX(SUBSTRING_INDEX(CONCAT(encounter_datetime, date_vl_sample_collected), ' ', -1))) > 90;";
-  
-    return query;
+		
+		return query;
 	}
-
+	
 	public static String getMissedAppointments() {
 		String query = "select patient_id from patient_appointment "
 		        + " where status = 'Missed' and start_date_time between :startDate "
