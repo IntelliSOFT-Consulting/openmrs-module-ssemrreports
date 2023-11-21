@@ -40,9 +40,9 @@ public class AppointmentsDueDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		DataConverter nameFormatter = new ObjectFormatter("{familyName} {givenName} {middleName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
-		PatientIdentifierType openmrsID = Context.getPatientService().getPatientIdentifierTypeByUuid(
-		    SharedReportConstants.OPENMRS_ID_IDENTIFIER_TYPE);
-		DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
+		// PatientIdentifierType openmrsID = Context.getPatientService().getPatientIdentifierTypeByUuid(
+		//     SharedReportConstants.OPENMRS_ID_IDENTIFIER_TYPE);
+		// DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
 		// DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
 		//         openmrsID.getName(), openmrsID), identifierFormatter);
 		
