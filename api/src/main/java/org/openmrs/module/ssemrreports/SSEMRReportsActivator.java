@@ -36,7 +36,7 @@ public class SSEMRReportsActivator extends BaseModuleActivator {
 			throw e;
 		}
 		
-		log.info("Started Botswanaemr Reports");
+		log.info("Started Ssemr Reports");
 	}
 	
 	/**
