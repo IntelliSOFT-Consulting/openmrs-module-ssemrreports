@@ -274,8 +274,8 @@ public class CommonQueries {
 	}
 	
 	public static String getPatientsWithAppointments() {
-		String query = "SELECT fp.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp where "
-		        + " fp.follow_up_date BETWEEN :startDate AND :endDate and fp.location_id=:location";
+		String query = "SELECT patient_id FROM ssemr.patient_appointment fp where fp.status = 'Scheduled' and "
+		        + " fp.start_date_time BETWEEN :startDate AND :endDate and fp.location_id=:location ";
 		
 		return query;
 	}
