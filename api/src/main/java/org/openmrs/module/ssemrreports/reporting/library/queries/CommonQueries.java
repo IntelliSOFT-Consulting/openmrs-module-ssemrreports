@@ -301,7 +301,7 @@ public class CommonQueries {
 	
 	public static String getPatientsWithHighVLAndRepeatTestAfterEAC() {
 		String query = "SELECT t.client_id FROM  (SELECT client_id, mid(max(concat(date(encounter_datetime), "
-		        + " recent_vl)), 11) as last_vl_result, encounter_datetime, "
+		        + " recent_vl)), 11) as last_vl_result, encounter_datetime, max(location_id) as location_id,"
 		        + " mid(max(concat(date(encounter_datetime), first_eac_tools)), 11) as last_eac_tools, "
 		        + " mid(max(concat(date(encounter_datetime), repeat_vl_date)), 11) as last_repeat_vl_date "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_high_viral_load GROUP BY client_id, encounter_datetime "
