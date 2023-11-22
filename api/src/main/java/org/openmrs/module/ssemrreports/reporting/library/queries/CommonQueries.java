@@ -321,7 +321,7 @@ public class CommonQueries {
 	
 	public static String getPatientsEligibleForVL() {
 		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
-		        + " where encounter_datetime between :startDate and :endDate and location_id =:locationId "
+		        + " where encounter_datetime between :startDate and :endDate and location_id =:location"
 		        + " GROUP BY client_id HAVING DATEDIFF( CURDATE(),MAX(SUBSTRING_INDEX(CONCAT(encounter_datetime, date_vl_sample_collected), ' ', -1))) > 90;";
 		
 		return query;

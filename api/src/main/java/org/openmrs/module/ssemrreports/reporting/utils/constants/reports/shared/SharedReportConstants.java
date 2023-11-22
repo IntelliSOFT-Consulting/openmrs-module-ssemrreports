@@ -36,7 +36,7 @@ public class SharedReportConstants {
 	
 	public static final String OPENMRS_ID_IDENTIFIER_TYPE = "a5d38e09-efcb-4d91-a526-50ce1ba5011a";
 	
-	public static final String UNIQUE_ART_NUMBER_TYPE_UUID = "81433852-3f10-11e4-adec-0800271c1b75";
+	public static final String UNIQUE_ART_NUMBER_TYPE_UUID = "e6baf185-38ed-4815-9476-f98d2cc2b331";
 	
 	public static final String PHONE_NUMBER_ATTRIBUTE_TYPE_UUID = "8f0a2a16-c073-4622-88ad-a11f2d6966ad";
 	
