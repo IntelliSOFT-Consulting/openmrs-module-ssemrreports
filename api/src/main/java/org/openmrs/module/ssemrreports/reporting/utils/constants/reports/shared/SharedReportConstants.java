@@ -14,6 +14,8 @@ public class SharedReportConstants {
 	
 	public static final String ELIGIBLE_FOR_VL_LIST_UUID = "5472dd4c-8710-11ee-b9d1-0242ac120002";
 	
+	public static final String COMPLETED_TPT_LIST_UUID = "6a040928-8987-11ee-b9d1-0242ac120002";
+	
 	public static final String HIGH_VL_AND_REPEAT_TEST_AFTER_EAC_LIST_UUID = "cea7db66-83ec-11ee-b962-0242ac120002";
 	
 	public static final String HIGH_VL_SUPRESSED_LIST_UUID = "dcd5f9f8-83e6-11ee-b962-0242ac120002";
