@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.openmrs.Location;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.ssemrreports.reporting.library.queries.CommonQueries;
+import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 
@@ -74,42 +76,77 @@ public class ArtCohortQueries {
 		return cd;
 	}
 
-	public CohortDefinition getNewOnARTPregnantWomenCohortDefinition() {
+	/**
+	 * Women who are pregnant during the reporting period
+	 * This is currently computed using the edd variable in the followup visit form
+	 * One is pregnant if edd variable has value and is on or after the reporting end date
+	 * @return
+	 */
+	public CohortDefinition getPregnantWomenCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select\n" +
-				"    patient_id\n" +
-				"from ssemr_etl.flat_encounter_hiv_care_enrolment\n" +
-				"where visit_date between :startDate and :endDate \n" +
-				"  and art_regimen is not null\n" +
-				"  and transferred_in_on_art_from_another_treatment_site is not null;";
+				"    e.patient_id\n" +
+				"from ssemr_etl.flat_encounter_hiv_care_enrolment e\n" +
+				"inner join ssemr_etl.flat_encounter_hiv_care_follow_up f using(patient_id)\n" +
+				"where f.visit_date between :startDate and :endDate'\n" +
+				"  and (f.edd is not null and f.edd >= :endDate) ";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("New persons started on ART during the reporting period");
+		cd.setDescription("Pregnant women during the reporting period");
 
 		return cd;
 	}
 
-	public CohortDefinition getNewOnARTBreastfeedingWomenCohortDefinition() {
-		SqlCohortDefinition sql = new SqlCohortDefinition();
+	public CohortDefinition getBreastfeedingWomenCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
 
-		return sql;
+		String qry = "select\n" +
+				"    e.patient_id\n" +
+				"from ssemr_etl.flat_encounter_hiv_care_enrolment e\n" +
+				"inner join ssemr_etl.flat_encounter_hiv_care_follow_up f using(patient_id)\n" +
+				"where f.visit_date between :startDate and :endDate'\n" +
+				"  and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True') ";
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Breastfeeding women during the reporting period");
+
+		return cd;
 	}
 
-	public CohortDefinition getNewOnARTStartedOnTLDCohortDefinition() {
-		SqlCohortDefinition sql = new SqlCohortDefinition();
+	public CohortDefinition getPatientsOnTLDCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
 
-		return sql;
+		String qry = "select\n" +
+				"    e.patient_id\n" +
+				"from ssemr_etl.flat_encounter_hiv_care_enrolment e\n" +
+				"inner join ssemr_etl.flat_encounter_hiv_care_follow_up f using(patient_id)\n" +
+				"where f.visit_date between :startDate and :endDate'\n" +
+				"  and f.regimen = 'TDF+3TC+DTG' ";
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients on TLD during the reporting period");
+		return cd;
 	}
 
-	public CohortDefinition getNewOnARTStartedOnOtherDTGRegimenCohortDefinition() {
-		SqlCohortDefinition sql = new SqlCohortDefinition();
-
-		return sql;
+	public CohortDefinition getPatientsOnDTGRegimenCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select\n" +
+				"    e.patient_id\n" +
+				"from ssemr_etl.flat_encounter_hiv_care_enrolment e\n" +
+				"inner join ssemr_etl.flat_encounter_hiv_care_follow_up f using(patient_id)\n" +
+				"where f.visit_date between :startDate and :endDate'\n" +
+				"  and (f.regimen != 'TDF+3TC+DTG' and f.regimen like '%DTG%' )";
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients on DTG related regimen during the reporting period");
+		return cd;
 	}
 	public CohortDefinition getART2CohortDefinition() {
 		SqlCohortDefinition sql = new SqlCohortDefinition();
-		
 		return sql;
 	}
 	
@@ -146,5 +183,72 @@ public class ArtCohortQueries {
 		sql.setQuery(CommonQueries.hasObs(question, ans));
 		return sql;
 	}
-	
+
+	/**
+	 * Patients who are newly initiated on ART and are pregnant as at their last clinical visit
+	 * @return
+	 */
+	public CohortDefinition getNewOnArtAndPregnant() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Number of patients newly started on ART and pregnant");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		//cd.addParameter(new Parameter("location", "location", Location.class));
+
+		cd.addSearch("newlyStartedOnArt", SSEMRReportUtils.map(getNewOnARTCohortDefinition(),
+				"startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("pregnant", SSEMRReportUtils.map(getPregnantWomenCohortDefinition(),
+				"startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("newlyStartedOnArt AND pregnant");
+		return cd;
+	}
+
+	/**
+	 * Patients who are newly initiated on ART and are breastfeeding as at their last clinical visit
+	 * @return
+	 */
+	public CohortDefinition getNewOnArtAndBreastfeeding() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Number of patients newly started on ART and breastfeeding");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		//cd.addParameter(new Parameter("location", "location", Location.class));
+
+		cd.addSearch("newlyStartedOnArt", SSEMRReportUtils.map(getNewOnARTCohortDefinition(),
+				"startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("breastfeeding", SSEMRReportUtils.map(getBreastfeedingWomenCohortDefinition(),
+				"startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("newlyStartedOnArt AND breastfeeding");
+		return cd;
+	}
+
+	public CohortDefinition getNewOnTLDRegimen() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Number of patients newly started on TLD regimen");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		//cd.addParameter(new Parameter("location", "location", Location.class));
+
+		cd.addSearch("newlyStartedOnArt", SSEMRReportUtils.map(getNewOnARTCohortDefinition(),
+				"startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("onTLDRegimen", SSEMRReportUtils.map(getPatientsOnTLDCohortDefinition(),
+				"startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("newlyStartedOnArt AND onTLDRegimen");
+		return cd;
+	}
+
+	public CohortDefinition getNewOnOtherDTGBasedRegimen() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Number of patients newly started on TLD regimen");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		//cd.addParameter(new Parameter("location", "location", Location.class));
+
+		cd.addSearch("newlyStartedOnArt", SSEMRReportUtils.map(getNewOnARTCohortDefinition(),
+				"startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("onOtherDTGRegimen", SSEMRReportUtils.map(getPatientsOnDTGRegimenCohortDefinition(),
+				"startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("newlyStartedOnArt AND onOtherDTGRegimen");
+		return cd;
+	}
 }

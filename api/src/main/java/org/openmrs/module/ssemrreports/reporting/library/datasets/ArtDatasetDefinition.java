@@ -86,7 +86,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 	
 	public DataSetDefinition getArtDataset() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate+23h},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate}";
 		String mappings1 = "endDate=${endDate+23h},location=${location}";
 		dsd.setName("CummAndNewOnArt");
 		dsd.setDescription("ART dataset");
@@ -114,7 +114,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 				"3",
 				"Number of pregnant women among the new cases during the reporting period",
 				map(indicator.getIndicator("Number of pregnant women among the new cases during the reporting period",
-						map(artCohortQueries.getNewOnARTPregnantWomenCohortDefinition(), mappings)), mappings),
+						map(artCohortQueries.getNewOnArtAndPregnant(), mappings)), mappings),
 				pbfDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"));
 
 		addRow(
@@ -122,7 +122,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 				"4",
 				"Number of breastfeeding women among the new cases during the reporting period",
 				map(indicator.getIndicator("Number of breastfeeding women among the new cases during the reporting period",
-						map(artCohortQueries.getNewOnARTBreastfeedingWomenCohortDefinition(), mappings)), mappings),
+						map(artCohortQueries.getNewOnArtAndBreastfeeding(), mappings)), mappings),
 				pbfDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"));
 
 		addRow(
@@ -130,7 +130,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 				"5",
 				"Started on TLD among new cases during the reporting period",
 				map(indicator.getIndicator("Started on TLD among new cases during the reporting period",
-						map(artCohortQueries.getNewOnARTStartedOnTLDCohortDefinition(), mappings)), mappings),
+						map(artCohortQueries.getNewOnTLDRegimen(), mappings)), mappings),
 				allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
 
 		addRow(
@@ -138,7 +138,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 				"6",
 				"Started on other DTG based regimen among new cases during the reporting period",
 				map(indicator.getIndicator("Started on other DTG based regimen among new cases during the reporting period",
-						map(artCohortQueries.getNewOnARTStartedOnOtherDTGRegimenCohortDefinition(), mappings)), mappings),
+						map(artCohortQueries.getNewOnOtherDTGBasedRegimen(), mappings)), mappings),
 				allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
 
 		return dsd;
