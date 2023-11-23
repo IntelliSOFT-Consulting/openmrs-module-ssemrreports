@@ -61,4 +61,7 @@ public class SharedReportConstants {
 	public static final String HIV_STATUS_NEGATIVE_CONCEPT_UUID = "TO DEFINE";
 	
 	public static final String HIV_STATUS_UNKNOWN_CONCEPT_UUID = "TO DEFINE";
+	
+	public static final String IIT_LIST_UUID = "ae58aa1e-89d9-11ee-b9d1-0242ac120002";
+	
 }

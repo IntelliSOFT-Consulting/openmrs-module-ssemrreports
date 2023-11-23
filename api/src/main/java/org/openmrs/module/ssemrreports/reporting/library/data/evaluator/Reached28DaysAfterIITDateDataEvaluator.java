@@ -10,7 +10,7 @@
 package org.openmrs.module.ssemrreports.reporting.library.data.evaluator;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.Reached28DaysAfterIITDateDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -23,10 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 
 /**
- * Evaluates Status Data Definition
+ * Evaluates Reached 28 Days After IIT Date Data Definition
  */
-@Handler(supports = StatusDataDefinition.class, order = 50)
-public class StatusDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = Reached28DaysAfterIITDateDataDefinition.class, order = 50)
+public class Reached28DaysAfterIITDateDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -35,9 +35,7 @@ public class StatusDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, CONCAT(CASE WHEN vl_results > 1000 THEN 'High VL' ELSE '' END, "
-		        + " CASE WHEN muac_pregnancy_visit = 'True' THEN 'Pregnant' ELSE '' "
-		        + " END ) AS concatenated_result FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up;";
+		String qry = "SELECT patient_id, DATE_ADD(max(start_date_time), INTERVAL 28 DAY) FROM ssemr.patient_appointment where status = 'Missed' group by patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

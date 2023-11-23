@@ -335,4 +335,14 @@ public class CommonQueries {
 		return query;
 	}
 	
+	public static String getIITPatients() {
+		String query = "select p.patient_id, p.start_date_time, DATEDIFF(CURDATE(), start_date_time) "
+		        + " from patient_appointment p left join encounter e on e.patient_id = p.patient_id "
+		        + " where p.status = 'Missed' and p.start_date_time between :startDate and :endDate and "
+		        + " p.location_id =:location and DATEDIFF(CURDATE(), p.start_date_time) >= 28 "
+		        + " and (select datediff(CURDATE(), max(e.date_created))) < 28";
+		
+		return query;
+	}
+	
 }
