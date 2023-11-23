@@ -43,7 +43,7 @@ public class ArtCohortQueries {
 	 */
 	public CohortDefinition getCumulativeEverOnARTAtThisFacilityCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "select\n" + "    client_id\n" + "from ssemr_etl.flat_encounter_hiv_care_enrolment\n"
+		String qry = "select\n" + "    client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment\n"
 		        + "where visit_date <= date_sub(date(:startDate), interval 1 day)\n" + "and art_regimen is not null\n"
 		        + "and transferred_in_on_art_from_another_treatment_site is not null";
 		cd.setQuery(qry);
@@ -61,7 +61,7 @@ public class ArtCohortQueries {
 	 */
 	public CohortDefinition getNewOnARTCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "select\n" + "    client_id\n" + "from ssemr_etl.flat_encounter_hiv_care_enrolment\n"
+		String qry = "select\n" + "    client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment\n"
 		        + "where visit_date between :startDate and :endDate \n" + "  and art_regimen is not null\n"
 		        + "  and transferred_in_on_art_from_another_treatment_site is not null;";
 		cd.setQuery(qry);
@@ -81,8 +81,8 @@ public class ArtCohortQueries {
 	 */
 	public CohortDefinition getPregnantWomenCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.flat_encounter_hiv_care_enrolment e\n"
-		        + "inner join ssemr_etl.flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
 		        + "where f.visit_date between :startDate and :endDate'\n"
 		        + "  and (f.edd is not null and f.edd >= :endDate) ";
 		cd.setQuery(qry);
@@ -96,8 +96,8 @@ public class ArtCohortQueries {
 	public CohortDefinition getBreastfeedingWomenCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		
-		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.flat_encounter_hiv_care_enrolment e\n"
-		        + "inner join ssemr_etl.flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
 		        + "where f.visit_date between :startDate and :endDate'\n"
 		        + "  and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True') ";
 		cd.setQuery(qry);
@@ -111,8 +111,8 @@ public class ArtCohortQueries {
 	public CohortDefinition getPatientsOnTLDCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		
-		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.flat_encounter_hiv_care_enrolment e\n"
-		        + "inner join ssemr_etl.flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
 		        + "where f.visit_date between :startDate and :endDate'\n" + "  and f.regimen = 'TDF+3TC+DTG' ";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -123,8 +123,8 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition getPatientsOnDTGRegimenCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.flat_encounter_hiv_care_enrolment e\n"
-		        + "inner join ssemr_etl.flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
 		        + "where f.visit_date between :startDate and :endDate'\n"
 		        + "  and (f.regimen != 'TDF+3TC+DTG' and f.regimen like '%DTG%' )";
 		cd.setQuery(qry);
