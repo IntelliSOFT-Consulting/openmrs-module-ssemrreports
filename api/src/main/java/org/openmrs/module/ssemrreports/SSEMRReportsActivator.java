@@ -11,9 +11,7 @@ package org.openmrs.module.ssemrreports;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.BaseModuleActivator;
-import org.openmrs.module.ssemrreports.api.SsGlobalPropertyService;
 import org.openmrs.module.ssemrreports.reporting.SSEMRReportInitializer;
 
 /**
@@ -21,7 +19,7 @@ import org.openmrs.module.ssemrreports.reporting.SSEMRReportInitializer;
  */
 public class SSEMRReportsActivator extends BaseModuleActivator {
 	
-	private Log log = LogFactory.getLog(this.getClass());
+	private static Log log = LogFactory.getLog(SSEMRReportsActivator.class);
 	
 	private SSEMRReportInitializer reportsInitializer = new SSEMRReportInitializer();
 	
@@ -29,9 +27,6 @@ public class SSEMRReportsActivator extends BaseModuleActivator {
 	 * @see #started()
 	 */
 	public void started() {
-		
-		// SsGlobalPropertyService ssGlobalPropertyService = Context.getRegisteredComponents(SsGlobalPropertyService.class)
-		//        .get(0);
 		try {
 			reportsInitializer.purgeReports();
 			// ssGlobalPropertyService.removeSsGlobalPropertiesEntries("ssemrreports");
@@ -42,6 +37,7 @@ public class SSEMRReportsActivator extends BaseModuleActivator {
 		}
 		
 		log.info("Started SSEMR Reports");
+
 	}
 	
 	/**

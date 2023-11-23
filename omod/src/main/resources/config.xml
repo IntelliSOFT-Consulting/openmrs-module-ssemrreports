@@ -7,7 +7,7 @@
 	<name>${project.parent.name}</name>
 	<version>${project.parent.version}</version>
 	<package>org.openmrs.module.ssemrreports</package>
-	<author>komondi</author>
+	<author>IntelliSOFT Consulting Ltd</author>
 	<description>
 			${project.parent.description}
 	</description>
@@ -22,6 +22,8 @@
 	<require_modules>
 		<require_module version="${reportingUIVersion}">org.openmrs.module.reportingui</require_module>
 		<require_module version="${reportingRestVersion}">org.openmrs.module.reportingrest</require_module>
+<!--		<require_module version="${mambaETLCoreVersion}">org.openmrs.module.ohrimambacore</require_module>-->
+		<require_module version="${webservices.restModuleVersion}">org.openmrs.module.webservices.rest</require_module>
 	</require_modules>
 
 	<!-- Extensions -->
@@ -33,62 +35,32 @@
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
 	</aware_of_modules>
-	
-	
-	<!-- AOP
-	<advice>
-		<point>org.openmrs.api.FormService</point>
-		<class>@MODULE_PACKAGE@.advice.DuplicateFormAdvisor</class>
-	</advice>
-	 /AOP -->
-	
-	
-	<!-- Required Privileges 
-	<privilege>
-		<name>Form Entry</name>
-		<description>Allows user to access Form Entry pages/functions</description>
-	</privilege>
-	 /Required Privileges -->
 
 
-	<!-- Required Global Properties 
 	<globalProperty>
-		<property>@MODULE_ID@.someProperty</property>
-		<defaultValue></defaultValue>
-		<description>
-			A description of the global property goes here.  The description
-			should explain enough for administrators to understand the purpose
-			and possible values for the global property.
-		</description>
+		<property>mambaetl.analysis.db.url</property>
+		<defaultValue>jdbc:mysql://localhost:3308/ssemr_etl?autoReconnect=true</defaultValue>
+		<!--        <defaultValue>jdbc:mysql://localhost:3306/analysis_db?autoReconnect=true&amp;noAccessToProcedureBodies=true</defaultValue>-->
+		<description>MambaETL JDBC Connection string</description>
 	</globalProperty>
-	/Required Global Properties -->
-	
-	<!--
-	<dwr>
-		<allow>
-			<create creator="new" javascript="DWRFormEntryService">
-				<param name="class" value="org.openmrs.module.@MODULE_ID@.web.DWRFormEntryService"/>
-				<include method="enterForm"/>
-			</create>
-		</allow>
 
-		<signatures>
-			<![CDATA[
-			import @MODULE_PACKAGE@.web.DWRFormEntryService;
-			DWRFormEntryService.enterForm(Integer patientId, Integer formId, boolean useEncounter, List<String> fields);
-			]]>
-		</signatures>	
-	</dwr>
-	-->
-	
-	<!-- Servlets -->
-	<!-- Accessed through the url /pageContext()/moduleServlet/<moduleId>/<servlet-name> 
-	<servlet>
-		<servlet-name>formDownload</servlet-name>
-		<servlet-class>@MODULE_PACKAGE@.web.FormDownloadServlet</servlet-class>
-	</servlet>
-	-->
-	<!-- /Servlets -->
+	<globalProperty>
+		<property>mambaetl.analysis.db.username</property>
+		<defaultValue>root</defaultValue>
+		<description>MambaETL username</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>mambaetl.analysis.db.password</property>
+		<defaultValue>Admin123</defaultValue>
+		<description>MambaETL user password</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>mambaetl.analysis.db.driver</property>
+		<defaultValue>com.mysql.jdbc.Driver</defaultValue>
+		<description>MambaETL JDBC driver</description>
+	</globalProperty>
 	
 	
 	<!-- Internationalization -->

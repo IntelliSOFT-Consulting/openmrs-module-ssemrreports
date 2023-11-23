@@ -9,4 +9,23 @@ public class SharedTemplatesConstants {
 	public static final String HTS_REPORT_TEMPLATE = "45589b8a-9116-11ed-bdaa-8bdd313788ec";
 	
 	public static final String FACILITY_USAGE_REPORT_TEMPLATE = "52956bbf-e6dc-4455-a2b0-24b9b662b56d";
+	
+	public static final String APPOINTMENTS_DUE_TEMPLATE = "7a57711e-7f0c-11ee-b962-0242ac120002";
+	
+	public static final String HIGH_VL_LIST_TEMPLATE = "3db5b9ae-8007-11ee-b962-0242ac120002";
+	
+	public static final String HIGH_VL_AND_EAC_LIST_UUID_TEMPLATE = "65e59d9c-80af-11ee-b962-0242ac120002";
+	
+	public static final String HIGH_VL_SUPRESSED_LIST_TEMPLATE = "16f78084-83e7-11ee-b962-0242ac120002";
+	
+	public static final String HIGH_VL_AND_REPEAT_TEST_AFTER_EAC_LIST_UUID_TEMPLATE = "f5726e3c-83ec-11ee-b962-0242ac120002";
+	
+	public static final String ELIGIBLE_FOR_VL_LIST_TEMPLATE = "3b4f0c3c-8710-11ee-b9d1-0242ac120002";
+	
+	public static final String COMPLETED_TPT_LIST_TEMPLATE = "815453ee-8987-11ee-b9d1-0242ac120002";
+
+	public static final String TAKING_TPT_LIST_TEMPLATE = "03cfe6e6-8977-11ee-b9d1-0242ac120002";
+
+	public static final String ELIGIBLE_FOR_TPT_LIST_TEMPLATE = "af20efe0-896d-11ee-b9d1-0242ac120002";
+	
 }

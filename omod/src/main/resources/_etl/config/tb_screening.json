@@ -1,0 +1,23 @@
+{
+    "report_name": "TB Screening Form Children Report",
+    "flat_table_name": "ssemr_flat_encounter_tb_screening_form_children",
+    "encounter_type_uuid": "81fbaddd-3f10-11e4-adec-0800271c1b75",
+    "concepts_locale": "en",
+    "table_columns": {
+        "date":"e605731b-2e81-41a9-8446-2ed442c339e2",
+        "current_cough":"147b8be8-d657-4e46-8970-6f9983b27722",
+        "tb_screening_fever":"f405d8ec-14d0-485a-b52d-bffdfeb26581",
+        "tb_screening-weight_loss":"78f5bc62-ecbe-457f-87dd-def20dbee82e",
+        "close_contact_history_with_tb_patients":"51b82f82-0c27-46e3-9f33-6d65cc1f6eed",
+        "geneexpert_result":"c2f01b10-1b5e-485a-a352-05788359d881",
+        "bacteriology_sputum_for_afb_information":"39fffef8-0e8b-4432-9ab4-d870b32ea3c6",
+        "sputum_for_afb_done":"06fbce51-d4ff-4ad3-b911-def303f3d2e2",
+        "sputum_for_afb-result":"fdaa7259-df0b-4e26-9d9c-de2ca68dff1d",
+        "radiology_crx_information":"363f10c8-bce7-4627-8890-62fafd8edb43",
+        "crx_done":"edf1eec7-f766-4371-814b-0c18024217bb",
+        "cxr_results":"7c679f4f-cae6-43ba-bf18-0f3bd9f060a8",
+        "fna_culture_ultrasound_done":"ad8ecb63-6b5d-49b2-9a9d-e16d7a0efc40",
+        "tb_diagnosed":"1b4f4df7-dddc-4e73-ab18-304c4fd12953",
+        "hivtc_tb_type":"3109983a-98af-4017-a16b-e3bac0c48d25"
+    }
+}

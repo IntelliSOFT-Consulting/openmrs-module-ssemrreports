@@ -6,6 +6,24 @@ public class SharedReportConstants {
 	
 	public static final String LTFU_LIST_UUID = "a563b26a-8d03-11ed-b18e-277f66658de4";
 	
+	public static final String APPOINTMENTS_DUE_LIST_UUID = "a6ec5a32-7f0c-11ee-b962-0242ac120002";
+	
+	public static final String HIGH_VL_LIST_UUID = "7acb704a-8007-11ee-b962-0242ac120002";
+	
+	public static final String HIGH_VL_AND_EAC_LIST_UUID = "44222cac-80af-11ee-b962-0242ac120002";
+	
+	public static final String ELIGIBLE_FOR_VL_LIST_UUID = "5472dd4c-8710-11ee-b9d1-0242ac120002";
+	
+	public static final String COMPLETED_TPT_LIST_UUID = "6a040928-8987-11ee-b9d1-0242ac120002";
+
+	public static final String TAKING_TPT_LIST_UUID = "f17d8e8a-8976-11ee-b9d1-0242ac120002";
+
+	public static final String ELIGIBLE_FOR_TPT_LIST_UUID = "6fde4ce2-896d-11ee-b9d1-0242ac120002";
+	
+	public static final String HIGH_VL_AND_REPEAT_TEST_AFTER_EAC_LIST_UUID = "cea7db66-83ec-11ee-b962-0242ac120002";
+	
+	public static final String HIGH_VL_SUPRESSED_LIST_UUID = "dcd5f9f8-83e6-11ee-b962-0242ac120002";
+	
 	public static final String HTS_REPORT_UUID = "07327920-9116-11ed-95d0-1f48b914cc14";
 	
 	public static final String FACILITY_USAGE_REPORT_UUID = "bd7462bd-02c9-4d42-8858-859e66ba30a4";
@@ -22,9 +40,11 @@ public class SharedReportConstants {
 	
 	public static final String FEVER = "TO DEFINE";
 	
-	public static final String OPENMRS_ID_IDENTIFIER_TYPE = "05a29f94-c0ed-11e2-94be-8c13b969e334";
+	public static final String OPENMRS_ID_IDENTIFIER_TYPE = "a5d38e09-efcb-4d91-a526-50ce1ba5011a";
 	
-	public static final String PHONE_NUMBER_ATTRIBUTE_TYPE_UUID = "TO DEFINE";
+	public static final String UNIQUE_ART_NUMBER_TYPE_UUID = "e6baf185-38ed-4815-9476-f98d2cc2b331";
+	
+	public static final String PHONE_NUMBER_ATTRIBUTE_TYPE_UUID = "8f0a2a16-c073-4622-88ad-a11f2d6966ad";
 	
 	public static final String DIAGNOSIS_ENCOUNTER_VISIT_TYPE_UUID = "TO DEFINE";
 	

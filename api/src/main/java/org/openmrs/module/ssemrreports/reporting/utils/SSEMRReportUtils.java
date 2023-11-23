@@ -145,6 +145,16 @@ public class SSEMRReportUtils {
 		return formatter.format(date);
 	}
 	
+	public static String formatDates(Date date) {
+		
+		Format formatter;
+		formatter = new SimpleDateFormat("dd/MM/yyyy");
+		String s = formatter.format(date);
+		
+		return s;
+		
+	}
+	
 	public static DataDefinition getFirstOrLastObservationForPatient(Concept question, TimeQualifier which) {
 		ObsForPersonDataDefinition definition = new ObsForPersonDataDefinition();
 		definition.setName("Observations for the patient per given attributes");
