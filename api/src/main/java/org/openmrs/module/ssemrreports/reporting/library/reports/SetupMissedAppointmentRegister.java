@@ -78,7 +78,7 @@ public class SetupMissedAppointmentRegister extends SSEMRDataExportManager {
 			reportDesign = createXlsReportDesign(reportDefinition, "missed_appointment_register.xls",
 			    "Missed Appointment Register Report", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:4,dataset:MAR");
+			props.put("repeatingSections", "sheet:1,row:2,dataset:MAR");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}
