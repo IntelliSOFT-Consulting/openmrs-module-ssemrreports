@@ -15,6 +15,10 @@ public class SharedReportConstants {
 	public static final String ELIGIBLE_FOR_VL_LIST_UUID = "5472dd4c-8710-11ee-b9d1-0242ac120002";
 	
 	public static final String COMPLETED_TPT_LIST_UUID = "6a040928-8987-11ee-b9d1-0242ac120002";
+
+	public static final String TAKING_TPT_LIST_UUID = "f17d8e8a-8976-11ee-b9d1-0242ac120002";
+
+	public static final String ELIGIBLE_FOR_TPT_LIST_UUID = "6fde4ce2-896d-11ee-b9d1-0242ac120002";
 	
 	public static final String HIGH_VL_AND_REPEAT_TEST_AFTER_EAC_LIST_UUID = "cea7db66-83ec-11ee-b962-0242ac120002";
 	
@@ -38,7 +42,7 @@ public class SharedReportConstants {
 	
 	public static final String OPENMRS_ID_IDENTIFIER_TYPE = "a5d38e09-efcb-4d91-a526-50ce1ba5011a";
 	
-	public static final String UNIQUE_ART_NUMBER_TYPE_UUID = "81433852-3f10-11e4-adec-0800271c1b75";
+	public static final String UNIQUE_ART_NUMBER_TYPE_UUID = "e6baf185-38ed-4815-9476-f98d2cc2b331";
 	
 	public static final String PHONE_NUMBER_ATTRIBUTE_TYPE_UUID = "8f0a2a16-c073-4622-88ad-a11f2d6966ad";
 	

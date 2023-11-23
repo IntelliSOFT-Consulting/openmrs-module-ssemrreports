@@ -38,14 +38,14 @@ public class MissedAppointmentDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		DataConverter nameFormatter = new ObjectFormatter("{familyName} {givenName} {middleName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
-		// PatientIdentifierType openmrsID = Context.getPatientService().getPatientIdentifierTypeByUuid(
-		//     SharedReportConstants.OPENMRS_ID_IDENTIFIER_TYPE);
-		// DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
-		//		DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
-		//		        openmrsID.getName(), openmrsID), identifierFormatter);
+		PatientIdentifierType openmrsID = Context.getPatientService().getPatientIdentifierTypeByUuid(
+		    SharedReportConstants.UNIQUE_ART_NUMBER_TYPE_UUID);
+		DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
+		DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
+		        openmrsID.getName(), openmrsID), identifierFormatter);
 		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
-		//		dsd.addColumn("Identifier", identifierDef, (String) null);
+		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
 		dsd.addColumn("age", new AgeDataDefinition(), "", null);
