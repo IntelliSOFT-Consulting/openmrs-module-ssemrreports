@@ -19,7 +19,20 @@ public class TPTCohortQueries {
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
-		cd.setQuery(TPTQueries.getPatientsTakingTPT());
+
+  	cd.setQuery(TPTQueries.getPatientsTakingTPT());
+  
+    return cd;
+  }
+  
+	public CohortDefinition getPatientsWhoAreEligibleForTPT() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Patient eligible for TPT testing on Date");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+
+		cd.setQuery(TPTQueries.getPatientsEligibleForTPT());
 		
 		return cd;
 	}
