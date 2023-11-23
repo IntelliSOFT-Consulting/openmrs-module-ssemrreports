@@ -42,9 +42,10 @@ public abstract class SSEMRBaseDataSet {
 			cohortDsd.addColumn(name, label, indicator, column.getDimensions());
 		}
 	}
-
+	
 	/**
 	 * Adds a row to a dataset based on an indicator and a list of column parameters
+	 * 
 	 * @param cohortDsd the dataset
 	 * @param baseName the base columm name
 	 * @param baseLabel the base column label
@@ -52,7 +53,8 @@ public abstract class SSEMRBaseDataSet {
 	 * @param columns the column parameters
 	 * @param columnNames the column names
 	 */
-	public static void addRow(CohortIndicatorDataSetDefinition cohortDsd, String baseName, String baseLabel, Mapped<CohortIndicator> indicator, List<ColumnParameters> columns, List<String> columnNames) {
+	public static void addRow(CohortIndicatorDataSetDefinition cohortDsd, String baseName, String baseLabel,
+	        Mapped<CohortIndicator> indicator, List<ColumnParameters> columns, List<String> columnNames) {
 		int c = 0;
 		for (ColumnParameters column : columns) {
 			String name = baseName + "-" + (columnNames != null ? columnNames.get(c++) : column.getName());
@@ -60,6 +62,7 @@ public abstract class SSEMRBaseDataSet {
 			cohortDsd.addColumn(name, label, indicator, column.getDimensions());
 		}
 	}
+	
 	public List<Parameter> getParameters() {
     List<Parameter> parameters = new ArrayList<>();
     parameters.add(ReportingConstants.START_DATE_PARAMETER);

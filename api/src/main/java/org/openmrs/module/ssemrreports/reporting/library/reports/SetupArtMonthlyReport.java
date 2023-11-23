@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SetupArtMonthlyReport extends SSEMRDataExportManager {
-
+	
 	private final DistrictDatasetDefinition districtDatasetDefinition;
 	
 	private final ArtDatasetDefinition artDatasetDefinition;
