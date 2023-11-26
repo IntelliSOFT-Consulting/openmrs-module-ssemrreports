@@ -142,4 +142,15 @@ public class BaseCohortQueries {
 		
 		return cd;
 	}
+	
+	public CohortDefinition getPatientsWhoAreRTT() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("RTT patients patient set");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getRTTPatients());
+		
+		return cd;
+	}
 }
