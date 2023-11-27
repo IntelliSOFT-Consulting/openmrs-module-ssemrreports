@@ -30,4 +30,6 @@ public class SharedTemplatesConstants {
 	
 	public static final String IIT_LIST_TEMPLATE = "81ee9182-89d9-11ee-b9d1-0242ac120002";
 	
+	public static final String PATIENTS_DOCUMENTED_VL_LIST_TEMPLATE = "80221aa8-8d45-11ee-b9d1-0242ac120002";
+	
 }

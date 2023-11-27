@@ -345,4 +345,12 @@ public class CommonQueries {
 		return query;
 	}
 	
+	public static String getDocumentedVLPatients() {
+		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
+		        + "where date_vl_sample_collected between :startDate and :endDate and location_id =:location "
+		        + "and vl_results is not null group by client_id;";
+		
+		return query;
+	}
+	
 }
