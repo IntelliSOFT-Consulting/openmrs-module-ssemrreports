@@ -142,4 +142,16 @@ public class BaseCohortQueries {
 		
 		return cd;
 	}
+	
+	public CohortDefinition getPatientsWhoHavePendingVL() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Pending VL patients patient set");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getPendingVLPatients());
+		
+		return cd;
+	}
+	
 }

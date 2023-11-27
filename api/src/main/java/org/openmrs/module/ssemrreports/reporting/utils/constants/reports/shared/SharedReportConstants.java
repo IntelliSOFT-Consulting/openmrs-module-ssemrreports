@@ -64,4 +64,6 @@ public class SharedReportConstants {
 	
 	public static final String IIT_LIST_UUID = "ae58aa1e-89d9-11ee-b9d1-0242ac120002";
 	
+	public static final String PATIENTS_PENDING_VL_LIST_UUID = "1a3140ea-8d61-11ee-b9d1-0242ac120002";
+	
 }
