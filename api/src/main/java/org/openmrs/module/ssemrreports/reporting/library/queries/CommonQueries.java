@@ -336,13 +336,22 @@ public class CommonQueries {
 	}
 	
 	public static String getIITPatients() {
-		String query = "select p.patient_id, p.start_date_time, DATEDIFF(CURDATE(), start_date_time) "
-		        + " from patient_appointment p left join encounter e on e.patient_id = p.patient_id "
-		        + " where p.status = 'Missed' and p.start_date_time between :startDate and :endDate and "
+		String query = "select p.patient_id from patient_appointment p left join encounter e on e.patient_id "
+		        + " = p.patient_id where p.status = 'Missed' and p.start_date_time between :startDate and :endDate and "
 		        + " p.location_id =:location and DATEDIFF(CURDATE(), p.start_date_time) >= 28 "
-		        + " and (select datediff(CURDATE(), max(e.date_created))) < 28";
+		        + " and (select datediff(CURDATE(), max(e.date_created))) >= 28" + " group by p.patient_id;";
 		
 		return query;
 	}
 	
+	public static String getRTTPatients() {
+		String query = "SELECT p.patient_id FROM patient_appointment p WHERE p.status = 'Missed'  AND p.start_date_time BETWEEN :startDate AND :endDate "
+		        + "AND p.location_id =:location AND DATEDIFF(CURDATE(), p.start_date_time) >= 28 AND "
+		        + "EXISTS (SELECT 1 FROM (  SELECT patient_id,MAX(start_date_time) AS max_start_time, MID(MAX(CONCAT(start_date_time, status)), 20) AS mid_result "
+		        + "FROM patient_appointment WHERE patient_id = p.patient_id GROUP BY patient_id ) "
+		        + " AS subquery WHERE subquery.mid_result = 'Scheduled' AND subquery.max_start_time > CURDATE() ) "
+		        + "GROUP BY p.patient_id;";
+		
+		return query;
+	}
 }
