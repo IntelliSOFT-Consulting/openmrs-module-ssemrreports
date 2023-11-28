@@ -65,11 +65,12 @@ public class SharedReportConstants {
 	public static final String IIT_LIST_UUID = "ae58aa1e-89d9-11ee-b9d1-0242ac120002";
 	
 	public static final String PATIENTS_VL_LIST_UUID = "d472769e-8a29-11ee-b9d1-0242ac120002";
-
+	
 	public static final String PATIENTS_PENDING_VL_LIST_UUID = "1a3140ea-8d61-11ee-b9d1-0242ac120002";
-
+	
 	public static final String PATIENTS_DOCUMENTED_VL_LIST_UUID = "a22d33c6-8d45-11ee-b9d1-0242ac120002";
-
+	
 	public static final String RTT_LIST_UUID = "835e45bc-8c90-11ee-b9d1-0242ac120002";
 	
+	public static final String CONTACTS_WITH_UNKNOWN_HIV_STATUS_LIST_UUID = "bf361528-8e21-11ee-b9d1-0242ac120002";
 }
