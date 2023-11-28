@@ -21,6 +21,7 @@ import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
+import java.util.Date;
 
 /**
  * Evaluates Status Data Definition
@@ -35,12 +36,18 @@ public class StatusDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, CONCAT(CASE WHEN vl_results > 1000 THEN 'High VL' ELSE '' END, "
-		        + " CASE WHEN muac_pregnancy_visit = 'True' THEN 'Pregnant' ELSE '' "
-		        + " END ) AS concatenated_result FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up;";
+		String qry = "SELECT client_id, CONCAT(CASE WHEN MID(MAX(CONCAT(encounter_datetime, vl_results)), 20) > 1000 THEN 'High VL' ELSE '' END, "
+		        + "CASE WHEN MID(MAX(CONCAT(encounter_datetime, edd)), 20) IS NOT NULL AND MID(MAX(CONCAT(encounter_datetime, edd)), 20) > CURDATE() THEN 'Pregnant' ELSE '' END "
+		        + ") AS concatenated_result FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
+		        + " GROUP BY client_id HAVING MAX(encounter_datetime) <= DATE(:endDate);";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
+		Date startDate = (Date) context.getParameterValue("startDate");
+		Date endDate = (Date) context.getParameterValue("endDate");
+		queryBuilder.addParameter("endDate", endDate);
+		queryBuilder.addParameter("startDate", startDate);
+		
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
 		c.setData(data);
 		return c;
