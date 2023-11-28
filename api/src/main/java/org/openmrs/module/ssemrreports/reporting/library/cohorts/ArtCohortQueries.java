@@ -44,8 +44,8 @@ public class ArtCohortQueries {
 	public CohortDefinition getCumulativeEverOnARTAtThisFacilityCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select\n" + "    client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment\n"
-		        + "where encounter_datetime <= date_sub(date(:startDate), interval 1 day)\n" + "and art_regimen is not null\n"
-		        + "and transferred_in_on_art_from_another_treatment_site is not null";
+		        + "where encounter_datetime <= date_sub(date(:startDate), interval 1 day)\n"
+		        + "and art_regimen is not null\n" + "and transferred_in_on_art_from_another_treatment_site is not null";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -53,25 +53,26 @@ public class ArtCohortQueries {
 		
 		return cd;
 	}
-
+	
 	/**
 	 * Cumulative number of patients ever started on ART at this facility at the end of the
 	 * reporting period end of previous reporting period = start date - 1 day
-	 *
+	 * 
 	 * @return
 	 */
 	public CohortDefinition getCumulativeEverOnARTAtThisFacilityAtEndOfReportingCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select\n" + "    client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment\n"
-				+ "where encounter_datetime <= date(:endDate) \n" + "and art_regimen is not null\n"
-				+ "and transferred_in_on_art_from_another_treatment_site is not null";
+		        + "where encounter_datetime <= date(:endDate) \n" + "and art_regimen is not null\n"
+		        + "and transferred_in_on_art_from_another_treatment_site is not null";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("Cumulative patients started on ART at the end of the reporting period");
-
+		
 		return cd;
 	}
+	
 	/**
 	 * New persons started on ART at this facility during the reporting period
 	 * 
@@ -80,9 +81,8 @@ public class ArtCohortQueries {
 	public CohortDefinition getNewOnARTCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select\n" + "    client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment\n"
-		        + "where art_regimen is not null\n"
-		        + "  and transferred_in_on_art_from_another_treatment_site is not null " +
-				" having min(date(encounter_datetime)) between date(:startDate) and date(:endDate);";
+		        + "where art_regimen is not null\n" + "  and transferred_in_on_art_from_another_treatment_site is not null "
+		        + " having min(date(encounter_datetime)) between date(:startDate) and date(:endDate);";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -103,7 +103,7 @@ public class ArtCohortQueries {
 		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
 		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
 		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate)'\n"
-		        + "  and (f.edd is not null and date(f.edd) >= :endDate) ";
+		        + "  and f.client_pregnant = 'True' ";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -132,7 +132,8 @@ public class ArtCohortQueries {
 		
 		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
 		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
-		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate)'\n" + "  and f.regimen = 'TDF+3TC+DTG' ";
+		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate)'\n"
+		        + "  and f.art_regimen = 'TDF+3TC+DTG' ";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -145,7 +146,20 @@ public class ArtCohortQueries {
 		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
 		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
 		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate)'\n"
-		        + "  and (f.regimen != 'TDF+3TC+DTG' and f.regimen like '%DTG%' )";
+		        + "  and (f.art_regimen != 'TDF+3TC+DTG' and f.art_regimen like '%DTG%' )";
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients on DTG related regimen during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition getAgeAtStartOfART(int minAge, int maxAge, String sex) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate)'\n"
+		        + "  and (f.art_regimen != 'TDF+3TC+DTG' and f.art_regimen like '%DTG%' )";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
