@@ -67,7 +67,7 @@ public class ListOfFamilyContactsNewlyTestedPositiveRegister extends SSEMRDataEx
 			reportDesign = createXlsReportDesign(reportDefinition, "fc3.xls",
 			    "List of Family contacts newly tested positive", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:FC3");
+			props.put("repeatingSections", "sheet:1,row:6,dataset:FC3");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

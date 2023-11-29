@@ -67,7 +67,7 @@ public class SetupListOfFamilyContactsWithUnknownHivStatusTestedRegister extends
 			reportDesign = createXlsReportDesign(reportDefinition, "fc2.xls",
 			    "List of Family contacts with unknown HIV status tested", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:FC2");
+			props.put("repeatingSections", "sheet:1,row:6,dataset:FC2");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}
