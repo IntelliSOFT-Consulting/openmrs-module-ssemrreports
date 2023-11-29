@@ -15,33 +15,33 @@ import java.util.List;
 import java.util.Properties;
 
 @Component
-public class SetupListOfFamilyContactsWithUnknownHivStatusRegister extends SSEMRDataExportManager {
+public class SetupListOfFamilyContactsWithUnknownHivStatusTestedRegister extends SSEMRDataExportManager {
 	
 	private final ListOfFamilyContactsDSD listOfFamilyContactsDSD;
 	
 	@Autowired
-	public SetupListOfFamilyContactsWithUnknownHivStatusRegister(ListOfFamilyContactsDSD listOfFamilyContactsDSD) {
+	public SetupListOfFamilyContactsWithUnknownHivStatusTestedRegister(ListOfFamilyContactsDSD listOfFamilyContactsDSD) {
 		this.listOfFamilyContactsDSD = listOfFamilyContactsDSD;
 	}
 	
 	@Override
 	public String getExcelDesignUuid() {
-		return "26e56aae-938c-4514-9c93-bb1e8d86d253";
+		return "1baaa1bf-a6d2-48e6-88a4-780e0387d751";
 	}
 	
 	@Override
 	public String getUuid() {
-		return "a557238b-650c-4f63-a633-5e4c9fa65940";
+		return "ab7467f6-0ff3-4c03-be48-4ff01a19f329";
 	}
 	
 	@Override
 	public String getName() {
-		return "List of Family contacts with unknown HIV status";
+		return "List of Family contacts with unknown HIV status tested";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "List of Family contacts with unknown HIV status report";
+		return "List of Family contacts with unknown HIV status tested report";
 	}
 	
 	@Override
@@ -51,7 +51,7 @@ public class SetupListOfFamilyContactsWithUnknownHivStatusRegister extends SSEMR
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.setParameters(listOfFamilyContactsDSD.getParameters());
-		rd.addDataSetDefinition("FC1", Mapped.mapStraightThrough(listOfFamilyContactsDSD.getWithUnknownHivStatus()));
+		rd.addDataSetDefinition("FC2", Mapped.mapStraightThrough(listOfFamilyContactsDSD.getWithUnknownHivStatusTested()));
 		return rd;
 	}
 	
@@ -64,10 +64,10 @@ public class SetupListOfFamilyContactsWithUnknownHivStatusRegister extends SSEMR
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "fc1.xls",
-			    "List of Family contacts with unknown HIV status", getExcelDesignUuid(), null);
+			reportDesign = createXlsReportDesign(reportDefinition, "fc2.xls",
+			    "List of Family contacts with unknown HIV status tested", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:FC1");
+			props.put("repeatingSections", "sheet:1,row:2,dataset:FC2");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

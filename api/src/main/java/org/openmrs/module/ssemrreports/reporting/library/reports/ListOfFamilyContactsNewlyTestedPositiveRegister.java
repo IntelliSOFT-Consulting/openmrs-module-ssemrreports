@@ -7,41 +7,39 @@ import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ListOfFamilyContactsDSD;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-@Component
-public class SetupListOfFamilyContactsWithUnknownHivStatusRegister extends SSEMRDataExportManager {
+public class ListOfFamilyContactsNewlyTestedPositiveRegister extends SSEMRDataExportManager {
 	
 	private final ListOfFamilyContactsDSD listOfFamilyContactsDSD;
 	
 	@Autowired
-	public SetupListOfFamilyContactsWithUnknownHivStatusRegister(ListOfFamilyContactsDSD listOfFamilyContactsDSD) {
+	public ListOfFamilyContactsNewlyTestedPositiveRegister(ListOfFamilyContactsDSD listOfFamilyContactsDSD) {
 		this.listOfFamilyContactsDSD = listOfFamilyContactsDSD;
 	}
 	
 	@Override
 	public String getExcelDesignUuid() {
-		return "26e56aae-938c-4514-9c93-bb1e8d86d253";
+		return "96cd742c-9044-4a8c-a4ea-2bc16c6e78f8";
 	}
 	
 	@Override
 	public String getUuid() {
-		return "a557238b-650c-4f63-a633-5e4c9fa65940";
+		return "ddb48a05-a272-4c21-9fcb-e31644d74962";
 	}
 	
 	@Override
 	public String getName() {
-		return "List of Family contacts with unknown HIV status";
+		return "List of Family contacts newly tested positive";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "List of Family contacts with unknown HIV status report";
+		return "List of Family contacts newly tested +ve report";
 	}
 	
 	@Override
@@ -51,7 +49,7 @@ public class SetupListOfFamilyContactsWithUnknownHivStatusRegister extends SSEMR
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.setParameters(listOfFamilyContactsDSD.getParameters());
-		rd.addDataSetDefinition("FC1", Mapped.mapStraightThrough(listOfFamilyContactsDSD.getWithUnknownHivStatus()));
+		rd.addDataSetDefinition("FC3", Mapped.mapStraightThrough(listOfFamilyContactsDSD.getTestedPositive()));
 		return rd;
 	}
 	
@@ -64,10 +62,10 @@ public class SetupListOfFamilyContactsWithUnknownHivStatusRegister extends SSEMR
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "fc1.xls",
-			    "List of Family contacts with unknown HIV status", getExcelDesignUuid(), null);
+			reportDesign = createXlsReportDesign(reportDefinition, "fc3.xls",
+			    "List of Family contacts newly tested positive", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:FC1");
+			props.put("repeatingSections", "sheet:1,row:2,dataset:FC3");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}
