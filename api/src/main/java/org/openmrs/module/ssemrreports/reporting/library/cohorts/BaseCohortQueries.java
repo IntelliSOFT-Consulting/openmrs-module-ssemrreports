@@ -142,7 +142,7 @@ public class BaseCohortQueries {
 		
 		return cd;
 	}
-
+	
 	public CohortDefinition getPatientsWithVLTest() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("Viral load patient set");
@@ -161,7 +161,10 @@ public class BaseCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		cd.setQuery(CommonQueries.getPendingVLPatients());
-
+		
+		return cd;
+	}
+	
 	public CohortDefinition getPatientsWhoHaveDocumentedVL() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("Documented VL patients patient set");
@@ -169,10 +172,10 @@ public class BaseCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		cd.setQuery(CommonQueries.getDocumentedVLPatients());
-
+		
 		return cd;
 	}
-
+	
 	public CohortDefinition getPatientsWhoAreRTT() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("RTT patients patient set");
@@ -183,5 +186,5 @@ public class BaseCohortQueries {
 		
 		return cd;
 	}
-
+	
 }
