@@ -50,7 +50,7 @@ public class SetupListOfFamilyContactsWithUnknownHivStatusRegister extends SSEMR
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.setParameters(listOfFamilyContactsDSD.getParameters());
+		//rd.setParameters(listOfFamilyContactsDSD.getParameters());
 		rd.addDataSetDefinition("FC1", Mapped.mapStraightThrough(listOfFamilyContactsDSD.getWithUnknownHivStatus()));
 		return rd;
 	}

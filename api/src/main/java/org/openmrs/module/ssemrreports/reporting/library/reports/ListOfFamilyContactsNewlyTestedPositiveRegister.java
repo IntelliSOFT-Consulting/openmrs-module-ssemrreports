@@ -50,7 +50,7 @@ public class ListOfFamilyContactsNewlyTestedPositiveRegister extends SSEMRDataEx
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.setParameters(listOfFamilyContactsDSD.getParameters());
+		//rd.setParameters(listOfFamilyContactsDSD.getParameters());
 		rd.addDataSetDefinition("FC3", Mapped.mapStraightThrough(listOfFamilyContactsDSD.getTestedPositive()));
 		return rd;
 	}

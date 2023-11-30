@@ -51,7 +51,7 @@ public class SetupListOfFamilyContactsNewlyTestedHivPositiveAndLinkedToArtRegist
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.setParameters(listOfFamilyContactsDSD.getParameters());
+		//rd.setParameters(listOfFamilyContactsDSD.getParameters());
 		rd.addDataSetDefinition("FC5",
 		    Mapped.mapStraightThrough(listOfFamilyContactsDSD.getNewlyTestedHivPositiveAndLinkedToArt()));
 		return rd;

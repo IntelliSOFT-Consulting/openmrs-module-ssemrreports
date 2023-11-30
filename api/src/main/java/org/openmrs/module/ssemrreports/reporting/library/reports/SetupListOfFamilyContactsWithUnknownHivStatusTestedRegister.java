@@ -50,7 +50,7 @@ public class SetupListOfFamilyContactsWithUnknownHivStatusTestedRegister extends
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.setParameters(listOfFamilyContactsDSD.getParameters());
+		//rd.setParameters(listOfFamilyContactsDSD.getParameters());
 		rd.addDataSetDefinition("FC2", Mapped.mapStraightThrough(listOfFamilyContactsDSD.getWithUnknownHivStatusTested()));
 		return rd;
 	}
