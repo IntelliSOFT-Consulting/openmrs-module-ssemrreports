@@ -10,27 +10,31 @@ public class ListOfFamilyContactsDSD extends SSEMRBaseDataSet {
 	public DataSetDefinition getWithUnknownHivStatus() {
 		SqlDataSetDefinition sqlDataSetDefinition = new SqlDataSetDefinition();
 		sqlDataSetDefinition.setName("List of Family contacts with unknown HIV status");
-		sqlDataSetDefinition.setSqlQuery("SELECT * FROM ssemr_etl.ssemr_flat_encounter_family_history");
+		sqlDataSetDefinition
+		        .setSqlQuery("SELECT * FROM ssemr_etl.ssemr_flat_encounter_family_history WHERE hiv_status ='Don't Know'");
 		return sqlDataSetDefinition;
 	}
 	
 	public DataSetDefinition getWithUnknownHivStatusTested() {
 		SqlDataSetDefinition sqlDataSetDefinition = new SqlDataSetDefinition();
 		sqlDataSetDefinition.setName("List of Family contacts with unknown HIV status tested");
-		sqlDataSetDefinition.setSqlQuery("SELECT * FROM ssemr_etl.ssemr_flat_encounter_family_history");
+		sqlDataSetDefinition
+		        .setSqlQuery("SELECT * FROM ssemr_etl.ssemr_flat_encounter_family_history WHERE hiv_status IS NOT NULL");
 		return sqlDataSetDefinition;
 	}
 	
 	public DataSetDefinition getTestedPositive() {
 		SqlDataSetDefinition sqlDataSetDefinition = new SqlDataSetDefinition();
 		sqlDataSetDefinition.setName("List of Family contacts newly tested positive");
-		sqlDataSetDefinition.setSqlQuery("SELECT * FROM ssemr_etl.ssemr_flat_encounter_family_history");
+		sqlDataSetDefinition
+		        .setSqlQuery("SELECT * FROM ssemr_etl.ssemr_flat_encounter_family_history WHERE hiv_status='Positive'");
 		return sqlDataSetDefinition;
 	}
 	
 	public DataSetDefinition getKnownHivPositiveAtStartOfArt() {
 		SqlDataSetDefinition sqlDataSetDefinition = new SqlDataSetDefinition();
-		sqlDataSetDefinition.setName("List of Family contacts known HIV positive at start of ART");
+		sqlDataSetDefinition
+		        .setName("List of Family contacts known HIV positive at start of ART WHERE hiv_status='Positive' AND on_art IS NOT NULL");
 		sqlDataSetDefinition.setSqlQuery("SELECT * FROM ssemr_etl.ssemr_flat_encounter_family_history");
 		return sqlDataSetDefinition;
 	}

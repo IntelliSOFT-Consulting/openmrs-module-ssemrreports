@@ -65,7 +65,7 @@ public class SetupListOfFamilyContactsKnownHivPositiveAtStartOfArtRegister exten
 		ReportDesign reportDesign = null;
 		try {
 			reportDesign = createXlsReportDesign(reportDefinition, "fc4.xls",
-			    "List of Family contacts known HIV +ve at start of ART ", getExcelDesignUuid(), null);
+			    "List of Family contacts known HIV positive at start of ART ", getExcelDesignUuid(), null);
 			Properties props = new Properties();
 			props.put("repeatingSections", "sheet:1,row:6,dataset:FC4");
 			props.put("sortWeight", "5000");
