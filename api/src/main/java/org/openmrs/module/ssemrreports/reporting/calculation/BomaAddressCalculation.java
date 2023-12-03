@@ -14,6 +14,7 @@
 package org.openmrs.module.ssemrreports.reporting.calculation;
 
 import org.openmrs.PersonAddress;
+import org.openmrs.Person;
 import org.openmrs.api.PersonService;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
@@ -33,9 +34,12 @@ public class BomaAddressCalculation extends AbstractPatientCalculation {
 		
 		for (Integer pid : cohort) {
 			String value = "";
-			PersonAddress personAddress = personService.getPerson(pid).getPersonAddress();
-			if (personAddress != null && personAddress.getAddress4() != null) {
-				value = personAddress.getAddress4();
+			Person person = personService.getPerson(pid);
+			if (person != null) {
+				PersonAddress personAddress = person.getPersonAddress();
+				if (personAddress != null && personAddress.getAddress4() != null) {
+					value = personAddress.getAddress4();
+				}
 			}
 			ret.put(pid, new SimpleResult(value, this));
 		}
