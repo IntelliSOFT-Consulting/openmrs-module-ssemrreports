@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.ssemrreports.reporting.calculation;
 
+import org.openmrs.Person;
 import org.openmrs.PersonAddress;
 import org.openmrs.api.PersonService;
 import org.openmrs.api.context.Context;
@@ -33,11 +34,16 @@ public class PayamAddressCalculation extends AbstractPatientCalculation {
 		
 		for (Integer pid : cohort) {
 			String value = "";
-			PersonAddress personAddress = personService.getPerson(pid).getPersonAddress();
-			if (personAddress != null && personAddress.getAddress3() != null) {
-				value = personAddress.getAddress3();
+			Person person = personService.getPerson(pid);
+			if (person != null) {
+				PersonAddress personAddress = person.getPersonAddress();
+				if (personAddress != null && personAddress.getAddress3() != null) {
+					value = personAddress.getAddress3();
+				}
 			}
+			
 			ret.put(pid, new SimpleResult(value, this));
+			
 		}
 		return ret;
 	}
