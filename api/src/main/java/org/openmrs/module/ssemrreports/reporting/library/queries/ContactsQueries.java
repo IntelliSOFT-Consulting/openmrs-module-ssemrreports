@@ -8,10 +8,9 @@ public class ContactsQueries {
 	
 	public static String getContactsWithUnknownHivStatus() {
 		
-		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment "
-		        + " WHERE family_member_names != '' AND family_member_names IS NOT NULL "
-		        + " AND family_member_hiv_status = 'Don''t Know' and encounter_datetime between :startDate and "
-		        + " :endDate and location_id =:location group by client_id";
+		String query = "select t.client_id from (SELECT client_id, individual_name FROM ssemr_etl.ssemr_flat_encounter_family_history "
+		        + " WHERE hiv_status = 'Don''t know' and encounter_datetime between :startDate  and :endDate  and "
+		        + " location_id =:location group by individual_name, client_id) t;";
 		
 		return query;
 	}

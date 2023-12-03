@@ -34,6 +34,7 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusD
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.NextAppointmentDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.FamilyContactNameDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastDrugVisitDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
 
@@ -91,10 +92,14 @@ public class SetupContactsWithUnknownHivStatusDatasetDefinition extends SSEMRBas
 		StatusDataDefinition statusDataDefinition = new StatusDataDefinition();
 		statusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		FamilyContactNameDataDefinition familyContactNameDataDefinition = new FamilyContactNameDataDefinition();
+		familyContactNameDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
-		dsd.addColumn("Telephone No", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
+		dsd.addColumn("Contact Name", familyContactNameDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
