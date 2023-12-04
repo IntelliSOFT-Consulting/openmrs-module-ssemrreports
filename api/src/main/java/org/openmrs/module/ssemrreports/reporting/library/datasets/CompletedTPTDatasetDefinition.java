@@ -32,9 +32,8 @@ import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalcula
 import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.NextAppointmentDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastDrugVisitDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
 
 @Component
 public class CompletedTPTDatasetDefinition extends SSEMRBaseDataSet {
@@ -81,22 +80,18 @@ public class CompletedTPTDatasetDefinition extends SSEMRBaseDataSet {
 		ETLArtStartDateDataDefinition etlArtStartDateDataDefinition = new ETLArtStartDateDataDefinition();
 		etlArtStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		NextAppointmentDateDataDefinition nextAppointmentDateDataDefinition = new NextAppointmentDateDataDefinition();
-		nextAppointmentDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		LastDrugVisitDateDataDefinition lastDrugVisitDateDataDefinition = new LastDrugVisitDateDataDefinition();
-		lastDrugVisitDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		StatusDataDefinition statusDataDefinition = new StatusDataDefinition();
+		statusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
-		dsd.addColumn("Telephone No", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
+		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
+		dsd.addColumn("Status", statusDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Next date of appointment", nextAppointmentDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Last date of visit", lastDrugVisitDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");
