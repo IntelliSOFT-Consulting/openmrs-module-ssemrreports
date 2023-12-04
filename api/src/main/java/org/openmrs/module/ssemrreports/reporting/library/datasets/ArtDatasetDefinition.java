@@ -183,6 +183,14 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16",
 		        "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
 		
+		addRow(
+		    dsd,
+		    "7",
+		    "Cumulative no ever started on ART at this facility",
+		    map(indicator.getIndicator("Cumulative no ever started on ART at this facility",
+		        map(artCohortQueries.getCumulativeEverOnARTAtThisFacilityAtEndOfReportingCohortDefinition(), mappings)),
+		        mappings), allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+		        "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
 		return dsd;
 	}
 }
