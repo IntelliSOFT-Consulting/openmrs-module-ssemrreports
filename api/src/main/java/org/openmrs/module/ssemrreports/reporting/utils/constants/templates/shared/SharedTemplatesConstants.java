@@ -38,6 +38,8 @@ public class SharedTemplatesConstants {
 	
 	public static final String RTT_LIST_TEMPLATE = "93cbb146-8c90-11ee-b9d1-0242ac120002";
 	
+	public static final String CONTACTS_WITH_UNKNOWN_HIV_STATUS_LIST_TEMPLATE = "4003af4e-8e22-11ee-b9d1-0242ac120002";
+  
 	public static final String CONTACTS_WITH_UNKNOWN_HIV_STATUS_TESTED_LIST_TEMPLATE = "1df4d01e-8e26-11ee-b9d1-0242ac120002";
 	
 }

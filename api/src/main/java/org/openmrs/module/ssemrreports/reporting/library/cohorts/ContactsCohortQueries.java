@@ -15,13 +15,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContactsCohortQueries {
 	
+	public CohortDefinition getPatientsWhoHaveUnknownHivStatus() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("List of Family contacts with unknown HIV status");
+		cd.setQuery(ContactsQueries.getContactsWithUnknownHivStatus());
+
+		return cd;
+  }
+  
 	public CohortDefinition getPatientsWhoHaveUnknownHivStatusTested() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("List of Family contacts with unknown HIV status  and received HIV results");
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
-		
 		cd.setQuery(ContactsQueries.getContactsWithUnknownHivStatusTested());
 		
 		return cd;
