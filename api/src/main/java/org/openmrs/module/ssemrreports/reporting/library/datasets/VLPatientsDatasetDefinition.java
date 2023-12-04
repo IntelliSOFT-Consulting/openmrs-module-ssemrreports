@@ -28,6 +28,7 @@ import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastDrugVisitDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLDueDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
@@ -95,20 +96,23 @@ public class VLPatientsDatasetDefinition extends SSEMRBaseDataSet {
 		LastVLDataDefinition lastVLDataDefinition = new LastVLDataDefinition();
 		lastVLDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		VLDueDateDataDefinition vlDueDateDataDefinition = new VLDueDateDataDefinition();
+		vlDueDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		dsd.addColumn("Status", statusDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Telephone No", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
+		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
 		
 		//dsd.addColumn("Pmtc", lastDrugVisitDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of last VL test", lastVLTestDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Last VL", lastVLDataDefinition, "endDate=${endDate}");
-		// dsd.addColumn("VL due date", lastVLTestDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("VL due date", vlDueDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date VL sample collected", lastVLTestDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date VL results  documented", lastVLTestDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of start of pending VL results", lastVLTestDateDataDefinition, "endDate=${endDate}");
