@@ -161,7 +161,7 @@ public class BaseCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		cd.setQuery(CommonQueries.getPendingVLPatients());
-		
+
 		return cd;
 	}
 	

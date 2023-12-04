@@ -5,9 +5,6 @@ import org.openmrs.Location;
 
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
-import org.openmrs.api.PersonService;
-import org.openmrs.PersonAttributeType;
-import org.springframework.stereotype.Component;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.BirthdateConverter;
@@ -16,7 +13,6 @@ import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
-import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.AgeDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.ConvertedPersonDataDefinition;
@@ -24,26 +20,26 @@ import org.openmrs.module.reporting.data.person.definition.GenderDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastDrugVisitDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLDueDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLTestDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.calculation.CalculationResultDataConverter;
-import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
-import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
-import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
+import org.springframework.stereotype.Component;
 import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.PersonAttributeType;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
+import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.NextAppointmentDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.FamilyContactNameDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastDrugVisitDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
 
 @Component
-public class PendingVLDatasetDefinition extends SSEMRBaseDataSet {
+public class SetupContactsWithUnknownHivStatusDatasetDefinition extends SSEMRBaseDataSet {
 	
 	private DataDefinition personPayamAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("payam", new PayamAddressCalculation());
@@ -55,13 +51,13 @@ public class PendingVLDatasetDefinition extends SSEMRBaseDataSet {
 		return cd;
 	}
 	
-	public DataSetDefinition constructPendingVLDatasetDefinition() {
+	public DataSetDefinition constructContactsWithUnknownHivStatusDatasetDefinition() {
 		
 		String DATE_FORMAT = "dd-MMM-yyyy";
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
-		dsd.setName("PVLD");
+		dsd.setName("CUHS");
 		dsd.addParameters(getParameters());
-		dsd.setDescription("Report for pending vl results");
+		dsd.setDescription("List the family members whose HIV result is not known at the time of listing");
 		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
 		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -78,44 +74,38 @@ public class PendingVLDatasetDefinition extends SSEMRBaseDataSet {
 		PersonAttributeType phoneNumber = Context.getPersonService().getPersonAttributeTypeByUuid(
 		    SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
 		
-		ETLArtStartDateDataDefinition etlArtStartDateDataDefinition = new ETLArtStartDateDataDefinition();
-		etlArtStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
 		COVNameDataDefinition covNameDataDefinition = new COVNameDataDefinition();
 		covNameDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		LinkedToCOVDataDefinition linkedToCOVDataDefinition = new LinkedToCOVDataDefinition();
 		linkedToCOVDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		ETLArtStartDateDataDefinition etlArtStartDateDataDefinition = new ETLArtStartDateDataDefinition();
+		etlArtStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		NextAppointmentDateDataDefinition nextAppointmentDateDataDefinition = new NextAppointmentDateDataDefinition();
+		nextAppointmentDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		LastDrugVisitDateDataDefinition lastDrugVisitDateDataDefinition = new LastDrugVisitDateDataDefinition();
+		lastDrugVisitDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		StatusDataDefinition statusDataDefinition = new StatusDataDefinition();
 		statusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		LastVLTestDateDataDefinition lastVLTestDateDataDefinition = new LastVLTestDateDataDefinition();
-		lastVLTestDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		LastVLDataDefinition lastVLDataDefinition = new LastVLDataDefinition();
-		lastVLDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		VLDueDateDataDefinition vlDueDateDataDefinition = new VLDueDateDataDefinition();
-		vlDueDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		FamilyContactNameDataDefinition familyContactNameDataDefinition = new FamilyContactNameDataDefinition();
+		familyContactNameDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
-		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
-		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
-		dsd.addColumn("Status", statusDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Contact Name", familyContactNameDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
+		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
+		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
+		dsd.addColumn("Status (Preg/BF/High VL)", statusDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
-		
-		//dsd.addColumn("Pmtc", lastDrugVisitDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date of last VL test", lastVLTestDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Last VL", lastVLDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("VL due date", vlDueDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date VL sample collected", lastVLTestDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date VL results  documented", lastVLTestDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date of start of pending VL results", lastVLTestDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last date of visit", lastDrugVisitDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");

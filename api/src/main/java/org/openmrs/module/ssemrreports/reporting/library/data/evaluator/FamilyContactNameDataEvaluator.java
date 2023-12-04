@@ -10,7 +10,7 @@
 package org.openmrs.module.ssemrreports.reporting.library.data.evaluator;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLTestDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.FamilyContactNameDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -24,10 +24,10 @@ import java.util.Map;
 import java.util.Date;
 
 /**
- * Evaluates Last VL Test Date Data Definition
+ * Evaluates Family Contact Name Data Definition
  */
-@Handler(supports = LastVLTestDateDataDefinition.class, order = 50)
-public class LastVLTestDateDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = FamilyContactNameDataDefinition.class, order = 50)
+public class FamilyContactNameDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -36,9 +36,8 @@ public class LastVLTestDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select client_id, mid(max(concat(encounter_datetime, date_vl_sample_collected, '' )),20) as last_vl_collected "
-		        + " from ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where "
-		        + " DATE(encounter_datetime) <= DATE(:endDate) GROUP BY client_id";
+		String qry = "select client_id, individual_name from ssemr_etl.ssemr_flat_encounter_family_history "
+		        + " where  date(encounter_datetime) <= date(:endDate) and individual_name is not null";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
