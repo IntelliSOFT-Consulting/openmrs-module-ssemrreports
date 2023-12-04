@@ -40,7 +40,7 @@ public class SharedReportConstants {
 	
 	public static final String FEVER = "TO DEFINE";
 	
-	public static final String OPENMRS_ID_IDENTIFIER_TYPE = "a5d38e09-efcb-4d91-a526-50ce1ba5011a";
+	public static final String OPENMRS_ID_IDENTIFIER_TYPE = "8d793bee-c2cc-11de-8d13-0010c6dffd0f";
 	
 	public static final String UNIQUE_ART_NUMBER_TYPE_UUID = "e6baf185-38ed-4815-9476-f98d2cc2b331";
 	
