@@ -19,10 +19,10 @@ public class ContactsCohortQueries {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("List of Family contacts with unknown HIV status");
 		cd.setQuery(ContactsQueries.getContactsWithUnknownHivStatus());
-
+		
 		return cd;
-  }
-  
+	}
+	
 	public CohortDefinition getPatientsWhoHaveUnknownHivStatusTested() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("List of Family contacts with unknown HIV status  and received HIV results");

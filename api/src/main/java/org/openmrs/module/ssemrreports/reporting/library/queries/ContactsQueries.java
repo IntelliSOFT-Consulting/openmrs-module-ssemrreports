@@ -11,10 +11,10 @@ public class ContactsQueries {
 		String query = "select t.client_id from (SELECT client_id, individual_name FROM ssemr_etl.ssemr_flat_encounter_family_history "
 		        + " WHERE hiv_status = 'Don''t know' and encounter_datetime between :startDate  and :endDate  and "
 		        + " location_id =:location group by individual_name, client_id) t;";
-
+		
 		return query;
-  }
-  
+	}
+	
 	public static String getContactsWithUnknownHivStatusTested() {
 		
 		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_family_history "
