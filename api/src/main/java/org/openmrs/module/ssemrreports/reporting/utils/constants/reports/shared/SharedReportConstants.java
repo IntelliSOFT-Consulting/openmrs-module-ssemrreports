@@ -72,4 +72,5 @@ public class SharedReportConstants {
 	
 	public static final String RTT_LIST_UUID = "835e45bc-8c90-11ee-b9d1-0242ac120002";
 	
+	public static final String CONTACTS_WITH_UNKNOWN_HIV_STATUS_TESTED_LIST_UUID = "0c14acb6-8e26-11ee-b9d1-0242ac120002";
 }
