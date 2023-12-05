@@ -78,7 +78,7 @@ public class SetupEligibleForVLRegister extends SSEMRDataExportManager {
 			reportDesign = createXlsReportDesign(reportDefinition, "eligibleVlRegister.xls",
 			    "Report for clients eligible for VL", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:3,dataset:EVL");
+			props.put("repeatingSections", "sheet:1,row:2,dataset:EVL");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

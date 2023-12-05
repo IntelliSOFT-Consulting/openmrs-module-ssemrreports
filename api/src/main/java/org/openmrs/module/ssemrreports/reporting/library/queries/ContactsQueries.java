@@ -19,7 +19,7 @@ public class ContactsQueries {
 		
 		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_family_history "
 		        + " WHERE hiv_status = 'Don''t know' and date_hiv_tested is not null and encounter_datetime between :startDate "
-		        + " and :endDate and location_id =21;";
+		        + " and :endDate and location_id =location;";
 		
 		return query;
 	}

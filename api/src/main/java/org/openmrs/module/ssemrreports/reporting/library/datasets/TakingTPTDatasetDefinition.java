@@ -31,6 +31,9 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVName
 import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTStartDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTCompleteDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTEligibleDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
 
@@ -79,6 +82,15 @@ public class TakingTPTDatasetDefinition extends SSEMRBaseDataSet {
 		ETLArtStartDateDataDefinition etlArtStartDateDataDefinition = new ETLArtStartDateDataDefinition();
 		etlArtStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		TPTStartDateDataDefinition tptStartDateDataDefinition = new TPTStartDateDataDefinition();
+		tptStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		TPTCompleteDateDataDefinition tptCompleteDateDataDefinition = new TPTCompleteDateDataDefinition();
+		tptCompleteDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		TPTEligibleDateDataDefinition tptEligibleDateDataDefinition = new TPTEligibleDateDataDefinition();
+		tptEligibleDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
@@ -91,6 +103,9 @@ public class TakingTPTDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Linked to COV (Y/N)", linkedToCOVDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date started taking TPT", tptStartDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date completed TPT", tptCompleteDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date eligible for TPT", tptEligibleDateDataDefinition, "endDate=${endDate}");
 		
 		return dsd;
 	}
