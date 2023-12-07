@@ -47,6 +47,12 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 	SSEMRBaseDataSet.ColumnParameters female_5_to_9 = new SSEMRBaseDataSet.ColumnParameters(null, "5-9, Female",
 	        "gender=F|age=5-9", "");
 	
+	SSEMRBaseDataSet.ColumnParameters male_0_to_9 = new SSEMRBaseDataSet.ColumnParameters(null, "0-9, Male",
+	        "gender=M|age=0-9", "");
+	
+	SSEMRBaseDataSet.ColumnParameters female_0_to_9 = new SSEMRBaseDataSet.ColumnParameters(null, "0-9, Female",
+	        "gender=F|age=0-9", "");
+	
 	SSEMRBaseDataSet.ColumnParameters male_10_to_14 = new SSEMRBaseDataSet.ColumnParameters(null, "10-14, Male",
 	        "gender=M|age=10-14", "");
 	
@@ -58,6 +64,12 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 	
 	SSEMRBaseDataSet.ColumnParameters female_15_to_19 = new SSEMRBaseDataSet.ColumnParameters(null, "15-19, Female",
 	        "gender=F|age=15-19", "");
+	
+	SSEMRBaseDataSet.ColumnParameters male_15_to_49 = new SSEMRBaseDataSet.ColumnParameters(null, "15-49, Male",
+	        "gender=M|age=15-49", "");
+	
+	SSEMRBaseDataSet.ColumnParameters female_15_to_49 = new SSEMRBaseDataSet.ColumnParameters(null, "15-49, Male",
+	        "gender=F|age=15-49", "");
 	
 	SSEMRBaseDataSet.ColumnParameters male_20_to_24 = new SSEMRBaseDataSet.ColumnParameters(null, "20-24, Male",
 	        "gender=M|age=20-24", "");
@@ -108,6 +120,9 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 	    male_20_to_24, female_25_to_29, male_25_to_29, female_30_to_34, male_30_to_34, female_35_to_39, male_35_to_39,
 	    female_40_to_44, male_40_to_44, female_45_to_49, male_45_to_49, female_50_plus, male_50_plus, subTotalFemales,
 	    subTotalMales, colTotal);
+	
+	List<ColumnParameters> regimenDisaggregation = Arrays.asList(male_0_to_9, female_0_to_9, male_10_to_14, female_10_to_14,
+	    male_15_to_49, female_15_to_49, male_50_plus, female_50_plus, colTotal);
 	
 	List<ColumnParameters> pbfDisaggregation = Arrays.asList(female_10_to_14, female_15_to_19, female_20_to_24,
 	    female_25_to_29, female_30_to_34, female_35_to_39, female_40_to_44, female_45_to_49, female_50_plus,
@@ -191,6 +206,55 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 		        map(artCohortQueries.getCumulativeEverOnARTAtThisFacilityAtEndOfReportingCohortDefinition(), mappings)),
 		        mappings), allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
 		        "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
+		return dsd;
+	}
+	
+	/**
+	 * Dataset for patients on ART disaggregated by age at start of ART
+	 * 
+	 * @return
+	 */
+	public DataSetDefinition getTxCurrForAgeAtEnrolmentDataset() {
+		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+		String mappings = "startDate=${startDate},endDate=${endDate}";
+		String mappings1 = "endDate=${endDate+23h},location=${location}";
+		dsd.setName("ageAtStart");
+		dsd.setDescription("ART dataset - age at start of ART");
+		dsd.addParameters(getParameters());
+		///dsd.addDimension("gender", map(dimension.gender(), ""));
+		//dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
+		
+		dsd.addColumn(
+		    "Male 1 - 4",
+		    "8-01",
+		    map(indicator.getIndicator("TX CURR 1-4, male, at Age at Start of ART",
+		        map(artCohortQueries.getAgeAtStartOfART(1, 4, "M"), "")), ""), "");
+		dsd.addColumn(
+		    "Female 1 - 4",
+		    "8-02",
+		    map(indicator.getIndicator("TX CURR 1-4, female, at Age at Start of ART",
+		        map(artCohortQueries.getAgeAtStartOfART(1, 4, "F"), "")), ""), "");
+		
+		return dsd;
+		
+	}
+	
+	public DataSetDefinition getTxCurrByRegimenDataset() {
+		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+		String mappings = "startDate=${startDate},endDate=${endDate}";
+		String mappings1 = "endDate=${endDate+23h},location=${location}";
+		dsd.setName("currentOnArtByRegimen");
+		dsd.setDescription("ART by regimen dataset");
+		dsd.addParameters(getParameters());
+		dsd.addDimension("gender", map(dimension.gender(), ""));
+		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
+		addRow(
+		    dsd,
+		    "1",
+		    "Adult first line regimen - 1a = AZT+3TC+EFV",
+		    map(indicator.getIndicator("Adult first line regimen - 1a = AZT/3TC+EFV",
+		        map(artCohortQueries.getPatientsOnRegimenCohortDefinition("1a = AZT/3TC+EFV"), mappings)), mappings),
+		    regimenDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		return dsd;
 	}
 }

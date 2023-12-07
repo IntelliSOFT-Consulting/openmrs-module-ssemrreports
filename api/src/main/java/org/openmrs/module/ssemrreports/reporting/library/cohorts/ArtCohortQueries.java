@@ -3,6 +3,7 @@ package org.openmrs.module.ssemrreports.reporting.library.cohorts;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openmrs.Location;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
@@ -92,6 +93,24 @@ public class ArtCohortQueries {
 	}
 	
 	/**
+	 * current on ART
+	 * 
+	 * @return
+	 */
+	public CohortDefinition currentOnARTCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select\n" + "    client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment\n"
+		        + "where art_regimen is not null\n" + "  and transferred_in_on_art_from_another_treatment_site is not null "
+		        + " having min(date(encounter_datetime)) between date(:startDate) and date(:endDate);";
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription(" Current on ART during the reporting period");
+		
+		return cd;
+	}
+	
+	/**
 	 * Women who are pregnant during the reporting period This is currently computed using the edd
 	 * variable in the followup visit form One is pregnant if edd variable has value and is on or
 	 * after the reporting end date
@@ -154,16 +173,51 @@ public class ArtCohortQueries {
 		return cd;
 	}
 	
-	public CohortDefinition getAgeAtStartOfART(int minAge, int maxAge, String sex) {
+	public CohortDefinition getPatientsOnRegimenCohortDefinition(List<String> regimenList) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
 		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
 		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
-		        + "  and (f.art_regimen != 'TDF+3TC+DTG' and f.art_regimen like '%DTG%' )";
+		        + "  and f.art_regimen in (:artRegimen) ";
+		
+		String regimenString = "";//"'TDF+3TC+EFV','TDF+3TC+EFV'";
+		if (!regimenList.isEmpty()) {
+			regimenString = StringUtils.join(regimenList, "'");
+		}
+		qry.replace(":artRegimen", regimenString);
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("Patients on DTG related regimen during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition getPatientsOnRegimenCohortDefinition(String regimenName) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
+		        + "  and f.art_regimen = ':artRegimen' ";
+		
+		qry.replace(":artRegimen", regimenName);
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients on a regimen during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition getAgeAtStartOfART(int minAge, int maxAge, String sex) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select client_id\n"
+		        + "from (select f.client_id, p.gender, timestampdiff(YEAR, p.birthdate, e.encounter_datetime) ageAtArtStart\n"
+		        + "      from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "               inner join ssemr_etl.mamba_dim_person p on p.person_id = e.client_id\n"
+		        + "               inner join ssemr_etl.ssemr_flat_encounter_end_of_follow_up f on e.client_id = f.client_id\n"
+		        + "      where f.date_of_death is null\n" + "      group by f.client_id) a\n"
+		        + "where  ageAtArtStart between " + minAge + "  and " + maxAge + " and gender = '" + sex + "'";
+		cd.setQuery(qry);
+		cd.setDescription("Patients of a given age group and sex");
 		return cd;
 	}
 	
@@ -275,4 +329,5 @@ public class ArtCohortQueries {
 		cd.setCompositionString("newlyStartedOnArt AND onOtherDTGRegimen");
 		return cd;
 	}
+	
 }
