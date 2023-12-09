@@ -65,7 +65,7 @@ public class SetupArtMonthlyReport extends SSEMRDataExportManager {
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		//rd.addParameters(districtDatasetDefinition.getParameters());
+		rd.addParameters(artDatasetDefinition.getParameters());
 		//rd.addDataSetDefinition("DT", Mapped.mapStraightThrough(districtDatasetDefinition
 		//        .getAddressDataset(mflCodeAttributeType.getLocationAttributeTypeId())));
 		rd.addDataSetDefinition("CummAndNewOnArt", Mapped.mapStraightThrough(artDatasetDefinition.getArtDataset()));
