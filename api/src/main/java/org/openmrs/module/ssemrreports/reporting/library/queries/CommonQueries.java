@@ -8,7 +8,7 @@ public class CommonQueries {
 	
 	public static String getPatientsInProgram(int programId) {
 		
-		String query = "SELECT p.patient_id " + "FROM patient p "
+		String query = "SELECT p.patient_id FROM patient p "
 		        + "INNER JOIN patient_program pp ON p.patient_id = pp.patient_id "
 		        + "INNER JOIN program pg ON pg.program_id=pp.program_id "
 		        + "WHERE p.voided=0 AND pp.voided=0 and pg.retired=0 "
@@ -319,21 +319,85 @@ public class CommonQueries {
 		return query;
 	}
 	
+	//	public static String getPatientsEligibleForVL() {
+	//		String query = "select t.client_id from (SELECT fp.client_id, mp.age,fp.vl_results, vlr.date_of_sample_collection, fp.edd, en.art_readiness_confirmation_date, "
+	//		        + " en.date_if_restarted, vlr.patient_pregnant, fp.encounter_datetime, vlr.value, "
+	//		        + " CASE WHEN mp.age <= 19 and timestampdiff(MONTH, :endDate , max(vlr.date_of_sample_collection)) >= 6 THEN true "
+	//		        + " WHEN fp.edd IS NOT NULL AND fp.edd > :endDate AND MAX(DATE(en.were_arvs_received)) = CURDATE() THEN true "
+	//		        + " WHEN fp.edd IS NOT NULL AND fp.edd > :endDate AND MAX(DATE(en.were_arvs_received)) > CURDATE() and timestampdiff(MONTH, CURDATE(), "
+	//		        + " max(vlr.date_of_sample_collection)) > 3 THEN true WHEN mp.age > 19 AND fp.vl_results >= 200 AND timestampdiff(MONTH, CURDATE(), max(vlr.date_of_sample_collection)) >= 3 THEN true "
+	//		        + " WHEN mp.age > 19 AND fp.vl_results < 200 AND timestampdiff(MONTH, CURDATE(), max(fp.date_vl_sample_collected)) >= 12 THEN true "
+	//		        + " ELSE NULL END as due_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp "
+	//		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en ON en.client_id = fp.client_id "
+	//		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_vl_laboratory_request vlr ON vlr.client_id = fp.client_id "
+	//		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = fp.client_id WHERE "
+	//		        + " vlr.date_of_sample_collection is not null and fp.location_id=:location GROUP BY fp.client_id,mp.age,fp.vl_results,fp.edd,en.art_readiness_confirmation_date,"
+	//		        + " en.date_if_restarted, vlr.patient_pregnant,vlr.value,fp.encounter_datetime, vlr.date_of_sample_collection "
+	//		        + " ) t group by client_id HAVING max(t.due_date) = true";
+	//		
+	//		return query;
+	//	}	
+	
 	public static String getPatientsEligibleForVL() {
-		String query = "select t.client_id from (SELECT fp.client_id, mp.age,fp.vl_results, vlr.date_of_sample_collection, fp.edd, en.art_readiness_confirmation_date, "
-		        + " en.date_if_restarted, vlr.patient_pregnant, fp.encounter_datetime, vlr.value, "
-		        + " CASE WHEN mp.age <= 19 and timestampdiff(MONTH, CURDATE() , max(vlr.date_of_sample_collection)) >= 6 THEN true "
-		        + " WHEN fp.edd IS NOT NULL AND fp.edd > CURDATE() AND MAX(DATE(en.were_arvs_received)) = CURDATE() THEN true "
-		        + " WHEN fp.edd IS NOT NULL AND fp.edd > CURDATE() AND MAX(DATE(en.were_arvs_received)) > CURDATE() and timestampdiff(MONTH, CURDATE(), "
-		        + " max(vlr.date_of_sample_collection)) > 3 THEN true WHEN mp.age > 19 AND fp.vl_results >= 200 AND timestampdiff(MONTH, CURDATE(), max(vlr.date_of_sample_collection)) >= 3 THEN true "
-		        + " WHEN mp.age > 19 AND fp.vl_results < 200 AND timestampdiff(MONTH, CURDATE(), max(fp.date_vl_sample_collected)) >= 12 THEN true "
-		        + " ELSE NULL END as due_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp "
-		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en ON en.client_id = fp.client_id "
-		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_vl_laboratory_request vlr ON vlr.client_id = fp.client_id "
-		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = fp.client_id WHERE fp.encounter_datetime BETWEEN :startDate AND :endDate and "
-		        + " vlr.date_of_sample_collection is not null and fp.location_id=:location GROUP BY fp.client_id,mp.age,fp.vl_results,fp.edd,en.art_readiness_confirmation_date,"
-		        + " en.date_if_restarted, vlr.patient_pregnant,vlr.value,fp.encounter_datetime, vlr.date_of_sample_collection "
-		        + " ) t group by client_id HAVING max(t.due_date) = true";
+		String query = "SELECT t.client_id "
+		        + "FROM "
+		        + "  ("
+		        + "    SELECT "
+		        + "      fp.client_id, "
+		        + "      mp.age, "
+		        + "      fp.vl_results, "
+		        + "      vlr.date_of_sample_collection, "
+		        + "      fp.edd, "
+		        + "      en.art_readiness_confirmation_date, "
+		        + "      en.date_if_restarted, "
+		        + "      vlr.patient_pregnant, "
+		        + "      fp.encounter_datetime, "
+		        + "      vlr.value, "
+		        + "      CASE WHEN mp.age <= 15 "
+		        + "      and timestampdiff("
+		        + "        MONTH, "
+		        + "        max(vlr.date_of_sample_collection), "
+				+ "        :endDate "
+		        + "      ) >= 6 THEN true "
+				+ "      WHEN fp.edd IS NOT NULL "
+		        + "      AND fp.edd > :endDate "
+		        + "      AND MAX("
+		        + "        DATE(en.were_arvs_received)"
+		        + "      ) = :endDate THEN true "
+				+ "      WHEN fp.edd IS NOT NULL "
+		        + "      AND fp.edd > :endDate "
+		        + "      AND MAX("
+		        + "        DATE(en.were_arvs_received)"
+		        + "      ) > :endDate "
+		        + "      and timestampdiff("
+		        + "        MONTH, "
+				+ "        max(vlr.date_of_sample_collection), "
+		        + "        :endDate "
+		        + "      ) > 3 THEN true "
+				+ "     WHEN mp.age > 15 "
+		        + "      AND fp.vl_results >= 200 "
+		        + "      AND timestampdiff("
+		        + "        MONTH, "
+		        + "        max(vlr.date_of_sample_collection), "
+				+ "        :endDate "
+		        + "      ) >= 6 THEN true WHEN mp.age > 15 "
+		        + "      AND fp.vl_results < 200 "
+		        + "      AND timestampdiff("
+		        + "        MONTH, "
+				+ "        max(fp.date_of_sample_collection), "
+		        + "        :endDate "
+		        + "      ) >= 12 THEN true ELSE NULL END as due_date "
+		        + "    FROM "
+		        + "      ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp "
+		        + "      LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en ON en.client_id = fp.client_id "
+		        + "      LEFT JOIN ssemr_etl.ssemr_flat_encounter_vl_laboratory_request vlr ON vlr.client_id = fp.client_id "
+		        + "      LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = fp.client_id     WHERE "
+		        + "      vlr.date_of_sample_collection is not null       and fp.location_id =:location AND vlr.last_vl_date <= :endDate "
+		        + "    GROUP BY       fp.client_id,       mp.age,       fp.vl_results,       fp.edd, "
+		        + "      en.art_readiness_confirmation_date,       en.date_if_restarted, "
+		        + "      vlr.patient_pregnant,       vlr.value,       fp.encounter_datetime, "
+		        + "      vlr.date_of_sample_collection  ) t "
+				+ "GROUP BY   client_id HAVING  max(t.due_date) = true";
 		
 		return query;
 	}
@@ -350,7 +414,7 @@ public class CommonQueries {
 		String query = "select p.patient_id from openmrs.patient_appointment p left join encounter e on e.patient_id "
 		        + " = p.patient_id where p.status = 'Missed' and p.start_date_time between :startDate and :endDate and "
 		        + " p.location_id =:location and DATEDIFF(CURDATE(), p.start_date_time) >= 28 "
-		        + " and (select datediff(CURDATE(), max(e.date_created))) >= 28" + " group by p.patient_id;";
+		        + " and (select datediff(CURDATE(), max(e.date_created))) >= 28 group by p.patient_id;";
 		
 		return query;
 	}
