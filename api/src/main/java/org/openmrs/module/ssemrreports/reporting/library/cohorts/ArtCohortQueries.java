@@ -48,7 +48,7 @@ public class ArtCohortQueries {
 		String qry = "select\n"
 		        + "    client_id\n"
 		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment\n"
-		        + "where date(cohort) <= date_sub(date(:startDate), interval 1 day) and date(cohort) <= date_sub(date(:startDate), interval 1 day)\n"
+		        + "where date(art_start_date) <= date_sub(date(:startDate), interval 1 day) and date(art_start_date) <= date_sub(date(:startDate), interval 1 day)\n"
 		        + " \n" + // we should add other pointers to start of art
 		        "and (transferred_in_on_art_from_another_treatment_site is null or transferred_in_on_art_from_another_treatment_site = 'False')";
 		cd.setQuery(qry);
@@ -70,7 +70,7 @@ public class ArtCohortQueries {
 		String qry = "select\n"
 		        + "    client_id\n"
 		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment\n"
-		        + "where encounter_datetime <= date(:endDate) and date(cohort) <= date(:endDate) \n"
+		        + "where encounter_datetime <= date(:endDate) and date(art_start_date) <= date(:endDate) \n"
 		        + "and (transferred_in_on_art_from_another_treatment_site is not null or transferred_in_on_art_from_another_treatment_site = 'False')";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -90,7 +90,7 @@ public class ArtCohortQueries {
 		String qry = "select\n"
 		        + "    client_id\n"
 		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment\n"
-		        + "where date(cohort) between date(:startDate) and date(:endDate) and (transferred_in_on_art_from_another_treatment_site is null or transferred_in_on_art_from_another_treatment_site = 'False') "
+		        + "where date(art_start_date) between date(:startDate) and date(:endDate) and (transferred_in_on_art_from_another_treatment_site is null or transferred_in_on_art_from_another_treatment_site = 'False') "
 		        + " having min(date(encounter_datetime)) between date(:startDate) and date(:endDate);";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -264,7 +264,7 @@ public class ArtCohortQueries {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select client_id\n"
 		        + "\tfrom (\n"
-		        + "\tselect f.encounter_datetime, f.client_id, p.gender, timestampdiff(YEAR, p.birthdate, e.cohort) ageAtArtStart, fup.ltfu_date, f.days_dispensed,\n"
+		        + "\tselect f.encounter_datetime, f.client_id, p.gender, timestampdiff(YEAR, p.birthdate, e.art_start_date) ageAtArtStart, fup.ltfu_date, f.days_dispensed,\n"
 		        + "\t       date_add(f.encounter_datetime, interval (case days_dispensed when '30 days' then 30 when '60 days' then 60 when '90 days' then 90 when '180 days' then 180 else 0 end) DAY) nextDrugApptDate\n"
 		        + "\tfrom ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
 		        + "\t inner join ssemr_etl.mamba_dim_person p on p.person_id = e.client_id\n"
