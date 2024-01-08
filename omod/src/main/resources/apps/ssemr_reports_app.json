@@ -36,26 +36,62 @@
         "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
         "type": "link",
         "label": "Clients with High VL",
-        "url": "reportingui/runReport.page?reportDefinition=6C5992CD-885B-4BDF-BAEE-6D9D8CE31796",
+        "url": "reportingui/runReport.page?reportDefinition=7acb704a-8007-11ee-b962-0242ac120002",
         "order": 20,
         "requiredPrivilege": ""
       },
       {
-        "id": "ssemr.appointment.due.register",
+        "id": "ssemr.hvl.suppressed.register",
         "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
         "type": "link",
-        "label": "Appointment Due Report",
-        "url": "reportingui/runReport.page?reportDefinition=948300f6-a0e1-47d6-a019-9d6e2ec122b2",
+        "label": "Clients with High VL and suppressed",
+        "url": "reportingui/runReport.page?reportDefinition=dcd5f9f8-83e6-11ee-b962-0242ac120002",
         "order": 21,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.hvl.repeat.register",
+        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "type": "link",
+        "label": "Clients with High VL who received repeat test after EAC",
+        "url": "reportingui/runReport.page?reportDefinition=cea7db66-83ec-11ee-b962-0242ac120002",
+        "order": 22,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.hvl.eac.register",
+        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "type": "link",
+        "label": "Clients with High VL and EAC",
+        "url": "reportingui/runReport.page?reportDefinition=44222cac-80af-11ee-b962-0242ac120002",
+        "order": 23,
         "requiredPrivilege": ""
       },
       {
         "id": "ssemr.missed.appointment.register",
         "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
         "type": "link",
-        "label": "Missed Appointment Report",
+        "label": "Missed Appointment on date Report",
         "url": "reportingui/runReport.page?reportDefinition=17a9d6ce-7abe-42d2-a677-53195e22c46b",
-        "order": 21,
+        "order": 30,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.missed.appointment.14.days.register",
+        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "type": "link",
+        "label": "Missed appointment for 14 days",
+        "url": "reportingui/runReport.page?reportDefinition=26985654-8c25-11ed-8e58-b7227b8d5928",
+        "order": 31,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.missed.appointment.over.90.days.register",
+        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "type": "link",
+        "label": "Patient who missed appointment for over 90 days",
+        "url": "reportingui/runReport.page?reportDefinition=948300f6-a0e1-47d6-a019-9d6e2ec122b2",
+        "order": 32,
         "requiredPrivilege": ""
       },
       {
