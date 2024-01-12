@@ -17,6 +17,8 @@ import java.util.Date;
 import org.openmrs.Concept;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.cohorts.MerCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.OpdReportCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.SharedCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
@@ -33,10 +35,14 @@ public class SSEMRCommonDimension {
 	
 	private final OpdReportCohortQueries opdReportCohortQueries;
 	
+	private final MerCohortQueries merCohortQueries;
+	
 	@Autowired
-	public SSEMRCommonDimension(SharedCohortQueries sharedCohortQueries, OpdReportCohortQueries opdReportCohortQueries) {
+	public SSEMRCommonDimension(SharedCohortQueries sharedCohortQueries, OpdReportCohortQueries opdReportCohortQueries,
+	    MerCohortQueries merCohortQueries) {
 		this.sharedCohortQueries = sharedCohortQueries;
 		this.opdReportCohortQueries = opdReportCohortQueries;
+		this.merCohortQueries = merCohortQueries;
 	}
 	
 	/**
@@ -224,6 +230,24 @@ public class SSEMRCommonDimension {
 		    SSEMRReportUtils.map(
 		        sharedCohortQueries.getPatientsWithObsByEndDate(Arrays.asList(hivStatus.getConceptId()),
 		            Arrays.asList(hivPositive.getConceptId())), "endDate=${endDate},location=${location}"));
+		return dim;
+	}
+	
+	public CohortDefinitionDimension getDispensingQuantityDimension() {
+		CohortDefinitionDimension dim = new CohortDefinitionDimension();
+		dim.setName("ARV Dispensing quantity dimension");
+		dim.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		dim.addParameter(new Parameter("endDate", "End Date", Date.class));
+		dim.addParameter(new Parameter("location", "Facility", Location.class));
+		CohortDefinition less3m = merCohortQueries.lessThan3MonthsDispensationComposition();
+		CohortDefinition threeTo5m = merCohortQueries.quarterlyDispensationComposition();
+		CohortDefinition more6m = merCohortQueries.semiAnnualDispensationComposition();
+		dim.addCohortDefinition("<3m",
+		    SSEMRReportUtils.map(less3m, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		dim.addCohortDefinition("3-5m",
+		    SSEMRReportUtils.map(threeTo5m, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		dim.addCohortDefinition(">6m",
+		    SSEMRReportUtils.map(more6m, "startDate=${startDate},endDate=${endDate},location=${location}"));
 		return dim;
 	}
 }
