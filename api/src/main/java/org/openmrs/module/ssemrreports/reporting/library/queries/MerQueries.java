@@ -55,4 +55,34 @@ public class MerQueries {
 	public static String getTxMlRefusedStoppedTreatmentQueries() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}
+	
+	//TX RTT
+	public static String getTxRttWithCd4LessThan200Queries() {
+		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+	}
+	
+	public static String getTxRttWithCd4GreaterOrEqual200Queries() {
+		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+	}
+	
+	public static String getTxRttWithUnknownCd4Queries() {
+		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+	}
+	
+	public static String getTxRttNotEligibleForCd4Queries() {
+		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+	}
+	
+	//TX PVLS
+	public static String getTxPvlsAllQueries() {
+		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+	}
+	
+	public static String getTxPvlPregnantQueries() {
+		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+	}
+	
+	public static String getTxPvlBreastfeedingQueries() {
+		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+	}
 }

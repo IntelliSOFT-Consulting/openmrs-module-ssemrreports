@@ -144,4 +144,76 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
+	//TX RTT cohort Queries
+	public CohortDefinition getTxRttWithCd4LessThan200Cohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxRTT Cohorts - CD4: < 200");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTxRttWithCd4LessThan200Queries());
+		return cd;
+	}
+	
+	public CohortDefinition getTxRttWithCd4GreaterOrEqual200Cohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxRTT Cohorts - CD4: ≥ 200");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTxRttWithCd4GreaterOrEqual200Queries());
+		return cd;
+	}
+	
+	public CohortDefinition getTxRttWithUnknownCd4Cohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxRTT Cohorts - Unknown CD4");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTxRttWithUnknownCd4Queries());
+		return cd;
+	}
+	
+	public CohortDefinition getTxRttNotEligibleForCd4Cohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxRTT Cohorts - Unknown CD4");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTxRttNotEligibleForCd4Queries());
+		return cd;
+	}
+	
+	//TX PVLS Cohorts
+	public CohortDefinition getTxPvlsAllCohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxPVLS Cohorts - ALL");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTxPvlsAllQueries());
+		return cd;
+	}
+	
+	public CohortDefinition getTxPvlPregnantCohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxPVLS Cohorts - Pregnant");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTxPvlPregnantQueries());
+		return cd;
+	}
+	
+	public CohortDefinition getTxPvlBreastfeedingCohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxPVLS Cohorts - Breastfeeding");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTxPvlBreastfeedingQueries());
+		return cd;
+	}
+	
 }

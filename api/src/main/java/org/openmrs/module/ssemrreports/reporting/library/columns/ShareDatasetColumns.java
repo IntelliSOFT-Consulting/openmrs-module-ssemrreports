@@ -84,4 +84,55 @@ public class ShareDatasetColumns {
 		    fortyTo44F, forty5To49F, fiftyTo54F, fifty5To59F, sixtyTo64F, above65F, unknown);
 	}
 	
+	public static List<SSEMRBaseDataSet.ColumnParameters> getDispensationColumnsLessThan3Months() {
+		SSEMRBaseDataSet.ColumnParameters under15M = new SSEMRBaseDataSet.ColumnParameters("under15M",
+		        "under 15 years male", "gender=M|age=<15|disp=<3m", "under15M");
+		SSEMRBaseDataSet.ColumnParameters plus15M = new SSEMRBaseDataSet.ColumnParameters("plus15M",
+		        "more than 15 years male", "gender=M|age=15+|disp=<3m", "plus15M");
+		SSEMRBaseDataSet.ColumnParameters unkM = new SSEMRBaseDataSet.ColumnParameters("unkM", "more than 15 years male",
+		        "gender=M|age=UK|disp=<3m", "unkM");
+		SSEMRBaseDataSet.ColumnParameters under15F = new SSEMRBaseDataSet.ColumnParameters("under15F",
+		        "under 15 years male", "gender=F|age=<15|disp=<3m", "under15F");
+		SSEMRBaseDataSet.ColumnParameters plus15F = new SSEMRBaseDataSet.ColumnParameters("plus15F",
+		        "more than 15 years male", "gender=F|age=15+|disp=<3m", "plus15F");
+		SSEMRBaseDataSet.ColumnParameters unkF = new SSEMRBaseDataSet.ColumnParameters("unkF", "more than 15 years male",
+		        "gender=F|age=UK|disp=<3m", "unkF");
+		
+		return Arrays.asList(under15M, plus15M, unkM, under15F, plus15F, unkF);
+	}
+	
+	public static List<SSEMRBaseDataSet.ColumnParameters> getDispensationColumns3To5Months() {
+		SSEMRBaseDataSet.ColumnParameters under15M = new SSEMRBaseDataSet.ColumnParameters("under15M",
+		        "under 15 years male", "gender=M|age=<15|disp=3-5m", "under15M");
+		SSEMRBaseDataSet.ColumnParameters plus15M = new SSEMRBaseDataSet.ColumnParameters("plus15M",
+		        "more than 15 years male", "gender=M|age=15+|disp=3-5m", "plus15M");
+		SSEMRBaseDataSet.ColumnParameters unkM = new SSEMRBaseDataSet.ColumnParameters("unkM", "more than 15 years male",
+		        "gender=M|age=UK|disp=3-5m", "unkM");
+		SSEMRBaseDataSet.ColumnParameters under15F = new SSEMRBaseDataSet.ColumnParameters("under15F",
+		        "under 15 years male", "gender=F|age=<15|disp=3-5m", "under15F");
+		SSEMRBaseDataSet.ColumnParameters plus15F = new SSEMRBaseDataSet.ColumnParameters("plus15F",
+		        "more than 15 years male", "gender=F|age=15+|disp=3-5m", "plus15F");
+		SSEMRBaseDataSet.ColumnParameters unkF = new SSEMRBaseDataSet.ColumnParameters("unkF", "more than 15 years male",
+		        "gender=F|age=UK|disp=3-5m", "unkF");
+		
+		return Arrays.asList(under15M, plus15M, unkM, under15F, plus15F, unkF);
+	}
+	
+	public static List<SSEMRBaseDataSet.ColumnParameters> getDispensationColumnsMoreThan6Months() {
+		SSEMRBaseDataSet.ColumnParameters under15M = new SSEMRBaseDataSet.ColumnParameters("under15M",
+		        "under 15 years male", "gender=M|age=<15|disp=>6m", "under15M");
+		SSEMRBaseDataSet.ColumnParameters plus15M = new SSEMRBaseDataSet.ColumnParameters("plus15M",
+		        "more than 15 years male", "gender=M|age=15+|disp=>6m", "plus15M");
+		SSEMRBaseDataSet.ColumnParameters unkM = new SSEMRBaseDataSet.ColumnParameters("unkM", "more than 15 years male",
+		        "gender=M|age=UK|disp=>6m", "unkM");
+		SSEMRBaseDataSet.ColumnParameters under15F = new SSEMRBaseDataSet.ColumnParameters("under15F",
+		        "under 15 years male", "gender=F|age=<15|disp=>6m", "under15F");
+		SSEMRBaseDataSet.ColumnParameters plus15F = new SSEMRBaseDataSet.ColumnParameters("plus15F",
+		        "more than 15 years male", "gender=F|age=15+|disp=>6m", "plus15F");
+		SSEMRBaseDataSet.ColumnParameters unkF = new SSEMRBaseDataSet.ColumnParameters("unkF", "more than 15 years male",
+		        "gender=F|age=UK|disp=>6m", "unkF");
+		
+		return Arrays.asList(under15M, plus15M, unkM, under15F, plus15F, unkF);
+	}
+	
 }

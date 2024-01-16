@@ -55,8 +55,8 @@ public class SetupMerIndicatorsReport extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("TxC", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappings));
 		rd.addDataSetDefinition("TxN", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappings));
 		rd.addDataSetDefinition("TxM", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings));
-		//rd.addDataSetDefinition("TxR", SSEMRReportUtils.map(MerIndicatorsDatasetDefinition.getTxRttDataset(), mappings));
-		//rd.addDataSetDefinition("TxP", SSEMRReportUtils.map(MerIndicatorsDatasetDefinition.getTxPvlsDataset(), mappings));
+		rd.addDataSetDefinition("TxR", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings));
+		rd.addDataSetDefinition("TxP", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappings));
 		return rd;
 	}
 	
