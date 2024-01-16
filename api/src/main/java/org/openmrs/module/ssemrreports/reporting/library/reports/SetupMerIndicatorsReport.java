@@ -1,7 +1,6 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import org.openmrs.module.reporting.ReportingException;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
@@ -17,12 +16,12 @@ import java.util.List;
 @Component
 public class SetupMerIndicatorsReport extends SSEMRDataExportManager {
 	
-	private final MerIndicatorsDatasetDefinition MerIndicatorsDatasetDefinition;
+	private final MerIndicatorsDatasetDefinition merIndicatorsDatasetDefinition;
 	
 	@Autowired
 	public SetupMerIndicatorsReport(
 	    org.openmrs.module.ssemrreports.reporting.library.datasets.MerIndicatorsDatasetDefinition merIndicatorsDatasetDefinition) {
-		MerIndicatorsDatasetDefinition = merIndicatorsDatasetDefinition;
+		this.merIndicatorsDatasetDefinition = merIndicatorsDatasetDefinition;
 	}
 	
 	@Override
@@ -52,10 +51,10 @@ public class SetupMerIndicatorsReport extends SSEMRDataExportManager {
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.addParameters(MerIndicatorsDatasetDefinition.getParameters());
-		rd.addDataSetDefinition("TxC", SSEMRReportUtils.map(MerIndicatorsDatasetDefinition.getTxCurrDataset(), mappings));
-		//rd.addDataSetDefinition("TxN", SSEMRReportUtils.map(MerIndicatorsDatasetDefinition.getTxNewDataset(), mappings));
-		//rd.addDataSetDefinition("TxM", SSEMRReportUtils.map(MerIndicatorsDatasetDefinition.getTxMlDataset(), mappings));
+		rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
+		rd.addDataSetDefinition("TxC", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappings));
+		rd.addDataSetDefinition("TxN", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappings));
+		rd.addDataSetDefinition("TxM", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings));
 		//rd.addDataSetDefinition("TxR", SSEMRReportUtils.map(MerIndicatorsDatasetDefinition.getTxRttDataset(), mappings));
 		//rd.addDataSetDefinition("TxP", SSEMRReportUtils.map(MerIndicatorsDatasetDefinition.getTxPvlsDataset(), mappings));
 		return rd;
