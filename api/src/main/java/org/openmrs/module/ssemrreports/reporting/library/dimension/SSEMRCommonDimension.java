@@ -113,7 +113,6 @@ public class SSEMRCommonDimension {
 		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(1, 9), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("40-49",
 		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(40, 49), "effectiveDate=${effectiveDate}"));
-		
 		dim.addCohortDefinition("10-12",
 		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(10, 12), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("13-14",
@@ -137,6 +136,10 @@ public class SSEMRCommonDimension {
 		dim.addCohortDefinition("UK", SSEMRReportUtils.map(sharedCohortQueries.createUnknownAgeCohort(), ""));
 		dim.addCohortDefinition("60+",
 		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(60, 200), "effectiveDate=${effectiveDate}"));
+		dim.addCohortDefinition("65+",
+		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(65, 200), "effectiveDate=${effectiveDate}"));
+		dim.addCohortDefinition("15+",
+		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(15, 200), "effectiveDate=${effectiveDate}"));
 		
 		// regimen age-groups dimensions
 		dim.addCohortDefinition("0-9",

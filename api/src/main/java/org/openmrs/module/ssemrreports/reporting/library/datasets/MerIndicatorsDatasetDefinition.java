@@ -47,14 +47,14 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.setName("TxC");
 		addRow(
 		    dsd,
-		    "TxCurr-ALL",
+		    "TxCALL",
 		    "Number of adults and children currently receiving antiretroviral therapy (ART)",
 		    map(indicator.getIndicator("Number of adults and children currently receiving antiretroviral therapy (ART)",
 		        map(merCohortQueries.getTxCurrCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		
 		addRow(
 		    dsd,
-		    "TxCurr-3-NMDD",
+		    "TxC3NMDD",
 		    "Number of adults and children currently receiving antiretroviral therapy (ART) - <3 months of ARVs (not MMD) dispensed to client",
 		    map(indicator
 		            .getIndicator(
@@ -64,7 +64,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		
 		addRow(
 		    dsd,
-		    "TxCurr-3-5-MDD",
+		    "TxC35MDD",
 		    "Number of adults and children currently receiving antiretroviral therapy (ART) - 3-5 months of ARVs (MMD) dispensed to client",
 		    map(indicator
 		            .getIndicator(
@@ -73,7 +73,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		
 		addRow(
 		    dsd,
-		    "TxCurr-6-M-MDD",
+		    "TxC6MMDD",
 		    "Number of adults and children currently receiving antiretroviral therapy (ART) - 6 or more months of ARVs (MMD) dispensed to clients",
 		    map(indicator
 		            .getIndicator(
