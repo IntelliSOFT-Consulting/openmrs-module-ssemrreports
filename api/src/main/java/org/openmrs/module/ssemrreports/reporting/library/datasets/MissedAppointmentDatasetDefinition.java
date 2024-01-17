@@ -22,13 +22,10 @@ import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.NextAppointmentDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastDrugVisitDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.calculation.CalculationResultDataConverter;
 import org.openmrs.api.PersonService;
 import org.openmrs.PersonAttributeType;
@@ -37,7 +34,9 @@ import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculat
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
 import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.MissedAppointmentDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 
 @Component
 public class MissedAppointmentDatasetDefinition extends SSEMRBaseDataSet {
@@ -49,6 +48,11 @@ public class MissedAppointmentDatasetDefinition extends SSEMRBaseDataSet {
 	
 	private DataDefinition personBomaAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("boma", new BomaAddressCalculation());
+		return cd;
+	}
+	
+	private DataDefinition personLandmarkAddress() {
+		CalculationDataDefinition cd = new CalculationDataDefinition("landmark", new LandmarkAddressCalculation());
 		return cd;
 	}
 	
@@ -73,37 +77,30 @@ public class MissedAppointmentDatasetDefinition extends SSEMRBaseDataSet {
 		PersonAttributeType phoneNumber = Context.getPersonService().getPersonAttributeTypeByUuid(
 		    SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
 		
-		StatusDataDefinition statusDataDefinition = new StatusDataDefinition();
-		statusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		ETLArtStartDateDataDefinition etlArtStartDateDataDefinition = new ETLArtStartDateDataDefinition();
-		etlArtStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		LastDrugVisitDateDataDefinition lastDrugVisitDateDataDefinition = new LastDrugVisitDateDataDefinition();
-		lastDrugVisitDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
 		COVNameDataDefinition covNameDataDefinition = new COVNameDataDefinition();
 		covNameDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		LinkedToCOVDataDefinition linkedToCOVDataDefinition = new LinkedToCOVDataDefinition();
 		linkedToCOVDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		MissedAppointmentDateDataDefinition missedAppointmentDateDataDefinition = new MissedAppointmentDateDataDefinition();
-		missedAppointmentDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		PregnantDataDefinition pregnantDataDefinition = new PregnantDataDefinition();
+		pregnantDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		BreastFeedingDataDefinition breastfeedingDataDefinition = new BreastFeedingDataDefinition();
+		breastfeedingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
-		dsd.addColumn("Status", statusDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date of missed appointment", missedAppointmentDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Last date of visit", lastDrugVisitDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
+		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Linked to COV (Y/N)", linkedToCOVDataDefinition, "endDate=${endDate}");
 		
