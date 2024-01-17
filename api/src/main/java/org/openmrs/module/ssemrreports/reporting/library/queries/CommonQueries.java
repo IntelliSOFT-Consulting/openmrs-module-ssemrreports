@@ -410,10 +410,11 @@ public class CommonQueries {
 	}
 	
 	public static String getIITPatients() {
-		String query = "select p.patient_id from openmrs.patient_appointment p left join encounter e on e.patient_id "
+		String query = "select p.patient_id, p.start_date_time from openmrs.patient_appointment p left join encounter e on e.patient_id "
 		        + " = p.patient_id where p.status = 'Missed' and p.start_date_time between :startDate and :endDate and "
 		        + " p.location_id =:location and DATEDIFF(CURDATE(), p.start_date_time) >= 28 "
-		        + " and (select datediff(CURDATE(), max(e.date_created))) >= 28 group by p.patient_id;";
+		        + " and (select appointment_service_id from appointment_service where uuid = '4ee8a400-67b2-4f36-b4e3-4b7e83e4dab0' ) "
+		        + " = p.appointment_service_id and (select datediff(CURDATE(), max(e.date_created))) >= 28 group by p.patient_id, p.start_date_time;";
 		
 		return query;
 	}
