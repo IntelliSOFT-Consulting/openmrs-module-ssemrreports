@@ -14,34 +14,33 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class SetupMerIndicatorsReport extends SSEMRDataExportManager {
+public class SetupMerTxPvlsIndicatorsReport extends SSEMRDataExportManager {
 	
 	private final MerIndicatorsDatasetDefinition merIndicatorsDatasetDefinition;
 	
 	@Autowired
-	public SetupMerIndicatorsReport(
-	    org.openmrs.module.ssemrreports.reporting.library.datasets.MerIndicatorsDatasetDefinition merIndicatorsDatasetDefinition) {
+	public SetupMerTxPvlsIndicatorsReport(MerIndicatorsDatasetDefinition merIndicatorsDatasetDefinition) {
 		this.merIndicatorsDatasetDefinition = merIndicatorsDatasetDefinition;
 	}
 	
 	@Override
 	public String getExcelDesignUuid() {
-		return "44c5ff2c-c264-4866-ac9f-64e8dd1d8132";
+		return "edaf9845-ec1b-4918-a055-fe315afe9ed7";
 	}
 	
 	@Override
 	public String getUuid() {
-		return "9810dedc-f508-4ed5-9b86-2355b1cb3ca7";
+		return "6ba23385-a11a-4dc0-bcec-dbb02f93e43a";
 	}
 	
 	@Override
 	public String getName() {
-		return "MER Indicators Report";
+		return "TX PVLS MER Indicators Report";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "MER Indicators Reports";
+		return "TX PVLS  MER Indicators Reports";
 	}
 	
 	@Override
@@ -52,10 +51,6 @@ public class SetupMerIndicatorsReport extends SSEMRDataExportManager {
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
-		rd.addDataSetDefinition("TxC", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappings));
-		rd.addDataSetDefinition("TxN", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappings));
-		rd.addDataSetDefinition("TxM", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings));
-		rd.addDataSetDefinition("TxR", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings));
 		rd.addDataSetDefinition("TxP", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappings));
 		return rd;
 	}
@@ -69,8 +64,8 @@ public class SetupMerIndicatorsReport extends SSEMRDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "mer_indicators.xls", "MER Indicators Report",
-			    getExcelDesignUuid(), null);
+			reportDesign = createXlsReportDesign(reportDefinition, "tx_pvls_mer_indicators.xls",
+			    "TX PVLS MER Indicators Report", getExcelDesignUuid(), null);
 		}
 		catch (IOException e) {
 			throw new ReportingException(e.toString());

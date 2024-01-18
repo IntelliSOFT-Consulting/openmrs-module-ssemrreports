@@ -47,14 +47,14 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.setName("TxC");
 		addRow(
 		    dsd,
-		    "TxCALL",
+		    "ALL",
 		    "Number of adults and children currently receiving antiretroviral therapy (ART)",
 		    map(indicator.getIndicator("Number of adults and children currently receiving antiretroviral therapy (ART)",
 		        map(merCohortQueries.getTxCurrCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		
 		addRow(
 		    dsd,
-		    "TxC3NMDD",
+		    "NMDD",
 		    "Number of adults and children currently receiving antiretroviral therapy (ART) - <3 months of ARVs (not MMD) dispensed to client",
 		    map(indicator
 		            .getIndicator(
@@ -64,7 +64,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		
 		addRow(
 		    dsd,
-		    "TxC35MDD",
+		    "MDD35",
 		    "Number of adults and children currently receiving antiretroviral therapy (ART) - 3-5 months of ARVs (MMD) dispensed to client",
 		    map(indicator
 		            .getIndicator(
@@ -73,7 +73,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		
 		addRow(
 		    dsd,
-		    "TxC6MMDD",
+		    "MMDD6",
 		    "Number of adults and children currently receiving antiretroviral therapy (ART) - 6 or more months of ARVs (MMD) dispensed to clients",
 		    map(indicator
 		            .getIndicator(
@@ -94,14 +94,14 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.setName("TxN");
 		addRow(
 		    dsd,
-		    "TxNCD4L200",
+		    "CD4L200",
 		    "Number of adults and children newly enrolled on antiretroviral therapy (ART) - CD4: < 200",
 		    map(indicator.getIndicator(
 		        "Number of adults and children newly enrolled on antiretroviral therapy (ART) - CD4: < 200",
 		        map(merCohortQueries.getTxNewWithCd4LessThan200Cohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "TxNCD4GT200",
+		    "CD4GT200",
 		    "Number of adults and children newly enrolled on antiretroviral therapy (ART) - CD4 ≥ 200",
 		    map(indicator.getIndicator(
 		        "Number of adults and children newly enrolled on antiretroviral therapy (ART) - CD4 ≥ 200",
@@ -109,7 +109,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "TxNUCD4",
+		    "UCD4",
 		    "Number of adults and children newly enrolled on antiretroviral therapy (ART) - Unknown CD4",
 		    map(indicator.getIndicator(
 		        "Number of adults and children newly enrolled on antiretroviral therapy (ART) - Unknown CD4",
@@ -128,7 +128,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.setName("TxM");
 		addRow(
 		    dsd,
-		    "TxMD",
+		    "D",
 		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
 		            + "clinical contact since their last expected contact - Died",
 		    map(indicator
@@ -138,7 +138,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		                map(merCohortQueries.getTxMlDiedCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "TxMIITL3M",
+		    "IITL3M",
 		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
 		            + "clinical contact since their last expected contact - IIT After being on Treatment for <3 months",
 		    map(indicator
@@ -148,7 +148,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		                map(merCohortQueries.getTxMlIitL3mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "TxMIIT3T5M",
+		    "IIT3T5M",
 		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
 		            + "clinical contact since their last expected contact - IIT After being on Treatment for 3-5 months",
 		    map(indicator
@@ -158,7 +158,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		                map(merCohortQueries.getTxMlIit3To5mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "TxMIITM65M",
+		    "IITM65M",
 		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
 		            + "clinical contact since their last expected contact - IIT After being on Treatment for 6+ months",
 		    map(indicator
@@ -168,7 +168,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		                map(merCohortQueries.getTxMlIitM6mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "TxMIITTO",
+		    "IITTO",
 		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
 		            + "clinical contact since their last expected contact - Transferred Out ",
 		    map(indicator
@@ -179,7 +179,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		
 		addRow(
 		    dsd,
-		    "TxMRST",
+		    "RST",
 		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
 		            + "clinical contact since their last expected contact - Refused (Stopped) Treatment",
 		    map(indicator
@@ -202,7 +202,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.setName("TxR");
 		addRow(
 		    dsd,
-		    "TxRCD4L200",
+		    "RCD4L200",
 		    "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - CD4: <200",
 		    map(indicator
 		            .getIndicator(
@@ -211,7 +211,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "TxRCD4GE200",
+		    "RCD4GE200",
 		    "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - CD4: ≥200",
 		    map(indicator
 		            .getIndicator(
@@ -220,7 +220,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "TxRUKCD4",
+		    "RUKCD4",
 		    "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - Unknown CD4",
 		    map(indicator
 		            .getIndicator(
@@ -230,7 +230,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		
 		addRow(
 		    dsd,
-		    "TxRNECD4",
+		    "RNECD4",
 		    "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - Not Eligible for CD4",
 		    map(indicator
 		            .getIndicator(
@@ -253,7 +253,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		
 		addRow(
 		    dsd,
-		    "TxPALL",
+		    "PALL",
 		    "Percentage of ART clients with a suppressed viral load (VL) result (<1000 copies/ml) documented in the medical or laboratory records/laboratory information systems (LIS) within the past 12 months",
 		    map(indicator
 		            .getIndicator(
@@ -262,7 +262,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		
 		addRow(
 		    dsd,
-		    "TxPP",
+		    "PP",
 		    "Percentage of ART clients with a suppressed viral load (VL) result (<1000 copies/ml) documented in the medical or laboratory records/laboratory information systems (LIS) within the past 12 months - Pregnant",
 		    map(indicator
 		            .getIndicator(
@@ -270,7 +270,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		                map(merCohortQueries.getTxPvlPregnantCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "TxPB",
+		    "PB",
 		    "Percentage of ART clients with a suppressed viral load (VL) result (<1000 copies/ml) documented in the medical or laboratory records/laboratory information systems (LIS) within the past 12 months - Breastfeeding",
 		    map(indicator
 		            .getIndicator(
