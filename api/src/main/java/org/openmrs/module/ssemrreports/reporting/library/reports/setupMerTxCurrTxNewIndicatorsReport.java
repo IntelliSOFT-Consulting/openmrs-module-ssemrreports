@@ -47,13 +47,33 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SSEMRDataExportManager 
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate+23h},location=${location}";
+		String mappingsQuaterly = "startDate=${startDate},endDate=${endDate},location=${location}";
+		String mappingsFirstMonth = "startDate=${startDate},endDate=${endDate-2m},location=${location}";
+		String mappingsSecondMonth = "startDate=${startDate},endDate=${endDate-1m},location=${location}";
+		String mappingsThirdMonth = "startDate=${endDate-1m},endDate=${endDate},location=${location}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
-		rd.addDataSetDefinition("TxC", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappings));
-		rd.addDataSetDefinition("TxN", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappings));
+		rd.addDataSetDefinition("TxC",
+		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsQuaterly));
+		rd.addDataSetDefinition("TxC1",
+		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsFirstMonth));
+		rd.addDataSetDefinition("TxC2",
+		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsSecondMonth));
+		rd.addDataSetDefinition("TxC3",
+		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsThirdMonth));
+		
+		//Tx new totals for 1,2 and 3 month
+		rd.addDataSetDefinition("TxN",
+		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsQuaterly));
+		rd.addDataSetDefinition("TxN1",
+		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsFirstMonth));
+		rd.addDataSetDefinition("TxN2",
+		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsSecondMonth));
+		rd.addDataSetDefinition("TxN3",
+		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsThirdMonth));
+		
 		return rd;
 	}
 	
@@ -75,4 +95,5 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SSEMRDataExportManager 
 		
 		return Arrays.asList(reportDesign);
 	}
+	
 }

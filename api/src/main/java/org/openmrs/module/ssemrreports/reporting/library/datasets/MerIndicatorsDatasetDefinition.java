@@ -94,6 +94,19 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.setName("TxN");
 		addRow(
 		    dsd,
+		    "T",
+		    "Number of adults and children newly enrolled on antiretroviral therapy (ART) - All",
+		    map(indicator.getIndicator("Number of adults and children newly enrolled on antiretroviral therapy (ART) - All",
+		        map(merCohortQueries.getTxNewCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
+		    "B",
+		    "Number of adults and children newly enrolled on antiretroviral therapy (ART) - Breastfeeding",
+		    map(indicator.getIndicator(
+		        "Number of adults and children newly enrolled on antiretroviral therapy (ART) - Breastfeeding",
+		        map(merCohortQueries.getTxNewBreastfeedingCohort(), mappings)), mappings), getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
 		    "CD4L200",
 		    "Number of adults and children newly enrolled on antiretroviral therapy (ART) - CD4: < 200",
 		    map(indicator.getIndicator(
@@ -267,7 +280,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    map(indicator
 		            .getIndicator(
 		                "Percentage of ART clients with a suppressed viral load (VL) result (<1000 copies/ml) documented in the medical or laboratory records/laboratory information systems (LIS) within the past 12 months - Pregnant",
-		                map(merCohortQueries.getTxPvlPregnantCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		                map(merCohortQueries.getTxPvlsPregnantCohort(), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "PB",
@@ -275,7 +288,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    map(indicator
 		            .getIndicator(
 		                "Percentage of ART clients with a suppressed viral load (VL) result (<1000 copies/ml) documented in the medical or laboratory records/laboratory information systems (LIS) within the past 12 months - Breastfeeding",
-		                map(merCohortQueries.getTxPvlBreastfeedingCohorts(), mappings)), mappings),
+		                map(merCohortQueries.getTxPvlsBreastfeedingCohort(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		return dsd;
 	}

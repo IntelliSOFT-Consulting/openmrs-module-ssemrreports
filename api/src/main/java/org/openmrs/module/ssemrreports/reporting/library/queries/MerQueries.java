@@ -3,7 +3,9 @@ package org.openmrs.module.ssemrreports.reporting.library.queries;
 public class MerQueries {
 	
 	public static String getTxCurrQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
+		        + "	WHERE hce.art_start_date BETWEEN :startDate AND :endDate "
+		        + "	AND hce.art_start_date IS NOT NULL";
 	}
 	
 	public static String getLessThan3MonthsQuery() {
@@ -19,6 +21,10 @@ public class MerQueries {
 	}
 	
 	//Tx new cohort queries
+	public static String getTxNewTotals() {
+		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+	}
+	
 	public static String getTxNewWithCd4LessThan200Query() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}
@@ -78,11 +84,11 @@ public class MerQueries {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}
 	
-	public static String getTxPvlPregnantQueries() {
+	public static String getPregnantQueries() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}
 	
-	public static String getTxPvlBreastfeedingQueries() {
+	public static String getBreastfeedingQueries() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}
 }

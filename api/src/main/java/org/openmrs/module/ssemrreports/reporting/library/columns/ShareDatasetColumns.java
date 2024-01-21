@@ -77,11 +77,12 @@ public class ShareDatasetColumns {
 		        "gender=F|age=65+", "F15");
 		SSEMRBaseDataSet.ColumnParameters unknown = new SSEMRBaseDataSet.ColumnParameters("unknown", "Unknown age",
 		        "age=UK", "UNK");
+		SSEMRBaseDataSet.ColumnParameters total = new SSEMRBaseDataSet.ColumnParameters("total", "All total", "", "TALL");
 		
 		return Arrays.asList(unknownM, under1M, oneTo4M, fiveTo9M, tenTo14M, fifteenTo19M, twentyTo24M, twenty5To29M,
 		    thirtyTo34M, thirty5To39M, fortyTo44M, forty5To49M, fiftyTo54M, fifty5To59M, sixtyTo64M, above65M, unknownF,
 		    under1F, oneTo4F, fiveTo9F, tenTo14F, fifteenTo19F, twentyTo24F, twenty5To29F, thirtyTo34F, thirty5To39F,
-		    fortyTo44F, forty5To49F, fiftyTo54F, fifty5To59F, sixtyTo64F, above65F, unknown);
+		    fortyTo44F, forty5To49F, fiftyTo54F, fifty5To59F, sixtyTo64F, above65F, unknown, total);
 	}
 	
 	public static List<SSEMRBaseDataSet.ColumnParameters> getDispensationColumnsLessThan3Months() {
@@ -97,8 +98,10 @@ public class ShareDatasetColumns {
 		        "more than 15 years male", "gender=F|age=15+|disp=<3m", "O15F3");
 		SSEMRBaseDataSet.ColumnParameters unkF = new SSEMRBaseDataSet.ColumnParameters("unkF", "more than 15 years male",
 		        "gender=F|age=UK|disp=<3m", "unkF3");
+		SSEMRBaseDataSet.ColumnParameters all3 = new SSEMRBaseDataSet.ColumnParameters("unkF", "All 3 months dispensation",
+		        "", "ALL3");
 		
-		return Arrays.asList(under15M, plus15M, unkM, under15F, plus15F, unkF);
+		return Arrays.asList(under15M, plus15M, unkM, under15F, plus15F, unkF, all3);
 	}
 	
 	public static List<SSEMRBaseDataSet.ColumnParameters> getDispensationColumns3To5Months() {
@@ -114,8 +117,10 @@ public class ShareDatasetColumns {
 		        "more than 15 years male", "gender=F|age=15+|disp=3-5m", "O15F35");
 		SSEMRBaseDataSet.ColumnParameters unkF = new SSEMRBaseDataSet.ColumnParameters("unkF", "more than 15 years male",
 		        "gender=F|age=UK|disp=3-5m", "unkF35");
+		SSEMRBaseDataSet.ColumnParameters all35 = new SSEMRBaseDataSet.ColumnParameters("unkF",
+		        "All 3-5 months dispensation", "", "ALL35");
 		
-		return Arrays.asList(under15M, plus15M, unkM, under15F, plus15F, unkF);
+		return Arrays.asList(under15M, plus15M, unkM, under15F, plus15F, unkF, all35);
 	}
 	
 	public static List<SSEMRBaseDataSet.ColumnParameters> getDispensationColumnsMoreThan6Months() {
@@ -131,8 +136,10 @@ public class ShareDatasetColumns {
 		        "more than 15 years male", "gender=F|age=15+|disp=>6m", "O15F6");
 		SSEMRBaseDataSet.ColumnParameters unkF = new SSEMRBaseDataSet.ColumnParameters("unkF", "more than 15 years male",
 		        "gender=F|age=UK|disp=>6m", "unkF6");
+		SSEMRBaseDataSet.ColumnParameters all6 = new SSEMRBaseDataSet.ColumnParameters("unkF", "All 6 months dispensation",
+		        "", "ALL6");
 		
-		return Arrays.asList(under15M, plus15M, unkM, under15F, plus15F, unkF);
+		return Arrays.asList(under15M, plus15M, unkM, under15F, plus15F, unkF, all6);
 	}
 	
 }
