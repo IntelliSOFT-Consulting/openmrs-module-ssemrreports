@@ -4,8 +4,7 @@ public class MerQueries {
 	
 	public static String getTxCurrQuery() {
 		return "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	WHERE hce.art_start_date BETWEEN :startDate AND :endDate "
-		        + "	AND hce.art_start_date IS NOT NULL";
+		        + "	WHERE hce.art_start_date BETWEEN :startDate AND :endDate " + "	AND hce.art_start_date IS NOT NULL";
 	}
 	
 	public static String getLessThan3MonthsQuery() {
