@@ -26,9 +26,11 @@ public class MerQueries {
 	
 	public static String getPatientsWhoTransferredInDuringReportingPeriod() {
 		return "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate " + "	AND hce.art_start_date IS NOT NULL";
+		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate "
+		        + "	AND hce.date_tranferred_in IS NOT NULL";
 	}
 	
+	//end TX curr formulations
 	public static String getLessThan3MonthsQuery() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}

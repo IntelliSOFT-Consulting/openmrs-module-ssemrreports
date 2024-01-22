@@ -118,7 +118,7 @@ public class SharedCohortQueries {
 	public CohortDefinition createUnknownAgeCohort() {
 		SqlCohortDefinition sql = new SqlCohortDefinition();
 		sql.setName("Get number of clients with no birth date assigned");
-		sql.setQuery("SELECT p.patient_id FROM patient p JOIN person pr ON p.patient_id = pr.person_id WHERE pr.birthdate IS NULL");
+		sql.setQuery("SELECT mdp.person_id FROM ssemr_etl.mamba_dim_person mdp WHERE mdp.voided=0 AND mdp.birthdate IS NULL");
 		return sql;
 	}
 	
@@ -161,6 +161,21 @@ public class SharedCohortQueries {
 		
 		cd.setQuery(CommonQueries.getBasePatientsBasedOnEncounter(encounterIds));
 		
+		return cd;
+	}
+	
+	public CohortDefinition getClientAge(Integer minAge, Integer maxAge) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Get clients age at effective date");
+		cd.addParameter(new Parameter("effectiveDate", "Effective Date", Date.class));
+		cd.setQuery(CommonQueries.getClientsWithinAgeLimit(minAge, maxAge));
+		return cd;
+	}
+	
+	public CohortDefinition getClientGender(String option) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Get clients gender");
+		cd.setQuery(CommonQueries.getClientGender(option));
 		return cd;
 	}
 	
