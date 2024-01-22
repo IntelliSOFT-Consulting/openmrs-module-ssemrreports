@@ -71,7 +71,7 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getTxNewWithCd4LessThan200Query());
+		cd.setQuery(MerQueries.getClientsWithCd4LessThan200Query());
 		return cd;
 	}
 	
@@ -81,7 +81,7 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getTxNewWithCd4MoreThanOrEqualTo200Query());
+		cd.setQuery(MerQueries.getClientsWithCd4MoreThanOrEqualTo200Query());
 		return cd;
 	}
 	
@@ -91,7 +91,7 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getTxNewWithUnknownCd4Query());
+		cd.setQuery(MerQueries.getClientsWithUnknownCd4Query());
 		return cd;
 	}
 	

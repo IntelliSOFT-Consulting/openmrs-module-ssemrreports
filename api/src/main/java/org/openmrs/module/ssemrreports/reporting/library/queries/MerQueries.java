@@ -2,6 +2,7 @@ package org.openmrs.module.ssemrreports.reporting.library.queries;
 
 public class MerQueries {
 	
+	//TX Curr query formulations
 	public static String getTxCurrQuery() {
 		return "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	WHERE hce.art_start_date BETWEEN :startDate AND :endDate " + "	AND hce.art_start_date IS NOT NULL";
@@ -24,15 +25,15 @@ public class MerQueries {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}
 	
-	public static String getTxNewWithCd4LessThan200Query() {
+	public static String getClientsWithCd4LessThan200Query() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}
 	
-	public static String getTxNewWithCd4MoreThanOrEqualTo200Query() {
+	public static String getClientsWithCd4MoreThanOrEqualTo200Query() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}
 	
-	public static String getTxNewWithUnknownCd4Query() {
+	public static String getClientsWithUnknownCd4Query() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}
 	
