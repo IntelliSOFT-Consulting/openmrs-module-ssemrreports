@@ -111,7 +111,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    "Number of adults and children newly enrolled on antiretroviral therapy (ART) - CD4: < 200",
 		    map(indicator.getIndicator(
 		        "Number of adults and children newly enrolled on antiretroviral therapy (ART) - CD4: < 200",
-		        map(merCohortQueries.getTxNewWithCd4LessThan200Cohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		        map(merCohortQueries.getTxNewCd4LessThan200Cohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "CD4GT200",
@@ -126,7 +126,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    "Number of adults and children newly enrolled on antiretroviral therapy (ART) - Unknown CD4",
 		    map(indicator.getIndicator(
 		        "Number of adults and children newly enrolled on antiretroviral therapy (ART) - Unknown CD4",
-		        map(merCohortQueries.getTxNewWithUnknownCd4Cohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		        map(merCohortQueries.getTxWithUnknownCd4Cohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		return dsd;
 	}
 	

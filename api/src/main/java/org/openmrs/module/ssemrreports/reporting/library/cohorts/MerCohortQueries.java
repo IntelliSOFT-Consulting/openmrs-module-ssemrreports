@@ -65,9 +65,9 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
-	public CohortDefinition getTxNewWithCd4LessThan200Cohorts() {
+	public CohortDefinition getCd4LessThan200Cohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxNew Cohorts - CD4 < 200");
+		cd.setName("Cohorts - CD4 < 200");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
@@ -75,9 +75,9 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
-	public CohortDefinition getTxNewWithCd4GreaterThanOrEqualTo200Cohorts() {
+	public CohortDefinition getCd4GreaterThanOrEqualTo200Cohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxNew Cohorts - CD4 ≥ 200");
+		cd.setName("Cohorts - CD4 ≥ 200");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
@@ -85,7 +85,7 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
-	public CohortDefinition getTxNewWithUnknownCd4Cohorts() {
+	public CohortDefinition getWithUnknownCd4Cohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxNew Cohorts - Unknown CD4");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -106,6 +106,48 @@ public class MerCohortQueries {
 		cd.addSearch("B", SSEMRReportUtils.map(getBreastfeedingCohorts(),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("NEW AND B");
+		return cd;
+	}
+	
+	public CohortDefinition getTxNewCd4LessThan200Cohorts() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx new clients Cd4LessThan200Cohorts");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.addSearch("NEW",
+		    SSEMRReportUtils.map(getTxNewCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("C1", SSEMRReportUtils.map(getCd4LessThan200Cohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("NEW AND C1");
+		return cd;
+	}
+	
+	public CohortDefinition getTxNewWithCd4GreaterThanOrEqualTo200Cohorts() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx new clients Cd4GreaterThanOrEqualTo200Cohorts");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.addSearch("NEW",
+		    SSEMRReportUtils.map(getTxNewCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("C2", SSEMRReportUtils.map(getCd4GreaterThanOrEqualTo200Cohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("NEW AND C2");
+		return cd;
+	}
+	
+	public CohortDefinition getTxWithUnknownCd4Cohorts() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx new clients WithUnknownCd4Cohorts");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.addSearch("NEW",
+		    SSEMRReportUtils.map(getTxNewCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("C3", SSEMRReportUtils.map(getWithUnknownCd4Cohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("NEW AND C3");
 		return cd;
 	}
 	
