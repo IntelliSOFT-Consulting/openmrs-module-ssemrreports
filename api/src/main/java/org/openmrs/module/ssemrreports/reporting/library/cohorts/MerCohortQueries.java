@@ -14,13 +14,38 @@ import java.util.Date;
 @Component
 public class MerCohortQueries {
 	
-	public CohortDefinition getTxCurrCohorts() {
+	public CohortDefinition getPatientsWhoInitiatedArtDuringReportingPeriod() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Patients who Initiated ART during reporting period");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getPatientsWhoInitiatedArtDuringReportingPeriod());
+		return cd;
+	}
+	
+	public CohortDefinition getPatientsWhoTransferredInDuringReportingPeriod() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Patients who transferred in during reporting period");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getPatientsWhoTransferredInDuringReportingPeriod());
+		return cd;
+	}
+	
+	public CohortDefinition getTxCurrCohorts() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.setName("TxCurr Cohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getTxCurrQuery());
+		cd.addSearch("TXC1", SSEMRReportUtils.map(getPatientsWhoInitiatedArtDuringReportingPeriod(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("TXC2", SSEMRReportUtils.map(getPatientsWhoTransferredInDuringReportingPeriod(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		
+		cd.setCompositionString("TXC1 OR TXC2");
 		return cd;
 	}
 	
