@@ -21,13 +21,17 @@ public class MerQueries {
 	//TX Curr query formulations
 	public static String getPatientsWhoInitiatedArtDuringReportingPeriod() {
 		return "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	WHERE hce.art_start_date BETWEEN :startDate AND :endDate " + "	AND hce.art_start_date IS NOT NULL";
+		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
+		        + "	WHERE hce.art_start_date BETWEEN :startDate AND :endDate " + "	AND hce.art_start_date IS NOT NULL "
+		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0";
 	}
 	
 	public static String getPatientsWhoTransferredInDuringReportingPeriod() {
 		return "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
+		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
 		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate "
-		        + "	AND hce.date_tranferred_in IS NOT NULL";
+		        + "	AND hce.date_tranferred_in IS NOT NULL "
+		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0";
 	}
 	
 	//end TX curr formulations

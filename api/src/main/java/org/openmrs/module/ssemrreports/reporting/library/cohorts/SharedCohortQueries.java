@@ -179,4 +179,14 @@ public class SharedCohortQueries {
 		return cd;
 	}
 	
+	public CohortDefinition getDeadClients() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Number of dead clients");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setQuery(CommonQueries.getDeadClients());
+		
+		return cd;
+	}
+	
 }

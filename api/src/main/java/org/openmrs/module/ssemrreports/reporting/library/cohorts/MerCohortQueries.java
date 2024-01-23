@@ -7,12 +7,20 @@ import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.ssemrreports.reporting.library.queries.MerQueries;
 import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
 public class MerCohortQueries {
+	
+	private final SharedCohortQueries sharedCohortQueries;
+	
+	@Autowired
+	public MerCohortQueries(SharedCohortQueries sharedCohortQueries) {
+		this.sharedCohortQueries = sharedCohortQueries;
+	}
 	
 	public CohortDefinition getPatientsWhoInitiatedArtDuringReportingPeriod() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
