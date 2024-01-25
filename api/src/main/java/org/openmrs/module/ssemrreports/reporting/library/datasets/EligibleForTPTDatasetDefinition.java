@@ -36,6 +36,9 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTComp
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTEligibleDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 
 @Component
 public class EligibleForTPTDatasetDefinition extends SSEMRBaseDataSet {
@@ -47,6 +50,11 @@ public class EligibleForTPTDatasetDefinition extends SSEMRBaseDataSet {
 	
 	private DataDefinition personBomaAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("boma", new BomaAddressCalculation());
+		return cd;
+	}
+	
+	private DataDefinition personLandmarkAddress() {
+		CalculationDataDefinition cd = new CalculationDataDefinition("landmark", new LandmarkAddressCalculation());
 		return cd;
 	}
 	
@@ -91,6 +99,12 @@ public class EligibleForTPTDatasetDefinition extends SSEMRBaseDataSet {
 		TPTEligibleDateDataDefinition tptEligibleDateDataDefinition = new TPTEligibleDateDataDefinition();
 		tptEligibleDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		PregnantDataDefinition pregnantDataDefinition = new PregnantDataDefinition();
+		pregnantDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		BreastFeedingDataDefinition breastfeedingDataDefinition = new BreastFeedingDataDefinition();
+		breastfeedingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
@@ -106,6 +120,9 @@ public class EligibleForTPTDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addColumn("Date started taking TPT", tptStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date completed TPT", tptCompleteDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date eligible for TPT", tptEligibleDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
+		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		
 		return dsd;
 	}
