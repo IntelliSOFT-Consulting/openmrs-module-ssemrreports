@@ -12,7 +12,7 @@ CREATE TABLE flat_encounter_hiv_care_enrolment
     entry_point                                       VARCHAR(255),
     date_of_hiv_retesting_before_art                  DATE,
     place_of_hiv_retesting_before_art                 VARCHAR(255),
-    transferred_in_on_art_from_another_treatment_site VARCHAR(255),
+    transferred_in VARCHAR(255),
     name_of_previous_clinic                           VARCHAR(255),
     date_transferred_in                                DATE,
     literate                                          VARCHAR(255),
