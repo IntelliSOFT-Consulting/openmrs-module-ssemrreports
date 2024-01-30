@@ -53,15 +53,23 @@ public class MerQueries {
 	}
 	
 	public static String getClientsWithCd4LessThan200Query() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en " + "	WHERE en.cd4 < 200 "
+		        + "	AND en.encounter_datetime BETWEEN :startDate AND :endDate " + "	UNION "
+		        + "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu" + "	WHERE fu.cd4 < 200 "
+		        + "	AND fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getClientsWithCd4MoreThanOrEqualTo200Query() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en " + "	WHERE en.cd4 >= 200 "
+		        + "	AND en.encounter_datetime BETWEEN :startDate AND :endDate " + "	UNION "
+		        + "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu" + "	WHERE fu.cd4 >= 200 "
+		        + "	AND fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getClientsWithUnknownCd4Query() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en " + "	WHERE en.cd4 IS NULL"
+		        + "	UNION " + "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu"
+		        + "	WHERE fu.cd4 IS NULL ";
 	}
 	
 	//Tx ML
