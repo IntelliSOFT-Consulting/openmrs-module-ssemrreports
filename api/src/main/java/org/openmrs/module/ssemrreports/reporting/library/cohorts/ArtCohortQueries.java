@@ -67,9 +67,7 @@ public class ArtCohortQueries {
 	 */
 	public CohortDefinition getCumulativeEverOnARTAtThisFacilityAtEndOfReportingCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "select\n"
-		        + "    client_id\n"
-		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment\n"
+		String qry = "select\n" + "    client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment\n"
 		        + "where encounter_datetime <= date(:endDate) and date(art_start_date) <= date(:endDate) \n"
 		        + "and (transferred_in is not null or transferred_in = 'False')";
 		cd.setQuery(qry);
