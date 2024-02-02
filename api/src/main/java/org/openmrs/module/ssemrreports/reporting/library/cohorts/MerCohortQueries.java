@@ -287,16 +287,95 @@ public class MerCohortQueries {
 	}
 	
 	//TX PVLS Cohorts
-	public CohortDefinition getTxPvlsAllCohorts() {
+	public CohortDefinition getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxPVLS Cohorts - ALL");
+		cd.setName("TxPVLS Cohorts - All patients with VL results documented");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getTxPvlsAllQueries());
+		cd.setQuery(MerQueries.getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterQueries());
 		return cd;
 	}
 	
+	public CohortDefinition getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterCohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxPVLS Cohorts - All patients with VL results documented greater or equal to 1000");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterQueries());
+		return cd;
+	}
+	
+	public CohortDefinition getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterCohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxPVLS Cohorts - All patients with VL results documented less than 1000");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterQueries());
+		return cd;
+	}
+	
+	public CohortDefinition getTxPvlsBreastfeedingWithDocumentedVlResultsCohort() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx pvls clients who are breastfeeding with documented VL result");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.addSearch("P", SSEMRReportUtils.map(getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("B", SSEMRReportUtils.map(getBreastfeedingCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("P AND B");
+		return cd;
+	}
+	
+	public CohortDefinition getTxPvlsBreastfeedingWithDocumentedVlResultsGreatorThan1000Cohort() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx pvls clients who are breastfeeding with documented VL result");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.addSearch("P", SSEMRReportUtils.map(
+		    getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("B", SSEMRReportUtils.map(getBreastfeedingCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("P AND B");
+		return cd;
+	}
+	
+	public CohortDefinition getTxPvlsPregnantWithDocumentedVlResultsCohort() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx pvls clients who are pregnant with documented VL result");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.addSearch("PV", SSEMRReportUtils.map(getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("PR",
+		    SSEMRReportUtils.map(getPregnantCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("PV AND PR");
+		return cd;
+	}
+	
+	public CohortDefinition getTxPvlsPregnantWithDocumentedVlResultsGreatorThan1000Cohort() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx pvls clients who are pregnant with documented VL result > 1000");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.addSearch("PV", SSEMRReportUtils.map(
+		    getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("PR",
+		    SSEMRReportUtils.map(getPregnantCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("PV AND PR");
+		return cd;
+	}
+	
+	//cut across queries
 	public CohortDefinition getPregnantCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("Cohorts - Pregnant");
@@ -314,34 +393,6 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
 		cd.setQuery(MerQueries.getBreastfeedingQueries());
-		return cd;
-	}
-	
-	public CohortDefinition getTxPvlsBreastfeedingCohort() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.setName("Tx pvls clients who are breastfeeding");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.addSearch("P",
-		    SSEMRReportUtils.map(getTxPvlsAllCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("B", SSEMRReportUtils.map(getBreastfeedingCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.setCompositionString("P AND B");
-		return cd;
-	}
-	
-	public CohortDefinition getTxPvlsPregnantCohort() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.setName("Tx pvls clients who are pregnant");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.addSearch("PV",
-		    SSEMRReportUtils.map(getTxPvlsAllCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("PR", SSEMRReportUtils.map(getBreastfeedingCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.setCompositionString("PV AND PR");
 		return cd;
 	}
 	

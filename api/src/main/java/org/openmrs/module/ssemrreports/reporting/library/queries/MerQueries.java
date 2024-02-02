@@ -115,8 +115,24 @@ public class MerQueries {
 	}
 	
 	//TX PVLS
-	public static String getTxPvlsAllQueries() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+	public static String getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterQueries() {
+		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en "
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load vl" + " ON en.client_id=vl.client_id"
+		        + "	WHERE vl.recent_vl IS NOT NULL " + " AND vl.encounter_datetime BETWEEN :startDate AND :endDate";
+	}
+	
+	public static String getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterQueries() {
+		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en "
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load vl" + " ON en.client_id=vl.client_id"
+		        + "	WHERE vl.recent_vl IS NOT NULL " + "	AND vl.recent_vl >= 1000 "
+		        + " AND vl.encounter_datetime BETWEEN :startDate AND :endDate";
+	}
+	
+	public static String getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterQueries() {
+		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en "
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load vl" + " ON en.client_id=vl.client_id"
+		        + "	WHERE vl.recent_vl IS NOT NULL " + "	AND vl.recent_vl < 1000 "
+		        + " AND vl.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getPregnantQueries() {

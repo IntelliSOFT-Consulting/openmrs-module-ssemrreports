@@ -266,30 +266,59 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		
 		addRow(
 		    dsd,
-		    "PALL",
-		    "Percentage of ART clients with a suppressed viral load (VL) result (<1000 copies/ml) documented in the medical or laboratory records/laboratory information systems (LIS) within the past 12 months",
-		    map(indicator
-		            .getIndicator(
-		                "Percentage of ART clients with a suppressed viral load (VL) result (<1000 copies/ml) documented in the medical or laboratory records/laboratory information systems (LIS) within the past 12 months",
-		                map(merCohortQueries.getTxPvlsAllCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		    "DEN",
+		    "of ART patients with a VL result documented in ART register/file ",
+		    map(indicator.getIndicator("of ART patients with a VL result documented in ART register/file ",
+		        map(merCohortQueries.getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterCohorts(), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
 		
 		addRow(
 		    dsd,
-		    "PP",
-		    "Percentage of ART clients with a suppressed viral load (VL) result (<1000 copies/ml) documented in the medical or laboratory records/laboratory information systems (LIS) within the past 12 months - Pregnant",
-		    map(indicator
-		            .getIndicator(
-		                "Percentage of ART clients with a suppressed viral load (VL) result (<1000 copies/ml) documented in the medical or laboratory records/laboratory information systems (LIS) within the past 12 months - Pregnant",
-		                map(merCohortQueries.getTxPvlsPregnantCohort(), mappings)), mappings), getMerGenderAndAgeColumns());
+		    "RTN",
+		    "ART patients with high VL results (>1,000 copies/ml) documented in the ART register/file ",
+		    map(indicator.getIndicator(
+		        "ART patients with high VL results (>1,000 copies/ml) documented in the ART register/file  ",
+		        map(merCohortQueries.getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterCohorts(),
+		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "PB",
-		    "Percentage of ART clients with a suppressed viral load (VL) result (<1000 copies/ml) documented in the medical or laboratory records/laboratory information systems (LIS) within the past 12 months - Breastfeeding",
+		    "SUP",
+		    "ART patients with supressed VL results (<1,000 copies/ml) documented in the ART register/file",
 		    map(indicator
 		            .getIndicator(
-		                "Percentage of ART clients with a suppressed viral load (VL) result (<1000 copies/ml) documented in the medical or laboratory records/laboratory information systems (LIS) within the past 12 months - Breastfeeding",
-		                map(merCohortQueries.getTxPvlsBreastfeedingCohort(), mappings)), mappings),
+		                "ART patients with supressed VL results (<1,000 copies/ml) documented in the ART register/file",
+		                map(merCohortQueries.getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterCohorts(),
+		                    mappings)), mappings), getMerGenderAndAgeColumns());
+		
+		addRow(
+		    dsd,
+		    "PPDEN",
+		    "Pregnant women with documented VL result",
+		    map(indicator.getIndicator("Pregnant women with documented VL result",
+		        map(merCohortQueries.getTxPvlsPregnantWithDocumentedVlResultsCohort(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
+		
+		addRow(
+		    dsd,
+		    "PPRTN",
+		    "Pregnant women High VL results (>1,000 copies/ml)",
+		    map(indicator.getIndicator("Pregnant women High VL results (>1,000 copies/ml)",
+		        map(merCohortQueries.getTxPvlsPregnantWithDocumentedVlResultsGreatorThan1000Cohort(), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
+		    "BDEN",
+		    "Breastfeeding women with documented VL result",
+		    map(indicator.getIndicator("Breastfeeding women with documented VL result",
+		        map(merCohortQueries.getTxPvlsBreastfeedingWithDocumentedVlResultsCohort(), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
+		    "BRTN",
+		    "Breastfeeding women High VL results (>1,000 copies/ml) ",
+		    map(indicator.getIndicator("Breastfeeding women High VL results (>1,000 copies/ml) ",
+		        map(merCohortQueries.getTxPvlsBreastfeedingWithDocumentedVlResultsGreatorThan1000Cohort(), mappings)),
+		        mappings), getMerGenderAndAgeColumns());
 		return dsd;
 	}
 	
