@@ -49,17 +49,17 @@ public class SetupMerTxPvlsIndicatorsReport extends SSEMRDataExportManager {
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		String mappings = "startDate=${endDate-12m},endDate=${endDate},location=${location}";
-		String mappingsQ4 = "startDate=${endDate-9m},endDate=${endDate},location=${location}";
-		String mappingsQ3 = "startDate=${endDate-6m},endDate=${endDate-3m},location=${location}";
-		String mappingsQ2 = "startDate=${endDate-3m},endDate=${endDate-6m},location=${location}";
-		String mappingsQ1 = "startDate=${startDate-12m},endDate=${endDate-9m},location=${location}";
+		String mappings = "startDate=${endDate-12m+1d},endDate=${endDate},location=${location}";
+		String mappingsQ4 = "startDate=${endDate-3m+1d},endDate=${endDate},location=${location}";
+		String mappingsQ3 = "startDate=${endDate-6m+1d},endDate=${endDate-3m},location=${location}";
+		String mappingsQ2 = "startDate=${endDate-9m+1d},endDate=${endDate-6m},location=${location}";
+		String mappingsQ1 = "startDate=${endDate-12m+1d},endDate=${endDate-9m},location=${location}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		rd.addParameter(new Parameter("location", "Facility", Location.class));
 		rd.setDescription(getDescription());
-		//rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
+		rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("TxP", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappings));
 		rd.addDataSetDefinition("TxPQ1", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ1));
 		rd.addDataSetDefinition("TxPQ2", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ2));
