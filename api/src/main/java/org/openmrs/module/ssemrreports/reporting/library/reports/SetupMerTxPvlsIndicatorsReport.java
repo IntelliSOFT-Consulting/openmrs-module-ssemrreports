@@ -59,7 +59,7 @@ public class SetupMerTxPvlsIndicatorsReport extends SSEMRDataExportManager {
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		rd.addParameter(new Parameter("location", "Facility", Location.class));
 		rd.setDescription(getDescription());
-		rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
+		//rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("TxP", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappings));
 		rd.addDataSetDefinition("TxPQ1", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ1));
 		rd.addDataSetDefinition("TxPQ2", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ2));
