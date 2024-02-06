@@ -2,6 +2,7 @@ package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -50,7 +52,8 @@ public class SetupListOfFamilyContactsWithUnknownHivStatusRegister extends SSEMR
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		//rd.setParameters(listOfFamilyContactsDSD.getParameters());
+		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		rd.addDataSetDefinition("FC1", Mapped.mapStraightThrough(listOfFamilyContactsDSD.getWithUnknownHivStatus()));
 		return rd;
 	}
