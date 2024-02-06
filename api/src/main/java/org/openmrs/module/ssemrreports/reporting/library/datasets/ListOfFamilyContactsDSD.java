@@ -27,8 +27,8 @@ public class ListOfFamilyContactsDSD extends SSEMRBaseDataSet {
 		sqlDataSetDefinition.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		sqlDataSetDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		sqlDataSetDefinition
-		        .setSqlQuery("SELECT * FROM ssemr_etl.ssemr_flat_encounter_family_history fh WHERE fh.hiv_status IS NOT NULL "
-		                + "	AND fh.encounter_datetime BETWEEN :startDate AND :endDate");
+		        .setSqlQuery("SELECT * FROM ssemr_etl.ssemr_flat_encounter_family_history fh WHERE fh.hiv_status ='Don''t Know' "
+		                + "	AND fh.result_of_hts IS NOT NULL AND fh.encounter_datetime BETWEEN :startDate AND :endDate");
 		return sqlDataSetDefinition;
 	}
 	
@@ -39,7 +39,7 @@ public class ListOfFamilyContactsDSD extends SSEMRBaseDataSet {
 		sqlDataSetDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		sqlDataSetDefinition
 		        .setSqlQuery("SELECT * FROM ssemr_etl.ssemr_flat_encounter_family_history fh WHERE fh.hiv_status='Positive' "
-		                + "	AND fh.encounter_datetime BETWEEN :startDate AND :endDate");
+		                + "	AND fh.result_of_hts IS NOT NULL AND fh.encounter_datetime BETWEEN :startDate AND :endDate");
 		return sqlDataSetDefinition;
 	}
 	
