@@ -40,7 +40,7 @@ public class ListClientsWithHvlWhoReceivedExtendedEacSessionRegister extends SSE
 	
 	@Override
 	public String getName() {
-		return "Clients with HVL, who received extended EAC session";
+		return "Clients with HVL who received extended EAC session";
 	}
 	
 	@Override

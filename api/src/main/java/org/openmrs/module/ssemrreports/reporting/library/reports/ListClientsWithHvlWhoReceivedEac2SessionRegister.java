@@ -40,7 +40,7 @@ public class ListClientsWithHvlWhoReceivedEac2SessionRegister extends SSEMRDataE
 	
 	@Override
 	public String getName() {
-		return "Clients with HVL, who received EAC2 session";
+		return "Clients with HVL who received EAC2 session";
 	}
 	
 	@Override

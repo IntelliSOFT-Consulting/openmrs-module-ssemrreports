@@ -40,7 +40,7 @@ public class ListClientsWithHvlWhoReceivedRepeatTestAfterEacRegister extends SSE
 	
 	@Override
 	public String getName() {
-		return "Clients with HVL, Who received repeat test after EAC";
+		return "Clients with HVL Who received repeat test after EAC";
 	}
 	
 	@Override
