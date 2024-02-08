@@ -73,29 +73,63 @@ public class MerQueries {
 	}
 	
 	//Tx ML
+	
+	/***
+	 * ART patients (who were on ART at the beginning of the quarterly reporting period or initiated
+	 * treatment during the reporting period) and then had no clinical contact for greater than 28
+	 * days since their last expected contact or ARV pick up
+	 * 
+	 * @return
+	 */
+	public static String getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContact() {
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
+	}
+	
+	/***
+	 * # of clients traced and brought back by HF effort or self returned from those who missed
+	 * great than 28 days in the reporting period (Re-started)
+	 * 
+	 * @return
+	 */
+	public static String getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLater() {
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
+	}
+	
 	public static String getTxMlDiedQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
 		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getTxMlIitL3mQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getTxMlIitL3To5mQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getTxMlIitM6mQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getTxMlTransferOutQueries() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getTxMlRefusedStoppedTreatmentQueries() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
+	}
+	
+	public static String getTxMlCauseOfDeathQueries(String cause) {
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	//TX RTT

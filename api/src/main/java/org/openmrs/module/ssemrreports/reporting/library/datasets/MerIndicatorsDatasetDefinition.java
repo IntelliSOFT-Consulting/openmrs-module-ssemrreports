@@ -139,67 +139,101 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
 		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.setName("TxM");
+		
 		addRow(
 		    dsd,
-		    "D",
-		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		            + "clinical contact since their last expected contact - Died",
+		    "MLA",
+		    "ART patients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no clinical contact for  greater than 28 days since their last expected contact or ARV pick up",
 		    map(indicator
 		            .getIndicator(
-		                "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		                        + "clinical contact since their last expected contact - Died",
-		                map(merCohortQueries.getTxMlDiedCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		                "ART patients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no clinical contact for  greater than 28 days since their last expected contact or ARV pick up",
+		                map(merCohortQueries
+		                        .getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
+		                    mappings)), mappings), getMerGenderAndAgeColumns());
+		
 		addRow(
 		    dsd,
-		    "IITL3M",
-		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		            + "clinical contact since their last expected contact - IIT After being on Treatment for <3 months",
+		    "MLB",
+		    "Clients traced and brought back by HF effort or self returned from those who missed great than 28 days in the reporting period (Re-started)",
 		    map(indicator
 		            .getIndicator(
-		                "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		                        + "clinical contact since their last expected contact - IIT After being on Treatment for <3 months",
-		                map(merCohortQueries.getTxMlIitL3mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		                "Clients traced and brought back by HF effort or self returned from those who missed great than 28 days in the reporting period (Re-started)",
+		                map(merCohortQueries
+		                        .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterCohorts(),
+		                    mappings)), mappings), getMerGenderAndAgeColumns());
+		
 		addRow(
 		    dsd,
-		    "IIT3T5M",
-		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		            + "clinical contact since their last expected contact - IIT After being on Treatment for 3-5 months",
-		    map(indicator
-		            .getIndicator(
-		                "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		                        + "clinical contact since their last expected contact - IIT After being on Treatment for 3-5 months",
-		                map(merCohortQueries.getTxMlIit3To5mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		    "MLC3",
+		    "Number of ART clients On treatment for  <3 months when LTFU/IIT",
+		    map(indicator.getIndicator("Number of ART clients On treatment for  <3 months when LTFU/IIT",
+		        map(merCohortQueries.getTxMlIitL3mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "IITM65M",
-		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		            + "clinical contact since their last expected contact - IIT After being on Treatment for 6+ months",
-		    map(indicator
-		            .getIndicator(
-		                "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		                        + "clinical contact since their last expected contact - IIT After being on Treatment for 6+ months",
-		                map(merCohortQueries.getTxMlIitM6mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		    "MLC35",
+		    "On treatment for 3-5 months when LTFU/IIT",
+		    map(indicator.getIndicator("On treatment for 3-5 months when LTFU/IIT",
+		        map(merCohortQueries.getTxMlIit3To5mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "IITTO",
-		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		            + "clinical contact since their last expected contact - Transferred Out ",
-		    map(indicator
-		            .getIndicator(
-		                "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		                        + "clinical contact since their last expected contact - Transferred Out ",
-		                map(merCohortQueries.getTxMlTransferOutCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		    "MLC6",
+		    "On treatment for 6+ months when LTFU/IIT",
+		    map(indicator.getIndicator("On treatment for 6+ months when LTFU/IIT",
+		        map(merCohortQueries.getTxMlIitM6mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
+		    "MLCD",
+		    "Identified as Died",
+		    map(indicator.getIndicator("Identified as Died", map(merCohortQueries.getTxMlDiedCohorts(), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
+		    "MLTO",
+		    "Identified as Self transfer (Transfer out)",
+		    map(indicator.getIndicator("Identified as Self transfer (Transfer out)",
+		        map(merCohortQueries.getTxMlSelfTransferOutCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		
 		addRow(
 		    dsd,
 		    "RST",
-		    "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		            + "clinical contact since their last expected contact - Refused (Stopped) Treatment",
-		    map(indicator
-		            .getIndicator(
-		                "Number of ART clients (who were on ART at the beginning of the quarterly reporting period or initiated treatment during the reporting period) and then had no "
-		                        + "clinical contact since their last expected contact - Refused (Stopped) Treatment",
-		                map(merCohortQueries.getTxMlRefusedStoppedTreatmentCohorts(), mappings)), mappings),
+		    "Reached but Refused or Stopped treatmnet",
+		    map(indicator.getIndicator("Reached but Refused or Stopped treatmnet",
+		        map(merCohortQueries.getTxMlRefusedStoppedTreatmentCohorts(), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
+		//cause of death
+		addRow(
+		    dsd,
+		    "COD1",
+		    "Cause of death -TB",
+		    map(indicator.getIndicator("Cause of death -TB",
+		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("TB"), mappings)), mappings), getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
+		    "COD2",
+		    "Cause of death -Cancer",
+		    map(indicator.getIndicator("Cause of death -Cancer",
+		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Cancer"), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
+		    "COD3",
+		    "Cause of death -Other infectious and parasitic disease",
+		    map(indicator.getIndicator("Cause of death -Other infectious and parasitic disease",
+		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Other infectious and parasitic disease"), mappings)),
+		        mappings), getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
+		    "COD4",
+		    "Cause of death - Non-natural causes (accident/war)",
+		    map(indicator.getIndicator("Cause of death - Non-natural causes (accident/war)",
+		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Non-natural causes (accident/war)"), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
+		    "COD5",
+		    "Cause of death - Unknown Cause",
+		    map(indicator.getIndicator("Cause of death - Unknown Cause",
+		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Unknown Cause"), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		return dsd;
 	}

@@ -185,9 +185,29 @@ public class MerCohortQueries {
 	}
 	
 	//TX_ML cohort queries
+	public CohortDefinition getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxMl Cohorts - getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContact");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContact());
+		return cd;
+	}
+	
+	public CohortDefinition getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterCohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLater");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLater());
+		return cd;
+	}
+	
 	public CohortDefinition getTxMlDiedCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxMl Cohorts - Died");
+		cd.setName("TxMl Cohorts - Identified as Died");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
@@ -225,9 +245,9 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
-	public CohortDefinition getTxMlTransferOutCohorts() {
+	public CohortDefinition getTxMlSelfTransferOutCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxMl Cohorts - Transfer Out");
+		cd.setName("TxMl Cohorts - Self Transfer Out");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
@@ -242,6 +262,16 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
 		cd.setQuery(MerQueries.getTxMlRefusedStoppedTreatmentQueries());
+		return cd;
+	}
+	
+	public CohortDefinition getTxMlCauseOfDeathCohorts(String cause) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxMl Cohorts - Refused (Stopped) Treatment");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTxMlCauseOfDeathQueries(cause));
 		return cd;
 	}
 	
