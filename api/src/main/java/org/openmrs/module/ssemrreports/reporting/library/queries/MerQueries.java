@@ -74,7 +74,8 @@ public class MerQueries {
 	
 	//Tx ML
 	public static String getTxMlDiedQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getTxMlIitL3mQuery() {
