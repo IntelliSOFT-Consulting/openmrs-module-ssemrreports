@@ -46,12 +46,18 @@ public class SetupMerTxRttIndicatorsReport extends SSEMRDataExportManager {
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate+23h},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
+		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d},location=${location}";
+		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d},location=${location}";
+		String mappings3 = "startDate=${startDate+2m},endDate=${endDate},location=${location}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("TxR", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings));
+		rd.addDataSetDefinition("TxR1", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings1));
+		rd.addDataSetDefinition("TxR2", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings2));
+		rd.addDataSetDefinition("TxR3", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings3));
 		return rd;
 	}
 	

@@ -133,6 +133,31 @@ public class MerQueries {
 	}
 	
 	//TX RTT
+	public static String getClientsTracedBroughtBackToCareRestarted() {
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
+	}
+	
+	public static String getHowLongWerePeopleOffArvs28DaysTo3MonthsQuery() {
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
+	}
+	
+	public static String getHowLongWerePeopleOffArvs3To6MonthsQuery() {
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
+	}
+	
+	public static String getHowLongWerePeopleOffArvs6To12MonthsQuery() {
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
+	}
+	
+	public static String getTracedByQuery(String tracedBy) {
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
+	}
+	
 	public static String getTxRttWithCd4LessThan200Queries() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}

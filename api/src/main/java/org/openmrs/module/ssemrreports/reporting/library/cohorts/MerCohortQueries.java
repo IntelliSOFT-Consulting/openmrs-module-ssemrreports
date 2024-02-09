@@ -276,6 +276,56 @@ public class MerCohortQueries {
 	}
 	
 	//TX RTT cohort Queries
+	public CohortDefinition getClientsTracedBroughtBackToCareRestartedCohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxRTT Cohorts - getClientsTracedBroughtBackToCareRestarted");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getClientsTracedBroughtBackToCareRestarted());
+		return cd;
+	}
+	
+	public CohortDefinition getHowLongWerePeopleOffArvs28DaysTo3MonthsCohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxRTT Cohorts - getHowLongWerePeopleOffArvs28DaysTo3Months");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getHowLongWerePeopleOffArvs28DaysTo3MonthsQuery());
+		return cd;
+	}
+	
+	public CohortDefinition getHowLongWerePeopleOffArvs3To6MonthsQueryCohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxRTT Cohorts - getHowLongWerePeopleOffArvs3To6MonthsQuery");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getHowLongWerePeopleOffArvs3To6MonthsQuery());
+		return cd;
+	}
+	
+	public CohortDefinition getHowLongWerePeopleOffArvs6To12MonthsQueryCohorts() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxRTT Cohorts - getHowLongWerePeopleOffArvs6To12MonthsQuery");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getHowLongWerePeopleOffArvs6To12MonthsQuery());
+		return cd;
+	}
+	
+	public CohortDefinition getTracedByQueryCohorts(String tracedBy) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("TxRTT Cohorts - getTracedByQuery " + tracedBy);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTracedByQuery(tracedBy));
+		return cd;
+	}
+	
 	public CohortDefinition getTxRttWithCd4LessThan200Cohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxRTT Cohorts - CD4: < 200");

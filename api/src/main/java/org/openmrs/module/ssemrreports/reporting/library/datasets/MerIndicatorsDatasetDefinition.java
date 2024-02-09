@@ -247,43 +247,87 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
 		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.setName("TxR");
+		
 		addRow(
 		    dsd,
-		    "RCD4L200",
-		    "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - CD4: <200",
+		    "RTT1",
+		    "Clients traced and brought back to care (Re-started) from those who were lost in the previous quarters (I.e from those who were not active at the beginning of this reporting period)",
 		    map(indicator
 		            .getIndicator(
-		                "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - CD4: <200",
-		                map(merCohortQueries.getTxRttWithCd4LessThan200Cohorts(), mappings)), mappings),
+		                "Clients traced and brought back to care (Re-started) from those who were lost in the previous quarters (I.e from those who were not active at the beginning of this reporting period)",
+		                map(merCohortQueries.getClientsTracedBroughtBackToCareRestartedCohorts(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
-		    "RCD4GE200",
-		    "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - CD4: ≥200",
-		    map(indicator
-		            .getIndicator(
-		                "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - CD4: ≥200",
-		                map(merCohortQueries.getTxRttWithCd4GreaterOrEqual200Cohorts(), mappings)), mappings),
-		    getMerGenderAndAgeColumns());
-		addRow(
-		    dsd,
-		    "RUKCD4",
-		    "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - Unknown CD4",
-		    map(indicator
-		            .getIndicator(
-		                "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - Unknown CD4",
-		                map(merCohortQueries.getTxRttWithUnknownCd4Cohorts(), mappings)), mappings),
+		    "RTT21",
+		    "How long were people off ARVs - 28 days-3 months",
+		    map(indicator.getIndicator("How long were people off ARVs - 28 days-3 months",
+		        map(merCohortQueries.getHowLongWerePeopleOffArvs28DaysTo3MonthsCohorts(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		addRow(
 		    dsd,
-		    "RNECD4",
-		    "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - Not Eligible for CD4",
-		    map(indicator
-		            .getIndicator(
-		                "Number of ART clients who experienced an interruption in treatment (IIT) during any previous reporting period, who successfully restarted ARVs within the reporting period and remained on treatment until the end of the reporting period - Not Eligible for CD4",
-		                map(merCohortQueries.getTxRttNotEligibleForCd4Cohorts(), mappings)), mappings),
+		    "RTT22",
+		    "How long were people off ARVs - 3 -6 months",
+		    map(indicator.getIndicator("How long were people off ARVs - 3 -6 months",
+		        map(merCohortQueries.getHowLongWerePeopleOffArvs3To6MonthsQueryCohorts(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
+		
+		addRow(
+		    dsd,
+		    "RTT23",
+		    "How long were people off ARVs - 6-12 months ",
+		    map(indicator.getIndicator("How long were people off ARVs - 6-12 months ",
+		        map(merCohortQueries.getHowLongWerePeopleOffArvs6To12MonthsQueryCohorts(), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
+		
+		addRow(
+		    dsd,
+		    "RTT31",
+		    "Traced by - Self",
+		    map(indicator.getIndicator("Traced by - Self ", map(merCohortQueries.getTracedByQueryCohorts("self"), mappings)),
+		        mappings), getMerGenderAndAgeColumns());
+		
+		addRow(
+		    dsd,
+		    "RTT32",
+		    "Traced by - Phone",
+		    map(indicator.getIndicator("Traced by - Phone ",
+		        map(merCohortQueries.getTracedByQueryCohorts("phone"), mappings)), mappings), getMerGenderAndAgeColumns());
+		
+		addRow(
+		    dsd,
+		    "RTT33",
+		    "Traced by - COV",
+		    map(indicator.getIndicator("Traced by - COV ", map(merCohortQueries.getTracedByQueryCohorts("COV"), mappings)),
+		        mappings), getMerGenderAndAgeColumns());
+		
+		addRow(
+		    dsd,
+		    "RTT4",
+		    "CD4 results - CD4: <200",
+		    map(indicator.getIndicator("CD4 results - CD4: <200",
+		        map(merCohortQueries.getTxRttWithCd4LessThan200Cohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
+		    "RTT5",
+		    "CD4 results - CD4: ≥200",
+		    map(indicator.getIndicator("CD4 results - CD4: ≥200",
+		        map(merCohortQueries.getTxRttWithCd4GreaterOrEqual200Cohorts(), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
+		addRow(
+		    dsd,
+		    "RTT6",
+		    "CD4 results - Unknown CD4",
+		    map(indicator.getIndicator("CD4 results - Unknown CD4",
+		        map(merCohortQueries.getTxRttWithUnknownCd4Cohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		
+		addRow(
+		    dsd,
+		    "RTT7",
+		    "CD4 results - Not Eligible for CD4",
+		    map(indicator.getIndicator("CD4 results - Not Eligible for CD4",
+		        map(merCohortQueries.getTxRttNotEligibleForCd4Cohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
 		
 		return dsd;
 	}
