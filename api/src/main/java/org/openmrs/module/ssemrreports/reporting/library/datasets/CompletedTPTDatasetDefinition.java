@@ -33,10 +33,12 @@ import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculat
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTStartDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTCompleteDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTEligibleDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 
 @Component
 public class CompletedTPTDatasetDefinition extends SSEMRBaseDataSet {
@@ -48,6 +50,11 @@ public class CompletedTPTDatasetDefinition extends SSEMRBaseDataSet {
 	
 	private DataDefinition personBomaAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("boma", new BomaAddressCalculation());
+		return cd;
+	}
+	
+	private DataDefinition personLandmarkAddress() {
+		CalculationDataDefinition cd = new CalculationDataDefinition("landmark", new LandmarkAddressCalculation());
 		return cd;
 	}
 	
@@ -83,9 +90,6 @@ public class CompletedTPTDatasetDefinition extends SSEMRBaseDataSet {
 		ETLArtStartDateDataDefinition etlArtStartDateDataDefinition = new ETLArtStartDateDataDefinition();
 		etlArtStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		StatusDataDefinition statusDataDefinition = new StatusDataDefinition();
-		statusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
 		TPTStartDateDataDefinition tptStartDateDataDefinition = new TPTStartDateDataDefinition();
 		tptStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
@@ -95,6 +99,12 @@ public class CompletedTPTDatasetDefinition extends SSEMRBaseDataSet {
 		TPTEligibleDateDataDefinition tptEligibleDateDataDefinition = new TPTEligibleDateDataDefinition();
 		tptEligibleDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		PregnantDataDefinition pregnantDataDefinition = new PregnantDataDefinition();
+		pregnantDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		BreastFeedingDataDefinition breastfeedingDataDefinition = new BreastFeedingDataDefinition();
+		breastfeedingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
@@ -102,7 +112,9 @@ public class CompletedTPTDatasetDefinition extends SSEMRBaseDataSet {
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
-		dsd.addColumn("Status", statusDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());

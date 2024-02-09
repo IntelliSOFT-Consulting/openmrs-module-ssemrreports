@@ -445,10 +445,9 @@ public class CommonQueries {
 	public static String getRTTPatients() {
 		String query = "SELECT p.patient_id FROM openmrs.patient_appointment p WHERE p.status = 'Missed'  AND p.start_date_time BETWEEN :startDate AND :endDate "
 		        + "AND p.location_id =:location AND DATEDIFF(CURDATE(), p.start_date_time) >= 28 AND "
-		        + "EXISTS (SELECT 1 FROM (  SELECT patient_id,MAX(start_date_time) AS max_start_time, MID(MAX(CONCAT(start_date_time, status)), 20) AS mid_result "
-		        + "FROM openmrs.patient_appointment WHERE patient_id = p.patient_id GROUP BY patient_id ) "
-		        + " AS subquery WHERE subquery.mid_result = 'Scheduled' AND subquery.max_start_time > CURDATE() ) "
-		        + "GROUP BY p.patient_id;";
+		        + "EXISTS (SELECT 1 FROM (SELECT client_id, MAX(follow_up_date) AS max_follow_up_date, pills_dispensed"
+		        + "FROM ssemr_flat_encounter_hiv_care_follow_up WHERE pills_dispensed = 'True' GROUP BY client_id"
+		        + "HAVING max_follow_up_date >= :endDate) as f ) GROUP BY p.patient_id;";
 		
 		return query;
 	}

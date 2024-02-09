@@ -36,6 +36,9 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTComp
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTEligibleDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 
 @Component
 public class TakingTPTDatasetDefinition extends SSEMRBaseDataSet {
@@ -47,6 +50,11 @@ public class TakingTPTDatasetDefinition extends SSEMRBaseDataSet {
 	
 	private DataDefinition personBomaAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("boma", new BomaAddressCalculation());
+		return cd;
+	}
+	
+	private DataDefinition personLandmarkAddress() {
+		CalculationDataDefinition cd = new CalculationDataDefinition("landmark", new LandmarkAddressCalculation());
 		return cd;
 	}
 	
@@ -91,6 +99,12 @@ public class TakingTPTDatasetDefinition extends SSEMRBaseDataSet {
 		TPTEligibleDateDataDefinition tptEligibleDateDataDefinition = new TPTEligibleDateDataDefinition();
 		tptEligibleDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		PregnantDataDefinition pregnantDataDefinition = new PregnantDataDefinition();
+		pregnantDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		BreastFeedingDataDefinition breastfeedingDataDefinition = new BreastFeedingDataDefinition();
+		breastfeedingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
@@ -98,9 +112,12 @@ public class TakingTPTDatasetDefinition extends SSEMRBaseDataSet {
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
+		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
+		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Linked to COV (Y/N)", linkedToCOVDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date started taking TPT", tptStartDateDataDefinition, "endDate=${endDate}");
