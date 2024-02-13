@@ -16,14 +16,26 @@ public class MerQueries {
 	 * current pregnancy. Individuals excluded from the current on ART (TX_CURR) count are patients
 	 * who died, stopped treatment, transferred out, or experienced interruption in treatment (IIT).
 	 * Patients who have not received ARVs within 4 weeks (i.e., 28 days) of their last missed drug
-	 * pick-up should not be counted.
+	 * pick-up should not be counted. ART Start Date: ssemr_flat_encounter_hiv_care_enrolment
+	 * (art_start_date) Next Drug Pickup: ssemr_flat_encounter_hiv_care_follow_up
+	 * (encounter_datetime + number_of_days_dispensed + 28 ) Pregnancy Status:
+	 * ssemr_flat_encounter_hiv_care_follow_up (client_pregnant) Breastfeeding Status:
+	 * ssemr_flat_encounter_hiv_care_follow_up (patient_breastfeeding) Died:
+	 * ssemr_flat_encounter_end_of_follow_up (death), Stopped treatment:
+	 * ssemr_flat_encounter_art_interruption(date_of_treatment_interruption) transferred out:
+	 * ssemr_flat_encounter_end_of_follow_up(transfer_out) experienced interruption in treatment
+	 * (IIT): ssemr_flat_encounter_art_interruption(date_of_treatment_interruption)
 	 */
 	//TX Curr query formulations
 	public static String getPatientsWhoInitiatedArtDuringReportingPeriod() {
-		return "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
+		return " SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
-		        + "	WHERE hce.art_start_date BETWEEN :startDate AND :endDate " + "	AND hce.art_start_date IS NOT NULL "
-		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0";
+		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
+		        + "	AND hce.art_start_date IS NOT NULL "
+		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0"
+		        + " UNION "
+		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getPatientsWhoTransferredInDuringReportingPeriod() {
