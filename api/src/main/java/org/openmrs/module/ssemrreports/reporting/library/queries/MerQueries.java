@@ -208,10 +208,18 @@ public class MerQueries {
 	}
 	
 	public static String getPregnantQueries() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.client_pregnant IS NOT NULL AND fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getBreastfeedingQueries() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.patient_breastfeeding IS NOT NULL AND fu.encounter_datetime BETWEEN :startDate AND :endDate";
+	}
+
+	public static String getDeadClientsQueries() {
+		return "SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
+				+ " WHERE efu.date_of_death IS NOT NULL"
+				+ " AND efu.date_of_death BETWEEN :startDate AND :endDate";
 	}
 }
