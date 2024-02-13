@@ -24,7 +24,8 @@ public class MerQueries {
 		        + " UNION "
 		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
 		        + " WHERE DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) BETWEEN :startDate AND :endDate "
-		        + " UNION " + "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
+		        + " UNION "
+		        + "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
 		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate "
 		        + "	AND hce.date_tranferred_in IS NOT NULL "
@@ -32,14 +33,19 @@ public class MerQueries {
 		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
-		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate" + " UNION "
+		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate"
+		        + " UNION "
 		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
 		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
-		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate" + " UNION "
+		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate"
+		        + " UNION "
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
-		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate"
-		        
+		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate "
+		        + " UNION "
+		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE "
+		        + " DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) < :endDate"
 		        + ")";
 	}
 	
@@ -241,8 +247,8 @@ public class MerQueries {
 	}
 	
 	public static String getInterruptionQueries() {
-		return "SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
-		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
-		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE "
+		        + " DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) < :endDate";
 	}
 }
