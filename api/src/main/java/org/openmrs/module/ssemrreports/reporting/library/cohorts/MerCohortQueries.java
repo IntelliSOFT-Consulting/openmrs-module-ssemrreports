@@ -206,7 +206,7 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getTxMlDiedQuery());
+		cd.setQuery(MerQueries.getDeadClientsQueries());
 		return cd;
 	}
 	
@@ -246,7 +246,7 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getTxMlTransferOutQueries());
+		cd.setQuery(MerQueries.getTransferOutQueries());
 		return cd;
 	}
 	
@@ -256,7 +256,7 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getTxMlRefusedStoppedTreatmentQueries());
+		cd.setQuery(MerQueries.getStoppedTreatmentQueries());
 		return cd;
 	}
 	
