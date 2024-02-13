@@ -43,17 +43,12 @@ public class MerCohortQueries {
 	}
 	
 	public CohortDefinition getTxCurrCohorts() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxCurr Cohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.addSearch("TXC1", SSEMRReportUtils.map(getPatientsWhoInitiatedArtDuringReportingPeriod(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("TXC2", SSEMRReportUtils.map(getPatientsWhoTransferredInDuringReportingPeriod(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		
-		cd.setCompositionString("TXC1 OR TXC2");
+		cd.setQuery(MerQueries.getPatientsWhoInitiatedArtDuringReportingPeriod());
 		return cd;
 	}
 	
@@ -473,6 +468,60 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
 		cd.setQuery(MerQueries.getBreastfeedingQueries());
+		return cd;
+	}
+	
+	public CohortDefinition getDeadClientsCohort() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Cohorts - Dead clients");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getDeadClientsQueries());
+		return cd;
+	}
+	
+	public CohortDefinition getStoppedTreatmentCohort() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Cohorts - Stopped treatment clients");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getStoppedTreatmentQueries());
+		return cd;
+	}
+	
+	public CohortDefinition getTransferOutCohort() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Cohorts - Transfer out clients");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getTransferOutQueries());
+		return cd;
+	}
+	
+	public CohortDefinition getInterruptionCohort() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Cohorts - Interrupted clients");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.setQuery(MerQueries.getInterruptionQueries());
+		return cd;
+	}
+	
+	public CohortDefinition getAllExclusionCohort() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		String mapping = "startDate=${startDate},endDate=${endDate},location=${location}";
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Facility", Location.class));
+		cd.addSearch("D", SSEMRReportUtils.map(getDeadClientsCohort(), mapping));
+		cd.addSearch("S", SSEMRReportUtils.map(getStoppedTreatmentCohort(), mapping));
+		cd.addSearch("TO", SSEMRReportUtils.map(getTransferOutCohort(), mapping));
+		cd.addSearch("ITT", SSEMRReportUtils.map(getInterruptionCohort(), mapping));
+		cd.setCompositionString("D OR S OR TO OR ITT");
 		return cd;
 	}
 	
