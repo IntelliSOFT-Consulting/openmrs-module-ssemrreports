@@ -72,27 +72,52 @@ public class MerQueries {
 	
 	//Tx new cohort queries
 	public static String getTxNewTotals() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT agg.client_id AS client_id FROM ("
+		        + " SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
+		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
+		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
+		        + "	AND hce.art_start_date IS NOT NULL "
+		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0"
+		        + " UNION "
+		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) BETWEEN :startDate AND :endDate "
+		        + " UNION "
+		        + "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
+		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
+		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate "
+		        + "	AND hce.date_tranferred_in IS NOT NULL "
+		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0) agg WHERE client_id NOT IN("
+		        
+		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
+		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
+		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate"
+		        + " UNION "
+		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
+		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
+		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate"
+		        + " UNION "
+		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
+		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
+		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate "
+		        + " UNION "
+		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE "
+		        + " DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) < :endDate"
+		        + ")";
 	}
 	
 	public static String getClientsWithCd4LessThan200Query() {
-		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en " + "	WHERE en.cd4 < 200 "
-		        + "	AND en.encounter_datetime BETWEEN :startDate AND :endDate " + "	UNION "
-		        + "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu" + "	WHERE fu.cd4 < 200 "
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu" + "	WHERE fu.cd4 < 200 "
 		        + "	AND fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getClientsWithCd4MoreThanOrEqualTo200Query() {
-		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en " + "	WHERE en.cd4 >= 200 "
-		        + "	AND en.encounter_datetime BETWEEN :startDate AND :endDate " + "	UNION "
-		        + "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu" + "	WHERE fu.cd4 >= 200 "
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu" + "	WHERE fu.cd4 >= 200 "
 		        + "	AND fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getClientsWithUnknownCd4Query() {
-		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en " + "	WHERE en.cd4 IS NULL"
-		        + "	UNION " + "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu"
-		        + "	WHERE fu.cd4 IS NULL ";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu" + "	WHERE fu.cd4 IS NULL ";
 	}
 	
 	//Tx ML
