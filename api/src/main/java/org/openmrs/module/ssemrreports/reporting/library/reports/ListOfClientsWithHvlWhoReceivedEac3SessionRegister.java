@@ -1,7 +1,7 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
+import org.openmrs.Location;
 import org.openmrs.module.reporting.ReportingException;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
@@ -50,10 +50,11 @@ public class ListOfClientsWithHvlWhoReceivedEac3SessionRegister extends SSEMRDat
 	
 	@Override
 	public ReportDefinition constructReportDefinition() {
-		String param = "startDate=${startDate},endDate=${endDate+23h}";
+		String param = "startDate=${startDate},endDate=${endDate},location=${location}";
 		ReportDefinition rd = new ReportDefinition();
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		rd.addParameter(new Parameter("location", "Location", Location.class));
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
