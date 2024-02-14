@@ -51,7 +51,7 @@ public class ListOfClientsWithHvlWhoReceivedDSD extends SSEMRBaseDataSet {
 		                + " fh.hiv_status,fh.date_hiv_tested,fh.result_of_hts,fh.on_art "
 		                + " FROM ssemr_etl.ssemr_flat_encounter_family_history fh "
 		                + " INNER JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load vl ON fh.client_id=vl.client_id"
-		                + " WHERE CAST(vl.recent_vl AS UNSIGNED) > 1000 AND vl.eac_session ='Second EAC Session'"
+		                + " WHERE CAST(vl.recent_vl AS UNSIGNED) >= 1000 AND vl.eac_session ='Second EAC Session'"
 		                + " AND vl.location_id=:location AND vl.encounter_datetime BETWEEN :startDate AND :endDate");
 		return sqlDataSetDefinition;
 	}
@@ -73,7 +73,7 @@ public class ListOfClientsWithHvlWhoReceivedDSD extends SSEMRBaseDataSet {
 		                + " fh.hiv_status,fh.date_hiv_tested,fh.result_of_hts,fh.on_art "
 		                + " FROM ssemr_etl.ssemr_flat_encounter_family_history fh "
 		                + " INNER JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load vl ON fh.client_id=vl.client_id"
-		                + " WHERE CAST(vl.recent_vl AS UNSIGNED) > 1000 AND vl.eac_session ='Third EAC Session'"
+		                + " WHERE CAST(vl.recent_vl AS UNSIGNED) >= 1000 AND vl.eac_session ='Third EAC Session'"
 		                + " AND vl.location_id=:location AND vl.encounter_datetime BETWEEN :startDate AND :endDate");
 		return sqlDataSetDefinition;
 	}
@@ -95,7 +95,7 @@ public class ListOfClientsWithHvlWhoReceivedDSD extends SSEMRBaseDataSet {
 		                + " fh.hiv_status,fh.date_hiv_tested,fh.result_of_hts,fh.on_art "
 		                + " FROM ssemr_etl.ssemr_flat_encounter_family_history fh "
 		                + " INNER JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load vl ON fh.client_id=vl.client_id"
-		                + " WHERE CAST(vl.recent_vl AS UNSIGNED) > 1000 AND vl.eac_session ='Extended session of EAC'"
+		                + " WHERE CAST(vl.recent_vl AS UNSIGNED) >= 1000 AND vl.eac_session ='Extended session of EAC'"
 		                + " AND vl.location_id=:location AND vl.encounter_datetime BETWEEN :startDate AND :endDate");
 		return sqlDataSetDefinition;
 	}
@@ -117,7 +117,7 @@ public class ListOfClientsWithHvlWhoReceivedDSD extends SSEMRBaseDataSet {
 		                + " fh.hiv_status,fh.date_hiv_tested,fh.result_of_hts,fh.on_art "
 		                + " FROM ssemr_etl.ssemr_flat_encounter_family_history fh "
 		                + " INNER JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load vl ON fh.client_id=vl.client_id"
-		                + " WHERE CAST(vl.recent_vl AS UNSIGNED) > 1000 AND vl.eac_session ='Repeat test after EAC'"
+		                + " WHERE CAST(vl.recent_vl AS UNSIGNED) >= 1000 AND vl.eac_session ='Repeat test after EAC'"
 		                + " AND vl.location_id=:location AND vl.encounter_datetime BETWEEN :startDate AND :endDate");
 		return sqlDataSetDefinition;
 	}
