@@ -4,7 +4,7 @@ import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ListOfFamilyContactsDSD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Properties;
 
 @Component
-public class SetupListOfFamilyContactsNewlyTestedHivPositiveAndLinkedToArtRegister extends SSEMRDataExportManager {
+public class SetupListOfFamilyContactsNewlyTestedHivPositiveAndLinkedToArtRegister extends SsemrDataExportManager {
 	
 	private final ListOfFamilyContactsDSD listOfFamilyContactsDSD;
 	

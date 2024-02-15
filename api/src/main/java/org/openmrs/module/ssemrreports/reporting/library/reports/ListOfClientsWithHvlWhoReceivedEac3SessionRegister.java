@@ -5,9 +5,9 @@ import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ListOfClientsWithHvlWhoReceivedDSD;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Properties;
 
 @Component
-public class ListOfClientsWithHvlWhoReceivedEac3SessionRegister extends SSEMRDataExportManager {
+public class ListOfClientsWithHvlWhoReceivedEac3SessionRegister extends SsemrDataExportManager {
 	
 	private final ListOfClientsWithHvlWhoReceivedDSD listOfClientsWithHvlWhoReceivedDSD;
 	
@@ -57,7 +57,7 @@ public class ListOfClientsWithHvlWhoReceivedEac3SessionRegister extends SSEMRDat
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.addDataSetDefinition("EAC3", SSEMRReportUtils.map(listOfClientsWithHvlWhoReceivedDSD.getEac3Session(), param));
+		rd.addDataSetDefinition("EAC3", SsemrReportUtils.map(listOfClientsWithHvlWhoReceivedDSD.getEac3Session(), param));
 		return rd;
 	}
 	

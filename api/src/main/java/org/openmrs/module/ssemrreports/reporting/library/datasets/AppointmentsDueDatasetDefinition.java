@@ -42,7 +42,7 @@ import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDe
 import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
 
 @Component
-public class AppointmentsDueDatasetDefinition extends SSEMRBaseDataSet {
+public class AppointmentsDueDatasetDefinition extends SsemrBaseDataSet {
 	
 	private DataDefinition personPayamAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("payam", new PayamAddressCalculation());

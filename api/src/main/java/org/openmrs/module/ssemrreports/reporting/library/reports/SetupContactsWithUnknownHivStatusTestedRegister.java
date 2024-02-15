@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.ContactsCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ContactsWithUnknownHivStatusTestedDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupContactsWithUnknownHivStatusTestedRegister extends SSEMRDataExportManager {
+public class SetupContactsWithUnknownHivStatusTestedRegister extends SsemrDataExportManager {
 	
 	private final ContactsWithUnknownHivStatusTestedDatasetDefinition contactsWithUnknownHivStatusTestedDatasetDefinition;
 	
@@ -62,7 +62,7 @@ public class SetupContactsWithUnknownHivStatusTestedRegister extends SSEMRDataEx
 		rd.addParameters(contactsWithUnknownHivStatusTestedDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("CUHST", Mapped.mapStraightThrough(contactsWithUnknownHivStatusTestedDatasetDefinition
 		        .constructContactsWithUnknownHivStatusDatasetDefinition()));
-		rd.setBaseCohortDefinition(SSEMRReportUtils.map(contactsCohortQueries.getPatientsWhoHaveUnknownHivStatusTested(),
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(contactsCohortQueries.getPatientsWhoHaveUnknownHivStatusTested(),
 		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
 		return rd;
 	}

@@ -9,8 +9,8 @@
 
 	<artifactId>ssemrreports-omod</artifactId>
 	<packaging>jar</packaging>
-	<name>SSEMR Reports OMOD</name>
-	<description>Omod submodule for SSEMR Reports</description>
+	<name>Ssemr Reports OMOD</name>
+	<description>Omod submodule for Ssemr Reports</description>
 
 	<dependencies>
 		<dependency>

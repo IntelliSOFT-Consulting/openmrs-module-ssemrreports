@@ -3,7 +3,7 @@ package org.openmrs.module.ssemrreports.reporting.library.dimension;
 import java.util.Arrays;
 import java.util.List;
 
-import org.openmrs.module.ssemrreports.reporting.library.datasets.SSEMRBaseDataSet.ColumnParameters;
+import org.openmrs.module.ssemrreports.reporting.library.datasets.SsemrBaseDataSet.ColumnParameters;
 
 public class EmrDimensionReferences {
 	

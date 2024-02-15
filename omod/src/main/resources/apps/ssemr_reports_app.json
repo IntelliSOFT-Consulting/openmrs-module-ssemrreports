@@ -25,7 +25,7 @@
         "id": "reportingui.reports.homepagelink",
         "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
         "type": "link",
-        "label": "SSEMR Reports",
+        "label": "Ssemr Reports",
         "url": "reportingui/reportsapp/home.page",
         "icon": "icon-list-alt",
         "order": 5,

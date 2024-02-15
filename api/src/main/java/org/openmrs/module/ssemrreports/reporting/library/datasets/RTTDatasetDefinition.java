@@ -39,7 +39,7 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastF
 import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 
 @Component
-public class RTTDatasetDefinition extends SSEMRBaseDataSet {
+public class RTTDatasetDefinition extends SsemrBaseDataSet {
 	
 	private DataDefinition personPayamAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("payam", new PayamAddressCalculation());

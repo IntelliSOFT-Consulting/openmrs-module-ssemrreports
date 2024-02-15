@@ -1,4 +1,4 @@
-package org.openmrs.module.ssemrreports.page;
+package org.openmrs.module.ssemrreports.page.controller;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;

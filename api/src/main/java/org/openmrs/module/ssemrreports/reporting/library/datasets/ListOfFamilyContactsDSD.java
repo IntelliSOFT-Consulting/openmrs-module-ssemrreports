@@ -5,7 +5,7 @@ import org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ListOfFamilyContactsDSD extends SSEMRBaseDataSet {
+public class ListOfFamilyContactsDSD extends SsemrBaseDataSet {
 	
 	public DataSetDefinition getWithUnknownHivStatus() {
 		SqlDataSetDefinition sqlDataSetDefinition = new SqlDataSetDefinition();

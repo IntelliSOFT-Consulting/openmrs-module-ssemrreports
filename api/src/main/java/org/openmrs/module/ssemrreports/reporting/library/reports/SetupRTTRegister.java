@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.RTTDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupRTTRegister extends SSEMRDataExportManager {
+public class SetupRTTRegister extends SsemrDataExportManager {
 	
 	private final RTTDatasetDefinition rttDatasetDefinition;
 	
@@ -59,7 +59,7 @@ public class SetupRTTRegister extends SSEMRDataExportManager {
 		rd.setDescription(getDescription());
 		rd.addParameters(rttDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("RTT", Mapped.mapStraightThrough(rttDatasetDefinition.constructRTTDatasetDefinition()));
-		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoAreRTT(),
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoAreRTT(),
 		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
 		return rd;
 	}

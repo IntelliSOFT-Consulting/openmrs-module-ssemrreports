@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.HighVLSupressedDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupHighVLSupressedRegister extends SSEMRDataExportManager {
+public class SetupHighVLSupressedRegister extends SsemrDataExportManager {
 	
 	private final HighVLSupressedDatasetDefinition highVLSupressedDatasetDefinition;
 	
@@ -61,7 +61,7 @@ public class SetupHighVLSupressedRegister extends SSEMRDataExportManager {
 		rd.addParameters(highVLSupressedDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("HVLSupressed",
 		    Mapped.mapStraightThrough(highVLSupressedDatasetDefinition.constructHighVLSupressedDatasetDefinition()));
-		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoHaveHVLandSupressed(),
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoHaveHVLandSupressed(),
 		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
 		return rd;
 	}

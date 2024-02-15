@@ -13,7 +13,7 @@
         for a list of supported elements and attributes
     -->
  
- 	<!-- Uncomment the changeset below if you want to make the Item class persistable, see also Item and SSEMRReportsDaoTest -->
+ 	<!-- Uncomment the changeset below if you want to make the Item class persistable, see also Item and SsemrReportsDaoTest -->
  	<!--
 	<changeSet id="ssemrreports-2016-08-02-12-21" author="raff">
 		<preConditions onFail="MARK_RAN">

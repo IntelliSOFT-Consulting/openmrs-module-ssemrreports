@@ -39,7 +39,7 @@ import org.openmrs.module.reporting.report.definition.service.ReportDefinitionSe
 import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 
-public class SSEMRReportUtils {
+public class SsemrReportUtils {
 	
 	/**
 	 * @param parameterizable

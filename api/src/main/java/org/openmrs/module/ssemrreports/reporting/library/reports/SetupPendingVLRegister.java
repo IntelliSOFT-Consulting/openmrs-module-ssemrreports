@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.PendingVLDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupPendingVLRegister extends SSEMRDataExportManager {
+public class SetupPendingVLRegister extends SsemrDataExportManager {
 	
 	private final PendingVLDatasetDefinition pendingVlDatasetDefinition;
 	
@@ -60,7 +60,7 @@ public class SetupPendingVLRegister extends SSEMRDataExportManager {
 		rd.addParameters(pendingVlDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("PVLD",
 		    Mapped.mapStraightThrough(pendingVlDatasetDefinition.constructPendingVLDatasetDefinition()));
-		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoHavePendingVL(),
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoHavePendingVL(),
 		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
 		return rd;
 	}

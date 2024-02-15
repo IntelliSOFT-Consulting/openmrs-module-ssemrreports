@@ -1,9 +1,9 @@
-SSEMR Reports
+Ssemr Reports
 ==========================
 
 Description
 -----------
-Reporting module for SSEMR. Contains definitions for artefacts used for generating reports for the SSEMR implementation
+Reporting module for Ssemr. Contains definitions for artefacts used for generating reports for the Ssemr implementation
 
 Building from Source
 --------------------

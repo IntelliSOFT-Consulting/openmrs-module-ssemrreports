@@ -4,7 +4,7 @@ import org.openmrs.Concept;
 import org.openmrs.Location;
 import org.openmrs.calculation.result.CalculationResult;
 import org.openmrs.calculation.result.SimpleResult;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 
 import java.util.Date;
@@ -26,7 +26,7 @@ public class CalculationResultConverter implements DataConverter {
 		if (value instanceof Boolean) {
 			return (Boolean) value ? "Y" : "N";
 		} else if (value instanceof Date) {
-			return SSEMRReportUtils.formatDates((Date) value);
+			return SsemrReportUtils.formatDates((Date) value);
 		} else if (value instanceof Concept) {
 			
 			return ((Concept) value).getName();

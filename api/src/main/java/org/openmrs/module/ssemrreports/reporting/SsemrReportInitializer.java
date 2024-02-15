@@ -15,27 +15,27 @@
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.ssemrreports.manager.SSEMRReportManager;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.manager.SsemrReportManager;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 
-public class SSEMRReportInitializer {
+public class SsemrReportInitializer {
 	
 	private Log log = LogFactory.getLog(this.getClass());
 	
-	/** Initializes all SSEMR reports and remove deprecated reports from database. */
+	/** Initializes all Ssemr reports and remove deprecated reports from database. */
 	public void initializeReports() {
 		
-		for (ReportManager reportManager : Context.getRegisteredComponents(SSEMRReportManager.class)) {
+		for (ReportManager reportManager : Context.getRegisteredComponents(SsemrReportManager.class)) {
 			if (reportManager.getClass().getAnnotation(Deprecated.class) != null) {
 				// remove deprecated reports
-				SSEMRReportUtils.purgeReportDefinition(reportManager);
+				SsemrReportUtils.purgeReportDefinition(reportManager);
 				log.info("Report " + reportManager.getName() + " is deprecated.  Removing it from database.");
 			} else {
 				// setup active reports
-				SSEMRReportUtils.setupReportDefinition(reportManager);
+				SsemrReportUtils.setupReportDefinition(reportManager);
 				log.info("Setting up report " + reportManager.getName() + "...");
 			}
 		}
@@ -44,9 +44,9 @@ public class SSEMRReportInitializer {
 	
 	/** Purges all reports from database */
 	public void purgeReports() {
-		for (ReportManager reportManager : Context.getRegisteredComponents(SSEMRReportManager.class)) {
+		for (ReportManager reportManager : Context.getRegisteredComponents(SsemrReportManager.class)) {
 			if (reportManager != null) {
-				SSEMRReportUtils.purgeReportDefinition(reportManager);
+				SsemrReportUtils.purgeReportDefinition(reportManager);
 				log.info("Report " + reportManager.getName() + " removed from database.");
 			} else {
 				log.info("New reports set up");

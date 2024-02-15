@@ -10,18 +10,18 @@ import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ArtDatasetDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.DistrictDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.datasets.SSEMRBaseDataSet;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.library.datasets.SsemrBaseDataSet;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupArtMonthlyReport extends SSEMRDataExportManager {
+public class SetupArtMonthlyReport extends SsemrDataExportManager {
 	
 	private final DistrictDatasetDefinition districtDatasetDefinition;
 	

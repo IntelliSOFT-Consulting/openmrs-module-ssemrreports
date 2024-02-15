@@ -19,8 +19,8 @@ import org.openmrs.module.ssemrreports.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository("ssemrreports.SSEMRReportsDao")
-public class SSEMRReportsDao {
+@Repository("ssemrreports.SsemrReportsDao")
+public class SsemrReportsDao {
 	
 	@Autowired
 	DbSessionFactory sessionFactory;

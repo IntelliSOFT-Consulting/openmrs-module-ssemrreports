@@ -12,7 +12,7 @@
 			${project.parent.description}
 	</description>
 
-	<activator>org.openmrs.module.ssemrreports.SSEMRReportsActivator</activator>
+	<activator>org.openmrs.module.ssemrreports.SsemrReportsActivator</activator>
 	
 	<!-- <updateURL>https://modules.openmrs.org/modules/download/@MODULE_ID@/update.rdf</updateURL> -->
 	<!-- /Base Module Properties -->
@@ -35,32 +35,6 @@
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
 	</aware_of_modules>
-
-
-	<globalProperty>
-		<property>mambaetl.analysis.db.url</property>
-		<defaultValue>jdbc:mysql://localhost:3308/ssemr_etl?autoReconnect=true</defaultValue>
-		<!--        <defaultValue>jdbc:mysql://localhost:3306/analysis_db?autoReconnect=true&amp;noAccessToProcedureBodies=true</defaultValue>-->
-		<description>MambaETL JDBC Connection string</description>
-	</globalProperty>
-
-	<globalProperty>
-		<property>mambaetl.analysis.db.username</property>
-		<defaultValue>root</defaultValue>
-		<description>MambaETL username</description>
-	</globalProperty>
-
-	<globalProperty>
-		<property>mambaetl.analysis.db.password</property>
-		<defaultValue>Admin123</defaultValue>
-		<description>MambaETL user password</description>
-	</globalProperty>
-
-	<globalProperty>
-		<property>mambaetl.analysis.db.driver</property>
-		<defaultValue>com.mysql.jdbc.Driver</defaultValue>
-		<description>MambaETL JDBC driver</description>
-	</globalProperty>
 	
 	
 	<!-- Internationalization -->
