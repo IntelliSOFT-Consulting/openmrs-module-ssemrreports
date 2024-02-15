@@ -63,7 +63,7 @@ public class SetupContactsWithUnknownHivStatusRegister extends SSEMRDataExportMa
 		rd.addDataSetDefinition("CUHS", Mapped.mapStraightThrough(setupContactsWithUnknownHivStatusDatasetDefinition
 		        .constructContactsWithUnknownHivStatusDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(contactsCohortQueries.getPatientsWhoHaveUnknownHivStatus(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		return rd;
 	}
 	
