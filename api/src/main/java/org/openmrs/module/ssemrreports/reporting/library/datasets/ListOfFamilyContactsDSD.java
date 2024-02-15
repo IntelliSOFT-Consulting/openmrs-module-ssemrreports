@@ -22,7 +22,7 @@ public class ListOfFamilyContactsDSD extends SSEMRBaseDataSet {
 		                + " fh.individual_name, fh.age,fh.sex, fh.relationship,fh.phone_number,fh.known_hiv_status_during_mapping,"
 		                + " fh.hiv_status,fh.date_hiv_tested,fh.result_of_hts,fh.on_art,fh.unique_art_or_hie_number "
 		                + " FROM ssemr_etl.ssemr_flat_encounter_family_history fh"
-		                + " WHERE fh.hiv_status ='Don''t Know' DATE(fh.encounter_datetime) BETWEEN :startDate AND :endDate AND fh.location_id=:location");
+		                + " WHERE fh.hiv_status ='Don''t Know' AND DATE(fh.encounter_datetime) BETWEEN :startDate AND :endDate AND fh.location_id=:location");
 		return sqlDataSetDefinition;
 	}
 	
@@ -36,7 +36,7 @@ public class ListOfFamilyContactsDSD extends SSEMRBaseDataSet {
 		        + " fh.individual_name, fh.age,fh.sex, fh.relationship,fh.phone_number,fh.known_hiv_status_during_mapping,"
 		        + " fh.hiv_status,fh.date_hiv_tested,fh.result_of_hts,fh.on_art,fh.unique_art_or_hie_number "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_family_history fh"
-		        + " WHERE fh.hiv_status ='Don''t Know' DATE(fh.encounter_datetime) BETWEEN :startDate "
+		        + " WHERE fh.hiv_status ='Don''t Know' AND DATE(fh.encounter_datetime) BETWEEN :startDate "
 		        + " AND :endDate AND fh.location_id=:location AND fh.result_of_hts IS NOT NULL");
 		return sqlDataSetDefinition;
 	}
@@ -51,7 +51,7 @@ public class ListOfFamilyContactsDSD extends SSEMRBaseDataSet {
 		        + " fh.individual_name, fh.age,fh.sex, fh.relationship,fh.phone_number,fh.known_hiv_status_during_mapping,"
 		        + " fh.hiv_status,fh.date_hiv_tested,fh.result_of_hts,fh.on_art,fh.unique_art_or_hie_number "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_family_history fh"
-		        + " WHERE fh.hiv_status ='Positive' DATE(fh.encounter_datetime) BETWEEN :startDate "
+		        + " WHERE fh.hiv_status ='Positive' AND DATE(fh.encounter_datetime) BETWEEN :startDate "
 		        + " AND :endDate AND fh.location_id=:location");
 		
 		return sqlDataSetDefinition;
@@ -67,7 +67,7 @@ public class ListOfFamilyContactsDSD extends SSEMRBaseDataSet {
 		        + " fh.individual_name, fh.age,fh.sex, fh.relationship,fh.phone_number,fh.known_hiv_status_during_mapping,"
 		        + " fh.hiv_status,fh.date_hiv_tested,fh.result_of_hts,fh.on_art,fh.unique_art_or_hie_number "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_family_history fh"
-		        + " WHERE fh.hiv_status ='Positive' DATE(fh.encounter_datetime) BETWEEN :startDate "
+		        + " WHERE fh.hiv_status ='Positive' AND  DATE(fh.encounter_datetime) BETWEEN :startDate "
 		        + " AND :endDate AND fh.location_id=:location AND fh.on_art IS NOT NULL");
 		return sqlDataSetDefinition;
 	}
@@ -82,7 +82,7 @@ public class ListOfFamilyContactsDSD extends SSEMRBaseDataSet {
 		        + " fh.individual_name, fh.age,fh.sex, fh.relationship,fh.phone_number,fh.known_hiv_status_during_mapping,"
 		        + " fh.hiv_status,fh.date_hiv_tested,fh.result_of_hts,fh.on_art,fh.unique_art_or_hie_number "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_family_history fh"
-		        + " WHERE fh.hiv_status ='Positive' DATE(fh.encounter_datetime) BETWEEN :startDate "
+		        + " WHERE fh.hiv_status ='Positive' AND DATE(fh.encounter_datetime) BETWEEN :startDate "
 		        + " AND :endDate AND fh.location_id=:location AND fh.result_of_hts IS NOT NULL");
 		return sqlDataSetDefinition;
 	}
