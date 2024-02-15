@@ -242,9 +242,9 @@ public class SSEMRCommonDimension {
 		dim.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dim.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dim.addParameter(new Parameter("location", "Facility", Location.class));
-		CohortDefinition less3m = merCohortQueries.lessThan3MonthsDispensationComposition();
-		CohortDefinition threeTo5m = merCohortQueries.quarterlyDispensationComposition();
-		CohortDefinition more6m = merCohortQueries.semiAnnualDispensationComposition();
+		CohortDefinition less3m = merCohortQueries.getTxMlIitL3mCohorts();
+		CohortDefinition threeTo5m = merCohortQueries.getTxMlIit3To5mCohorts();
+		CohortDefinition more6m = merCohortQueries.getTxMlIitM6mCohorts();
 		dim.addCohortDefinition("<3m",
 		    SSEMRReportUtils.map(less3m, "startDate=${startDate},endDate=${endDate},location=${location}"));
 		dim.addCohortDefinition("3-5m",

@@ -1,7 +1,6 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import org.openmrs.module.reporting.ReportingException;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -55,9 +53,7 @@ public class SetupMerTxMlIndicatorsReport extends SSEMRDataExportManager {
 		String mappings4 = "startDate=${startDate+3m},endDate=${endDate},location=${location}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
-		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		//rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
+		rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("TxM", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings0));
 		rd.addDataSetDefinition("TxM1", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings1));
 		rd.addDataSetDefinition("TxM2", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings2));

@@ -22,26 +22,6 @@ public class MerCohortQueries {
 		this.sharedCohortQueries = sharedCohortQueries;
 	}
 	
-	public CohortDefinition getPatientsWhoInitiatedArtDuringReportingPeriod() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Patients who Initiated ART during reporting period");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getPatientsWhoInitiatedArtDuringReportingPeriod());
-		return cd;
-	}
-	
-	public CohortDefinition getPatientsWhoTransferredInDuringReportingPeriod() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Patients who transferred in during reporting period");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getPatientsWhoTransferredInDuringReportingPeriod());
-		return cd;
-	}
-	
 	public CohortDefinition getTxCurrCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxCurr Cohorts");
@@ -49,36 +29,6 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Facility", Location.class));
 		cd.setQuery(MerQueries.getPatientsWhoInitiatedArtDuringReportingPeriod());
-		return cd;
-	}
-	
-	public CohortDefinition lessThan3MonthsDispensationComposition() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("less 3 months Cohorts");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getLessThan3MonthsQuery());
-		return cd;
-	}
-	
-	public CohortDefinition quarterlyDispensationComposition() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("quarterly Cohorts");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getQuarterlyDispensationQuery());
-		return cd;
-	}
-	
-	public CohortDefinition semiAnnualDispensationComposition() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("semi annual Cohorts");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Facility", Location.class));
-		cd.setQuery(MerQueries.getSemiAnnualDispensationQuery());
 		return cd;
 	}
 	
