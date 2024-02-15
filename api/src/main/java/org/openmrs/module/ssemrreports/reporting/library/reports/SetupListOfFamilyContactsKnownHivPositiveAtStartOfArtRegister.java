@@ -52,8 +52,7 @@ public class SetupListOfFamilyContactsKnownHivPositiveAtStartOfArtRegister exten
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		rd.setParameters(listOfFamilyContactsDSD.getParameters());
 		rd.addDataSetDefinition("FC4", Mapped.mapStraightThrough(listOfFamilyContactsDSD.getKnownHivPositiveAtStartOfArt()));
 		return rd;
 	}

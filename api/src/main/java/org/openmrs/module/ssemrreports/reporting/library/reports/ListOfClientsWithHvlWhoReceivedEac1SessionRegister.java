@@ -1,5 +1,6 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
+import org.openmrs.Location;
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -40,7 +41,7 @@ public class ListOfClientsWithHvlWhoReceivedEac1SessionRegister extends SSEMRDat
 	
 	@Override
 	public String getName() {
-		return "Clients with HVL, who received EAC1 session";
+		return "Clients with HVL who received EAC1 session";
 	}
 	
 	@Override
@@ -50,10 +51,11 @@ public class ListOfClientsWithHvlWhoReceivedEac1SessionRegister extends SSEMRDat
 	
 	@Override
 	public ReportDefinition constructReportDefinition() {
-		String param = "startDate=${startDate},endDate=${endDate+23h}";
+		String param = "startDate=${startDate},endDate=${endDate},location=${location}";
 		ReportDefinition rd = new ReportDefinition();
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		rd.addParameter(new Parameter("location", "Location", Location.class));
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
