@@ -241,16 +241,12 @@ public class SSEMRCommonDimension {
 		dim.setName("ARV Dispensing quantity dimension");
 		dim.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dim.addParameter(new Parameter("endDate", "End Date", Date.class));
-		dim.addParameter(new Parameter("location", "Facility", Location.class));
 		CohortDefinition less3m = merCohortQueries.getTxMlIitL3mCohorts();
 		CohortDefinition threeTo5m = merCohortQueries.getTxMlIit3To5mCohorts();
 		CohortDefinition more6m = merCohortQueries.getTxMlIitM6mCohorts();
-		dim.addCohortDefinition("<3m",
-		    SSEMRReportUtils.map(less3m, "startDate=${startDate},endDate=${endDate},location=${location}"));
-		dim.addCohortDefinition("3-5m",
-		    SSEMRReportUtils.map(threeTo5m, "startDate=${startDate},endDate=${endDate},location=${location}"));
-		dim.addCohortDefinition(">6m",
-		    SSEMRReportUtils.map(more6m, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		dim.addCohortDefinition("<3m", SSEMRReportUtils.map(less3m, "startDate=${startDate},endDate=${endDate}"));
+		dim.addCohortDefinition("3-5m", SSEMRReportUtils.map(threeTo5m, "startDate=${startDate},endDate=${endDate}"));
+		dim.addCohortDefinition(">6m", SSEMRReportUtils.map(more6m, "startDate=${startDate},endDate=${endDate}"));
 		return dim;
 	}
 }

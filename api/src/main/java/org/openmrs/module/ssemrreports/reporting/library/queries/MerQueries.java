@@ -19,7 +19,7 @@ public class MerQueries {
 		        + " SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
 		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
-		        + "	AND hce.art_start_date IS NOT NULL AND hce.location_id=:location"
+		        + "	AND hce.art_start_date IS NOT NULL"
 		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0"
 		        + " UNION "
 		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
@@ -27,32 +27,32 @@ public class MerQueries {
 		        + " UNION "
 		        + "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
-		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate AND hce.location_id=:location "
+		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate  "
 		        + "	AND hce.date_tranferred_in IS NOT NULL "
 		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0) agg WHERE client_id NOT IN("
 		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
-		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate AND efu.location_id=:location"
+		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate "
 		        + " UNION "
 		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
 		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
-		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate AND ai.location_id=:location"
+		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate "
 		        + " UNION "
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
-		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate AND efu.location_id=:location"
+		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate "
 		        + " UNION "
 		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
 		        + " WHERE "
 		        + " DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) < :endDate"
-		        + " AND fu.location_id=:location" + ")";
+		        + ")";
 	}
 	
 	public static String getPatientsWhoTransferredInDuringReportingPeriod() {
 		return "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
-		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate AND hce.location_id=:location"
+		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate "
 		        + "	AND hce.date_tranferred_in IS NOT NULL "
 		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0";
 	}
@@ -75,37 +75,36 @@ public class MerQueries {
 		return "SELECT agg.client_id AS client_id FROM ("
 		        + " SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
-		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate  AND hce.location_id=:location"
+		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
 		        + "	AND hce.art_start_date IS NOT NULL "
 		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0"
 		        + " UNION "
 		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
 		        + " WHERE DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) BETWEEN :startDate AND :endDate "
-		        + " AND fu.location_id=:location"
 		        + ") agg WHERE client_id NOT IN("
 		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
-		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate AND efu.location_id=:location"
+		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate"
 		        + " UNION "
 		        + "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
-		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate AND hce.location_id=:location"
+		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate"
 		        + "	AND hce.date_tranferred_in IS NOT NULL "
 		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0 "
 		        + " UNION "
 		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
 		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
-		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate AND ai.location_id=:location"
+		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate"
 		        + " UNION "
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
-		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate AND efu.location_id=:location "
+		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate "
 		        + " UNION "
 		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
 		        + " WHERE "
 		        + " DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) < :endDate "
-		        + " AND fu.location_id=:location" + ")";
+		        + ")";
 	}
 	
 	public static String getClientsWithCd4LessThan200Query() {
@@ -133,7 +132,7 @@ public class MerQueries {
 	 */
 	public static String getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContact() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate AND fu.location_id=:location";
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
 	/***
@@ -144,7 +143,7 @@ public class MerQueries {
 	 */
 	public static String getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLater() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate AND fu.location_id=:location";
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getTxMlIitL3mQuery() {
@@ -164,33 +163,33 @@ public class MerQueries {
 	
 	public static String getTxMlCauseOfDeathQueries(String cause) {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate AND fu.location_id=:location";
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
 	//TX RTT
 	public static String getClientsTracedBroughtBackToCareRestarted() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate AND fu.location_id=:location";
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getHowLongWerePeopleOffArvs28DaysTo3MonthsQuery() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate AND fu.location_id=:location";
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getHowLongWerePeopleOffArvs3To6MonthsQuery() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate AND fu.location_id=:location";
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getHowLongWerePeopleOffArvs6To12MonthsQuery() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate AND fu.location_id=:location";
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getTracedByQuery(String tracedBy) {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate AND fu.location_id=:location";
+		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getTxRttWithCd4LessThan200Queries() {
@@ -212,41 +211,38 @@ public class MerQueries {
 	//TX PVLS
 	public static String getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterQueries() {
 		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en "
-		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load vl" + " ON en.client_id=vl.client_id"
-		        + "	WHERE vl.recent_vl IS NOT NULL " + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate "
-		        + " AND vl.location_id=:location";
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up vl" + " ON en.client_id=vl.client_id"
+		        + "	WHERE vl.vl_results IS NOT NULL " + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterQueries() {
 		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en "
-		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load vl" + " ON en.client_id=vl.client_id"
-		        + "	WHERE vl.recent_vl IS NOT NULL " + "	AND vl.recent_vl >= 1000 "
-		        + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate " + " AND vl.location_id=:location";
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up vl" + " ON en.client_id=vl.client_id"
+		        + "	WHERE vl.vl_results IS NOT NULL " + "	AND vl.vl_results >= 1000 "
+		        + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterQueries() {
 		return "SELECT en.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en "
-		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load vl" + " ON en.client_id=vl.client_id"
-		        + "	WHERE vl.recent_vl IS NOT NULL " + "	AND vl.recent_vl < 1000 "
-		        + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate " + " AND vl.location_id=:location";
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up vl" + " ON en.client_id=vl.client_id"
+		        + "	WHERE vl.vl_results IS NOT NULL " + "	AND vl.vl_results < 1000 "
+		        + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getPregnantQueries() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + " WHERE fu.client_pregnant IS NOT NULL AND fu.encounter_datetime BETWEEN :startDate AND :endDate "
-		        + " AND fu.location_id=:location";
+		        + " WHERE fu.client_pregnant IS NOT NULL AND fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getBreastfeedingQueries() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + " WHERE fu.patient_breastfeeding IS NOT NULL AND DATE(fu.encounter_datetime) BETWEEN :startDate AND :endDate "
-		        + " AND fu.location_id=:location";
+		        + " WHERE fu.patient_breastfeeding IS NOT NULL AND DATE(fu.encounter_datetime) BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getDeadClientsQueries() {
 		return "SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
-		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " AND efu.location_id=:location";
+		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getStoppedTreatmentQueries() {
@@ -258,13 +254,12 @@ public class MerQueries {
 	public static String getTransferOutQueries() {
 		return "SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
-		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate " + " AND efu.location_id=:location";
+		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getInterruptionQueries() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
 		        + " WHERE "
-		        + " DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) < :endDate "
-		        + " AND fu.location_id=:location";
+		        + " DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) < :endDate ";
 	}
 }

@@ -1,6 +1,5 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
-import org.openmrs.Location;
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -37,10 +36,9 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 	
 	public DataSetDefinition getTxCurrDataset() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate}";
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		dsd.addParameter(new Parameter("location", "Facility", Location.class));
 		dsd.addDimension("gender", map(dimension.gender(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
 		dsd.addDimension("disp", map(dimension.getDispensingQuantityDimension(), mappings));
@@ -87,10 +85,9 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		dsd.addParameter(new Parameter("location", "Facility", Location.class));
 		dsd.addDimension("gender", map(dimension.gender(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
-		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate}";
 		dsd.setName("TxN");
 		addRow(
 		    dsd,
@@ -134,10 +131,9 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		dsd.addParameter(new Parameter("location", "Facility", Location.class));
 		dsd.addDimension("gender", map(dimension.gender(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
-		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate}";
 		dsd.setName("TxM");
 		
 		addRow(
@@ -242,10 +238,9 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		dsd.addParameter(new Parameter("location", "Facility", Location.class));
 		dsd.addDimension("gender", map(dimension.gender(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
-		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate}";
 		dsd.setName("TxR");
 		
 		addRow(
@@ -336,10 +331,9 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		dsd.addParameter(new Parameter("location", "Facility", Location.class));
 		dsd.addDimension("gender", map(dimension.gender(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
-		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate}";
 		dsd.setName("TxP");
 		
 		addRow(

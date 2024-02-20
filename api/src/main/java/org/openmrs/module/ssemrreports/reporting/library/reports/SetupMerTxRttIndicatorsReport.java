@@ -1,6 +1,7 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import org.openmrs.module.reporting.ReportingException;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -46,14 +48,15 @@ public class SetupMerTxRttIndicatorsReport extends SSEMRDataExportManager {
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
-		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d},location=${location}";
-		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d},location=${location}";
-		String mappings3 = "startDate=${startDate+2m},endDate=${endDate},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate}";
+		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d}";
+		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d}";
+		String mappings3 = "startDate=${startDate+2m},endDate=${endDate}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
+		rd.addParameter(new Parameter("startDate", "StartDate", Date.class));
+		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		rd.addDataSetDefinition("TxR", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings));
 		rd.addDataSetDefinition("TxR1", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings1));
 		rd.addDataSetDefinition("TxR2", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings2));

@@ -1,6 +1,7 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import org.openmrs.module.reporting.ReportingException;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -47,14 +49,14 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SSEMRDataExportManager 
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		String mappingsQuaterly = "startDate=${startDate},endDate=${endDate},location=${location}";
-		String mappingsFirstMonth = "startDate=${startDate},endDate=${endDate-2m},location=${location}";
-		String mappingsSecondMonth = "startDate=${startDate},endDate=${endDate-1m},location=${location}";
-		String mappingsThirdMonth = "startDate=${endDate-1m},endDate=${endDate},location=${location}";
+		String mappingsQuaterly = "startDate=${startDate},endDate=${endDate}";
+		String mappingsFirstMonth = "startDate=${startDate},endDate=${endDate-2m}";
+		String mappingsSecondMonth = "startDate=${startDate},endDate=${endDate-1m}";
+		String mappingsThirdMonth = "startDate=${endDate-1m},endDate=${endDate}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
-		rd.setDescription(getDescription());
-		rd.addParameters(merIndicatorsDatasetDefinition.getParameters());
+		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		rd.addDataSetDefinition("TxC",
 		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsQuaterly));
 		rd.addDataSetDefinition("TxC1",
