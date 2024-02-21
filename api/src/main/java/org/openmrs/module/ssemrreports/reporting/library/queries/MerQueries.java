@@ -148,17 +148,17 @@ public class MerQueries {
 	
 	public static String getTxMlIitL3mQuery() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + "	WHERE CAST(fu.number_of_days_dispensed AS UNSIGNED) < 90 ";
+		        + "	WHERE CAST(fu.days_dispensed AS UNSIGNED) < 90 ";
 	}
 	
 	public static String getTxMlIitL3To5mQuery() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + "	WHERE CAST(fu.number_of_days_dispensed AS UNSIGNED) BETWEEN 90 AND 150 ";
+		        + "	WHERE CAST(fu.days_dispensed AS UNSIGNED) BETWEEN 90 AND 150 ";
 	}
 	
 	public static String getTxMlIitM6mQuery() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + "	WHERE CAST(fu.number_of_days_dispensed AS UNSIGNED) >= 180 ";
+		        + "	WHERE CAST(fu.days_dispensed AS UNSIGNED) >= 180 ";
 	}
 	
 	public static String getTxMlCauseOfDeathQueries(String cause) {
