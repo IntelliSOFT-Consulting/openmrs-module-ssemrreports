@@ -162,8 +162,8 @@ public class MerQueries {
 	}
 	
 	public static String getTxMlCauseOfDeathQueries(String cause) {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up fu "
+		        + "	WHERE fu.cause_of_death IS NOT NULL AND  fu.cause_of_death='" + cause + "'";
 	}
 	
 	//TX RTT
@@ -241,8 +241,7 @@ public class MerQueries {
 	
 	public static String getDeadClientsQueries() {
 		return "SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
-		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate ";
+		        + " WHERE efu.death IS NOT NULL ";
 	}
 	
 	public static String getStoppedTreatmentQueries() {
@@ -253,8 +252,8 @@ public class MerQueries {
 	
 	public static String getTransferOutQueries() {
 		return "SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
-		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate ";
+		        + " WHERE efu.transfer_out IS NOT NULL "
+		        + " AND DATE(efu.encounter_datetime) BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getInterruptionQueries() {
