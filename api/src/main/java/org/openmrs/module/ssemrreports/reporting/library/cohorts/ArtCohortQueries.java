@@ -106,8 +106,7 @@ public class ArtCohortQueries {
 	public CohortDefinition currentOnARTCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select " + "    client_id " + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment "
-		        + "where art_regimen is not null " + "  and transferred_in is not null "
-				+ "group by client_id"
+		        + "where art_regimen is not null " + "  and transferred_in is not null " + "group by client_id"
 		        + " having min(date(encounter_datetime)) between date(:startDate) and date(:endDate);";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -210,8 +209,7 @@ public class ArtCohortQueries {
 		// TODO: Modify the query to compare against the most recent Regimen within the reporting period
 		String qry = "select " + "    e.client_id " + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e "
 		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id) "
-		        + "where date(f.encounter_datetime) <= date(:endDate) "
-		        + "  and f.art_regimen = ':artRegimen' ";
+		        + "where date(f.encounter_datetime) <= date(:endDate) " + "  and f.art_regimen = ':artRegimen' ";
 		
 		qry.replace(":artRegimen", regimenName);
 		cd.setQuery(qry);
@@ -248,10 +246,11 @@ public class ArtCohortQueries {
 		        + "  and f.art_regimen in ('5a = AZT/3TC+LPV/r', " + " '5b = AZT/3TC + RAL', "
 		        + " '5c = ABC/3TC (120/60) + RAL', " + " '5d = AZT/3TC + ATV/r', " + " '5e = ABC/3TC + ATV/r', "
 		        + " '5f = TDF/ 3TC + ATV/r', " + " '5g = AZT/3TC + DTG50', " + " '5h = ABC/3TC + DTG50', "
-		        + " '5i = ABC/3TC + LPV/r', " + " '5j = AZT/3TC (120/60)+DTG10', " + " '2a = AZT/3TC + DTG' " + " '2b = ABC/3TC + DTG', "
-		        + " '2c = TDF+3TC + LPV/r', " + " '2d = TDF/3TC + ATV/r', " + " '2e = TDF/FTC-LPV/r', "
-		        + " '2f = TDF/FTC-ATV/r', " + " '2g = AZT/3TC + LPV/r', " + " '2h = AZT/3TC + ATV/r', "
-		        + " '2i = ABC/3TC + LPV/r', " + " '2J  = ABC/3TC + ATV/r', " + " '2k = TDF/3TC/DTG') ";
+		        + " '5i = ABC/3TC + LPV/r', " + " '5j = AZT/3TC (120/60)+DTG10', " + " '2a = AZT/3TC + DTG' "
+		        + " '2b = ABC/3TC + DTG', " + " '2c = TDF+3TC + LPV/r', " + " '2d = TDF/3TC + ATV/r', "
+		        + " '2e = TDF/FTC-LPV/r', " + " '2f = TDF/FTC-ATV/r', " + " '2g = AZT/3TC + LPV/r', "
+		        + " '2h = AZT/3TC + ATV/r', " + " '2i = ABC/3TC + LPV/r', " + " '2J  = ABC/3TC + ATV/r', "
+		        + " '2k = TDF/3TC/DTG') ";
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
