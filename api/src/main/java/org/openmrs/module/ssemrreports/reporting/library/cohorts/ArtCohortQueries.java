@@ -225,7 +225,7 @@ public class ArtCohortQueries {
 		        + "    e.client_id "
 		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e "
 		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id) "
-		        + "where <= date(:endDate)  "
+		        + "where date(f.encounter_datetime) <= date(:endDate)  "
 		        + "  and f.art_regimen in ('1a = AZT/3TC + EFV', '1b = AZT/3TC/NVP', '1c = TDF/3TC/DTG', "
 		        + "'1d = ABC/3TC (600/300) /DTG', '1e = AZT/3TC + DTG','1f = TDF/3TC/EFV','1g = TDF/3TC + NVP','1h = TDF/FTC/ EFV',"
 		        + "'1J  = TDF/FTC + NVP', '4a = AZT/3TC/NVP', '4b = AZT/3TC + EFV', '4c = ABC/3TC (120/60) + LPV/r', '4d = ABC/3TC (120/60) + DTG50', '4f = ABC/3TC + NVP', '4g = ABC/3TC (120/60) + EFV (200mg)', "
@@ -242,7 +242,7 @@ public class ArtCohortQueries {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select " + "    e.client_id " + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e "
 		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id) "
-		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate)  "
+		        + "where date(f.encounter_datetime) <= date(:endDate)  "
 		        + "  and f.art_regimen in ('5a = AZT/3TC+LPV/r', " + " '5b = AZT/3TC + RAL', "
 		        + " '5c = ABC/3TC (120/60) + RAL', " + " '5d = AZT/3TC + ATV/r', " + " '5e = ABC/3TC + ATV/r', "
 		        + " '5f = TDF/ 3TC + ATV/r', " + " '5g = AZT/3TC + DTG50', " + " '5h = ABC/3TC + DTG50', "
