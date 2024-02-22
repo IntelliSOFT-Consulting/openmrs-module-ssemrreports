@@ -111,14 +111,14 @@ public class MerQueries {
 		return "SELECT client_id FROM("
 		        + "SELECT fu.client_id,MAX(fu.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu"
 		        + "	WHERE fu.cd4 IS NOT NULL AND fu.cd4 < 200 "
-		        + "	AND fu.encounter_datetime BETWEEN :startDate AND :endDate) fn " + " GROUP BY fn.client_id";
+		        + "	AND fu.encounter_datetime BETWEEN :startDate AND :endDate " + " GROUP BY fu.client_id) fn";
 	}
 	
 	public static String getClientsWithCd4MoreThanOrEqualTo200Query() {
 		return "SELECT client_id FROM("
 		        + "SELECT fu.client_id,MAX(fu.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu"
 		        + "	WHERE fu.cd4 IS NOT NULL AND fu.cd4 >= 200 "
-		        + "	AND fu.encounter_datetime BETWEEN :startDate AND :endDate) fn " + " GROUP BY fn.client_id";
+		        + "	AND fu.encounter_datetime BETWEEN :startDate AND :endDate " + " GROUP BY fu.client_id) fn";
 	}
 	
 	public static String getClientsWithUnknownCd4Query() {
