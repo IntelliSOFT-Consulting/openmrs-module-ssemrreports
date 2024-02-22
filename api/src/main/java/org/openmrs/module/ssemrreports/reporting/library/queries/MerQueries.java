@@ -252,8 +252,7 @@ public class MerQueries {
 	
 	public static String getStoppedTreatmentQueries() {
 		return "SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
-		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
-		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate";
+		        + " WHERE ai.date_restarted IS NULL" + " AND DATE(ai.encounter_datetime) BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getTransferOutQueries() {
