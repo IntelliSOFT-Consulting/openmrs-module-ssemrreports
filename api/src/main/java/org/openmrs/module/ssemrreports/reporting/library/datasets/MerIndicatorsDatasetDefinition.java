@@ -302,20 +302,23 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    "RTT4",
 		    "CD4 results - CD4: <200",
 		    map(indicator.getIndicator("CD4 results - CD4: <200",
-		        map(merCohortQueries.getTxRttWithCd4LessThan200Cohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		        map(merCohortQueries.getHowLongWerePeopleOffMonthsFromLastTcaWithCd4LessThan200Cohorts(), mappings)),
+		        mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "RTT5",
 		    "CD4 results - CD4: ≥200",
 		    map(indicator.getIndicator("CD4 results - CD4: ≥200",
-		        map(merCohortQueries.getTxRttWithCd4GreaterOrEqual200Cohorts(), mappings)), mappings),
-		    getMerGenderAndAgeColumns());
+		        map(merCohortQueries.getHowLongWerePeopleOffFromLastTcaWithCd4GreaterOrEqual200Cohorts(), mappings)),
+		        mappings), getMerGenderAndAgeColumns());
+		
 		addRow(
 		    dsd,
 		    "RTT6",
 		    "CD4 results - Unknown CD4",
 		    map(indicator.getIndicator("CD4 results - Unknown CD4",
-		        map(merCohortQueries.getTxRttWithUnknownCd4Cohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		        map(merCohortQueries.getHowLongWerePeopleOffFromLastTcaWithUnknownCd4Cohorts(), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
 		
 		addRow(
 		    dsd,

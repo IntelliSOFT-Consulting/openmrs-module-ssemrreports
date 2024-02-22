@@ -289,6 +289,19 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
+	public CohortDefinition getHowLongWerePeopleOffMonthsFromLastTcaWithCd4LessThan200Cohorts() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx RTT getHowLongWerePeopleOffMonthsFromLastTcaWithCd4LessThan200Cohorts");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("T0", SSEMRReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("T1",
+		    SSEMRReportUtils.map(getTxRttWithCd4LessThan200Cohorts(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("T0 AND T1");
+		return cd;
+	}
+	
 	public CohortDefinition getTxRttWithCd4GreaterOrEqual200Cohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxRTT Cohorts - CD4: ≥ 200");
@@ -298,12 +311,38 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
+	public CohortDefinition getHowLongWerePeopleOffFromLastTcaWithCd4GreaterOrEqual200Cohorts() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx RTT getHowLongWerePeopleOffFromLastTcaWithCd4GreaterOrEqual200Cohorts");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("T0", SSEMRReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("T1",
+		    SSEMRReportUtils.map(getTxRttWithCd4GreaterOrEqual200Cohorts(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("T0 AND T1");
+		return cd;
+	}
+	
 	public CohortDefinition getTxRttWithUnknownCd4Cohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxRTT Cohorts - Unknown CD4");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setQuery(MerQueries.getClientsWithUnknownCd4Query());
+		return cd;
+	}
+	
+	public CohortDefinition getHowLongWerePeopleOffFromLastTcaWithUnknownCd4Cohorts() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx RTT getHowLongWerePeopleOffFromLastTcaWithUnknownCd4Cohorts");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("T0", SSEMRReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("T1",
+		    SSEMRReportUtils.map(getTxRttWithUnknownCd4Cohorts(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
 	
