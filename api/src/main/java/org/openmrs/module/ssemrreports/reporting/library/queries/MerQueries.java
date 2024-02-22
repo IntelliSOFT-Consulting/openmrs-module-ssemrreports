@@ -199,18 +199,6 @@ public class MerQueries {
 		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
-	public static String getTxRttWithCd4LessThan200Queries() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
-	}
-	
-	public static String getTxRttWithCd4GreaterOrEqual200Queries() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
-	}
-	
-	public static String getTxRttWithUnknownCd4Queries() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
-	}
-	
 	public static String getTxRttNotEligibleForCd4Queries() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}

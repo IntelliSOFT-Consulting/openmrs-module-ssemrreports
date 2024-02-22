@@ -241,7 +241,7 @@ public class MerCohortQueries {
 		    "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("T1", SSEMRReportUtils.map(getHowLongWerePeopleOffArvs28DaysTo3MonthsCohorts(),
 		    "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("TO AND T1");
+		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
 	
@@ -254,7 +254,7 @@ public class MerCohortQueries {
 		    "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("T1", SSEMRReportUtils.map(getHowLongWerePeopleOffArvs3To6MonthsQueryCohorts(),
 		    "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("TO AND T1");
+		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
 	
@@ -267,7 +267,7 @@ public class MerCohortQueries {
 		    "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("T1", SSEMRReportUtils.map(getHowLongWerePeopleOffArvs6To12MonthsQueryCohorts(),
 		    "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("TO AND T1");
+		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
 	
@@ -285,7 +285,7 @@ public class MerCohortQueries {
 		cd.setName("TxRTT Cohorts - CD4: < 200");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setQuery(MerQueries.getTxRttWithCd4LessThan200Queries());
+		cd.setQuery(MerQueries.getClientsWithCd4LessThan200Query());
 		return cd;
 	}
 	
@@ -294,7 +294,7 @@ public class MerCohortQueries {
 		cd.setName("TxRTT Cohorts - CD4: ≥ 200");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setQuery(MerQueries.getTxRttWithCd4GreaterOrEqual200Queries());
+		cd.setQuery(MerQueries.getClientsWithCd4MoreThanOrEqualTo200Query());
 		return cd;
 	}
 	
@@ -303,7 +303,7 @@ public class MerCohortQueries {
 		cd.setName("TxRTT Cohorts - Unknown CD4");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setQuery(MerQueries.getTxRttWithUnknownCd4Queries());
+		cd.setQuery(MerQueries.getClientsWithUnknownCd4Query());
 		return cd;
 	}
 	
