@@ -2,6 +2,7 @@ package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -36,7 +38,7 @@ public class SetupListOfFamilyContactsKnownHivPositiveAtStartOfArtRegister exten
 	
 	@Override
 	public String getName() {
-		return "List of Family contacts known HIV +ve at start of ART ";
+		return "List of Family contacts known HIV +ve at start of ART";
 	}
 	
 	@Override
@@ -50,7 +52,7 @@ public class SetupListOfFamilyContactsKnownHivPositiveAtStartOfArtRegister exten
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		//rd.setParameters(listOfFamilyContactsDSD.getParameters());
+		rd.setParameters(listOfFamilyContactsDSD.getParameters());
 		rd.addDataSetDefinition("FC4", Mapped.mapStraightThrough(listOfFamilyContactsDSD.getKnownHivPositiveAtStartOfArt()));
 		return rd;
 	}

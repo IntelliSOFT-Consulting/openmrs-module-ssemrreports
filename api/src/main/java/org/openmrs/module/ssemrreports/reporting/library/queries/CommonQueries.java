@@ -451,4 +451,25 @@ public class CommonQueries {
 		
 		return query;
 	}
+	
+	public static String getClientsWithinAgeLimit(Integer minAge, Integer maxAge) {
+		String query = "SELECT mdp.person_id FROM ssemr_etl.mamba_dim_person mdp WHERE mdp.voided=0 "
+		        + " AND TIMESTAMPDIFF(YEAR, mdp.birthdate, :effectiveDate) BETWEEN %d AND %d";
+		
+		return String.format(query, minAge, maxAge);
+	}
+	
+	public static String getClientGender(String option) {
+		String query = "SELECT mdp.person_id FROM ssemr_etl.mamba_dim_person mdp WHERE mdp.voided=0 " + " AND mdp.gender='"
+		        + option + "'";
+		
+		return query;
+	}
+	
+	public static String getDeadClients() {
+		String query = "SELECT mdp.person_id FROM ssemr_etl.mamba_dim_person mdp WHERE"
+		        + " mdp.dead= 1 AND mdp.death_date IS NOT NULL AND mdp.death_date BETWEEN :startDate AND :endDate";
+		
+		return query;
+	}
 }

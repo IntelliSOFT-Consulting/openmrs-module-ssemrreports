@@ -17,6 +17,8 @@ import java.util.Date;
 import org.openmrs.Concept;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.cohorts.MerCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.OpdReportCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.SharedCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
@@ -33,10 +35,14 @@ public class SSEMRCommonDimension {
 	
 	private final OpdReportCohortQueries opdReportCohortQueries;
 	
+	private final MerCohortQueries merCohortQueries;
+	
 	@Autowired
-	public SSEMRCommonDimension(SharedCohortQueries sharedCohortQueries, OpdReportCohortQueries opdReportCohortQueries) {
+	public SSEMRCommonDimension(SharedCohortQueries sharedCohortQueries, OpdReportCohortQueries opdReportCohortQueries,
+	    MerCohortQueries merCohortQueries) {
 		this.sharedCohortQueries = sharedCohortQueries;
 		this.opdReportCohortQueries = opdReportCohortQueries;
+		this.merCohortQueries = merCohortQueries;
 	}
 	
 	/**
@@ -47,8 +53,8 @@ public class SSEMRCommonDimension {
 	public CohortDefinitionDimension gender() {
 		CohortDefinitionDimension dim = new CohortDefinitionDimension();
 		dim.setName("gender");
-		dim.addCohortDefinition("M", SSEMRReportUtils.map(sharedCohortQueries.maleCohort(), ""));
-		dim.addCohortDefinition("F", SSEMRReportUtils.map(sharedCohortQueries.femaleCohort(), ""));
+		dim.addCohortDefinition("M", SSEMRReportUtils.map(sharedCohortQueries.getClientGender("M"), ""));
+		dim.addCohortDefinition("F", SSEMRReportUtils.map(sharedCohortQueries.getClientGender("F"), ""));
 		return dim;
 	}
 	
@@ -62,81 +68,84 @@ public class SSEMRCommonDimension {
 		dim.setName("age");
 		dim.addParameter(new Parameter("effectiveDate", "Effective Date", Date.class));
 		dim.addCohortDefinition("<1",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(0, 0), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(0, 0), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("1-4",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(1, 4), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(1, 4), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("5-9",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(5, 9), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(5, 9), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("10-14",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(10, 14), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(10, 14), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("15-19",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(15, 19), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(15, 19), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("20-24",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(20, 24), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(20, 24), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("25-29",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(25, 29), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(25, 29), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("30-34",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(30, 34), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(30, 34), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("35-39",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(35, 39), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(35, 39), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("40-44",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(40, 44), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(40, 44), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("45-49",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(45, 49), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(45, 49), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("50+",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(50, 200), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(50, 200), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("5+",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(5, 200), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(5, 200), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("0-5",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(0, 5), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(0, 5), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("6-14",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(6, 14), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(6, 14), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("15-29",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(15, 29), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(15, 29), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("30+",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(30, 200), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(30, 200), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("<15",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(0, 14), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(0, 14), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("30-39",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(30, 39), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(30, 39), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("45+",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(45, 200), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(45, 200), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("0-14",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(0, 14), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(0, 14), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("1-9",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(1, 9), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(1, 9), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("40-49",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(40, 49), "effectiveDate=${effectiveDate}"));
-		
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(40, 49), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("10-12",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(10, 12), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(10, 12), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("13-14",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(13, 14), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(13, 14), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("50-54",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(50, 54), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(50, 54), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("55-59",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(55, 59), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(55, 59), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("60-64",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(60, 64), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(60, 64), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("65-69",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(65, 69), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(65, 69), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("70-74",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(70, 74), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(70, 74), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("75-79",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(75, 79), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(75, 79), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("80-84",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(80, 84), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(80, 84), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("85+",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(85, 200), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(85, 200), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("UK", SSEMRReportUtils.map(sharedCohortQueries.createUnknownAgeCohort(), ""));
 		dim.addCohortDefinition("60+",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(60, 200), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(60, 200), "effectiveDate=${effectiveDate}"));
+		dim.addCohortDefinition("65+",
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(65, 200), "effectiveDate=${effectiveDate}"));
+		dim.addCohortDefinition("15+",
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(15, 200), "effectiveDate=${effectiveDate}"));
 		
 		// regimen age-groups dimensions
 		dim.addCohortDefinition("0-9",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(0, 9), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(0, 9), "effectiveDate=${effectiveDate}"));
 		dim.addCohortDefinition("15-49",
-		    SSEMRReportUtils.map(sharedCohortQueries.createXtoYAgeCohort(15, 49), "effectiveDate=${effectiveDate}"));
+		    SSEMRReportUtils.map(sharedCohortQueries.getClientAge(15, 49), "effectiveDate=${effectiveDate}"));
 		return dim;
 	}
 	
@@ -224,6 +233,20 @@ public class SSEMRCommonDimension {
 		    SSEMRReportUtils.map(
 		        sharedCohortQueries.getPatientsWithObsByEndDate(Arrays.asList(hivStatus.getConceptId()),
 		            Arrays.asList(hivPositive.getConceptId())), "endDate=${endDate},location=${location}"));
+		return dim;
+	}
+	
+	public CohortDefinitionDimension getDispensingQuantityDimension() {
+		CohortDefinitionDimension dim = new CohortDefinitionDimension();
+		dim.setName("ARV Dispensing quantity dimension");
+		dim.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		dim.addParameter(new Parameter("endDate", "End Date", Date.class));
+		CohortDefinition less3m = merCohortQueries.getTxMlIitL3mCohorts();
+		CohortDefinition threeTo5m = merCohortQueries.getTxMlIit3To5mCohorts();
+		CohortDefinition more6m = merCohortQueries.getTxMlIitM6mCohorts();
+		dim.addCohortDefinition("<3m", SSEMRReportUtils.map(less3m, "startDate=${startDate},endDate=${endDate}"));
+		dim.addCohortDefinition("3-5m", SSEMRReportUtils.map(threeTo5m, "startDate=${startDate},endDate=${endDate}"));
+		dim.addCohortDefinition(">6m", SSEMRReportUtils.map(more6m, "startDate=${startDate},endDate=${endDate}"));
 		return dim;
 	}
 }
