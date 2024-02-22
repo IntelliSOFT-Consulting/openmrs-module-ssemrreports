@@ -257,7 +257,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    "RTT21",
 		    "How long were people off ARVs - 28 days-3 months",
 		    map(indicator.getIndicator("How long were people off ARVs - 28 days-3 months",
-		        map(merCohortQueries.getHowLongWerePeopleOffArvs28DaysTo3MonthsCohorts(), mappings)), mappings),
+		        map(merCohortQueries.getHowLongWerePeopleOffArvs28DaysTo3MonthsFromLastTcaCohorts(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		addRow(
@@ -265,7 +265,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    "RTT22",
 		    "How long were people off ARVs - 3 -6 months",
 		    map(indicator.getIndicator("How long were people off ARVs - 3 -6 months",
-		        map(merCohortQueries.getHowLongWerePeopleOffArvs3To6MonthsQueryCohorts(), mappings)), mappings),
+		        map(merCohortQueries.getHowLongWerePeopleOffArvs3To6MonthsFromLastTcaCohorts(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		addRow(
@@ -273,10 +273,10 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    "RTT23",
 		    "How long were people off ARVs - 6-12 months ",
 		    map(indicator.getIndicator("How long were people off ARVs - 6-12 months ",
-		        map(merCohortQueries.getHowLongWerePeopleOffArvs6To12MonthsQueryCohorts(), mappings)), mappings),
+		        map(merCohortQueries.getHowLongWerePeopleOffArvs6To12MonthsFromLastTcaCohorts(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
-		addRow(
+		/*addRow(
 		    dsd,
 		    "RTT31",
 		    "Traced by - Self",
@@ -295,7 +295,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    "RTT33",
 		    "Traced by - COV",
 		    map(indicator.getIndicator("Traced by - COV ", map(merCohortQueries.getTracedByQueryCohorts("COV"), mappings)),
-		        mappings), getMerGenderAndAgeColumns());
+		        mappings), getMerGenderAndAgeColumns());*/
 		
 		addRow(
 		    dsd,

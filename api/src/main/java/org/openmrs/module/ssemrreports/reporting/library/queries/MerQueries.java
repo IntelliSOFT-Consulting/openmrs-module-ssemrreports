@@ -168,23 +168,30 @@ public class MerQueries {
 	
 	//TX RTT
 	public static String getClientsTracedBroughtBackToCareRestarted() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
-		        + "	WHERE fu.date_restarted IS NOT NULL AND fu.encounter_datetime BETWEEN :startDate AND :endDate ";
+		return "SELECT fu.client_id, MAX(fu.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
+		        + "	WHERE fu.date_restarted IS NOT NULL AND fu.encounter_datetime BETWEEN :startDate AND :endDate "
+		        + " GROUP BY fu.client_id";
 	}
 	
 	public static String getHowLongWerePeopleOffArvs28DaysTo3MonthsQuery() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
+		return "SELECT client_id FROM ( "
+		        + " SELECT fu.client_id AS client_id, MAX(fu.follow_up_date) AS follow_up_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate "
+		        + " GROUP BY fu.client_id) fn WHERE DATEDIFF(fn.follow_up_date, :endDate) BETWEEN 28 AND 89 ";
 	}
 	
 	public static String getHowLongWerePeopleOffArvs3To6MonthsQuery() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
+		return "SELECT client_id FROM ( "
+		        + " SELECT fu.client_id AS client_id, MAX(fu.follow_up_date) AS follow_up_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate "
+		        + " GROUP BY fu.client_id) fn WHERE DATEDIFF(fn.follow_up_date, :endDate) BETWEEN 90 AND 179 ";
 	}
 	
 	public static String getHowLongWerePeopleOffArvs6To12MonthsQuery() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate";
+		return "SELECT client_id FROM ( "
+		        + " SELECT fu.client_id AS client_id, MAX(fu.follow_up_date) AS follow_up_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate "
+		        + " GROUP BY fu.client_id) fn WHERE DATEDIFF(fn.follow_up_date, :endDate) BETWEEN 180 AND 365 ";
 	}
 	
 	public static String getTracedByQuery(String tracedBy) {

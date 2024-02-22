@@ -231,6 +231,46 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
+	//Combine the lost patients with the base query that they actually restarted treatment
+	public CohortDefinition getHowLongWerePeopleOffArvs28DaysTo3MonthsFromLastTcaCohorts() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx RTT getHowLongWerePeopleOffArvs28DaysTo3MonthsFromLastTcaCohorts");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("T0", SSEMRReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("T1", SSEMRReportUtils.map(getHowLongWerePeopleOffArvs28DaysTo3MonthsCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("TO AND T1");
+		return cd;
+	}
+	
+	public CohortDefinition getHowLongWerePeopleOffArvs3To6MonthsFromLastTcaCohorts() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx RTT getHowLongWerePeopleOffArvs3To6MonthsFromLastTcaCohorts");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("T0", SSEMRReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("T1", SSEMRReportUtils.map(getHowLongWerePeopleOffArvs3To6MonthsQueryCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("TO AND T1");
+		return cd;
+	}
+	
+	public CohortDefinition getHowLongWerePeopleOffArvs6To12MonthsFromLastTcaCohorts() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx RTT getHowLongWerePeopleOffArvs6To12MonthsFromLastTcaCohorts");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("T0", SSEMRReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("T1", SSEMRReportUtils.map(getHowLongWerePeopleOffArvs6To12MonthsQueryCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("TO AND T1");
+		return cd;
+	}
+	
 	public CohortDefinition getTracedByQueryCohorts(String tracedBy) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxRTT Cohorts - getTracedByQuery " + tracedBy);
