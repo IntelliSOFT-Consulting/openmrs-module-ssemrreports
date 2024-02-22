@@ -78,7 +78,7 @@ public class SetupHighVLAndEACRegister extends SSEMRDataExportManager {
 			reportDesign = createXlsReportDesign(reportDefinition, "hvlAndEACRegister.xls",
 			    "Report for listing High VL and EAC clients", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:3,dataset:HVLEAC");
+			props.put("repeatingSections", "sheet:1,row:4,dataset:HVLEAC");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}
