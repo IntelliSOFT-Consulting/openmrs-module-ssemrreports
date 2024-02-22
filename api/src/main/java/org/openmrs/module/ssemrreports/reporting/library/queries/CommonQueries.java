@@ -384,7 +384,7 @@ public class CommonQueries {
 		        + "      AND fp.vl_results < 200 "
 		        + "      AND timestampdiff("
 		        + "        MONTH, "
-		        + "        max(fp.date_of_sample_collection), "
+		        + "        max(fp.date_vl_sample_collected), "
 		        + "        :endDate "
 		        + "      ) >= 12 THEN true ELSE NULL END as due_date "
 		        + "    FROM "
