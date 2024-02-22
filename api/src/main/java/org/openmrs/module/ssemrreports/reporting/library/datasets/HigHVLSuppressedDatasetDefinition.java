@@ -44,7 +44,7 @@ import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.PersonAttributeType;
 
 @Component
-public class HighVLSupressedDatasetDefinition extends SSEMRBaseDataSet {
+public class HigHVLSuppressedDatasetDefinition extends SSEMRBaseDataSet {
 	
 	private DataDefinition personPayamAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("payam", new PayamAddressCalculation());
@@ -56,11 +56,11 @@ public class HighVLSupressedDatasetDefinition extends SSEMRBaseDataSet {
 		return cd;
 	}
 	
-	public DataSetDefinition constructHighVLSupressedDatasetDefinition() {
+	public DataSetDefinition constructHigHVLSuppressedDatasetDefinition() {
 		
 		String DATE_FORMAT = "dd-MMM-yyyy";
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
-		dsd.setName("HVLSupressed");
+		dsd.setName("HVLSuppressed");
 		dsd.addParameters(getParameters());
 		dsd.setDescription("Patients with high VL and supressed");
 		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
