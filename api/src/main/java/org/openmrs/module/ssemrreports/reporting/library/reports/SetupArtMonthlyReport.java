@@ -69,10 +69,10 @@ public class SetupArtMonthlyReport extends SSEMRDataExportManager {
 		//rd.addDataSetDefinition("DT", Mapped.mapStraightThrough(districtDatasetDefinition
 		//        .getAddressDataset(mflCodeAttributeType.getLocationAttributeTypeId())));
 		rd.addDataSetDefinition("CummAndNewOnArt",
-		    Mapped.mapStraightThrough(artDatasetDefinition.getTxCurrForAgeAtEnrolmentDataset()));
+		    Mapped.mapStraightThrough(artDatasetDefinition.getTxCurrByRegimenDataset()));
 		rd.addDataSetDefinition("currentOnArtByAge", Mapped.mapStraightThrough(artDatasetDefinition.getArtDataset()));
 		rd.addDataSetDefinition("currentOnArtByRegimen",
-		    Mapped.mapStraightThrough(artDatasetDefinition.getTxCurrByRegimenDataset()));
+		    Mapped.mapStraightThrough(artDatasetDefinition.getTxCurrForAgeAtEnrolmentDataset()));
 		rd.addDataSetDefinition("viralLoad", Mapped.mapStraightThrough(artDatasetDefinition.getViralLoadDataset()));
 		return rd;
 	}

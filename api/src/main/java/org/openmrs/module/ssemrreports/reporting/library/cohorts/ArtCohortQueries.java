@@ -89,7 +89,7 @@ public class ArtCohortQueries {
 		        + "    client_id "
 		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment "
 		        + "where date(art_start_date) between date(:startDate) and date(:endDate) and (transferred_in is null or transferred_in = 'False') "
-		        + " having min(date(encounter_datetime)) between date(:startDate) and date(:endDate);";
+		        + " group by client_id having min(date(encounter_datetime)) between date(:startDate) and date(:endDate);";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
