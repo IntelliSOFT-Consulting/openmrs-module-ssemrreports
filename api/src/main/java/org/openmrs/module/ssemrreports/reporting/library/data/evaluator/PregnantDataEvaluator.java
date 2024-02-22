@@ -36,10 +36,10 @@ public class PregnantDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select t.client_id, t.pregnancy_status from ( select client_id, edd, MID(MAX(CONCAT(encounter_datetime, client_pregnant)), 20) "
+		String qry = "select t.client_id, t.pregnancy_status from ( select client_id, edd, CASE MID(MAX(CONCAT(encounter_datetime, client_pregnant)), 20) WHEN 'True' THEN 'Y' ELSE 'N' END "
 		        + " AS pregnancy_status FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
 		        + " GROUP BY client_id, edd HAVING MAX(encounter_datetime) <= DATE(:endDate) "
-		        + " and pregnancy_status = 'True' and edd >= DATE(:endDate)) as t;";
+		        + " and edd >= DATE(:endDate)) as t;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
