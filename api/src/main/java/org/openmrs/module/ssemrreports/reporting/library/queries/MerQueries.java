@@ -168,8 +168,8 @@ public class MerQueries {
 	
 	//TX RTT
 	public static String getClientsTracedBroughtBackToCareRestarted() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
+		        + "	WHERE fu.date_restarted IS NOT NULL AND fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getHowLongWerePeopleOffArvs28DaysTo3MonthsQuery() {
