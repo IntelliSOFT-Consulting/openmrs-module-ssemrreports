@@ -276,27 +276,6 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		        map(merCohortQueries.getHowLongWerePeopleOffArvs6To12MonthsFromLastTcaCohorts(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
-		/*addRow(
-		    dsd,
-		    "RTT31",
-		    "Traced by - Self",
-		    map(indicator.getIndicator("Traced by - Self ", map(merCohortQueries.getTracedByQueryCohorts("self"), mappings)),
-		        mappings), getMerGenderAndAgeColumns());
-		
-		addRow(
-		    dsd,
-		    "RTT32",
-		    "Traced by - Phone",
-		    map(indicator.getIndicator("Traced by - Phone ",
-		        map(merCohortQueries.getTracedByQueryCohorts("phone"), mappings)), mappings), getMerGenderAndAgeColumns());
-		
-		addRow(
-		    dsd,
-		    "RTT33",
-		    "Traced by - COV",
-		    map(indicator.getIndicator("Traced by - COV ", map(merCohortQueries.getTracedByQueryCohorts("COV"), mappings)),
-		        mappings), getMerGenderAndAgeColumns());*/
-		
 		addRow(
 		    dsd,
 		    "RTT4",
@@ -325,7 +304,8 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    "RTT7",
 		    "CD4 results - Not Eligible for CD4",
 		    map(indicator.getIndicator("CD4 results - Not Eligible for CD4",
-		        map(merCohortQueries.getTxRttNotEligibleForCd4Cohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		        map(merCohortQueries.getHowLongWerePeopleOffFromLastTcaNotEligibleForCd4Cohorts(), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
 		
 		return dsd;
 	}

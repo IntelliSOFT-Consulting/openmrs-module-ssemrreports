@@ -271,15 +271,6 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
-	public CohortDefinition getTracedByQueryCohorts(String tracedBy) {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxRTT Cohorts - getTracedByQuery " + tracedBy);
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setQuery(MerQueries.getTracedByQuery(tracedBy));
-		return cd;
-	}
-	
 	public CohortDefinition getTxRttWithCd4LessThan200Cohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxRTT Cohorts - CD4: < 200");
@@ -352,6 +343,19 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setQuery(MerQueries.getTxRttNotEligibleForCd4Queries());
+		return cd;
+	}
+	
+	public CohortDefinition getHowLongWerePeopleOffFromLastTcaNotEligibleForCd4Cohorts() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx RTT getHowLongWerePeopleOffFromLastTcaNotEligibleForCd4Cohorts");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("T0", SSEMRReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("T1",
+		    SSEMRReportUtils.map(getTxRttNotEligibleForCd4Cohorts(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
 	

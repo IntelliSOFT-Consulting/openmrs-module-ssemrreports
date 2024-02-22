@@ -198,11 +198,6 @@ public class MerQueries {
 		        + " GROUP BY fu.client_id) fn WHERE DATEDIFF(fn.follow_up_date, :endDate) BETWEEN 180 AND 365 ";
 	}
 	
-	public static String getTracedByQuery(String tracedBy) {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
-	}
-	
 	public static String getTxRttNotEligibleForCd4Queries() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
 	}
