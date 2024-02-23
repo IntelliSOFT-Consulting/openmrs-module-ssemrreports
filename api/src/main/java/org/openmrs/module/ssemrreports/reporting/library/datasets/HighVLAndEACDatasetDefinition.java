@@ -42,6 +42,7 @@ import org.openmrs.module.metadatadeploy.MetadataUtils;
 
 @Component
 public class HighVLAndEACDatasetDefinition extends SSEMRBaseDataSet {
+	
 	private DataDefinition personPayamAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("payam", new PayamAddressCalculation());
 		return cd;
@@ -56,6 +57,7 @@ public class HighVLAndEACDatasetDefinition extends SSEMRBaseDataSet {
 		CalculationDataDefinition cd = new CalculationDataDefinition("landmark", new LandmarkAddressCalculation());
 		return cd;
 	}
+	
 	public DataSetDefinition constructHighVLAndEACDatasetDefinition() {
 		
 		String DATE_FORMAT = "dd-MMM-yyyy";
@@ -76,7 +78,7 @@ public class HighVLAndEACDatasetDefinition extends SSEMRBaseDataSet {
 		        openmrsID.getName(), openmrsID), identifierFormatter);
 		
 		PersonAttributeType phoneNumber = Context.getPersonService().getPersonAttributeTypeByUuid(
-				SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
+		    SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
 		
 		COVNameDataDefinition covNameDataDefinition = new COVNameDataDefinition();
 		covNameDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -106,7 +108,7 @@ public class HighVLAndEACDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
-				new PersonAttributeDataConverter());
+		    new PersonAttributeDataConverter());
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of last VL test", lastVLTestDateDataDefinition, "endDate=${endDate}");
