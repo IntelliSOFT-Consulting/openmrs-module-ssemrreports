@@ -7,6 +7,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.PersonService;
 import org.openmrs.PersonAttributeType;
+import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 import org.springframework.stereotype.Component;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
@@ -56,6 +57,12 @@ public class DocumentedVLDatasetDefinition extends SSEMRBaseDataSet {
 		CalculationDataDefinition cd = new CalculationDataDefinition("boma", new BomaAddressCalculation());
 		return cd;
 	}
+	
+	private DataDefinition personLandmarkAddress() {
+		CalculationDataDefinition cd = new CalculationDataDefinition("landmark", new LandmarkAddressCalculation());
+		return cd;
+	}
+	
 	
 	public DataSetDefinition constructDocumentedVLDatasetDefinition() {
 		
@@ -110,21 +117,18 @@ public class DocumentedVLDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
+		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
-		dsd.addColumn("Status", statusDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
-		    new PersonAttributeDataConverter());
-		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Pmtct", patientPMTCTDataDefinition, "endDate=${endDate}");
+				new PersonAttributeDataConverter());
+		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of last VL test", lastVLTestDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Last VL", lastVLDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("VL due date", vlDueDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date VL sample collected", lastVLTestDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date VL results  documented", vlResultsDocumentedDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date of start of pending VL results", lastVLTestDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
+		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Linked to COV (Y/N)", linkedToCOVDataDefinition, "endDate=${endDate}");
 		

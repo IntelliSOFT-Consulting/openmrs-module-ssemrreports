@@ -76,7 +76,7 @@ public class SetupVLRegister extends SSEMRDataExportManager {
 			reportDesign = createXlsReportDesign(reportDefinition, "vl_register.xls", "Report for patients with VL tests",
 			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:VLD");
+			props.put("repeatingSections", "sheet:1,row:4,dataset:VLD");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

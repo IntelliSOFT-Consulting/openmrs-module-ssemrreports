@@ -77,7 +77,7 @@ public class SetupPendingVLRegister extends SSEMRDataExportManager {
 			reportDesign = createXlsReportDesign(reportDefinition, "pending_vl_register.xls",
 			    "Report for patients with pending VL tests", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:PVLD");
+			props.put("repeatingSections", "sheet:1,row:4,dataset:PVLD");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}
