@@ -123,11 +123,16 @@ public class MerCohortQueries {
 	}
 	
 	public CohortDefinition getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterCohorts() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLater");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setQuery(MerQueries.getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLater());
+		cd.addSearch("T1", SSEMRReportUtils.map(
+		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("T2", SSEMRReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("T1 AND T2");
 		return cd;
 	}
 	
