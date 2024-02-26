@@ -76,11 +76,8 @@ public class MerQueries {
 		        + " SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
 		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
-		        + "	AND hce.art_start_date IS NOT NULL "
+		        + "	AND hce.art_start_date IS NULL "
 		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0"
-		        + " UNION "
-		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + " WHERE DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) BETWEEN :startDate AND :endDate "
 		        + ") agg WHERE client_id NOT IN("
 		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
