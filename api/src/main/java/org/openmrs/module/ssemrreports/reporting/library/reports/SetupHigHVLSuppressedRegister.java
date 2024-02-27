@@ -75,7 +75,7 @@ public class SetupHigHVLSuppressedRegister extends SSEMRDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "HVLSuppressedRegister.xls",
+			reportDesign = createXlsReportDesign(reportDefinition, "hvlSuppressedRegister.xls",
 			    "Report for listing High VL who are suppressed clients", getExcelDesignUuid(), null);
 			Properties props = new Properties();
 			props.put("repeatingSections", "sheet:1,row:4,dataset:HVLSuppressed");
