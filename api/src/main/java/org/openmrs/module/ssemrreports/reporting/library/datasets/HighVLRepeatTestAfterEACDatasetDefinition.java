@@ -57,6 +57,7 @@ public class HighVLRepeatTestAfterEACDatasetDefinition extends SSEMRBaseDataSet 
 		CalculationDataDefinition cd = new CalculationDataDefinition("landmark", new LandmarkAddressCalculation());
 		return cd;
 	}
+	
 	public DataSetDefinition constructHighVLRepeatTestAfterEACDatasetDefinition() {
 		
 		String DATE_FORMAT = "dd-MMM-yyyy";
@@ -71,13 +72,13 @@ public class HighVLRepeatTestAfterEACDatasetDefinition extends SSEMRBaseDataSet 
 		DataConverter nameFormatter = new ObjectFormatter("{familyName} {givenName} {middleName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
 		PatientIdentifierType openmrsID = Context.getPatientService().getPatientIdentifierTypeByUuid(
-				SharedReportConstants.UNIQUE_ART_NUMBER_TYPE_UUID);
+		    SharedReportConstants.UNIQUE_ART_NUMBER_TYPE_UUID);
 		DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
 		DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
-				openmrsID.getName(), openmrsID), identifierFormatter);
+		        openmrsID.getName(), openmrsID), identifierFormatter);
 		
 		PersonAttributeType phoneNumber = Context.getPersonService().getPersonAttributeTypeByUuid(
-				SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
+		    SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
 		
 		COVNameDataDefinition covNameDataDefinition = new COVNameDataDefinition();
 		covNameDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -107,7 +108,7 @@ public class HighVLRepeatTestAfterEACDatasetDefinition extends SSEMRBaseDataSet 
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
-				new PersonAttributeDataConverter());
+		    new PersonAttributeDataConverter());
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of last VL test", lastVLTestDateDataDefinition, "endDate=${endDate}");

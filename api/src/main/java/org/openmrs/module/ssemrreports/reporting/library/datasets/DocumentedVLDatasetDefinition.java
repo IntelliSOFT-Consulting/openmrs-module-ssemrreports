@@ -61,7 +61,6 @@ public class DocumentedVLDatasetDefinition extends SSEMRBaseDataSet {
 		return cd;
 	}
 	
-	
 	public DataSetDefinition constructDocumentedVLDatasetDefinition() {
 		
 		String DATE_FORMAT = "dd-MMM-yyyy";
@@ -125,7 +124,7 @@ public class DocumentedVLDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
-				new PersonAttributeDataConverter());
+		    new PersonAttributeDataConverter());
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of last VL test", lastVLTestDateDataDefinition, "endDate=${endDate}");
