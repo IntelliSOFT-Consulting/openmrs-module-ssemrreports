@@ -162,40 +162,57 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    dsd,
 		    "MLC3",
 		    "Number of ART clients On treatment for  <3 months when LTFU/IIT",
-		    map(indicator.getIndicator("Number of ART clients On treatment for  <3 months when LTFU/IIT",
-		        map(merCohortQueries.getTxMlIitL3mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		    map(indicator.getIndicator(
+		        "Number of ART clients On treatment for  <3 months when LTFU/IIT",
+		        map(merCohortQueries
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitL3mCohorts(),
+		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "MLC35",
 		    "On treatment for 3-5 months when LTFU/IIT",
-		    map(indicator.getIndicator("On treatment for 3-5 months when LTFU/IIT",
-		        map(merCohortQueries.getTxMlIit3To5mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		    map(indicator.getIndicator(
+		        "On treatment for 3-5 months when LTFU/IIT",
+		        map(merCohortQueries
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIit3To5mCohorts(),
+		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "MLC6",
 		    "On treatment for 6+ months when LTFU/IIT",
-		    map(indicator.getIndicator("On treatment for 6+ months when LTFU/IIT",
-		        map(merCohortQueries.getTxMlIitM6mCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		    map(indicator.getIndicator(
+		        "On treatment for 6+ months when LTFU/IIT",
+		        map(merCohortQueries
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitM6mCohorts(),
+		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "MLCD",
 		    "Identified as Died",
-		    map(indicator.getIndicator("Identified as Died", map(merCohortQueries.getTxMlDiedCohorts(), mappings)), mappings),
-		    getMerGenderAndAgeColumns());
+		    map(indicator.getIndicator(
+		        "Identified as Died",
+		        map(merCohortQueries
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterDiedCohorts(),
+		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "MLTO",
 		    "Identified as Self transfer (Transfer out)",
-		    map(indicator.getIndicator("Identified as Self transfer (Transfer out)",
-		        map(merCohortQueries.getTxMlSelfTransferOutCohorts(), mappings)), mappings), getMerGenderAndAgeColumns());
+		    map(indicator.getIndicator(
+		        "Identified as Self transfer (Transfer out)",
+		        map(merCohortQueries
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterSelfTransferOutCohorts(),
+		            mappings)), mappings), getMerGenderAndAgeColumns());
 		
 		addRow(
 		    dsd,
 		    "RST",
 		    "Reached but Refused or Stopped treatmnet",
-		    map(indicator.getIndicator("Reached but Refused or Stopped treatmnet",
-		        map(merCohortQueries.getTxMlRefusedStoppedTreatmentCohorts(), mappings)), mappings),
-		    getMerGenderAndAgeColumns());
+		    map(indicator.getIndicator(
+		        "Reached but Refused or Stopped treatmnet",
+		        map(merCohortQueries
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterRefusedStoppedTreatmentCohorts(),
+		            mappings)), mappings), getMerGenderAndAgeColumns());
 		//cause of death
 		addRow(
 		    dsd,

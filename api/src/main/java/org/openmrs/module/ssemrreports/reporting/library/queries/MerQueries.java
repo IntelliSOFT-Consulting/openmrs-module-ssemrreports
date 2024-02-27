@@ -76,11 +76,8 @@ public class MerQueries {
 		        + " SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
 		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
-		        + "	AND hce.art_start_date IS NOT NULL "
+		        + "	AND hce.art_start_date IS NULL "
 		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0"
-		        + " UNION "
-		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + " WHERE DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) BETWEEN :startDate AND :endDate "
 		        + ") agg WHERE client_id NOT IN("
 		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
@@ -135,8 +132,12 @@ public class MerQueries {
 	 * @return
 	 */
 	public static String getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContact() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment fu "
-		        + "	WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate ";
+		return "SELECT fn1.client_id FROM ("
+		        + " SELECT client_id,follow_up_date FROM ( "
+		        + " SELECT fu.client_id AS client_id, MAX(fu.follow_up_date) AS follow_up_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.encounter_datetime BETWEEN :startDate AND :endDate " + " GROUP BY fu.client_id) fn ) fn1 "
+		        + " WHERE " + " DATE_ADD(fn1.follow_up_date, INTERVAL 28 DAY) < :endDate AND "
+		        + " DATE_ADD(fn1.follow_up_date, INTERVAL 28 DAY) >= DATE_ADD( :startDate, INTERVAL -1 DAY) ";
 	}
 	
 	/***
@@ -199,13 +200,16 @@ public class MerQueries {
 	}
 	
 	public static String getTxRttNotEligibleForCd4Queries() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
+		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce "
+		        + " WHERE shce.art_start_date IS NULL " + " AND shce.encounter_datetime BETWEEN :startDate AND :endDate "
+		        + " UNION " + "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.lost_to_follow_up IS NULL " + " AND fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
 	//TX PVLS
 	public static String getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterQueries() {
 		return "SELECT client_id FROM ( "
-		        + " SELECT en.client_id,MAX(vl.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en "
+		        + " SELECT en.client_id,MAX(vl.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
 		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up vl " + " ON en.client_id=vl.client_id "
 		        + " WHERE vl.vl_results IS NOT NULL " + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate "
 		        + " GROUP BY en.client_id) viral_load ";
@@ -213,7 +217,7 @@ public class MerQueries {
 	
 	public static String getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterQueries() {
 		return "SELECT client_id FROM ( "
-		        + " SELECT en.client_id,MAX(vl.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en "
+		        + " SELECT en.client_id,MAX(vl.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
 		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up vl " + " ON en.client_id=vl.client_id "
 		        + " WHERE vl.vl_results IS NOT NULL AND vl.vl_results >= 1000 "
 		        + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate "
@@ -222,7 +226,7 @@ public class MerQueries {
 	
 	public static String getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterQueries() {
 		return "SELECT client_id FROM ( "
-		        + " SELECT en.client_id,MAX(vl.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en "
+		        + " SELECT en.client_id,MAX(vl.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
 		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up vl " + " ON en.client_id=vl.client_id "
 		        + " WHERE vl.vl_results IS NOT NULL AND vl.vl_results < 1000 "
 		        + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate "
