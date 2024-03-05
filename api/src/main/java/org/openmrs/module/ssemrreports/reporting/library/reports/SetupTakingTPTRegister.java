@@ -61,7 +61,7 @@ public class SetupTakingTPTRegister extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("TTPT",
 		    Mapped.mapStraightThrough(takingTPTDatasetDefinition.constructTakingTPTDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(tptCohortQueries.getPatientsWhoAreTakingTPT(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

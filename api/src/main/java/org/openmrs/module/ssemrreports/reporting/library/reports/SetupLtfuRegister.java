@@ -61,7 +61,7 @@ public class SetupLtfuRegister extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("LTFUR",
 		    Mapped.mapStraightThrough(ltfuDatasetDefinition.constructLtfuAppointmentRegisterDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoMissedAppointmentByDays(90),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

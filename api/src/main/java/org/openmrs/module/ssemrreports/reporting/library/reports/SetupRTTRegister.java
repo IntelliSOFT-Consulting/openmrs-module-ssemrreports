@@ -60,7 +60,7 @@ public class SetupRTTRegister extends SSEMRDataExportManager {
 		rd.addParameters(rttDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("RTT", Mapped.mapStraightThrough(rttDatasetDefinition.constructRTTDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoAreRTT(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

@@ -23,7 +23,7 @@ public class ListOfClientsWithHvlWhoReceivedDSD extends SSEMRBaseDataSet {
 		sqlDataSetDefinition
 		        .setSqlQuery("SELECT "
 		                + "   vl.client_id,p.person_name_short as individual_name, "
-		                + "   p.age,p.gender, mpi.identifier as uan,"
+		                + "   p.age,p.sex, mpi.identifier as uan,"
 		                + "   f.pregnant,f.breastfeeding,"
 		                + "   lvl.vl_results as last_vl,vl.encounter_datetime as date_of_eac,"
 		                + "   addr.address3 as payam,addr.address4 as boma,addr.address6 as landmark,'' as tel,"
@@ -68,7 +68,7 @@ public class ListOfClientsWithHvlWhoReceivedDSD extends SSEMRBaseDataSet {
 		sqlDataSetDefinition
 		        .setSqlQuery("SELECT "
 		                + "   vl.client_id,p.person_name_short as individual_name, "
-		                + "   p.age,p.gender, mpi.identifier as uan,"
+		                + "   p.age,p.sex, mpi.identifier as uan,"
 		                + "   f.pregnant,f.breastfeeding,"
 		                + "   lvl.vl_results as last_vl,vl.encounter_datetime as date_of_eac,"
 		                + "   addr.address3 as payam,addr.address4 as boma,addr.address6 as landmark,'' as tel,"
@@ -113,7 +113,7 @@ public class ListOfClientsWithHvlWhoReceivedDSD extends SSEMRBaseDataSet {
 		sqlDataSetDefinition
 		        .setSqlQuery("SELECT "
 		                + "   vl.client_id,p.person_name_short as individual_name, "
-		                + "   p.age,p.gender, mpi.identifier as uan,"
+		                + "   p.age,p.sex, mpi.identifier as uan,"
 		                + "   f.pregnant,f.breastfeeding,"
 		                + "   lvl.vl_results as last_vl,vl.encounter_datetime as date_of_eac,"
 		                + "   addr.address3 as payam,addr.address4 as boma,addr.address6 as landmark,'' as tel,"
@@ -158,7 +158,7 @@ public class ListOfClientsWithHvlWhoReceivedDSD extends SSEMRBaseDataSet {
 		sqlDataSetDefinition
 		        .setSqlQuery("SELECT "
 		                + "   vl.client_id,p.person_name_short as individual_name, "
-		                + "   p.age,p.gender, mpi.identifier as uan,"
+		                + "   p.age,p.sex, mpi.identifier as uan,"
 		                + "   f.pregnant,f.breastfeeding,"
 		                + "   lvl.vl_results as last_vl,vl.encounter_datetime as date_of_eac,"
 		                + "   addr.address3 as payam,addr.address4 as boma,addr.address6 as landmark,'' as tel,"
@@ -203,7 +203,7 @@ public class ListOfClientsWithHvlWhoReceivedDSD extends SSEMRBaseDataSet {
 		sqlDataSetDefinition
 		        .setSqlQuery("SELECT "
 		                + "   vl.client_id,p.person_name_short as individual_name, "
-		                + "   p.age,p.gender, mpi.identifier as uan,"
+		                + "   p.age,p.sex, mpi.identifier as uan,"
 		                + "   f.pregnant,f.breastfeeding,"
 		                + "   lvl.vl_results as last_vl,vl.encounter_datetime as date_of_eac,"
 		                + "   addr.address3 as payam,addr.address4 as boma,addr.address6 as landmark,'' as tel,"

@@ -62,7 +62,7 @@ public class SetupEligibleForVLRegister extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("EVL",
 		    Mapped.mapStraightThrough(eligibleForVLDatasetDefinition.constructEligibleForVLDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsEligibleForVLTesting(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

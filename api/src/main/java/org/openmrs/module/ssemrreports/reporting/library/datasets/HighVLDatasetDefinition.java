@@ -21,8 +21,10 @@ import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.ArtStartDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.RegimenDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
@@ -113,6 +115,12 @@ public class HighVLDatasetDefinition extends SSEMRBaseDataSet {
 		VLResultsDocumentedDateDataDefinition vlResultsDocumentedDateDataDefinition = new VLResultsDocumentedDateDataDefinition();
 		vlResultsDocumentedDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		RegimenDataDefinition regimenDataDefinition = new RegimenDataDefinition();
+		regimenDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		ArtStartDateDataDefinition artStartDateDataDefinition = new ArtStartDateDataDefinition();
+		artStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		PregnantDataDefinition patientPregnantDataDefinition = new PregnantDataDefinition();
 		patientPregnantDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
@@ -131,10 +139,12 @@ public class HighVLDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addColumn("Pregnant", patientPregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", patientBreastfeedingDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Last VL", lastVLDataDefinition, "endDate=${endDate}");
-		// dsd.addColumn("VL due date", vlDueDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("VL due date", vlDueDateDataDefinition, "endDate=${endDate}");
 		// dsd.addColumn("Date VL sample collected", lastVLTestDateDataDefinition, "endDate=${endDate}");
-		// dsd.addColumn("Date VL results  documented", vlResultsDocumentedDateDataDefinition, "endDate=${endDate}");
-		// dsd.addColumn("Date of start of pending VL results", lastVLTestDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date of last VL", vlResultsDocumentedDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last VL result", vlResultsDocumentedDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Regimen", regimenDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("ART Start Date", artStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());

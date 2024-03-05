@@ -60,7 +60,7 @@ public class SetupVLRegister extends SSEMRDataExportManager {
 		rd.addParameters(vlPatientsDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("VLD", Mapped.mapStraightThrough(vlPatientsDatasetDefinition.constructVLDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWithVLTest(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

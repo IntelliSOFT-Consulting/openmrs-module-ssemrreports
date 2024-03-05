@@ -221,15 +221,31 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition getPatientsOnFirstLineRegimenCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "select "
-		        + "    e.client_id "
-		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e "
-		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id) "
-		        + "where date(f.encounter_datetime) <= date(:endDate)  "
-		        + "  and f.art_regimen in ('1a = AZT/3TC + EFV', '1b = AZT/3TC/NVP', '1c = TDF/3TC/DTG', "
-		        + "'1d = ABC/3TC (600/300) /DTG', '1e = AZT/3TC + DTG','1f = TDF/3TC/EFV','1g = TDF/3TC + NVP','1h = TDF/FTC/ EFV',"
-		        + "'1J  = TDF/FTC + NVP', '4a = AZT/3TC/NVP', '4b = AZT/3TC + EFV', '4c = ABC/3TC (120/60) + LPV/r', '4d = ABC/3TC (120/60) + DTG50', '4f = ABC/3TC + NVP', '4g = ABC/3TC (120/60) + EFV (200mg)', "
-		        + "'4h = TDF/3TC/EFV', '4i  = ABC/3TC + LPV/r','4j = AZT/3TC (60/30) + LPV/r','4k = TDF/3TC + NVP','4l = ABC/3TC + AZT', '4e = ABC/3TC(120/60mg)+DTG10') ";
+		String qry = "SELECT " + "    e.client_id " + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e "
+		        + "INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id) "
+		        + " WHERE date(f.encounter_datetime) <= date(:endDate)  "
+		        + "  and (REGEXP_REPLACE(f.art_regimen,'[[:space:]]|/|\\+','')) " + "in ("
+		        + "REGEXP_REPLACE('1a = AZT/3TC + EFV','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('1b = AZT/3TC/NVP','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('1c = TDF/3TC/DTG','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('1d = ABC/3TC (600/300) /DTG','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('1e = AZT/3TC + DTG','[[:space:]]|/|\\+',''),"
+		        + "REGEXP_REPLACE('1f = TDF/3TC/EFV','[[:space:]]|/|\\+',''),"
+		        + "REGEXP_REPLACE('1g = TDF/3TC + NVP','[[:space:]]|/|\\+',''),"
+		        + "REGEXP_REPLACE('1h = TDF/FTC/ EFV','[[:space:]]|/|\\+',''),"
+		        + "REGEXP_REPLACE('1J  = TDF/FTC + NVP','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('4a = AZT/3TC/NVP','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('4b = AZT/3TC + EFV','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('4c = ABC/3TC (120/60) + LPV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('4d = ABC/3TC (120/60) + DTG50','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('4f = ABC/3TC + NVP','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('4g = ABC/3TC (120/60) + EFV (200mg)','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('4h = TDF/3TC/EFV','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('4i  = ABC/3TC + LPV/r','[[:space:]]|/|\\+',''),"
+		        + "REGEXP_REPLACE('4j = AZT/3TC (60/30) + LPV/r','[[:space:]]|/|\\+',''),"
+		        + "REGEXP_REPLACE('4k = TDF/3TC + NVP','[[:space:]]|/|\\+',''),"
+		        + "REGEXP_REPLACE('4l = ABC/3TC + AZT','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('4e = ABC/3TC(120/60mg)+DTG10','[[:space:]]|/|\\+','')" + ") ";
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -240,16 +256,31 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition getPatientsOnSecondLineRegimenCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "select " + "    e.client_id " + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e "
-		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id) "
-		        + "where date(f.encounter_datetime) <= date(:endDate)  " + "  and f.art_regimen in ('5a = AZT/3TC+LPV/r', "
-		        + " '5b = AZT/3TC + RAL', " + " '5c = ABC/3TC (120/60) + RAL', " + " '5d = AZT/3TC + ATV/r', "
-		        + " '5e = ABC/3TC + ATV/r', " + " '5f = TDF/ 3TC + ATV/r', " + " '5g = AZT/3TC + DTG50', "
-		        + " '5h = ABC/3TC + DTG50', " + " '5i = ABC/3TC + LPV/r', " + " '5j = AZT/3TC (120/60)+DTG10', "
-		        + " '2a = AZT/3TC + DTG' " + " '2b = ABC/3TC + DTG', " + " '2c = TDF+3TC + LPV/r', "
-		        + " '2d = TDF/3TC + ATV/r', " + " '2e = TDF/FTC-LPV/r', " + " '2f = TDF/FTC-ATV/r', "
-		        + " '2g = AZT/3TC + LPV/r', " + " '2h = AZT/3TC + ATV/r', " + " '2i = ABC/3TC + LPV/r', "
-		        + " '2J  = ABC/3TC + ATV/r', " + " '2k = TDF/3TC/DTG') ";
+		String qry = "SELECT " + "    e.client_id " + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e "
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id) "
+		        + " WHERE date(f.encounter_datetime) <= date(:endDate)  " + "  "
+		        + " AND REGEXP_REPLACE(f.art_regimen,'[[:space:]]|/|\\+','') in ("
+		        + "REGEXP_REPLACE('5a = AZT/3TC+LPV/r','[[:space:]]|/|\\+',''),"
+		        + "REGEXP_REPLACE('5b = AZT/3TC + RAL','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('5c = ABC/3TC (120/60) + RAL','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('5d = AZT/3TC + ATV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('5e = ABC/3TC + ATV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('5f = TDF/ 3TC + ATV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('5g = AZT/3TC + DTG50','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('5h = ABC/3TC + DTG50','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('5i = ABC/3TC + LPV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('5j = AZT/3TC (120/60)+DTG10','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('2a = AZT/3TC + DTG','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('2b = ABC/3TC + DTG','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('2c = TDF+3TC + LPV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('2d = TDF/3TC + ATV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('2e = TDF/FTC-LPV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('2f = TDF/FTC-ATV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('2g = AZT/3TC + LPV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('2h = AZT/3TC + ATV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('2i = ABC/3TC + LPV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('2J  = ABC/3TC + ATV/r','[[:space:]]|/|\\+',''), "
+		        + "REGEXP_REPLACE('2k = TDF/3TC/DTG','[[:space:]]|/|\\+','')" + ") ";
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));

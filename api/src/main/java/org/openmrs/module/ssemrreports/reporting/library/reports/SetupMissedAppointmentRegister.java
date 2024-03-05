@@ -62,7 +62,7 @@ public class SetupMissedAppointmentRegister extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("MAR",
 		    Mapped.mapStraightThrough(missedAppointmentDatasetDefinition.constructMissedAppointmentRegisterDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoMissedAppointment(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

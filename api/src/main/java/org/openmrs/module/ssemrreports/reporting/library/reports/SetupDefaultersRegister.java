@@ -62,7 +62,7 @@ public class SetupDefaultersRegister extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("DAR",
 		    Mapped.mapStraightThrough(defaultersDatasetDefinition.constructDefaulterAppointmentRegisterDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoMissedAppointmentByDays(13),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

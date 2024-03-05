@@ -61,7 +61,7 @@ public class SetupPendingVLRegister extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("PVLD",
 		    Mapped.mapStraightThrough(pendingVlDatasetDefinition.constructPendingVLDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoHavePendingVL(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

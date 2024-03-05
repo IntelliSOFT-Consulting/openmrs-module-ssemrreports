@@ -60,7 +60,7 @@ public class SetupIITRegister extends SSEMRDataExportManager {
 		rd.addParameters(iitDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("IIT", Mapped.mapStraightThrough(iitDatasetDefinition.constructIITDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoAreIIT(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

@@ -62,7 +62,7 @@ public class SetupCompletedTPTRegister extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("CTPT",
 		    Mapped.mapStraightThrough(completedTPTDatasetDefinition.constructCompletedTPTDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(tptCohortQueries.getPatientsWhoAHaveCompletedTPT(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

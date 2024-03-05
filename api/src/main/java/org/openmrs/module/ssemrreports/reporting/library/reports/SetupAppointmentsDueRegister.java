@@ -62,7 +62,7 @@ public class SetupAppointmentsDueRegister extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("APPDUE",
 		    Mapped.mapStraightThrough(appointmentsDueDatasetDefinition.constructAppointmentsDueDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWithTodaysAppointments(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

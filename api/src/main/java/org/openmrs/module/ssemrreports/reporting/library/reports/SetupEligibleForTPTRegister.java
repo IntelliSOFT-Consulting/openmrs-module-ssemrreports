@@ -62,7 +62,7 @@ public class SetupEligibleForTPTRegister extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("ETPT",
 		    Mapped.mapStraightThrough(eligibleForTPTDatasetDefinition.constructEligibleForTPTDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(tptCohortQueries.getPatientsWhoAreEligibleForTPT(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

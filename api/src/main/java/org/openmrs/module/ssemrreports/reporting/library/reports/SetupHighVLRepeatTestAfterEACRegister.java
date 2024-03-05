@@ -63,7 +63,7 @@ public class SetupHighVLRepeatTestAfterEACRegister extends SSEMRDataExportManage
 		rd.addDataSetDefinition("HVLEACREPEATTEST", Mapped.mapStraightThrough(highVLRepeatTestAfterEACDatasetDefinition
 		        .constructHighVLRepeatTestAfterEACDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoHaveHVLAndRepeatTestAfterEAC(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

@@ -51,11 +51,12 @@ public class ListClientsWithHvlWhoReceivedRepeatTestAfterEacRegister extends SSE
 	
 	@Override
 	public ReportDefinition constructReportDefinition() {
-		String param = "startDate=${startDate},endDate=${endDate},location=${location}";
+		//String param = "startDate=${startDate},endDate=${endDate},location=${location}";
+		String param = "startDate=${startDate},endDate=${endDate}";
 		ReportDefinition rd = new ReportDefinition();
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		rd.addParameter(new Parameter("location", "Location", Location.class));
+		//rd.addParameter(new Parameter("location", "Location", Location.class));
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());

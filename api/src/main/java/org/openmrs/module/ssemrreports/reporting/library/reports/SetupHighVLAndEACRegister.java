@@ -62,7 +62,7 @@ public class SetupHighVLAndEACRegister extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("HVLEAC",
 		    Mapped.mapStraightThrough(highVLAndEACDatasetDefinition.constructHighVLAndEACDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoHaveHighVLAndEAC(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

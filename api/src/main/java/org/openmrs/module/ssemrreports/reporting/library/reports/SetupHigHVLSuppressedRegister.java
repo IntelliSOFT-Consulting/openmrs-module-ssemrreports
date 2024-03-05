@@ -62,7 +62,7 @@ public class SetupHigHVLSuppressedRegister extends SSEMRDataExportManager {
 		rd.addDataSetDefinition("HVLSuppressed",
 		    Mapped.mapStraightThrough(higHVLSuppressedDatasetDefinition.constructHigHVLSuppressedDatasetDefinition()));
 		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoHaveHVLandSupressed(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	
