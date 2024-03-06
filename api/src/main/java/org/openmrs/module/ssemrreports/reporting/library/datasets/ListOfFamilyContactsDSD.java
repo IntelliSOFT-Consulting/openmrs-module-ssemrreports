@@ -1,6 +1,5 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
-import org.openmrs.Location;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
