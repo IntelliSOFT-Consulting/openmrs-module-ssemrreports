@@ -39,12 +39,12 @@ public class ListOfClientsWithHvlWhoReceivedEac1SessionRegister extends SSEMRDat
 	
 	@Override
 	public String getName() {
-		return "Clients with HVL who received EAC1 session";
+		return "Clients with HVL who received EAC session";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "List of Clients with HVL, who received EAC1 session report";
+		return "List of Clients with HVL, who received EAC session report";
 	}
 	
 	@Override
@@ -70,8 +70,8 @@ public class ListOfClientsWithHvlWhoReceivedEac1SessionRegister extends SSEMRDat
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "EAC1.xls",
-			    "Clients with HVL, who received EAC1 session", getExcelDesignUuid(), null);
+			reportDesign = createXlsReportDesign(reportDefinition, "EAC1.xls", "Clients with HVL, who received EAC session",
+			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
 			props.put("repeatingSections", "sheet:1,row:6,dataset:EAC1");
 			props.put("sortWeight", "5000");
