@@ -55,7 +55,7 @@ public class SetupListOfFamilyContactsNewlyTestedHivPositiveAndLinkedToArtRegist
 		rd.setDescription(getDescription());
 		rd.setParameters(listOfFamilyContactsDSD.getParameters());
 		rd.addDataSetDefinition("FC5",
-				SSEMRReportUtils.map(listOfFamilyContactsDSD.getNewlyTestedHivPositiveAndLinkedToArt(), param));
+		    SSEMRReportUtils.map(listOfFamilyContactsDSD.getNewlyTestedHivPositiveAndLinkedToArt(), param));
 		return rd;
 	}
 	

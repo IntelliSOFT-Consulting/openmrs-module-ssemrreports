@@ -20,9 +20,8 @@ public class OpdQueries {
 		        + " INNER JOIN encounter e ON p.patient_id=e.patient_id "
 		        + " INNER JOIN encounter_diagnosis ed ON e.encounter_id=ed.encounter_id "
 		        + " WHERE ed.diagnosis_non_coded like '%-%' " + " AND p.voided = 0 " + " AND e.voided = 0 "
-		        + " AND ed.voided = 0 "
-		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate) tx " + " WHERE icd11code =" + "'" + icd11Code
-		        + "'";
+		        + " AND ed.voided = 0 " + " AND e.encounter_datetime BETWEEN :startDate AND :endDate) tx "
+		        + " WHERE icd11code =" + "'" + icd11Code + "'";
 		return query;
 	}
 }

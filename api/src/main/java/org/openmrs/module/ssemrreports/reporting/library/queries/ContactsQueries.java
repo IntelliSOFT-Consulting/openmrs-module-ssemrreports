@@ -10,7 +10,7 @@ public class ContactsQueries {
 		
 		String query = "select t.client_id from (SELECT client_id, individual_name FROM ssemr_etl.ssemr_flat_encounter_family_history "
 		        + " WHERE hiv_status = 'Don''t know' and encounter_datetime between :startDate  and :endDate  "
-				+ " group by individual_name, client_id) t";
+		        + " group by individual_name, client_id) t";
 		
 		return query;
 	}

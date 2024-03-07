@@ -49,10 +49,10 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SSEMRDataExportManager 
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		String mappingsQuaterly = "startDate=${startDate},endDate=${endDate}";
-		String mappingsFirstMonth = "startDate=${startDate},endDate=${endDate-2m}";
-		String mappingsSecondMonth = "startDate=${startDate},endDate=${endDate-1m}";
-		String mappingsThirdMonth = "startDate=${endDate-1m},endDate=${endDate}";
+		String mappingsQuaterly = "startDate=${startDate},endDate=${endDate+23h}";
+		String mappingsFirstMonth = "startDate=${startDate},endDate=${endDate-2m+23h}";
+		String mappingsSecondMonth = "startDate=${startDate},endDate=${endDate-1m+23h}";
+		String mappingsThirdMonth = "startDate=${endDate-1m},endDate=${endDate+23h}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
