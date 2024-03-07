@@ -36,7 +36,7 @@ public class LastEAC2DateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id,max(encounter_datetime) as lastEac2Date FROM ssemr_etl.ssemr_flat_encounter_high_viral_load "
+		String qry = "SELECT client_id,DATE(max(encounter_datetime)) as lastEac2Date FROM ssemr_etl.ssemr_flat_encounter_high_viral_load "
 		        + " WHERE  date(encounter_datetime) <= date(:endDate) "
 		        + " AND eac_session = 'Second EAC Session' "
 		        + " GROUP BY client_id;";
