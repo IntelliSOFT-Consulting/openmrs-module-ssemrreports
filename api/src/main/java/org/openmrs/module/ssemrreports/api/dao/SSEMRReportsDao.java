@@ -16,11 +16,15 @@ import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.ssemrreports.Item;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("ssemrreports.SSEMRReportsDao")
 public class SSEMRReportsDao {
+	
+	Logger log = LoggerFactory.getLogger(SSEMRReportsDao.class);
 	
 	@Autowired
 	DbSessionFactory sessionFactory;
@@ -42,8 +46,8 @@ public class SSEMRReportsDao {
 		List<String> list = sessionFactory
 		        .getCurrentSession()
 		        .createSQLQuery(
-		            "select concat(report_definition_uuid, '') as uuid from reporting_report_design where reporting_report_design.uuid = ?")
-		        .setString(1, uuid).list();
+		            "select concat(report_definition_uuid, '') as uuid from reporting_report_design where reporting_report_design.uuid = :uuid")
+		        .setParameter("uuid", uuid).list();
 		if (!list.isEmpty()) {
 			return list.get(0);
 		}
@@ -52,15 +56,40 @@ public class SSEMRReportsDao {
 	
 	public void purgeReportDesign(String designUuid, String serializedObjectUuid) {
 		final DbSession session = sessionFactory.getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		session.createSQLQuery(
-		    "delete from reporting_report_design_resource " + "where reporting_report_design_resource.report_design_id = ("
-		            + "select id from reporting_report_design where reporting_report_design.uuid = ?)")
-		        .setString(0, designUuid).executeUpdate();
-		session.createSQLQuery("delete from reporting_report_design where reporting_report_design.uuid = ?")
-		        .setString(0, designUuid).executeUpdate();
-		session.createSQLQuery("delete from serialized_object where uuid = ?").setString(0, serializedObjectUuid)
-		        .executeUpdate();
-		transaction.commit();
+		
+		Transaction transaction = null;
+		try {
+			transaction = session.getTransaction();
+			if (transaction == null || !transaction.isActive()) {
+				transaction = session.beginTransaction();
+			}
+			
+			// Delete from reporting_report_design_resource
+			session.createSQLQuery(
+			    "delete from reporting_report_design_resource where reporting_report_design_resource.report_design_id = ("
+			            + "select id from reporting_report_design where reporting_report_design.uuid = :designUuid)")
+			        .setParameter("designUuid", designUuid).executeUpdate();
+			
+			// Delete from reporting_report_design
+			session.createSQLQuery("delete from reporting_report_design where reporting_report_design.uuid = :designUuid")
+			        .setParameter("designUuid", designUuid).executeUpdate();
+			
+			// Delete from serialized_object
+			session.createSQLQuery("delete from serialized_object where uuid = :serializedObjectUuid")
+			        .setParameter("serializedObjectUuid", serializedObjectUuid).executeUpdate();
+			
+			transaction.commit();
+		}
+		catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			// Log the exception as an error
+			log.error("Error occurred while purging report design", e);
+		}
+		finally {
+			session.clear();
+		}
 	}
+	
 }

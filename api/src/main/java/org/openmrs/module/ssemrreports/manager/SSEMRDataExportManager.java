@@ -48,7 +48,7 @@ public abstract class SSEMRDataExportManager extends SSEMRReportManager {
 		SSEMRReportsService SSEMRReportsService = Context.getRegisteredComponent("ssemr.SSEMRReportsService",
 		    SSEMRReportsService.class);
 		if (StringUtils.isNotBlank(excelDesignUuid)) {
-			//SSEMRReportsService.purgeReportDesignIfExists(excelDesignUuid);
+			SSEMRReportsService.purgeReportDesignIfExists(excelDesignUuid);
 		}
 		
 		ReportDesignResource resource = new ReportDesignResource();
