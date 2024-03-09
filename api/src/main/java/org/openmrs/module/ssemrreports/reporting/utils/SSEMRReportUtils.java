@@ -17,6 +17,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
@@ -206,5 +207,15 @@ public class SSEMRReportUtils {
 	
 	public static Concept getConcept(String conceptUuid) {
 		return null;
+	}
+	
+	public static String concatenateStringAndQuote(List<String> strings) {
+		// Remove whitespace from each string and wrap in single quotes
+		List<String> cleanedStrings = strings.stream()
+				.map(s -> "'" + s.replaceAll("\\s", "") + "'")
+				.collect(Collectors.toList());
+		
+		// Join the cleaned strings with commas
+		return String.join(", ", cleanedStrings);
 	}
 }
