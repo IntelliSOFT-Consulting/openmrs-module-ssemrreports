@@ -270,7 +270,7 @@ public class CommonQueries {
 	}
 	
 	public static String getPatientsWithHighVL() {
-		String query = "SELECT client_id, vl_results FROM ( "
+		String query = "SELECT r.client_id FROM ( "
 		        + " SELECT client_id,MID(MAX(concat(encounter_datetime, vl_results)),20) as vl_results FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f WHERE DATE(encounter_datetime) BETWEEN :startDate AND :endDate GROUP BY f.client_id) r "
 		        + " WHERE r.vl_results >=1000;";
 		
