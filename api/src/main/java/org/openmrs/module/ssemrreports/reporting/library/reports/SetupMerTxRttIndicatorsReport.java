@@ -48,10 +48,10 @@ public class SetupMerTxRttIndicatorsReport extends SSEMRDataExportManager {
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate}";
-		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d}";
-		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d}";
-		String mappings3 = "startDate=${startDate+2m},endDate=${endDate}";
+		String mappings = "startDate=${startDate},endDate=${endDate+23h}";
+		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d+23h}";
+		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d+23h}";
+		String mappings3 = "startDate=${startDate+2m},endDate=${endDate+23h}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());

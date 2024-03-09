@@ -2,17 +2,16 @@ package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ListOfFamilyContactsDSD;
+import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -49,13 +48,14 @@ public class SetupListOfFamilyContactsNewlyTestedHivPositiveAndLinkedToArtRegist
 	
 	@Override
 	public ReportDefinition constructReportDefinition() {
+		String param = "startDate=${startDate},endDate=${endDate+23h}";
 		ReportDefinition rd = new ReportDefinition();
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.setParameters(listOfFamilyContactsDSD.getParameters());
 		rd.addDataSetDefinition("FC5",
-		    Mapped.mapStraightThrough(listOfFamilyContactsDSD.getNewlyTestedHivPositiveAndLinkedToArt()));
+		    SSEMRReportUtils.map(listOfFamilyContactsDSD.getNewlyTestedHivPositiveAndLinkedToArt(), param));
 		return rd;
 	}
 	

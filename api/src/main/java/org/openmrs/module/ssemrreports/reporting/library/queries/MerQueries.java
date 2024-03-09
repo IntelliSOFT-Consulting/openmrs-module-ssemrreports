@@ -16,20 +16,21 @@ public class MerQueries {
 	//TX Curr query formulations
 	public static String getPatientsWhoInitiatedArtDuringReportingPeriod() {
 		return "SELECT agg.client_id AS client_id FROM ("
-		        + " SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
+		        
+		        + " SELECT tn.client_id AS client_id FROM("
+		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
-		        + "	AND hce.art_start_date IS NOT NULL"
-		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0"
+		        + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
+		        + "	)tn"
+		        
 		        + " UNION "
 		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
 		        + " WHERE DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) BETWEEN :startDate AND :endDate "
 		        + " UNION "
 		        + "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
 		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate  "
 		        + "	AND hce.date_tranferred_in IS NOT NULL "
-		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0) agg WHERE client_id NOT IN("
+		        + ") agg WHERE client_id NOT IN("
 		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
@@ -49,14 +50,6 @@ public class MerQueries {
 		        + ")";
 	}
 	
-	public static String getPatientsWhoTransferredInDuringReportingPeriod() {
-		return "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
-		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate "
-		        + "	AND hce.date_tranferred_in IS NOT NULL "
-		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0";
-	}
-	
 	//end TX curr formulations
 	public static String getLessThan3MonthsQuery() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
@@ -73,11 +66,12 @@ public class MerQueries {
 	//Tx new cohort queries
 	public static String getTxNewTotals() {
 		return "SELECT agg.client_id AS client_id FROM ("
-		        + " SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
+		        
+		        + " SELECT tn.client_id AS client_id FROM("
+		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
 		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
-		        + "	AND hce.art_start_date IS NULL "
-		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0"
+		        + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
+		        + "	)tn"
 		        + ") agg WHERE client_id NOT IN("
 		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
@@ -85,10 +79,8 @@ public class MerQueries {
 		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate"
 		        + " UNION "
 		        + "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	INNER JOIN ssemr_etl.mamba_dim_person mdp ON hce.client_id=mdp.person_id "
 		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate"
 		        + "	AND hce.date_tranferred_in IS NOT NULL "
-		        + "	AND mdp.dead= 0 AND mdp.death_date IS NULL AND mdp.voided=0 "
 		        + " UNION "
 		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
 		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
@@ -173,9 +165,10 @@ public class MerQueries {
 	
 	//TX RTT
 	public static String getClientsTracedBroughtBackToCareRestarted() {
-		return "SELECT fu.client_id, MAX(fu.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
+		return "SELECT client_id FROM("
+		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
 		        + "	WHERE fu.date_restarted IS NOT NULL AND fu.encounter_datetime BETWEEN :startDate AND :endDate "
-		        + " GROUP BY fu.client_id";
+		        + " GROUP BY fu.client_id" + ")fn";
 	}
 	
 	public static String getHowLongWerePeopleOffArvs28DaysTo3MonthsQuery() {

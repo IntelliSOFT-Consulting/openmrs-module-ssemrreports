@@ -12,8 +12,7 @@ public class CommonQueries {
 		        + "INNER JOIN patient_program pp ON p.patient_id = pp.patient_id "
 		        + "INNER JOIN program pg ON pg.program_id=pp.program_id "
 		        + "WHERE p.voided=0 AND pp.voided=0 and pg.retired=0 "
-		        + "AND pp.date_enrolled BETWEEN :startDate AND :endDate "
-		        + "AND pg.program_id=" + programId;
+		        + "AND pp.date_enrolled BETWEEN :startDate AND :endDate " + "AND pg.program_id=" + programId;
 		
 		return query;
 	}
@@ -30,8 +29,7 @@ public class CommonQueries {
 		String query = "SELECT p.patient_id FROM patient p INNER JOIN encounter e ON p.patient_id=e.patient_id "
 		        + " INNER JOIN obs o ON e.encounter_id=o.encounter_id "
 		        + " WHERE p.voided=0 AND e.voided=0 AND o.voided=0 AND o.concept_id=" + question
-		        + " AND o.value_numeric IS NOT NULL "
-		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate ";
+		        + " AND o.value_numeric IS NOT NULL " + " AND e.encounter_datetime BETWEEN :startDate AND :endDate ";
 		return query;
 	}
 	
@@ -41,8 +39,8 @@ public class CommonQueries {
 		String query = "SELECT p.patient_id FROM patient p INNER JOIN encounter e ON p.patient_id=e.patient_id "
 		        + " INNER JOIN obs o ON e.encounter_id=o.encounter_id WHERE e.encounter_type=" + encounterId
 		        + " AND p.voided=0 AND e.voided=0 AND o.voided =0 "
-		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate "
-		        + " AND o.concept_id IN(" + request + ")" + " AND o.value_coded IN(" + response + ")";
+		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate " + " AND o.concept_id IN(" + request + ")"
+		        + " AND o.value_coded IN(" + response + ")";
 		
 		return query;
 	}
@@ -54,8 +52,8 @@ public class CommonQueries {
 		String query = "SELECT p.patient_id FROM patient p INNER JOIN encounter e ON p.patient_id=e.patient_id "
 		        + " INNER JOIN obs o ON e.encounter_id=o.encounter_id WHERE e.encounter_type IN(" + types + ")"
 		        + " AND p.voided=0 AND e.voided=0 AND o.voided =0 "
-		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate "
-		        + " AND o.concept_id IN(" + request + ")" + " AND o.value_coded IN(" + response + ")";
+		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate " + " AND o.concept_id IN(" + request + ")"
+		        + " AND o.value_coded IN(" + response + ")";
 		
 		return query;
 	}
@@ -66,8 +64,8 @@ public class CommonQueries {
 		String query = "SELECT p.patient_id FROM patient p INNER JOIN encounter e ON p.patient_id=e.patient_id "
 		        + " INNER JOIN obs o ON e.encounter_id=o.encounter_id WHERE "
 		        + " p.voided=0 AND e.voided=0 AND o.voided =0 "
-		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate "
-		        + " AND o.concept_id IN(" + request + ")" + " AND o.value_coded IN(" + response + ")";
+		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate " + " AND o.concept_id IN(" + request + ")"
+		        + " AND o.value_coded IN(" + response + ")";
 		
 		return query;
 	}
@@ -82,10 +80,9 @@ public class CommonQueries {
 		        + " INNER JOIN obs o ON e.encounter_id=o.encounter_id "
 		        + " INNER JOIN obs oo ON o.obs_group_id=oo.obs_group_id " + " WHERE "
 		        + " p.voided=0 AND e.voided=0 AND o.voided =0 "
-		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate "
-		        + " AND e.encounter_type=" + encounterTypeId + " AND o.concept_id IN(" + request1 + ")"
-		        + " AND o.value_coded IN(" + response1 + ") " + " AND oo.concept_id IN(" + request2 + ")"
-		        + " AND oo.value_coded IN(" + response2 + ")";
+		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate " + " AND e.encounter_type=" + encounterTypeId
+		        + " AND o.concept_id IN(" + request1 + ")" + " AND o.value_coded IN(" + response1 + ") "
+		        + " AND oo.concept_id IN(" + request2 + ")" + " AND oo.value_coded IN(" + response2 + ")";
 		
 		return query;
 	}
@@ -96,8 +93,8 @@ public class CommonQueries {
 		        + " INNER JOIN patient_program pp ON p.patient_id = pp.patient_id "
 		        + " INNER JOIN program pg ON pg.program_id=pp.program_id "
 		        + " WHERE p.voided=0 AND pp.voided=0 and pg.retired=0 "
-		        + " AND pp.date_enrolled BETWEEN :startDate AND :endDate "
-		        + " AND pg.program_id=" + programId + " AND pp.outcome_concept_id IS NULL ";
+		        + " AND pp.date_enrolled BETWEEN :startDate AND :endDate " + " AND pg.program_id=" + programId
+		        + " AND pp.outcome_concept_id IS NULL ";
 		
 		return query;
 	}
@@ -108,8 +105,8 @@ public class CommonQueries {
 		        + " INNER JOIN patient_program pp ON p.patient_id = pp.patient_id "
 		        + " INNER JOIN program pg ON pg.program_id=pp.program_id "
 		        + " WHERE p.voided=0 AND pp.voided=0 and pg.retired=0 "
-		        + " AND pp.date_enrolled BETWEEN :startDate AND :endDate "
-		        + " AND pg.program_id=" + programId + " AND pp.outcome_concept_id=" + outcomeConceptId;
+		        + " AND pp.date_enrolled BETWEEN :startDate AND :endDate " + " AND pg.program_id=" + programId
+		        + " AND pp.outcome_concept_id=" + outcomeConceptId;
 		
 		return query;
 	}
@@ -121,8 +118,8 @@ public class CommonQueries {
 		        + " INNER JOIN appointmentscheduling_time_slot ats ON aa.time_slot_id=ats.time_slot_id "
 		        + " INNER JOIN appointmentscheduling_appointment_block aab ON aab.appointment_block_id=ats.appointment_block_id"
 		        + " WHERE p.voided = 0 AND aa.voided = 0 AND ats.voided = 0 " + " AND aa.status = 'SCHEDULED' "
-		        + " AND aa.date_created BETWEEN :startDate AND :endDate "
-		        + " GROUP BY p.patient_id " + " ) tbl " + " WHERE DATEDIFF(CURDATE(), tbl.dVisit) >" + days;
+		        + " AND aa.date_created BETWEEN :startDate AND :endDate " + " GROUP BY p.patient_id " + " ) tbl "
+		        + " WHERE DATEDIFF(CURDATE(), tbl.dVisit) >" + days;
 		return qyery;
 	}
 	
@@ -131,10 +128,8 @@ public class CommonQueries {
 		String response = StringUtils.join(ans, ',');
 		String query = "SELECT p.patient_id FROM patient p INNER JOIN encounter e ON p.patient_id=e.patient_id "
 		        + " INNER JOIN obs o ON e.encounter_id=o.encounter_id WHERE "
-		        + " p.voided=0 AND e.voided=0 AND o.voided =0 "
-		        + " AND e.encounter_datetime <=:endDate "
-				+ " AND o.concept_id IN(" + request + ")"
-				+ " AND o.value_coded IN(" + response + ")";
+		        + " p.voided=0 AND e.voided=0 AND o.voided =0 " + " AND e.encounter_datetime <=:endDate "
+		        + " AND o.concept_id IN(" + request + ")" + " AND o.value_coded IN(" + response + ")";
 		
 		return query;
 	}
@@ -145,8 +140,7 @@ public class CommonQueries {
 		        + " INNER JOIN patient_program pp ON p.patient_id = pp.patient_id "
 		        + " INNER JOIN program pg ON pg.program_id=pp.program_id "
 		        + " WHERE p.voided=0 AND pp.voided=0 and pg.retired=0 " + " AND pp.date_enrolled <= :endDate "
-				+ " AND pg.program_id=" + programId + " AND pp.outcome_concept_id="
-		        + outcomeConceptId;
+		        + " AND pg.program_id=" + programId + " AND pp.outcome_concept_id=" + outcomeConceptId;
 		
 		return query;
 	}
@@ -157,7 +151,7 @@ public class CommonQueries {
 		        + "INNER JOIN patient_program pp ON p.patient_id = pp.patient_id "
 		        + "INNER JOIN program pg ON pg.program_id=pp.program_id "
 		        + "WHERE p.voided=0 AND pp.voided=0 and pg.retired=0 " + "AND pp.date_enrolled <= :endDate "
-				+ "AND pg.program_id=" + programId;
+		        + "AND pg.program_id=" + programId;
 		
 		return query;
 	}
@@ -167,16 +161,14 @@ public class CommonQueries {
 		String query = "SELECT p.patient_id FROM patient p INNER JOIN encounter e ON p.patient_id=e.patient_id "
 		        + " INNER JOIN obs o ON e.encounter_id=o.encounter_id WHERE "
 		        + " p.voided=0 AND e.voided=0 AND o.voided =0 "
-		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate "
-		        + " AND o.concept_id IN(" + request + ")";
+		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate " + " AND o.concept_id IN(" + request + ")";
 		
 		return query;
 	}
 	
 	public static String hasAnyEncounter() {
 		String query = "SELECT p.patient_id FROM patient p INNER JOIN encounter e ON p.patient_id=e.patient_id " + " WHERE "
-		        + " p.voided=0 AND e.voided=0 "
-		        + " AND e.encounter_datetime BETWEEN :startDate AND :endDate ";
+		        + " p.voided=0 AND e.voided=0 " + " AND e.encounter_datetime BETWEEN :startDate AND :endDate ";
 		return query;
 	}
 	
@@ -242,8 +234,8 @@ public class CommonQueries {
 		        + " (select 0 t2 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2,  "
 		        + " (select 0 t3 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3,  "
 		        + " (select 0 t4 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t4) v  "
-		        + "left  join payment p on DATE(p.date_created)=date(v.selected_date)  "
-		        + "left join (  " + "    select e.encounter_id, e.date_created  " + "    from encounter e  "
+		        + "left  join payment p on DATE(p.date_created)=date(v.selected_date)  " + "left join (  "
+		        + "    select e.encounter_id, e.date_created  " + "    from encounter e  "
 		        + "    where e.encounter_type IN ("
 		        + screenings
 		        + ")  "
