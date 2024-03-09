@@ -37,7 +37,7 @@ public class LinkedToCOVDataEvaluator implements PersonDataEvaluator {
 		
 		String qry = "SELECT p.person_id,MID(MAX(concat(l.encounter_datetime,(CASE WHEN l.date_client_met_cov IS NULL THEN 'N' ELSE 'Y' END))),20) as linked_to_cov  "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_community_linkage l "
-		        + " RIGHT JOIN mamba_dim_person p ON p.person_id=l.client_id AND DATE(l.encounter_datetime) <= :endDate GROUP BY l.client_id";
+		        + " RIGHT JOIN ssemr_etl.mamba_dim_person p ON p.person_id=l.client_id GROUP BY l.client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
