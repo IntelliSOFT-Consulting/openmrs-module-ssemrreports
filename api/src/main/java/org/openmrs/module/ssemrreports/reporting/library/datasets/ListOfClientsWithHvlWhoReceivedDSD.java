@@ -36,7 +36,7 @@ public class ListOfClientsWithHvlWhoReceivedDSD extends SSEMRBaseDataSet {
 		                + "      from ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up c"
 		                + "     ) f ON f.client_id = vl.client_id and f.seqnum = 1"
 		                + " LEFT JOIN ssemr_etl.mamba_dim_person_address addr on addr.person_id = vl.client_id "
-				        + " LEFT JOIN openmrs.person_attribute pa on pa.person_id = vl.client_id and pa.person_attribute_type_id = (select person_attribute_type_id from person_attribute_type where uuid = '14d4f066-15f5-102d-96e4-000c29c2a5d7') "
+		                + " LEFT JOIN openmrs.person_attribute pa on pa.person_id = vl.client_id and pa.person_attribute_type_id = (select person_attribute_type_id from person_attribute_type where uuid = '14d4f066-15f5-102d-96e4-000c29c2a5d7') "
 		                + " LEFT JOIN (select c.client_id,c.name_of_cov_assigned , row_number() over (partition by c.client_id order by DATE(c.encounter_datetime) desc) as seqnum"
 		                + "      from ssemr_etl.ssemr_flat_encounter_community_linkage c"
 		                + "     ) cl ON cl.client_id = vl.client_id and cl.seqnum = 1"
@@ -232,7 +232,7 @@ public class ListOfClientsWithHvlWhoReceivedDSD extends SSEMRBaseDataSet {
 		                + " LEFT JOIN (select c.client_id,DATE(c.encounter_datetime) as eac_date, row_number() over (partition by c.client_id order by DATE(c.encounter_datetime) desc) as seqnum"
 		                + "      from ssemr_etl.ssemr_flat_encounter_high_viral_load c WHERE DATE(c.encounter_datetime) <=:endDate AND c.eac_session = 'Repeat test after EAC'"
 		                + "     ) third_eac ON third_eac.client_id = vl.client_id and third_eac.seqnum = 1"
-		                + " WHERE vl.eac_session ='Extended session of EAC' AND vl.encounter_datetime BETWEEN :startDate AND :endDate");
+		                + " WHERE vl.repeat_vl_sample_date IS NOT NULL AND vl.encounter_datetime BETWEEN :startDate AND :endDate");
 		return sqlDataSetDefinition;
 	}
 	
