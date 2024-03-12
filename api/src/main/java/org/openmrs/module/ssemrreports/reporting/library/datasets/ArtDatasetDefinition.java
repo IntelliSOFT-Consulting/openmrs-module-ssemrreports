@@ -151,12 +151,12 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 	    female_25_to_29, female_30_to_34, female_35_to_39, female_40_to_44, female_45_to_49, female_50_plus,
 	    subTotalFemales, subTotalMales, colTotal);
 	
-	List<String> adultFirstLineRegimen = Arrays.asList("1a = AZT+3TC+EFV", "1b = AZT+3TC+NVP", "1c = TDF/3TC+DTG",
-	    "1d = ABC/3TC (600/300) +DTG", "1e = AZT/3TC+DTG", "1f  = TDF+3TC+EFV", "1g = TDF+3TC+NVP", "1h = TDF +FTC+ EFV",
+	List<String> adultFirstLineRegimen = Arrays.asList("1a = AZT/3TC+EFV", "1b = AZT/3TC/NVP", "1c = TDF/3TC+DTG",
+	    "1d=ABC/3TC (600/300)/DTG", "1e = AZT/3TC +DTG", "1f  = TDF+3TC+EFV", "1g = TDF+3TC+NVP", "1h = TDF +FTC+ EFV",
 	    "1j  = TDF+FTC+NVP");
 	
-	List<String> adultSecondLineRegimen = Arrays.asList("2a = AZT/3TC + DTG", "2b = ABC/3TC+DTG", "2c = TDF+3TC+LPV/r",
-	    "2d = TDF+3TC+ATV/r", "2e = TDF-FTC-LPV/r", "2f =  TDF-FTC-ATV/r", "2g= AZT+3TC+LPV/r", "2h= AZT+3TC+ATV/r",
+	List<String> adultSecondLineRegimen = Arrays.asList("2a=AZT/3TC+DTG", "2b=ABC/3TC+DTG", "2c = TDF+3TC+LPV/r",
+	    "2d = TDF+3TC+ATV/r", "2e = TDF-FTC-LPV/r", "2f=TDF/FTC-ATV/r", "2g= AZT+3TC+LPV/r", "2h=AZT/3TC+ATV/r",
 	    "2i = ABC +3TC + LPV/r", "2j = ABC +3TC + ATV/r", "2k =  TDF/3TC/DTG");
 	
 	List<String> childFirstLineRegimen = Arrays.asList("4a = AZT+3TC+NVP", "4b = AZT+3TC+EFV",
