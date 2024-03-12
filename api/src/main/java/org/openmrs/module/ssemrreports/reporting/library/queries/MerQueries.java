@@ -19,16 +19,16 @@ public class MerQueries {
 		        
 		        + " SELECT tn.client_id AS client_id FROM("
 		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
+		        + "	WHERE hce.art_start_date <= :endDate "
 		        + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
 		        + "	)tn"
 		        
 		        + " UNION "
 		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + " WHERE DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) BETWEEN :startDate AND :endDate "
+		        + " WHERE DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) <= :endDate "
 		        + " UNION "
 		        + "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate  "
+		        + "	WHERE hce.date_tranferred_in <= :endDate  "
 		        + "	AND hce.date_tranferred_in IS NOT NULL "
 		        + ") agg WHERE client_id NOT IN("
 		        
@@ -51,17 +51,6 @@ public class MerQueries {
 	}
 	
 	//end TX curr formulations
-	public static String getLessThan3MonthsQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
-	}
-	
-	public static String getQuarterlyDispensationQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
-	}
-	
-	public static String getSemiAnnualDispensationQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
-	}
 	
 	//Tx new cohort queries
 	public static String getTxNewTotals() {
