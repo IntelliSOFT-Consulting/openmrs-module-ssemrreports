@@ -19,16 +19,16 @@ public class MerQueries {
 		        
 		        + " SELECT tn.client_id AS client_id FROM("
 		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
+		        + "	WHERE hce.art_start_date <= :endDate "
 		        + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
 		        + "	)tn"
 		        
 		        + " UNION "
 		        + " SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + " WHERE DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) BETWEEN :startDate AND :endDate "
+		        + " WHERE DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) <= :endDate "
 		        + " UNION "
 		        + "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate  "
+		        + "	WHERE hce.date_tranferred_in <= :endDate  "
 		        + "	AND hce.date_tranferred_in IS NOT NULL "
 		        + ") agg WHERE client_id NOT IN("
 		        
@@ -51,17 +51,6 @@ public class MerQueries {
 	}
 	
 	//end TX curr formulations
-	public static String getLessThan3MonthsQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
-	}
-	
-	public static String getQuarterlyDispensationQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
-	}
-	
-	public static String getSemiAnnualDispensationQuery() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce";
-	}
 	
 	//Tx new cohort queries
 	public static String getTxNewTotals() {
@@ -144,18 +133,29 @@ public class MerQueries {
 	}
 	
 	public static String getTxMlIitL3mQuery() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + "	WHERE CAST(fu.days_dispensed AS UNSIGNED) < 90 ";
+		return "SELECT fn.client_id FROM("
+		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.encounter_datetime <= :endDate GROUP BY fu.client_id) fn"
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 ON fn.client_id = fu1.client_id "
+		        + " AND fn.encounter_datetime=fu1.encounter_datetime" + "	WHERE CAST(fu1.days_dispensed AS UNSIGNED) < 90 ";
 	}
 	
 	public static String getTxMlIitL3To5mQuery() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + "	WHERE CAST(fu.days_dispensed AS UNSIGNED) BETWEEN 90 AND 150 ";
+		return "SELECT fn.client_id FROM("
+		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.encounter_datetime <= :endDate GROUP BY fu.client_id) fn"
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 ON fn.client_id = fu1.client_id "
+		        + " AND fn.encounter_datetime=fu1.encounter_datetime"
+		        + "	WHERE CAST(fu1.days_dispensed AS UNSIGNED) BETWEEN  90 AND 150 ";
 	}
 	
 	public static String getTxMlIitM6mQuery() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + "	WHERE CAST(fu.days_dispensed AS UNSIGNED) >= 180 ";
+		return "SELECT fn.client_id FROM("
+		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.encounter_datetime <= :endDate GROUP BY fu.client_id) fn"
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 ON fn.client_id = fu1.client_id "
+		        + " AND fn.encounter_datetime=fu1.encounter_datetime"
+		        + "	WHERE CAST(fu1.days_dispensed AS UNSIGNED) >= 180 ";
 	}
 	
 	public static String getTxMlCauseOfDeathQueries(String cause) {
@@ -209,21 +209,27 @@ public class MerQueries {
 	}
 	
 	public static String getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterQueries() {
-		return "SELECT client_id FROM ( "
-		        + " SELECT en.client_id,MAX(vl.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
-		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up vl " + " ON en.client_id=vl.client_id "
-		        + " WHERE vl.vl_results IS NOT NULL AND vl.vl_results >= 1000 "
-		        + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate "
-		        + " GROUP BY en.client_id) viral_load ";
+		return "SELECT fil1.client_id FROM ("
+		        + " SELECT fu1.client_id AS client_id, MAX(fu1.encounter_datetime) AS encounter_datetime "
+		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
+		        + " WHERE fu1.vl_results is not null AND DATE(fu1.encounter_datetime) BETWEEN :startDate AND :endDate "
+		        + " GROUP  BY fu1.client_id" + ") fil1 "
+		        
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu2 "
+		        + " ON fil1.client_id=fu2.client_id AND fil1.encounter_datetime=fu2.encounter_datetime "
+		        + " WHERE fu2.vl_results >= 1000 ";
 	}
 	
 	public static String getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterQueries() {
-		return "SELECT client_id FROM ( "
-		        + " SELECT en.client_id,MAX(vl.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
-		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up vl " + " ON en.client_id=vl.client_id "
-		        + " WHERE vl.vl_results IS NOT NULL AND vl.vl_results < 1000 "
-		        + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate "
-		        + " GROUP BY en.client_id) viral_load ";
+		return "SELECT fil1.client_id FROM ("
+		        + " SELECT fu1.client_id AS client_id, MAX(fu1.encounter_datetime) AS encounter_datetime "
+		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
+		        + " WHERE fu1.vl_results is not null AND DATE(fu1.encounter_datetime) BETWEEN :startDate AND :endDate "
+		        + " GROUP  BY fu1.client_id" + ") fil1 "
+		        
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu2 "
+		        + " ON fil1.client_id=fu2.client_id AND fil1.encounter_datetime=fu2.encounter_datetime "
+		        + " WHERE fu2.vl_results < 1000 ";
 	}
 	
 	public static String getPregnantQueries() {

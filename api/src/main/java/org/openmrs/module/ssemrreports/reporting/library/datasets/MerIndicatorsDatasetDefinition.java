@@ -349,7 +349,7 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    "RTN",
 		    "ART patients with high VL results (>=1,000 copies/ml) documented in the ART register/file ",
 		    map(indicator.getIndicator(
-		        "ART patients with high VL results (>=1,000 copies/ml) documented in the ART register/file  ",
+		        "ART patients with high VL results (>=1000 copies/ml) documented in the ART register/file  ",
 		        map(merCohortQueries.getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterCohorts(),
 		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
