@@ -6,14 +6,12 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
-import org.openmrs.module.reporting.data.converter.BirthdateConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.AgeDataDefinition;
-import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.ConvertedPersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.GenderDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefinition;
@@ -23,13 +21,15 @@ import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.ArtStartDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastEAC1DateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastEAC2DateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastEAC3DateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.RegimenDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastDrugVisitDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLDueDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
@@ -38,13 +38,11 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLT
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PatientPMTCTDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResultsDocumentedDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.calculation.CalculationResultDataConverter;
 import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
 import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.PersonAttributeType;
 
 @Component
@@ -106,6 +104,15 @@ public class HighVLDatasetDefinition extends SSEMRBaseDataSet {
 		LastVLDataDefinition lastVLDataDefinition = new LastVLDataDefinition();
 		lastVLDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		LastEAC1DateDataDefinition lastEAC1DateDataDefinition = new LastEAC1DateDataDefinition();
+		lastEAC1DateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		LastEAC2DateDataDefinition lastEAC2DateDataDefinition = new LastEAC2DateDataDefinition();
+		lastEAC2DateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		LastEAC3DateDataDefinition lastEAC3DateDataDefinition = new LastEAC3DateDataDefinition();
+		lastEAC3DateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		VLDueDateDataDefinition vlDueDateDataDefinition = new VLDueDateDataDefinition();
 		vlDueDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
@@ -138,11 +145,13 @@ public class HighVLDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Pregnant", patientPregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", patientBreastfeedingDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Last VL", lastVLDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("VL due date", vlDueDateDataDefinition, "endDate=${endDate}");
 		// dsd.addColumn("Date VL sample collected", lastVLTestDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of last VL", vlResultsDocumentedDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Last VL result", vlResultsDocumentedDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last VL result", lastVLDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last EAC1 Date", lastEAC1DateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last EAC2 Date", lastEAC2DateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last EAC3 Date", lastEAC3DateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Regimen", regimenDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("ART Start Date", artStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());

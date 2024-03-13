@@ -9,8 +9,10 @@
  */
 package org.openmrs.module.ssemrreports.reporting.library.data.evaluator;
 
+import java.util.Date;
+import java.util.Map;
+
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResultsDocumentedDateDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -18,16 +20,14 @@ import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastEAC3DateDataDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Map;
-import java.util.Date;
-
 /**
- * VL Due Date Data Definition
+ * Evaluates Last EAC3 Date Data Definition
  */
-@Handler(supports = VLResultsDocumentedDateDataDefinition.class, order = 50)
-public class VLResultsDocumentedDateDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = LastEAC3DateDataDefinition.class, order = 50)
+public class LastEAC3DateDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -36,7 +36,10 @@ public class VLResultsDocumentedDateDataEvaluator implements PersonDataEvaluator
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, DATE(max(date_vl_sample_collected)) as documented_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where DATE(encounter_datetime) <= :endDate group by client_id";
+		String qry = "SELECT client_id,DATE(max(encounter_datetime)) as lastEac3Date FROM ssemr_etl.ssemr_flat_encounter_high_viral_load "
+		        + " WHERE  date(encounter_datetime) <= date(:endDate) "
+		        + " AND eac_session = 'Third EAC Session' "
+		        + " GROUP BY client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
@@ -48,6 +51,5 @@ public class VLResultsDocumentedDateDataEvaluator implements PersonDataEvaluator
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
 		c.setData(data);
 		return c;
-		
 	}
 }

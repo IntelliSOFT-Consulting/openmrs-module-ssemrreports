@@ -37,7 +37,7 @@ public class PatientPMTCTDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "SELECT client_id, CONCAT(MID(MAX(CONCAT(encounter_datetime, client_pmtct)), 20)) as is_pmtc "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where encounter_datetime <= :endDate "
+		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where DATE(encounter_datetime) <= :endDate "
 		        + " group by client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
