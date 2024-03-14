@@ -151,22 +151,22 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 	    female_25_to_29, female_30_to_34, female_35_to_39, female_40_to_44, female_45_to_49, female_50_plus,
 	    subTotalFemales, subTotalMales, colTotal);
 	
-	List<String> adultFirstLineRegimen = Arrays.asList("1a = AZT/3TC+EFV", "1b = AZT/3TC/NVP", "1c = TDF/3TC+DTG",
-	    "1d=ABC/3TC (600/300)/DTG", "1e = AZT/3TC +DTG", "1f  = TDF+3TC+EFV", "1g = TDF+3TC+NVP", "1h = TDF +FTC+ EFV",
-	    "1j  = TDF+FTC+NVP");
+	List<String> adultFirstLineRegimen = Arrays.asList("1a = AZT/3TC + EFV", "1b = AZT/3TC/NVP", "1c = TDF/3TC/DTG",
+	    "1d = ABC/3TC (600/300) /DTG", "1e = AZT/3TC + DTG", "1f = TDF/3TC/EFV", "1g = TDF/3TC + NVP", "1h = TDF/FTC/ EFV",
+	    "1J  = TDF/FTC + NVP");
 	
-	List<String> adultSecondLineRegimen = Arrays.asList("2a=AZT/3TC+DTG", "2b=ABC/3TC+DTG", "2c = TDF+3TC+LPV/r",
-	    "2d = TDF+3TC+ATV/r", "2e = TDF-FTC-LPV/r", "2f=TDF/FTC-ATV/r", "2g= AZT+3TC+LPV/r", "2h=AZT/3TC+ATV/r",
-	    "2i = ABC +3TC + LPV/r", "2j = ABC +3TC + ATV/r", "2k =  TDF/3TC/DTG");
+	List<String> adultSecondLineRegimen = Arrays.asList("2a = AZT/3TC + DTG", "2b = ABC/3TC + DTG", "2c = TDF+3TC + LPV/r",
+	    "2d = TDF/3TC + ATV/r", "2e = TDF/FTC-LPV/r", "2f = TDF/FTC-ATV/r", "2g = AZT/3TC + LPV/r", "2h = AZT/3TC + ATV/r",
+	    "2i = ABC/3TC + LPV/r", "2J  = ABC/3TC + ATV/r", "2k = TDF/3TC/DTG");
 	
-	List<String> childFirstLineRegimen = Arrays.asList("4a = AZT+3TC+NVP", "4b = AZT+3TC+EFV",
-	    "4c = ABC/3TC (120/60)+LPV/r", "4d = ABC/3TC (120/60) +DTG", "4f =  ABC+3TC + NVP",
-	    "4g =  ABC/3TC (120/60) +EFV (200mg)", "4h =  TDF +3TC + EFV", "4i = ABC+3TC + LPV/r",
-	    "4j = AZT +3TC(60/30)  + LPV/r", "4k = TDF +3TC + NVP", "4l  = ABC +3TC + AZT");
+	List<String> childFirstLineRegimen = Arrays.asList("4a = AZT/3TC/NVP", "4b = AZT/3TC + EFV",
+	    "4c = ABC/3TC (120/60) + LPV/r", "4d = ABC/3TC (120/60) + DTG50", "4f = ABC/3TC + NVP",
+	    "4g = ABC/3TC (120/60) + EFV (200mg)", "4h = TDF/3TC/EFV", "4i  = ABC/3TC + LPV/r", "4j = AZT/3TC (60/30) + LPV/r",
+	    "4k = TDF/3TC + NVP", "4l = ABC/3TC + AZT", "4e = ABC/3TC (120/60)+DTG10");
 	
-	List<String> childSecondLineRegimen = Arrays.asList("5a =AZT/3TC+LPV/r", "5b =AZT +3TC + RAL",
-	    "5c =ABC +3TC(120/60)+ RAL", "5d = AZT +3TC + ATV/r", "5e =ABC +3TC + ATV/r", "5f = TDF + 3TC +ATV/r",
-	    "5g = AZT/3TC+DTG", "5h =ABC/3TC+DTG", "5i= ABC/3TC + LPV/r");
+	List<String> childSecondLineRegimen = Arrays.asList("5a = AZT/3TC+LPV/r", "5b = AZT/3TC + RAL",
+	    "5c = ABC/3TC (120/60) + RAL", "5d = AZT/3TC + ATV/r", "5e = ABC/3TC + ATV/r", "5f = TDF/ 3TC + ATV/r",
+	    "5g = AZT/3TC + DTG50", "5h = ABC/3TC + DTG50", "5i = ABC/3TC + LPV/r", "5j = AZT/3TC (120/60)+DTG10");
 	
 	@Autowired
 	public ArtDatasetDefinition(SSEMRCommonDimension dimension, SSEMRGeneralIndicator indicator,
