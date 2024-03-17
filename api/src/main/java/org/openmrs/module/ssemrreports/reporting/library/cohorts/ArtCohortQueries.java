@@ -238,11 +238,12 @@ public class ArtCohortQueries {
 		cd.setDescription("Patients on a regimen during the reporting period");
 		return cd;
 	}
+	
 	public CohortDefinition getPatientsOnSecondLineRegimenCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String regimensString = SSEMRReportUtils.concatenateStringAndQuote(ArtReportsConstants.adultSecondLineRegimen)
 		        + SSEMRReportUtils.concatenateStringAndQuote(ArtReportsConstants.childSecondLineRegimen);
-
+		
 		String qry = "SELECT client_id from ( "
 		        + " SELECT e.client_id , mid(max(CONCAT(f.encounter_datetime,f.art_regimen)),20) as art_regimen "
 		        + "  FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e  "
@@ -277,14 +278,14 @@ public class ArtCohortQueries {
 		cd.setDescription("Patients of a given age group and sex");
 		return cd;
 	}
-
+	
 	public CohortDefinition getPregnantPatientsOnRegimenCohortDefinition(String regimenName) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
-				+ "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
-				+ "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
-				+ "  and f.art_regimen = ':artRegimen' and f.client_pregnant = 'True' ";
-
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
+		        + "  and f.art_regimen = ':artRegimen' and f.client_pregnant = 'True' ";
+		
 		qry.replace(":artRegimen", regimenName);
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -292,16 +293,16 @@ public class ArtCohortQueries {
 		cd.setDescription("Patients on a regimen during the reporting period");
 		return cd;
 	}
-
+	
 	public CohortDefinition getBreastFeedingPatientsOnRegimenCohortDefinition(String regimenName) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select\n"
-				+ "    e.client_id\n"
-				+ "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
-				+ "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
-				+ "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
-				+ "  and f.art_regimen = ':artRegimen' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
-
+		        + "    e.client_id\n"
+		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
+		        + "  and f.art_regimen = ':artRegimen' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
+		
 		qry.replace(":artRegimen", regimenName);
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -309,16 +310,16 @@ public class ArtCohortQueries {
 		cd.setDescription("Patients on a regimen during the reporting period");
 		return cd;
 	}
-
+	
 	public CohortDefinition getTBAssessmentStatusCohortDefinition(String assessmentStatus) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select\n"
-				+ "    e.client_id\n"
-				+ "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
-				+ "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
-				+ "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
-				+ "  and f.art_regimen = ':assessmentStatus' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
-
+		        + "    e.client_id\n"
+		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
+		        + "  and f.art_regimen = ':assessmentStatus' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
+		
 		qry.replace(":assessmentStatus", assessmentStatus);
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -326,22 +327,23 @@ public class ArtCohortQueries {
 		cd.setDescription("Patients assessed for TB during the reporting period");
 		return cd;
 	}
-
+	
 	public CohortDefinition patientsTreatedForTBCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select\n"
-				+ "    e.client_id\n"
-				+ "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
-				+ "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
-				+ "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
-				+ "  and f.art_regimen = ':assessmentStatus' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
-
+		        + "    e.client_id\n"
+		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
+		        + "  and f.art_regimen = ':assessmentStatus' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
+		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("Patients assessed for TB during the reporting period");
 		return cd;
 	}
+	
 	// ----- --- viral load sample collection
 	
 	public CohortDefinition getVLSampleCollectionCohortDefinition() {
@@ -423,7 +425,6 @@ public class ArtCohortQueries {
 		return cd;
 	}
 	
-
 	public CohortDefinition getART2CohortDefinition() {
 		SqlCohortDefinition sql = new SqlCohortDefinition();
 		return sql;

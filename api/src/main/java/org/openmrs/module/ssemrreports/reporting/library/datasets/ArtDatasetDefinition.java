@@ -551,7 +551,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 			    map(indicator.getIndicator("Adult first line regimen, pregnant",
 			        map(artCohortQueries.getPregnantPatientsOnRegimenCohortDefinition(regimenName), mappings)), mappings),
 			    "");
-
+			
 		}
 		
 		for (int i = 0; i < ArtReportsConstants.adultSecondLineRegimen.size(); i++) {
@@ -565,7 +565,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 			    map(indicator.getIndicator("Adult second line regimen - " + regimenName,
 			        map(artCohortQueries.getPatientsOnRegimenCohortDefinition(regimenName), mappings)), mappings),
 			    regimenDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
-
+			
 			dsd.addColumn(
 			    nameParts[0].trim().concat("-10"),
 			    "Adult second line regimen, breastfeeding ",
@@ -578,7 +578,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 			    map(indicator.getIndicator("Adult second line regimen, pregnant",
 			        map(artCohortQueries.getPregnantPatientsOnRegimenCohortDefinition(regimenName), mappings)), mappings),
 			    "");
-
+			
 		}
 		
 		for (int i = 0; i < ArtReportsConstants.childFirstLineRegimen.size(); i++) {
@@ -592,7 +592,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 			    map(indicator.getIndicator("Child first line regimen - " + regimenName,
 			        map(artCohortQueries.getPatientsOnRegimenCohortDefinition(regimenName), mappings)), mappings),
 			    regimenDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
-
+			
 			dsd.addColumn(
 			    nameParts[0].trim().concat("-10"),
 			    "Child first line regimen, breastfeeding ",
@@ -605,7 +605,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 			    map(indicator.getIndicator("Child first line regimen, pregnant",
 			        map(artCohortQueries.getPregnantPatientsOnRegimenCohortDefinition(regimenName), mappings)), mappings),
 			    "");
-
+			
 		}
 		
 		for (int i = 0; i < ArtReportsConstants.childSecondLineRegimen.size(); i++) {
@@ -619,7 +619,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 			    map(indicator.getIndicator("Child second line regimen - " + regimenName,
 			        map(artCohortQueries.getPatientsOnRegimenCohortDefinition(regimenName), mappings)), mappings),
 			    regimenDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
-
+			
 			dsd.addColumn(
 			    nameParts[0].trim().concat("-10"),
 			    "Child second line regimen, breastfeeding ",
@@ -632,7 +632,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 			    map(indicator.getIndicator("Child second line regimen, pregnant",
 			        map(artCohortQueries.getPregnantPatientsOnRegimenCohortDefinition(regimenName), mappings)), mappings),
 			    "");
-
+			
 		}
 		
 		return dsd;
