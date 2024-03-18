@@ -207,11 +207,12 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition getPatientsOnRegimenCohortDefinition(String regimenName) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		// TODO: Modify the query to compare against the most recent Regimen within the reporting period
-		String qry = "select DISTINCT " + "    e.client_id " + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e "
-		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id) "
-		        + "where date(f.encounter_datetime) <= date(:endDate) "
-		        + "  and REPLACE(f.art_regimen,' ','') = REPLACE(':artRegimen',' ','') ";
+		String qry = "select e.client_id\n"
+		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where f.art_regimen is not null and date(f.encounter_datetime) <= date(:endDate)\n"
+		        + "group by f.client_id "
+		        + "  having REPLACE(mid(max(concat(f.encounter_datetime, f.art_regimen)),20),' ','') = REPLACE(':artRegimen',' ','') ";
 		
 		qry = qry.replace(":artRegimen", regimenName);
 		cd.setQuery(qry);
@@ -226,20 +227,6 @@ public class ArtCohortQueries {
 		
 		String regimensString = SSEMRReportUtils.concatenateStringAndQuote(ArtReportsConstants.adultFirstLineRegimen)
 		        + SSEMRReportUtils.concatenateStringAndQuote(ArtReportsConstants.childFirstLineRegimen);
-		
-		//		String qry = "SELECT client_id from ( " + " SELECT "
-		//		        + "   e.client_id , mid(max(CONCAT(f.encounter_datetime,f.art_regimen)),20) as art_regimen "
-		//		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e  "
-		//		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)  "
-		//		        + " WHERE date(f.encounter_datetime) <= date(:endDate)   " + " GROUP BY client_id  "
-		//		        + ") c where (REPLACE(c.art_regimen,' ',''))  " + " IN ( " + "   '1a=AZT/3TC+EFV', "
-		//		        + "   '1b=AZT/3TC/NVP', " + "   '1c=TDF/3TC/DTG', " + "   '1d=ABC/3TC(600/300)/DTG', "
-		//		        + "   '1e=AZT/3TC+DTG', " + "   '1f=TDF/3TC/EFV', " + "   '1g=TDF/3TC+NVP', " + "   '1h=TDF/FTC/EFV', "
-		//		        + "   '1J=TDF/FTC+NVP', " + "   '4a=AZT/3TC/NVP', " + "   '4b=AZT/3TC+EFV', "
-		//		        + "   '4c=ABC/3TC(120/60)+LPV/r', " + "   '4d=ABC/3TC(120/60)+DTG50', " + "   '4f=ABC/3TC+NVP', "
-		//		        + "   '4g=ABC/3TC(120/60)+EFV(200mg)', " + "   '4h=TDF/3TC/EFV', " + "   '4i=ABC/3TC+LPV/r', "
-		//		        + "   '4j=AZT/3TC(60/30)+LPV/r', " + "   '4k=TDF/3TC+NVP', " + "   '4l=ABC/3TC+AZT', "
-		//		        + "   '4e=ABC/3TC(120/60mg)+DTG10' " + " ) ";
 		String qry = "SELECT client_id from ( " + " SELECT "
 		        + "   e.client_id , mid(max(CONCAT(f.encounter_datetime,f.art_regimen)),20) as art_regimen "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e  "
@@ -253,46 +240,11 @@ public class ArtCohortQueries {
 		return cd;
 	}
 	
-	//	public CohortDefinition getPatientsOnSecondLineRegimenCohortDefinition() {
-	//		SqlCohortDefinition cd = new SqlCohortDefinition();
-	//		String qry = "SELECT client_id from ( "
-	//		        + " SELECT e.client_id , mid(max(CONCAT(f.encounter_datetime,f.art_regimen)),20) as art_regimen "
-	//		        + "  FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e  "
-	//		        + "  INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)  "
-	//		        + "  WHERE date(f.encounter_datetime) <= date(:endDate)   " + "  GROUP BY client_id  "
-	//		        + ") c WHERE REPLACE(c.art_regimen,' ','') in ( " + "   '5a=AZT/3TC+LPV/r', " + "   '5b=AZT/3TC+RAL', "
-	//		        + "   '5c=ABC/3TC(120/60)+RAL', " + "   '5d=AZT/3TC+ATV/r', " + "   '5e=ABC/3TC+ATV/r', "
-	//		        + "   '5f=TDF/3TC+ATV/r', " + "   '5g=AZT/3TC+DTG50', " + "   '5h=ABC/3TC+DTG50', "
-	//		        + "   '5i=ABC/3TC+LPV/r', " + "   '5j=AZT/3TC(120/60)+DTG10', " + "   '2a=AZT/3TC+DTG', "
-	//		        + "   '2b=ABC/3TC+DTG', " + "   '2c=TDF+3TC+LPV/r', " + "   '2d=TDF/3TC+ATV/r', "
-	//		        + "   '2e=TDF/FTC-LPV/r', " + "   '2f=TDF/FTC-ATV/r', " + "   '2g=AZT/3TC+LPV/r', "
-	//		        + "   '2h=AZT/3TC+ATV/r', " + "   '2i=ABC/3TC+LPV/r', " + "   '2J=ABC/3TC+ATV/r', "
-	//		        + "   '2k=TDF/3TC/DTG') ; ";
-	//
-	//		cd.setQuery(qry);
-	//		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-	//		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-	//		cd.setDescription("Patients on a regimen during the reporting period");
-	//		return cd;
-	//	}
 	public CohortDefinition getPatientsOnSecondLineRegimenCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String regimensString = SSEMRReportUtils.concatenateStringAndQuote(ArtReportsConstants.adultSecondLineRegimen)
 		        + SSEMRReportUtils.concatenateStringAndQuote(ArtReportsConstants.childSecondLineRegimen);
 		
-		//		String qry = "SELECT client_id from ( "
-		//		        + " SELECT e.client_id , mid(max(CONCAT(f.encounter_datetime,f.art_regimen)),20) as art_regimen "
-		//		        + "  FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e  "
-		//		        + "  INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)  "
-		//		        + "  WHERE date(f.encounter_datetime) <= date(:endDate)   " + "  GROUP BY client_id  "
-		//		        + ") c WHERE REPLACE(c.art_regimen,' ','') in ( " + "   '5a=AZT/3TC+LPV/r', " + "   '5b=AZT/3TC+RAL', "
-		//		        + "   '5c=ABC/3TC(120/60)+RAL', " + "   '5d=AZT/3TC+ATV/r', " + "   '5e=ABC/3TC+ATV/r', "
-		//		        + "   '5f=TDF/3TC+ATV/r', " + "   '5g=AZT/3TC+DTG50', " + "   '5h=ABC/3TC+DTG50', "
-		//		        + "   '5i=ABC/3TC+LPV/r', " + "   '5j=AZT/3TC(120/60)+DTG10', " + "   '2a=AZT/3TC+DTG', "
-		//		        + "   '2b=ABC/3TC+DTG', " + "   '2c=TDF+3TC+LPV/r', " + "   '2d=TDF/3TC+ATV/r', "
-		//		        + "   '2e=TDF/FTC-LPV/r', " + "   '2f=TDF/FTC-ATV/r', " + "   '2g=AZT/3TC+LPV/r', "
-		//		        + "   '2h=AZT/3TC+ATV/r', " + "   '2i=ABC/3TC+LPV/r', " + "   '2J=ABC/3TC+ATV/r', "
-		//		        + "   '2k=TDF/3TC/DTG') ; ";
 		String qry = "SELECT client_id from ( "
 		        + " SELECT e.client_id , mid(max(CONCAT(f.encounter_datetime,f.art_regimen)),20) as art_regimen "
 		        + "  FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e  "
@@ -325,6 +277,71 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("Patients of a given age group and sex");
+		return cd;
+	}
+	
+	public CohortDefinition getPregnantPatientsOnRegimenCohortDefinition(String regimenName) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select\n" + "    e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
+		        + "  and f.art_regimen = ':artRegimen' and f.client_pregnant = 'True' ";
+		
+		qry.replace(":artRegimen", regimenName);
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients on a regimen during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition getBreastFeedingPatientsOnRegimenCohortDefinition(String regimenName) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select\n"
+		        + "    e.client_id\n"
+		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
+		        + "  and f.art_regimen = ':artRegimen' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
+		
+		qry.replace(":artRegimen", regimenName);
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients on a regimen during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition getTBAssessmentStatusCohortDefinition(String assessmentStatus) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select\n"
+		        + "    e.client_id\n"
+		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
+		        + "  and f.art_regimen = ':assessmentStatus' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
+		
+		qry.replace(":assessmentStatus", assessmentStatus);
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients assessed for TB during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition patientsTreatedForTBCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select\n"
+		        + "    e.client_id\n"
+		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
+		        + "  and f.art_regimen = ':assessmentStatus' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
+		
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients assessed for TB during the reporting period");
 		return cd;
 	}
 	
@@ -409,45 +426,6 @@ public class ArtCohortQueries {
 		return cd;
 	}
 	
-	/*select client_id, value,patient_pregnant,patient_breastfeeding
-	from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request
-	where date(date_of_sample_collection) between '2023-10-01' and '2023-12-01';
-
-	-- sample collection for the pregnant
-	select client_id
-	from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request
-	where date(date_of_sample_collection) between '2023-10-01' and '2023-12-01'
-	and patient_pregnant = 'True';
-
-	-- sample collection for the breastfeeding
-	select client_id
-	from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request
-	where date(date_of_sample_collection) between '2023-10-01' and '2023-12-01'
-	and patient_breastfeeding = 'True';
-
-	-- vl results for the pregnant and results <1000
-	select client_id
-	from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request
-	where date(date_results_dispatched) between '2023-10-01' and '2023-12-01'
-	and patient_pregnant = 'True' and value < 1000;
-
-	-- vl results for the pregnant and results >=1000
-	select client_id
-	from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request
-	where date(date_results_dispatched) between '2023-10-01' and '2023-12-01'
-	and patient_pregnant = 'True' and value >= 1000;
-
-	-- vl results for the breastfeeding and results <1000
-	select client_id
-	from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request
-	where date(date_results_dispatched) between '2023-10-01' and '2023-12-01'
-	and patient_breastfeeding = 'True' and value < 1000;
-
-	-- vl results for the breastfeeding and results >=1000
-	select client_id
-	from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request
-	where date(date_results_dispatched) between '2023-10-01' and '2023-12-01'
-	and patient_breastfeeding = 'True' and value >= 1000;*/
 	public CohortDefinition getART2CohortDefinition() {
 		SqlCohortDefinition sql = new SqlCohortDefinition();
 		return sql;
