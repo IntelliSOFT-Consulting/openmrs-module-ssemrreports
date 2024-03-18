@@ -207,11 +207,12 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition getPatientsOnRegimenCohortDefinition(String regimenName) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		// TODO: Modify the query to compare against the most recent Regimen within the reporting period
-		String qry = "select DISTINCT " + "    e.client_id " + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e "
-		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id) "
-		        + "where date(f.encounter_datetime) <= date(:endDate) "
-		        + "  and REPLACE(f.art_regimen,' ','') = REPLACE(':artRegimen',' ','') ";
+		String qry = "select e.client_id\n"
+		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where f.art_regimen is not null and date(f.encounter_datetime) <= date(:endDate)\n"
+		        + "group by f.client_id "
+		        + "  having REPLACE(mid(max(concat(f.encounter_datetime, f.art_regimen)),20),' ','') = REPLACE(':artRegimen',' ','') ";
 		
 		qry = qry.replace(":artRegimen", regimenName);
 		cd.setQuery(qry);
