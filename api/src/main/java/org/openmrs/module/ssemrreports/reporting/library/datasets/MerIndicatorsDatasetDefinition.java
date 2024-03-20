@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-import static org.openmrs.module.ssemrreports.reporting.library.columns.ShareDatasetColumns.getDispensationColumns3To5Months;
-import static org.openmrs.module.ssemrreports.reporting.library.columns.ShareDatasetColumns.getDispensationColumnsLessThan3Months;
-import static org.openmrs.module.ssemrreports.reporting.library.columns.ShareDatasetColumns.getDispensationColumnsMoreThan6Months;
+import static org.openmrs.module.ssemrreports.reporting.library.columns.ShareDatasetColumns.getDispensationColumnsGenderAndAge;
 import static org.openmrs.module.ssemrreports.reporting.library.columns.ShareDatasetColumns.getMerGenderAndAgeColumns;
 import static org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils.map;
 
@@ -41,7 +39,6 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("gender", map(dimension.gender(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
-		dsd.addDimension("disp", map(dimension.getDispensingQuantityDimension(), mappings));
 		dsd.setName("TxC");
 		addRow(
 		    dsd,
@@ -57,8 +54,8 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    map(indicator
 		            .getIndicator(
 		                "Number of adults and children currently receiving antiretroviral therapy (ART) - <3 months of ARVs (not MMD) dispensed to client",
-		                map(merCohortQueries.getTxCurrCohorts(), mappings)), mappings),
-		    getDispensationColumnsLessThan3Months());
+		                map(merCohortQueries.getTxMlIitL3mCohorts(), mappings)), mappings),
+		    getDispensationColumnsGenderAndAge());
 		
 		addRow(
 		    dsd,
@@ -67,7 +64,8 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    map(indicator
 		            .getIndicator(
 		                "Number of adults and children currently receiving antiretroviral therapy (ART) - 3-5 months of ARVs (MMD) dispensed to client",
-		                map(merCohortQueries.getTxCurrCohorts(), mappings)), mappings), getDispensationColumns3To5Months());
+		                map(merCohortQueries.getTxMlIit3To5mCohorts(), mappings)), mappings),
+		    getDispensationColumnsGenderAndAge());
 		
 		addRow(
 		    dsd,
@@ -76,8 +74,8 @@ public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
 		    map(indicator
 		            .getIndicator(
 		                "Number of adults and children currently receiving antiretroviral therapy (ART) - 6 or more months of ARVs (MMD) dispensed to clients",
-		                map(merCohortQueries.getTxCurrCohorts(), mappings)), mappings),
-		    getDispensationColumnsMoreThan6Months());
+		                map(merCohortQueries.getTxMlIitM6mCohorts(), mappings)), mappings),
+		    getDispensationColumnsGenderAndAge());
 		return dsd;
 	}
 	
