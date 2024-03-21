@@ -635,6 +635,30 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 			
 		}
 		
+		dsd.addColumn(
+		    "onCtx",
+		    "clients on CTX",
+		    map(indicator.getIndicator("clients on CTX",
+		        map(artCohortQueries.patientsOnCTXTreatmentCohortDefinition(), mappings)), mappings), "");
+		
+		dsd.addColumn(
+		    "onDapsone",
+		    "clients on Dapsoine",
+		    map(indicator.getIndicator("clients on Dapsone",
+		        map(artCohortQueries.patientsOnDapsoneTreatmentCohortDefinition(), mappings)), mappings), "");
+		
+		dsd.addColumn(
+		    "ltfu",
+		    "clients who are LTFU",
+		    map(indicator.getIndicator("clients who are on LTFU",
+		        map(artCohortQueries.patientsLtfuCohortDefinition(), mappings)), mappings), "");
+		
+		dsd.addColumn(
+		    "dead",
+		    "clients who Died",
+		    map(indicator.getIndicator("clients who Died", map(artCohortQueries.patientsDeadCohortDefinition(), mappings)),
+		        mappings), "");
+		
 		return dsd;
 		
 	}
