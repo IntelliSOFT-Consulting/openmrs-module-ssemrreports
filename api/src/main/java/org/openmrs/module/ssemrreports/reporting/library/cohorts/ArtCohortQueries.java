@@ -329,19 +329,19 @@ public class ArtCohortQueries {
 		return cd;
 	}
 	
-	public CohortDefinition patientsTreatedForTBCohortDefinition() {
+	public CohortDefinition patientsCurrentlyOnTBCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select\n"
 		        + "    e.client_id\n"
 		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
 		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
-		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
-		        + "  and f.art_regimen = ':assessmentStatus' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
+		        + " where f.on_tb_treatment = 'True' and date(f.encounter_datetime) between date(:startDate) and date(:endDate)\n"
+		        + " group by f.client_id;";
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("Patients assessed for TB during the reporting period");
+		cd.setDescription("Patients treated for TB during the reporting period");
 		return cd;
 	}
 	
@@ -382,6 +382,91 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("VL sample collected for the breastfeeding during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition patientsNewlyInitiatedOnTBTreatmentCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select e.client_id\n"
+		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "         inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where f.on_tb_treatment = 'True' and date(f.encounter_datetime) between date(:startDate) and date(:endDate)\n"
+		        + "group by f.client_id;";
+		
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients newly initiated on TB during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition patientsOnINHTreatmentCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "         inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where f.inh = 'True' and date(f.encounter_datetime) between date(:startDate) and date(:endDate)\n"
+		        + "group by f.client_id;";
+		
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients on INH during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition patientsOnCTXTreatmentCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "         inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where f.on_ctx = 'True' and date(f.encounter_datetime) between date(:startDate) and date(:endDate)\n"
+		        + "group by f.client_id;";
+		
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients on CTX during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition patientsOnDapsoneTreatmentCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "         inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where f.on_dapson = 'True' and date(f.encounter_datetime) between date(:startDate) and date(:endDate)\n"
+		        + "group by f.client_id;";
+		
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients on Dapsone during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition patientsLtfuCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select e.client_id\n"
+		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "         inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where f.lost_to_follow_up = 'True' and date(f.lost_follow_up_last_visit_date) between date(:startDate) and date(:endDate) and date(f.encounter_datetime) between date(:startDate) and date(:endDate)\n"
+		        + "group by f.client_id;";
+		
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients on ltfu during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition patientsDeadCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
+		        + "         inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
+		        + "where date(f.date_of_death) between date(:startDate) and date(:endDate) \n" + "group by f.client_id;";
+		
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients who died during the reporting period");
 		return cd;
 	}
 	
