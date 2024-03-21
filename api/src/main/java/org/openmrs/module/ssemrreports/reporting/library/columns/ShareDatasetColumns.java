@@ -87,24 +87,23 @@ public class ShareDatasetColumns {
 	
 	public static List<SSEMRBaseDataSet.ColumnParameters> getDispensationColumnsGenderAndAge() {
 		SSEMRBaseDataSet.ColumnParameters under15M = new SSEMRBaseDataSet.ColumnParameters("under15M",
-		        "under 15 years male", "gender=M|age=<15", "U15M3");
+		        "under 15 years male", "gender=M|age=<15", "01");
 		
 		SSEMRBaseDataSet.ColumnParameters plus15M = new SSEMRBaseDataSet.ColumnParameters("plus15M",
-		        "more than 15 years male", "gender=M|age=15+", "O15M3");
+		        "more than 15 years male", "gender=M|age=15+", "02");
 		
 		SSEMRBaseDataSet.ColumnParameters unkM = new SSEMRBaseDataSet.ColumnParameters("unkM3", "unknown age male",
-		        "gender=M|age=UK", "unkM3");
+		        "gender=M|age=UK", "03");
 		
 		SSEMRBaseDataSet.ColumnParameters under15F = new SSEMRBaseDataSet.ColumnParameters("under15F",
-		        "under 15 years female", "gender=F|age=<15", "U15F3");
+		        "under 15 years female", "gender=F|age=<15", "04");
 		SSEMRBaseDataSet.ColumnParameters plus15F = new SSEMRBaseDataSet.ColumnParameters("plus15F",
-		        "more than 15 years female", "gender=F|age=15+", "O15F3");
+		        "more than 15 years female", "gender=F|age=15+", "05");
 		
 		SSEMRBaseDataSet.ColumnParameters unkF = new SSEMRBaseDataSet.ColumnParameters("unkF3", "unknown age female",
-		        "gender=F|age=UK", "unkF3");
+		        "gender=F|age=UK", "06");
 		
-		SSEMRBaseDataSet.ColumnParameters all3 = new SSEMRBaseDataSet.ColumnParameters("all3", "All 3 months dispensation",
-		        "", "ALL3");
+		SSEMRBaseDataSet.ColumnParameters all3 = new SSEMRBaseDataSet.ColumnParameters("all3", "All dispensation", "", "07");
 		
 		return Arrays.asList(under15M, plus15M, unkM, under15F, plus15F, unkF, all3);
 	}
