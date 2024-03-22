@@ -740,6 +740,30 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 		    map(indicator.getIndicator("Results received - breastfeeding",
 		        map(artCohortQueries.getVLResultsForBreastfeedingCohortDefinition(0, 1000000000), mappings)), mappings),
 		    pbfAgeOnlyDisaggregation, Arrays.asList("38", "39", "40", "41", "42", "43", "44", "45", "46", "47"));
+		
+		// traced
+		addRow(
+		    dsd,
+		    "Result_Traced >= 1000",
+		    "Results received, and traced",
+		    map(indicator.getIndicator("Results received",
+		        map(artCohortQueries.getClientsWithHivVLResultsTracedCohortDefinition(), mappings)), mappings),
+		    allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
+		        "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
+		addRow(
+		    dsd,
+		    "Result_Traced >= 1000",
+		    "Results received - pregnant, and traced",
+		    map(indicator.getIndicator("Results received - pregnant",
+		        map(artCohortQueries.getClientsWithHivVLResultsTracedCohortDefinition(), mappings)), mappings),
+		    pbfAgeOnlyDisaggregation, Arrays.asList("28", "29", "30", "31", "32", "33", "34", "35", "36", "37"));
+		addRow(
+		    dsd,
+		    "Result_Traced >= 1000",
+		    "Results received - breastfeeding, and traced",
+		    map(indicator.getIndicator("Results received - breastfeeding",
+		        map(artCohortQueries.getClientsWithHivVLResultsTracedCohortDefinition(), mappings)), mappings),
+		    pbfAgeOnlyDisaggregation, Arrays.asList("38", "39", "40", "41", "42", "43", "44", "45", "46", "47"));
 		return dsd;
 	}
 }
