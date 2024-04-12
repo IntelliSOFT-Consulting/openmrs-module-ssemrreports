@@ -112,15 +112,10 @@ public class CommonQueries {
 	}
 	
 	public static String getMissedAppointmentPatientSetByDays(int days) {
-		String qyery = "SELECT patient_id FROM ("
-		        + " SELECT p.patient_id AS patient_id, MAX(ats.end_date) AS dVisit FROM patient p "
-		        + " INNER JOIN appointmentscheduling_appointment aa ON p.patient_id=aa.patient_id "
-		        + " INNER JOIN appointmentscheduling_time_slot ats ON aa.time_slot_id=ats.time_slot_id "
-		        + " INNER JOIN appointmentscheduling_appointment_block aab ON aab.appointment_block_id=ats.appointment_block_id"
-		        + " WHERE p.voided = 0 AND aa.voided = 0 AND ats.voided = 0 " + " AND aa.status = 'SCHEDULED' "
-		        + " AND aa.date_created BETWEEN :startDate AND :endDate " + " GROUP BY p.patient_id " + " ) tbl "
-		        + " WHERE DATEDIFF(CURDATE(), tbl.dVisit) >" + days;
-		return qyery;
+		String query = "SELECT patient_id, MAX(start_date_time) AS latest_appointment FROM patient_appointment "
+		        + " WHERE voided = 0 AND status = 'Missed' AND start_date_time BETWEEN :startDate AND :endDate "
+		        + " GROUP BY patient_id, start_date_time HAVING DATEDIFF(CURDATE(), MAX(start_date_time)) >" + days;
+		return query;
 	}
 	
 	public static String hasObsByEndDate(List<Integer> question, List<Integer> ans) {
@@ -416,8 +411,8 @@ public class CommonQueries {
 	}
 	
 	public static String getPendingVLPatients() {
-		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
-		        + " where date_vl_sample_collected between :startDate and :endDate "
+		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
+		        + " where date_sample_collected between :startDate and :endDate "
 		        + "and vl_results is null and datediff(curdate(), date_vl_sample_collected) >= 14 group by client_id;";
 		
 		return query;
