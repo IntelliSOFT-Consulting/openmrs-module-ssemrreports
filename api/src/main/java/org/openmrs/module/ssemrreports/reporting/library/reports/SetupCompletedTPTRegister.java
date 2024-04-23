@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.TPTCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.CompletedTPTDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupCompletedTPTRegister extends SsemrDataExportManager {
+public class SetupCompletedTPTRegister extends SSEMRDataExportManager {
 	
 	private final CompletedTPTDatasetDefinition completedTPTDatasetDefinition;
 	
@@ -61,8 +61,8 @@ public class SetupCompletedTPTRegister extends SsemrDataExportManager {
 		rd.addParameters(completedTPTDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("CTPT",
 		    Mapped.mapStraightThrough(completedTPTDatasetDefinition.constructCompletedTPTDatasetDefinition()));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(tptCohortQueries.getPatientsWhoAHaveCompletedTPT(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		rd.setBaseCohortDefinition(SSEMRReportUtils.map(tptCohortQueries.getPatientsWhoAHaveCompletedTPT(),
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	

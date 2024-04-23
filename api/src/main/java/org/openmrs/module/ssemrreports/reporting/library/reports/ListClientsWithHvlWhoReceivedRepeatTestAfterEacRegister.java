@@ -1,7 +1,6 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import org.openmrs.module.reporting.ReportingException;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
@@ -40,7 +39,7 @@ public class ListClientsWithHvlWhoReceivedRepeatTestAfterEacRegister extends Sse
 	
 	@Override
 	public String getName() {
-		return "Clients with HVL, Who received repeat test after EAC";
+		return "Clients with HVL Who received repeat test after EAC";
 	}
 	
 	@Override

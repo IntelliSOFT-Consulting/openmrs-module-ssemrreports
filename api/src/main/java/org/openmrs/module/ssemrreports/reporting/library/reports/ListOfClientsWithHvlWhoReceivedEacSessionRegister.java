@@ -1,13 +1,12 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import org.openmrs.module.reporting.ReportingException;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ListOfClientsWithHvlWhoReceivedDSD;
-import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +17,12 @@ import java.util.List;
 import java.util.Properties;
 
 @Component
-public class ListOfClientsWithHvlWhoReceivedEac1SessionRegister extends SsemrDataExportManager {
+public class ListOfClientsWithHvlWhoReceivedEacSessionRegister extends SSEMRDataExportManager {
 	
 	private final ListOfClientsWithHvlWhoReceivedDSD listOfClientsWithHvlWhoReceivedDSD;
 	
 	@Autowired
-	public ListOfClientsWithHvlWhoReceivedEac1SessionRegister(
+	public ListOfClientsWithHvlWhoReceivedEacSessionRegister(
 	    ListOfClientsWithHvlWhoReceivedDSD listOfClientsWithHvlWhoReceivedDSD) {
 		this.listOfClientsWithHvlWhoReceivedDSD = listOfClientsWithHvlWhoReceivedDSD;
 	}
@@ -40,12 +39,12 @@ public class ListOfClientsWithHvlWhoReceivedEac1SessionRegister extends SsemrDat
 	
 	@Override
 	public String getName() {
-		return "Clients with HVL, who received EAC1 session";
+		return "Clients with HVL who received EAC session";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "List of Clients with HVL, who received EAC1 session report";
+		return "List of Clients with HVL, who received EAC session report";
 	}
 	
 	@Override
@@ -54,10 +53,11 @@ public class ListOfClientsWithHvlWhoReceivedEac1SessionRegister extends SsemrDat
 		ReportDefinition rd = new ReportDefinition();
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		//rd.addParameter(new Parameter("location", "Location", Location.class));
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.addDataSetDefinition("EAC1", SsemrReportUtils.map(listOfClientsWithHvlWhoReceivedDSD.getEac1Session(), param));
+		rd.addDataSetDefinition("EAC", SSEMRReportUtils.map(listOfClientsWithHvlWhoReceivedDSD.getEac1Session(), param));
 		return rd;
 	}
 	
@@ -70,10 +70,10 @@ public class ListOfClientsWithHvlWhoReceivedEac1SessionRegister extends SsemrDat
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "EAC1.xls",
-			    "Clients with HVL, who received EAC1 session", getExcelDesignUuid(), null);
+			reportDesign = createXlsReportDesign(reportDefinition, "EAC1.xls", "Clients with HVL, who received EAC session",
+			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:6,dataset:EAC1");
+			props.put("repeatingSections", "sheet:1,row:6,dataset:EAC");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

@@ -13,8 +13,7 @@ public class DistrictDatasetDefinition extends SsemrBaseDataSet {
 		
 		return "SELECT l.county_district AS district, la.value_reference AS mfl_code FROM location l INNER JOIN location_attribute la ON l.location_id=la.location_id "
 		        + " INNER JOIN location_attribute_type lat ON la.attribute_type_id=lat.location_attribute_type_id "
-		        + " WHERE l.location_id=:location AND l.retired=0 AND lat.retired=0 AND la.voided=0 AND la.attribute_type_id="
-		        + mflCodeId;
+		        + " WHERE l.retired=0 AND lat.retired=0 AND la.voided=0 AND la.attribute_type_id=" + mflCodeId;
 	}
 	
 	public DataSetDefinition getAddressDataset(int mflCodeId) {

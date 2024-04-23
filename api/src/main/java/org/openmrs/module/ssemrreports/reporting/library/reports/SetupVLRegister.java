@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.VLPatientsDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupVLRegister extends SsemrDataExportManager {
+public class SetupVLRegister extends SSEMRDataExportManager {
 	
 	private final VLPatientsDatasetDefinition vlPatientsDatasetDefinition;
 	
@@ -59,8 +59,8 @@ public class SetupVLRegister extends SsemrDataExportManager {
 		rd.setDescription(getDescription());
 		rd.addParameters(vlPatientsDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("VLD", Mapped.mapStraightThrough(vlPatientsDatasetDefinition.constructVLDatasetDefinition()));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWithVLTest(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWithVLTest(),
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	
@@ -76,7 +76,7 @@ public class SetupVLRegister extends SsemrDataExportManager {
 			reportDesign = createXlsReportDesign(reportDefinition, "vl_register.xls", "Report for patients with VL tests",
 			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:VLD");
+			props.put("repeatingSections", "sheet:1,row:4,dataset:VLD");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

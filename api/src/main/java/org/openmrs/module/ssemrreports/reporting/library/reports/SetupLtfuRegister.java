@@ -1,25 +1,25 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
+import org.openmrs.module.ssemrreports.reporting.library.datasets.LTFUDatasetDefinition;
+import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
+import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
-import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
-import org.openmrs.module.ssemrreports.reporting.library.datasets.LTFUDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupLtfuRegister extends SsemrDataExportManager {
+public class SetupLtfuRegister extends SSEMRDataExportManager {
 	
 	private final LTFUDatasetDefinition ltfuDatasetDefinition;
 	
@@ -60,8 +60,8 @@ public class SetupLtfuRegister extends SsemrDataExportManager {
 		rd.addParameters(ltfuDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("LTFUR",
 		    Mapped.mapStraightThrough(ltfuDatasetDefinition.constructLtfuAppointmentRegisterDefinition()));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoMissedAppointmentByDays(90),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoMissedAppointmentByDays(90),
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	
@@ -72,12 +72,12 @@ public class SetupLtfuRegister extends SsemrDataExportManager {
 	
 	@Override
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
-		ReportDesign reportDesign;
+		ReportDesign reportDesign = null;
 		try {
 			reportDesign = createXlsReportDesign(reportDefinition, "ltfu_register.xls", "Report for Lost to follow up",
 			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:4,dataset:LTFUR");
+			props.put("repeatingSections", "sheet:1,row:3,dataset:LTFUR");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}
@@ -85,6 +85,6 @@ public class SetupLtfuRegister extends SsemrDataExportManager {
 			throw new ReportingException(e.toString());
 		}
 		
-		return Collections.singletonList(reportDesign);
+		return Arrays.asList(reportDesign);
 	}
 }

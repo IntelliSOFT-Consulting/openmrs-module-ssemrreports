@@ -61,7 +61,7 @@ public class BaseCohortQueries {
 		cd.setName("Todays appointment patient set");
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
-		cd.addParameter(new Parameter("location", "location", Location.class));
+		//cd.addParameter(new Parameter("location", "location", Location.class));
 		cd.setQuery(CommonQueries.getPatientsWithAppointments());
 		return cd;
 	}
@@ -126,7 +126,7 @@ public class BaseCohortQueries {
 		cd.setName("Missed appointments patient set");
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
-		cd.addParameter(new Parameter("location", "location", Location.class));
+		// cd.addParameter(new Parameter("location", "location", Location.class));
 		cd.setQuery(CommonQueries.getMissedAppointments());
 		
 		return cd;

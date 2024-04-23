@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
-import org.openmrs.module.ssemrreports.reporting.library.datasets.HighVLSupressedDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
+import org.openmrs.module.ssemrreports.reporting.library.datasets.HigHVLSuppressedDatasetDefinition;
+import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
@@ -19,16 +19,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupHighVLSupressedRegister extends SsemrDataExportManager {
+public class SetupHigHVLSuppressedRegister extends SSEMRDataExportManager {
 	
-	private final HighVLSupressedDatasetDefinition highVLSupressedDatasetDefinition;
+	private final HigHVLSuppressedDatasetDefinition higHVLSuppressedDatasetDefinition;
 	
 	private final BaseCohortQueries baseCohortQueries;
 	
 	@Autowired
-	public SetupHighVLSupressedRegister(HighVLSupressedDatasetDefinition highVLSupressedDatasetDefinition,
+	public SetupHigHVLSuppressedRegister(HigHVLSuppressedDatasetDefinition higHVLSuppressedDatasetDefinition,
 	    BaseCohortQueries baseCohortQueries) {
-		this.highVLSupressedDatasetDefinition = highVLSupressedDatasetDefinition;
+		this.higHVLSuppressedDatasetDefinition = higHVLSuppressedDatasetDefinition;
 		this.baseCohortQueries = baseCohortQueries;
 	}
 	
@@ -58,11 +58,11 @@ public class SetupHighVLSupressedRegister extends SsemrDataExportManager {
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.addParameters(highVLSupressedDatasetDefinition.getParameters());
-		rd.addDataSetDefinition("HVLSupressed",
-		    Mapped.mapStraightThrough(highVLSupressedDatasetDefinition.constructHighVLSupressedDatasetDefinition()));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoHaveHVLandSupressed(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		rd.addParameters(higHVLSuppressedDatasetDefinition.getParameters());
+		rd.addDataSetDefinition("HVLSuppressed",
+		    Mapped.mapStraightThrough(higHVLSuppressedDatasetDefinition.constructHigHVLSuppressedDatasetDefinition()));
+		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoHaveHVLandSupressed(),
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	
@@ -75,10 +75,10 @@ public class SetupHighVLSupressedRegister extends SsemrDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "hvlSupressedRegister.xls",
-			    "Report for listing High VL who are supressed clients", getExcelDesignUuid(), null);
+			reportDesign = createXlsReportDesign(reportDefinition, "hvlSuppressedRegister.xls",
+			    "Report for listing High VL who are suppressed clients", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:HVLSupressed");
+			props.put("repeatingSections", "sheet:1,row:4,dataset:HVLSuppressed");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

@@ -36,7 +36,7 @@ public class VLResultsDocumentedDateDataEvaluator implements PersonDataEvaluator
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, max(date_sample_received_lab) as documented_date FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request where encounter_datetime <= :endDate group by client_id";
+		String qry = "SELECT client_id, DATE(max(date_vl_sample_collected)) as documented_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where DATE(encounter_datetime) <= :endDate group by client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

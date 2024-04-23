@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.DocumentedVLDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupDocumentedVLRegister extends SsemrDataExportManager {
+public class SetupDocumentedVLRegister extends SSEMRDataExportManager {
 	
 	private final DocumentedVLDatasetDefinition documentedVlDatasetDefinition;
 	
@@ -61,8 +61,8 @@ public class SetupDocumentedVLRegister extends SsemrDataExportManager {
 		rd.addParameters(documentedVlDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("DVLD",
 		    Mapped.mapStraightThrough(documentedVlDatasetDefinition.constructDocumentedVLDatasetDefinition()));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoHaveDocumentedVL(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoHaveDocumentedVL(),
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	
@@ -78,7 +78,7 @@ public class SetupDocumentedVLRegister extends SsemrDataExportManager {
 			reportDesign = createXlsReportDesign(reportDefinition, "documented_vl_register.xls",
 			    "Report for patients with documented VL tests", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:DVLD");
+			props.put("repeatingSections", "sheet:1,row:4,dataset:DVLD");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

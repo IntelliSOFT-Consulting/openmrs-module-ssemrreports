@@ -36,7 +36,7 @@ public class SetupListOfFamilyContactsKnownHivPositiveAtStartOfArtRegister exten
 	
 	@Override
 	public String getName() {
-		return "List of Family contacts known HIV +ve at start of ART ";
+		return "List of Family contacts known HIV +ve at start of ART";
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class SetupListOfFamilyContactsKnownHivPositiveAtStartOfArtRegister exten
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		//rd.setParameters(listOfFamilyContactsDSD.getParameters());
+		rd.setParameters(listOfFamilyContactsDSD.getParameters());
 		rd.addDataSetDefinition("FC4", Mapped.mapStraightThrough(listOfFamilyContactsDSD.getKnownHivPositiveAtStartOfArt()));
 		return rd;
 	}

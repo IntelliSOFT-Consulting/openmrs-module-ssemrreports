@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.EligibleForVLDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupEligibleForVLRegister extends SsemrDataExportManager {
+public class SetupEligibleForVLRegister extends SSEMRDataExportManager {
 	
 	private final EligibleForVLDatasetDefinition eligibleForVLDatasetDefinition;
 	
@@ -61,8 +61,8 @@ public class SetupEligibleForVLRegister extends SsemrDataExportManager {
 		rd.addParameters(eligibleForVLDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("EVL",
 		    Mapped.mapStraightThrough(eligibleForVLDatasetDefinition.constructEligibleForVLDatasetDefinition()));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsEligibleForVLTesting(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsEligibleForVLTesting(),
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	
@@ -78,7 +78,7 @@ public class SetupEligibleForVLRegister extends SsemrDataExportManager {
 			reportDesign = createXlsReportDesign(reportDefinition, "eligibleVlRegister.xls",
 			    "Report for clients eligible for VL", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:EVL");
+			props.put("repeatingSections", "sheet:1,row:4,dataset:EVL");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

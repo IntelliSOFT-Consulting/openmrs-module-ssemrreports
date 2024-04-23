@@ -36,8 +36,8 @@ public class BreastFeedingDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, MID(MAX(CONCAT(encounter_datetime, patient_breastfeeding)), 20) AS breatfeeding_status "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up GROUP BY client_id HAVING MAX(encounter_datetime) <= DATE(:endDate) and breatfeeding_status = 'True';";
+		String qry = "SELECT client_id, CASE MID(MAX(CONCAT(encounter_datetime, patient_breastfeeding)), 20) WHEN 'True' THEN 'Y' ELSE 'N' END AS breastfeeding_status "
+		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up GROUP BY client_id HAVING MAX(encounter_datetime) <= DATE(:endDate);";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

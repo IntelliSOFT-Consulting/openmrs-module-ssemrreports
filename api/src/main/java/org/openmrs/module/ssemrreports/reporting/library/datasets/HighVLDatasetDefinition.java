@@ -18,6 +18,14 @@ import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefi
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.ArtStartDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastEAC1DateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastEAC2DateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastEAC3DateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.RegimenDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
@@ -47,6 +55,11 @@ public class HighVLDatasetDefinition extends SsemrBaseDataSet {
 	
 	private DataDefinition personBomaAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("boma", new BomaAddressCalculation());
+		return cd;
+	}
+	
+	private DataDefinition personLandmarkAddress() {
+		CalculationDataDefinition cd = new CalculationDataDefinition("landmark", new LandmarkAddressCalculation());
 		return cd;
 	}
 	
@@ -91,6 +104,15 @@ public class HighVLDatasetDefinition extends SsemrBaseDataSet {
 		LastVLDataDefinition lastVLDataDefinition = new LastVLDataDefinition();
 		lastVLDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		LastEAC1DateDataDefinition lastEAC1DateDataDefinition = new LastEAC1DateDataDefinition();
+		lastEAC1DateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		LastEAC2DateDataDefinition lastEAC2DateDataDefinition = new LastEAC2DateDataDefinition();
+		lastEAC2DateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		LastEAC3DateDataDefinition lastEAC3DateDataDefinition = new LastEAC3DateDataDefinition();
+		lastEAC3DateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		VLDueDateDataDefinition vlDueDateDataDefinition = new VLDueDateDataDefinition();
 		vlDueDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
@@ -99,6 +121,18 @@ public class HighVLDatasetDefinition extends SsemrBaseDataSet {
 		
 		VLResultsDocumentedDateDataDefinition vlResultsDocumentedDateDataDefinition = new VLResultsDocumentedDateDataDefinition();
 		vlResultsDocumentedDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		RegimenDataDefinition regimenDataDefinition = new RegimenDataDefinition();
+		regimenDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		ArtStartDateDataDefinition artStartDateDataDefinition = new ArtStartDateDataDefinition();
+		artStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		PregnantDataDefinition patientPregnantDataDefinition = new PregnantDataDefinition();
+		patientPregnantDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		BreastFeedingDataDefinition patientBreastfeedingDateDataDefinition = new BreastFeedingDataDefinition();
+		patientBreastfeedingDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
@@ -109,15 +143,20 @@ public class HighVLDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Pmtct", patientPMTCTDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date of last VL test", lastVLTestDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Last VL", lastVLDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Pregnant", patientPregnantDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Breastfeeding", patientBreastfeedingDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("VL due date", vlDueDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date VL sample collected", lastVLTestDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date VL results  documented", vlResultsDocumentedDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date of start of pending VL results", lastVLTestDateDataDefinition, "endDate=${endDate}");
+		// dsd.addColumn("Date VL sample collected", lastVLTestDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date of last VL", vlResultsDocumentedDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last VL result", lastVLDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last EAC1 Date", lastEAC1DateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last EAC2 Date", lastEAC2DateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last EAC3 Date", lastEAC3DateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Regimen", regimenDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("ART Start Date", artStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
+		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Linked to COV (Y/N)", linkedToCOVDataDefinition, "endDate=${endDate}");
 		return dsd;

@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.HighVLAndEACDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupHighVLAndEACRegister extends SsemrDataExportManager {
+public class SetupHighVLAndEACRegister extends SSEMRDataExportManager {
 	
 	private final HighVLAndEACDatasetDefinition highVLAndEACDatasetDefinition;
 	
@@ -61,8 +61,8 @@ public class SetupHighVLAndEACRegister extends SsemrDataExportManager {
 		rd.addParameters(highVLAndEACDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("HVLEAC",
 		    Mapped.mapStraightThrough(highVLAndEACDatasetDefinition.constructHighVLAndEACDatasetDefinition()));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoHaveHighVLAndEAC(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoHaveHighVLAndEAC(),
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	
@@ -78,7 +78,7 @@ public class SetupHighVLAndEACRegister extends SsemrDataExportManager {
 			reportDesign = createXlsReportDesign(reportDefinition, "hvlAndEACRegister.xls",
 			    "Report for listing High VL and EAC clients", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:3,dataset:HVLEAC");
+			props.put("repeatingSections", "sheet:1,row:4,dataset:HVLEAC");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.TPTCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.EligibleForTPTDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.openmrs.module.reporting.ReportingException;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupEligibleForTPTRegister extends SsemrDataExportManager {
+public class SetupEligibleForTPTRegister extends SSEMRDataExportManager {
 	
 	private final EligibleForTPTDatasetDefinition eligibleForTPTDatasetDefinition;
 	
@@ -61,8 +61,8 @@ public class SetupEligibleForTPTRegister extends SsemrDataExportManager {
 		rd.addParameters(eligibleForTPTDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("ETPT",
 		    Mapped.mapStraightThrough(eligibleForTPTDatasetDefinition.constructEligibleForTPTDatasetDefinition()));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(tptCohortQueries.getPatientsWhoAreEligibleForTPT(),
-		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
+		rd.setBaseCohortDefinition(SSEMRReportUtils.map(tptCohortQueries.getPatientsWhoAreEligibleForTPT(),
+		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}
 	
