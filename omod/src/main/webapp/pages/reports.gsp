@@ -16,4 +16,7 @@
   width: 30%;
 }
 </style>
-${ui.includeFragment("ssemrreports", "reports")}
+<div>
+  ${ui.includeFragment("ssemrreports", "reports")}
+</div>
+

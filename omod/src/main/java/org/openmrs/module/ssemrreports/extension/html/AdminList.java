@@ -42,9 +42,7 @@ public class AdminList extends AdministrationSectionExt {
 	public Map<String, String> getLinks() {
 		
 		Map<String, String> map = new HashMap<String, String>();
-		
-		map.put("module/ssemrreports/ssemrreports.form", "ssemrreports.title");
-		map.put("ssemrreports/ssemrreports.page", "ssemrreports.refapp.title");
+		map.put("ssemrreports/reports.page", "ssemrreports.reports.title");
 		
 		return map;
 	}

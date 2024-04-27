@@ -15,7 +15,7 @@
         "supportedExtensionTypes": [ "link" ]
       },
       {
-        "id": "org.openmrs.module.ssemr.reports.monthly",
+        "id": "org.openmrs.module.ssemr.reports.registers",
         "description": "Links to available Monthly Reports",
         "supportedExtensionTypes": [ "link" ]
       }
@@ -33,7 +33,7 @@
       },
       {
         "id": "ssemr.hvl.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Clients with High VL",
         "url": "reportingui/runReport.page?reportDefinition=7acb704a-8007-11ee-b962-0242ac120002",
@@ -42,7 +42,7 @@
       },
       {
         "id": "ssemr.hvl.suppressed.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Clients with High VL and suppressed",
         "url": "reportingui/runReport.page?reportDefinition=dcd5f9f8-83e6-11ee-b962-0242ac120002",
@@ -51,7 +51,7 @@
       },
       {
         "id": "ssemr.hvl.repeat.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Clients with High VL who received repeat test after EAC",
         "url": "reportingui/runReport.page?reportDefinition=cea7db66-83ec-11ee-b962-0242ac120002",
@@ -60,7 +60,7 @@
       },
       {
         "id": "ssemr.hvl.eac.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Clients with High VL and EAC",
         "url": "reportingui/runReport.page?reportDefinition=44222cac-80af-11ee-b962-0242ac120002",
@@ -69,7 +69,7 @@
       },
       {
         "id": "ssemr.missed.appointment.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Missed Appointment on date Report",
         "url": "reportingui/runReport.page?reportDefinition=17a9d6ce-7abe-42d2-a677-53195e22c46b",
@@ -78,7 +78,7 @@
       },
       {
         "id": "ssemr.missed.appointment.14.days.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Missed appointment for 14 days",
         "url": "reportingui/runReport.page?reportDefinition=26985654-8c25-11ed-8e58-b7227b8d5928",
@@ -87,7 +87,7 @@
       },
       {
         "id": "ssemr.missed.appointment.over.90.days.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Patient who missed appointment for over 90 days",
         "url": "reportingui/runReport.page?reportDefinition=948300f6-a0e1-47d6-a019-9d6e2ec122b2",
@@ -96,7 +96,7 @@
       },
       {
         "id": "ssemr.art.monthly.Report",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "ART Monthly Report",
         "url": "reportingui/runReport.page?reportDefinition=7e6af78e-9f9d-47d0-8dbb-97a213313c3f",
@@ -105,7 +105,7 @@
       },
       {
         "id": "ssemr.pns.register.Report",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "PNS Register Report",
         "url": "reportingui/runReport.page?reportDefinition=0378b94a-a654-11ed-8e28-bb425a0d3867",
