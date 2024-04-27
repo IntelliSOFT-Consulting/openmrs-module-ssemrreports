@@ -44,7 +44,7 @@ import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.
 import org.springframework.stereotype.Component;
 
 @Component
-public class DocumentedVLDatasetDefinition extends SSEMRBaseDataSet {
+public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
 	
 	private DataDefinition personPayamAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("payam", new PayamAddressCalculation());

@@ -1,12 +1,11 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import org.openmrs.module.reporting.ReportingException;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ListOfFamilyContactsDSD;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -53,7 +52,7 @@ public class ListOfFamilyContactsNewlyTestedPositiveRegister extends SsemrDataEx
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.setParameters(listOfFamilyContactsDSD.getParameters());
-		rd.addDataSetDefinition("FC3", SSEMRReportUtils.map(listOfFamilyContactsDSD.getTestedPositive(), param));
+		rd.addDataSetDefinition("FC3", SsemrReportUtils.map(listOfFamilyContactsDSD.getTestedPositive(), param));
 		return rd;
 	}
 	

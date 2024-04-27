@@ -24,7 +24,7 @@ import org.springframework.stereotype.Repository;
 @Repository("ssemrreports.SsemrReportsDao")
 public class SsemrReportsDao {
 	
-	Logger log = LoggerFactory.getLogger(SSEMRReportsDao.class);
+	Logger log = LoggerFactory.getLogger(SsemrReportsDao.class);
 	
 	@Autowired
 	DbSessionFactory sessionFactory;

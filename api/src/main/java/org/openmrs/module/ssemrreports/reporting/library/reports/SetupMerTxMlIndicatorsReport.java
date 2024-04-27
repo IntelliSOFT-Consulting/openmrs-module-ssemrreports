@@ -4,9 +4,9 @@ import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.MerIndicatorsDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class SetupMerTxMlIndicatorsReport extends SSEMRDataExportManager {
+public class SetupMerTxMlIndicatorsReport extends SsemrDataExportManager {
 	
 	private final MerIndicatorsDatasetDefinition merIndicatorsDatasetDefinition;
 	
@@ -57,11 +57,11 @@ public class SetupMerTxMlIndicatorsReport extends SSEMRDataExportManager {
 		rd.setName(getName());
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		rd.addDataSetDefinition("TxM", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings0));
-		rd.addDataSetDefinition("TxM1", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings1));
-		rd.addDataSetDefinition("TxM2", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings2));
-		rd.addDataSetDefinition("TxM3", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings3));
-		rd.addDataSetDefinition("TxM4", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings4));
+		rd.addDataSetDefinition("TxM", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings0));
+		rd.addDataSetDefinition("TxM1", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings1));
+		rd.addDataSetDefinition("TxM2", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings2));
+		rd.addDataSetDefinition("TxM3", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings3));
+		rd.addDataSetDefinition("TxM4", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings4));
 		return rd;
 	}
 	

@@ -1,19 +1,16 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
 import org.openmrs.module.reporting.ReportingException;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ListOfFamilyContactsDSD;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -55,7 +52,7 @@ public class SetupListOfFamilyContactsWithUnknownHivStatusTestedRegister extends
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.setParameters(listOfFamilyContactsDSD.getParameters());
-		rd.addDataSetDefinition("FC2", SSEMRReportUtils.map(listOfFamilyContactsDSD.getWithUnknownHivStatusTested(), param));
+		rd.addDataSetDefinition("FC2", SsemrReportUtils.map(listOfFamilyContactsDSD.getWithUnknownHivStatusTested(), param));
 		return rd;
 	}
 	

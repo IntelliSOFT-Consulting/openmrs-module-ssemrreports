@@ -4,8 +4,8 @@ import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDef
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.MerCohortQueries;
-import org.openmrs.module.ssemrreports.reporting.library.dimension.SSEMRCommonDimension;
-import org.openmrs.module.ssemrreports.reporting.library.indicator.SSEMRGeneralIndicator;
+import org.openmrs.module.ssemrreports.reporting.library.dimension.SsemrCommonDimension;
+import org.openmrs.module.ssemrreports.reporting.library.indicator.SsemrGeneralIndicator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,20 +13,20 @@ import java.util.Date;
 
 import static org.openmrs.module.ssemrreports.reporting.library.columns.ShareDatasetColumns.getDispensationColumnsGenderAndAge;
 import static org.openmrs.module.ssemrreports.reporting.library.columns.ShareDatasetColumns.getMerGenderAndAgeColumns;
-import static org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils.map;
+import static org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils.map;
 
 @Component
-public class MerIndicatorsDatasetDefinition extends SSEMRBaseDataSet {
+public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 	
-	private final SSEMRCommonDimension dimension;
+	private final SsemrCommonDimension dimension;
 	
 	private final MerCohortQueries merCohortQueries;
 	
-	private final SSEMRGeneralIndicator indicator;
+	private final SsemrGeneralIndicator indicator;
 	
 	@Autowired
-	public MerIndicatorsDatasetDefinition(SSEMRCommonDimension dimension, MerCohortQueries merCohortQueries,
-	    SSEMRGeneralIndicator indicator) {
+	public MerIndicatorsDatasetDefinition(SsemrCommonDimension dimension, MerCohortQueries merCohortQueries,
+	    SsemrGeneralIndicator indicator) {
 		this.dimension = dimension;
 		this.merCohortQueries = merCohortQueries;
 		this.indicator = indicator;

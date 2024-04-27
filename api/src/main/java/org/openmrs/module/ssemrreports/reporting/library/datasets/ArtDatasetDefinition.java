@@ -1,14 +1,13 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
-import static org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils.map;
+import static org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils.map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.ArtCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.CommonCohortQueries;
-import org.openmrs.module.ssemrreports.reporting.library.dimension.SSEMRCommonDimension;
-import org.openmrs.module.ssemrreports.reporting.library.indicator.SSEMRGeneralIndicator;
+import org.openmrs.module.ssemrreports.reporting.library.dimension.SsemrCommonDimension;
+import org.openmrs.module.ssemrreports.reporting.library.indicator.SsemrGeneralIndicator;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.art.ArtReportsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,128 +15,126 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils.map;
-
 @Component
-public class ArtDatasetDefinition extends SSEMRBaseDataSet {
+public class ArtDatasetDefinition extends SsemrBaseDataSet {
 	
-	private final SSEMRCommonDimension dimension;
+	private final SsemrCommonDimension dimension;
 	
-	private final SSEMRGeneralIndicator indicator;
+	private final SsemrGeneralIndicator indicator;
 	
 	private final ArtCohortQueries artCohortQueries;
 	
 	private final CommonCohortQueries commonCohortQueries;
 	
-	SSEMRBaseDataSet.ColumnParameters subTotalMales = new SSEMRBaseDataSet.ColumnParameters(null, "Total, male", "gender=M",
+	SsemrBaseDataSet.ColumnParameters subTotalMales = new SsemrBaseDataSet.ColumnParameters(null, "Total, male", "gender=M",
 	        "");
 	
-	SSEMRBaseDataSet.ColumnParameters subTotalFemales = new SSEMRBaseDataSet.ColumnParameters(null, "Total, female",
+	SsemrBaseDataSet.ColumnParameters subTotalFemales = new SsemrBaseDataSet.ColumnParameters(null, "Total, female",
 	        "gender=F", "");
 	
-	SSEMRBaseDataSet.ColumnParameters maleInfants = new SSEMRBaseDataSet.ColumnParameters(null, "<1, Male",
+	SsemrBaseDataSet.ColumnParameters maleInfants = new SsemrBaseDataSet.ColumnParameters(null, "<1, Male",
 	        "gender=M|age=<1", "");
 	
-	SSEMRBaseDataSet.ColumnParameters femaleInfants = new SSEMRBaseDataSet.ColumnParameters(null, "<1, Female",
+	SsemrBaseDataSet.ColumnParameters femaleInfants = new SsemrBaseDataSet.ColumnParameters(null, "<1, Female",
 	        "gender=F|age=<1", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_1_to_4 = new SSEMRBaseDataSet.ColumnParameters(null, "1-4, Male",
+	SsemrBaseDataSet.ColumnParameters male_1_to_4 = new SsemrBaseDataSet.ColumnParameters(null, "1-4, Male",
 	        "gender=M|age=1-4", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_1_to_4 = new SSEMRBaseDataSet.ColumnParameters(null, "1-4, Female",
+	SsemrBaseDataSet.ColumnParameters female_1_to_4 = new SsemrBaseDataSet.ColumnParameters(null, "1-4, Female",
 	        "gender=F|age=1-4", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_5_to_9 = new SSEMRBaseDataSet.ColumnParameters(null, "5-9, Male",
+	SsemrBaseDataSet.ColumnParameters male_5_to_9 = new SsemrBaseDataSet.ColumnParameters(null, "5-9, Male",
 	        "gender=M|age=5-9", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_5_to_9 = new SSEMRBaseDataSet.ColumnParameters(null, "5-9, Female",
+	SsemrBaseDataSet.ColumnParameters female_5_to_9 = new SsemrBaseDataSet.ColumnParameters(null, "5-9, Female",
 	        "gender=F|age=5-9", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_0_to_9 = new SSEMRBaseDataSet.ColumnParameters(null, "0-9, Male",
+	SsemrBaseDataSet.ColumnParameters male_0_to_9 = new SsemrBaseDataSet.ColumnParameters(null, "0-9, Male",
 	        "gender=M|age=0-9", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_0_to_9 = new SSEMRBaseDataSet.ColumnParameters(null, "0-9, Female",
+	SsemrBaseDataSet.ColumnParameters female_0_to_9 = new SsemrBaseDataSet.ColumnParameters(null, "0-9, Female",
 	        "gender=F|age=0-9", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_10_to_14 = new SSEMRBaseDataSet.ColumnParameters(null, "10-14, Male",
+	SsemrBaseDataSet.ColumnParameters male_10_to_14 = new SsemrBaseDataSet.ColumnParameters(null, "10-14, Male",
 	        "gender=M|age=10-14", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_10_to_14 = new SSEMRBaseDataSet.ColumnParameters(null, "10-14, Female",
+	SsemrBaseDataSet.ColumnParameters female_10_to_14 = new SsemrBaseDataSet.ColumnParameters(null, "10-14, Female",
 	        "gender=F|age=10-14", "");
 	
-	SSEMRBaseDataSet.ColumnParameters p10_to_14 = new SSEMRBaseDataSet.ColumnParameters(null, "10-14", "age=10-14", "");
+	SsemrBaseDataSet.ColumnParameters p10_to_14 = new SsemrBaseDataSet.ColumnParameters(null, "10-14", "age=10-14", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_15_to_19 = new SSEMRBaseDataSet.ColumnParameters(null, "15-19, Male",
+	SsemrBaseDataSet.ColumnParameters male_15_to_19 = new SsemrBaseDataSet.ColumnParameters(null, "15-19, Male",
 	        "gender=M|age=15-19", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_15_to_19 = new SSEMRBaseDataSet.ColumnParameters(null, "15-19, Female",
+	SsemrBaseDataSet.ColumnParameters female_15_to_19 = new SsemrBaseDataSet.ColumnParameters(null, "15-19, Female",
 	        "gender=F|age=15-19", "");
 	
-	SSEMRBaseDataSet.ColumnParameters p15_to_19 = new SSEMRBaseDataSet.ColumnParameters(null, "15-19", "age=15-19", "");
+	SsemrBaseDataSet.ColumnParameters p15_to_19 = new SsemrBaseDataSet.ColumnParameters(null, "15-19", "age=15-19", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_15_to_49 = new SSEMRBaseDataSet.ColumnParameters(null, "15-49, Male",
+	SsemrBaseDataSet.ColumnParameters male_15_to_49 = new SsemrBaseDataSet.ColumnParameters(null, "15-49, Male",
 	        "gender=M|age=15-49", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_15_to_49 = new SSEMRBaseDataSet.ColumnParameters(null, "15-49, Female",
+	SsemrBaseDataSet.ColumnParameters female_15_to_49 = new SsemrBaseDataSet.ColumnParameters(null, "15-49, Female",
 	        "gender=F|age=15-49", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_20_to_24 = new SSEMRBaseDataSet.ColumnParameters(null, "20-24, Male",
+	SsemrBaseDataSet.ColumnParameters male_20_to_24 = new SsemrBaseDataSet.ColumnParameters(null, "20-24, Male",
 	        "gender=M|age=20-24", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_20_to_24 = new SSEMRBaseDataSet.ColumnParameters(null, "20-24, Female",
+	SsemrBaseDataSet.ColumnParameters female_20_to_24 = new SsemrBaseDataSet.ColumnParameters(null, "20-24, Female",
 	        "gender=F|age=20-24", "");
 	
-	SSEMRBaseDataSet.ColumnParameters p20_to_24 = new SSEMRBaseDataSet.ColumnParameters(null, "20-24", "age=20-24", "");
+	SsemrBaseDataSet.ColumnParameters p20_to_24 = new SsemrBaseDataSet.ColumnParameters(null, "20-24", "age=20-24", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_25_to_29 = new SSEMRBaseDataSet.ColumnParameters(null, "25-29, Male",
+	SsemrBaseDataSet.ColumnParameters male_25_to_29 = new SsemrBaseDataSet.ColumnParameters(null, "25-29, Male",
 	        "gender=M|age=25-29", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_25_to_29 = new SSEMRBaseDataSet.ColumnParameters(null, "25-29, Female",
+	SsemrBaseDataSet.ColumnParameters female_25_to_29 = new SsemrBaseDataSet.ColumnParameters(null, "25-29, Female",
 	        "gender=F|age=25-29", "");
 	
-	SSEMRBaseDataSet.ColumnParameters p25_to_29 = new SSEMRBaseDataSet.ColumnParameters(null, "25-29", "age=25-29", "");
+	SsemrBaseDataSet.ColumnParameters p25_to_29 = new SsemrBaseDataSet.ColumnParameters(null, "25-29", "age=25-29", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_30_to_34 = new SSEMRBaseDataSet.ColumnParameters(null, "30-34, Male",
+	SsemrBaseDataSet.ColumnParameters male_30_to_34 = new SsemrBaseDataSet.ColumnParameters(null, "30-34, Male",
 	        "gender=M|age=30-34", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_30_to_34 = new SSEMRBaseDataSet.ColumnParameters(null, "30-34, Female",
+	SsemrBaseDataSet.ColumnParameters female_30_to_34 = new SsemrBaseDataSet.ColumnParameters(null, "30-34, Female",
 	        "gender=F|age=30-34", "");
 	
-	SSEMRBaseDataSet.ColumnParameters p30_to_34 = new SSEMRBaseDataSet.ColumnParameters(null, "30-34", "age=30-34", "");
+	SsemrBaseDataSet.ColumnParameters p30_to_34 = new SsemrBaseDataSet.ColumnParameters(null, "30-34", "age=30-34", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_35_to_39 = new SSEMRBaseDataSet.ColumnParameters(null, "35-39, Male",
+	SsemrBaseDataSet.ColumnParameters male_35_to_39 = new SsemrBaseDataSet.ColumnParameters(null, "35-39, Male",
 	        "gender=M|age=35-39", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_35_to_39 = new SSEMRBaseDataSet.ColumnParameters(null, "35-39, Female",
+	SsemrBaseDataSet.ColumnParameters female_35_to_39 = new SsemrBaseDataSet.ColumnParameters(null, "35-39, Female",
 	        "gender=F|age=35-39", "");
 	
-	SSEMRBaseDataSet.ColumnParameters p35_to_39 = new SSEMRBaseDataSet.ColumnParameters(null, "35-39", "age=35-39", "");
+	SsemrBaseDataSet.ColumnParameters p35_to_39 = new SsemrBaseDataSet.ColumnParameters(null, "35-39", "age=35-39", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_40_to_44 = new SSEMRBaseDataSet.ColumnParameters(null, "40-44, Male",
+	SsemrBaseDataSet.ColumnParameters male_40_to_44 = new SsemrBaseDataSet.ColumnParameters(null, "40-44, Male",
 	        "gender=M|age=40-44", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_40_to_44 = new SSEMRBaseDataSet.ColumnParameters(null, "40-44, Female",
+	SsemrBaseDataSet.ColumnParameters female_40_to_44 = new SsemrBaseDataSet.ColumnParameters(null, "40-44, Female",
 	        "gender=F|age=40-44", "");
 	
-	SSEMRBaseDataSet.ColumnParameters p40_to_44 = new SSEMRBaseDataSet.ColumnParameters(null, "40-44", "age=40-44", "");
+	SsemrBaseDataSet.ColumnParameters p40_to_44 = new SsemrBaseDataSet.ColumnParameters(null, "40-44", "age=40-44", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_45_to_49 = new SSEMRBaseDataSet.ColumnParameters(null, "45-49, Male",
+	SsemrBaseDataSet.ColumnParameters male_45_to_49 = new SsemrBaseDataSet.ColumnParameters(null, "45-49, Male",
 	        "gender=M|age=45-49", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_45_to_49 = new SSEMRBaseDataSet.ColumnParameters(null, "45-49, Female",
+	SsemrBaseDataSet.ColumnParameters female_45_to_49 = new SsemrBaseDataSet.ColumnParameters(null, "45-49, Female",
 	        "gender=F|age=45-49", "");
 	
-	SSEMRBaseDataSet.ColumnParameters p45_to_49 = new SSEMRBaseDataSet.ColumnParameters(null, "45-49", "age=45-49", "");
+	SsemrBaseDataSet.ColumnParameters p45_to_49 = new SsemrBaseDataSet.ColumnParameters(null, "45-49", "age=45-49", "");
 	
-	SSEMRBaseDataSet.ColumnParameters male_50_plus = new SSEMRBaseDataSet.ColumnParameters(null, "50+, Male",
+	SsemrBaseDataSet.ColumnParameters male_50_plus = new SsemrBaseDataSet.ColumnParameters(null, "50+, Male",
 	        "gender=M|age=50+", "");
 	
-	SSEMRBaseDataSet.ColumnParameters female_50_plus = new SSEMRBaseDataSet.ColumnParameters(null, "50+, Female",
+	SsemrBaseDataSet.ColumnParameters female_50_plus = new SsemrBaseDataSet.ColumnParameters(null, "50+, Female",
 	        "gender=F|age=50+", "");
 	
-	SSEMRBaseDataSet.ColumnParameters p50plus = new SSEMRBaseDataSet.ColumnParameters(null, "50+", "age=50+", "");
+	SsemrBaseDataSet.ColumnParameters p50plus = new SsemrBaseDataSet.ColumnParameters(null, "50+", "age=50+", "");
 	
-	SSEMRBaseDataSet.ColumnParameters colTotal = new SSEMRBaseDataSet.ColumnParameters(null, "Total", null, "");
+	SsemrBaseDataSet.ColumnParameters colTotal = new SsemrBaseDataSet.ColumnParameters(null, "Total", null, "");
 	
 	List<ColumnParameters> allAgeDisaggregation = Arrays.asList(femaleInfants, maleInfants, female_1_to_4, male_1_to_4,
 	    female_5_to_9, male_5_to_9, female_10_to_14, male_10_to_14, female_15_to_19, male_15_to_19, female_20_to_24,
@@ -156,7 +153,7 @@ public class ArtDatasetDefinition extends SSEMRBaseDataSet {
 	    subTotalFemales, subTotalMales, colTotal);
 	
 	@Autowired
-	public ArtDatasetDefinition(SSEMRCommonDimension dimension, SSEMRGeneralIndicator indicator,
+	public ArtDatasetDefinition(SsemrCommonDimension dimension, SsemrGeneralIndicator indicator,
 	    ArtCohortQueries artCohortQueries, CommonCohortQueries commonCohortQueries) {
 		this.dimension = dimension;
 		this.indicator = indicator;

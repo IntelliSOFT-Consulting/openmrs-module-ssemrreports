@@ -1,8 +1,5 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
-import java.util.Date;
-
-import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.api.context.Context;
@@ -41,8 +38,10 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResul
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
-public class VLPatientsDatasetDefinition extends SSEMRBaseDataSet {
+public class VLPatientsDatasetDefinition extends SsemrBaseDataSet {
 	
 	private DataDefinition personPayamAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("payam", new PayamAddressCalculation());
