@@ -148,15 +148,6 @@
         "requiredPrivilege": ""
       },
       {
-        "id": "ssemr.family.member.hiv.test.received.results.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Listed family members, who have taken HIV test and received HIV results at the time of listing",
-        "url": "reportingui/runReport.page?reportDefinition=0c14acb6-8e26-11ee-b9d1-0242ac120002",
-        "order": 33,
-        "requiredPrivilege": ""
-      },
-      {
         "id": "ssemr.patient.documented.vl.tests.register",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
