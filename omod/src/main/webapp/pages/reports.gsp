@@ -1,6 +1,9 @@
 <%
     ui.decorateWith("appui", "standardEmrPage")
     ui.includeCss("reportingui", "reportsapp/home.css")
+    ui.includeJavascript("appui", "bootstrap.min.js")
+    ui.includeCss("appui", "bootstrap.min.css")
+    ui.includeCss("ssemrreports", "referenceapplication.css", 100)
 %>
 <script type="text/javascript">
 </script>

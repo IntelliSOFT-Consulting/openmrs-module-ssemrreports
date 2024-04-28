@@ -1,6 +1,6 @@
 <%
     def appFrameworkService = context.getService(context.loadClass("org.openmrs.module.appframework.service.AppFrameworkService"))
-    def overview = appFrameworkService.getExtensionsForCurrentUser("org.openmrs.module.ssemr.reports.overview")
+    def quarterly = appFrameworkService.getExtensionsForCurrentUser("org.openmrs.module.ssemr.reports.quarterly")
     def monthly = appFrameworkService.getExtensionsForCurrentUser("org.openmrs.module.ssemr.reports.monthly")
     def registers = appFrameworkService.getExtensionsForCurrentUser("org.openmrs.module.ssemr.reports.registers")
     def contextModel = [:]
@@ -41,4 +41,22 @@
         </div>
         <% } %>
     </div>
+
+    <div class="info-container column">
+            <% if (quarterly) { %>
+            <div class="info-section">
+                <div class="info-header"><h3>Quarterly Reports</h3></div>
+
+                <div class="info-body">
+                    <ul>
+                        <% quarterly.each { %>
+                        <li>
+                            ${ui.includeFragment("uicommons", "extension", [extension: it, contextModel: contextModel])}
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+            <% } %>
+        </div>
 </div>
