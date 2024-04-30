@@ -3,7 +3,7 @@
     ui.includeCss("reportingui", "runReport.css")
     ui.includeJavascript("uicommons", "angular.min.js")
     ui.includeJavascript("ssemrreports", "runReport.js")
-    ui.includeJavascript("ssemrreports", "jquery-3.6.0.js")
+    ui.includeCss("ssemrreports", "referenceapplication.css", 100)
 
 
 
@@ -28,13 +28,6 @@
     }
 %>
 <script type="text/javascript">
-  jQuery.noConflict(true);
-</script>
-
-<script type="text/javascript">
-  var breadcrumbs = [
-    {label: "Reports"}
-  ];
   window.reportDefinition = {
     uuid: '${ reportDefinition.uuid}'
   };
@@ -192,7 +185,7 @@
                                         defaultDate: it.defaultValue
                                 ])}
                                 <% } else if (it.type == org.openmrs.Location) { %>
-                                ${ ui.includeFragment("botswanaemr", "field/facility", [
+                                ${ ui.includeFragment("uicommons", "field/location", [
                                         formFieldName: "parameterValues[" + it.name + "]",
                                         label: 'Facility',
                                         initialValue: it.defaultValue ?: sessionContext.sessionLocation,
