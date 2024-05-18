@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-public class ListOfFamilyContactsDSD extends SSEMRBaseDataSet {
+public class ListOfFamilyContactsDSD extends SsemrBaseDataSet {
 	
 	public DataSetDefinition getWithUnknownHivStatus() {
 		SqlDataSetDefinition sqlDataSetDefinition = new SqlDataSetDefinition();

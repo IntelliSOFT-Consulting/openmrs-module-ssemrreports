@@ -11,17 +11,17 @@ import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.DistrictDatasetDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.TbScreeningDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetupTbScreeningRegister extends SSEMRDataExportManager {
+public class SetupTbScreeningRegister extends SsemrDataExportManager {
 	
 	private final TbScreeningDatasetDefinition tbScreeningDatasetDefinition;
 	
@@ -70,8 +70,8 @@ public class SetupTbScreeningRegister extends SSEMRDataExportManager {
 		//		    Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTbScreeningRegisterDefinition()));
 		//		rd.addDataSetDefinition("TBSCRC",
 		//		    Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTheAggregatePartOfTheScreeningRegister()));
-		//		rd.setBaseCohortDefinition(SSEMRReportUtils.map(
-		//		    baseCohortQueries.getPatientsWhoQualifiesForAgivenEncounter(Arrays.asList(SSEMRReportUtils.getEncounterType(
+		//		rd.setBaseCohortDefinition(SsemrReportUtils.map(
+		//		    baseCohortQueries.getPatientsWhoQualifiesForAgivenEncounter(Arrays.asList(SsemrReportUtils.getEncounterType(
 		//		        SharedReportConstants.TB_SCREENING_ENCOUNTER_TYPE_UUID).getEncounterTypeId())),
 		//		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
 		//		rd.addDataSetDefinition("DT", Mapped.mapStraightThrough(districtDatasetDefinition

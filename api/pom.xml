@@ -21,8 +21,8 @@
 
 	<artifactId>ssemrreports-api</artifactId>
 	<packaging>jar</packaging>
-	<name>SSEMR Reports API</name>
-	<description>API project for SSEMR Reports</description>
+	<name>Ssemr Reports API</name>
+	<description>API project for Ssemr Reports</description>
 
 	<dependencies>
 		<dependency>

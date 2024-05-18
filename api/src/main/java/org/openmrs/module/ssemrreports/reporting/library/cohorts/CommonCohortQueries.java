@@ -9,7 +9,7 @@ import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinitio
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.ssemrreports.reporting.library.queries.CommonQueries;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -134,9 +134,9 @@ public class CommonCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		
-		cd.addSearch("newInProgram", SSEMRReportUtils.map(getPatientsEnrolledIntoProgram(programId),
+		cd.addSearch("newInProgram", SsemrReportUtils.map(getPatientsEnrolledIntoProgram(programId),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("LTFU", SSEMRReportUtils.map(getPatientsEverInProgramWithOutcomes(programId, conceptOutcomeId),
+		cd.addSearch("LTFU", SsemrReportUtils.map(getPatientsEverInProgramWithOutcomes(programId, conceptOutcomeId),
 		    "endDate=${startDate-1d},location=${location}"));
 		cd.setCompositionString("newInProgram AND LTFU");
 		return cd;
@@ -150,9 +150,9 @@ public class CommonCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		
-		cd.addSearch("hasEncounter", SSEMRReportUtils.map(getNumberPatientsSeenPerEncounter(encounterIds),
+		cd.addSearch("hasEncounter", SsemrReportUtils.map(getNumberPatientsSeenPerEncounter(encounterIds),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("hasObs", SSEMRReportUtils.map(getPatientsWithObs(questions, answers),
+		cd.addSearch("hasObs", SsemrReportUtils.map(getPatientsWithObs(questions, answers),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		
 		cd.setCompositionString("hasEncounter AND hasObs");
@@ -168,11 +168,11 @@ public class CommonCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		
-		cd.addSearch("hasEncounter", SSEMRReportUtils.map(getNumberPatientsSeenPerEncounter(encounterIds),
+		cd.addSearch("hasEncounter", SsemrReportUtils.map(getNumberPatientsSeenPerEncounter(encounterIds),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("Obs1", SSEMRReportUtils.map(getPatientsWithObs(questions1, answers1),
+		cd.addSearch("Obs1", SsemrReportUtils.map(getPatientsWithObs(questions1, answers1),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("Obs2", SSEMRReportUtils.map(getPatientsWithObs(questions2, answers2),
+		cd.addSearch("Obs2", SsemrReportUtils.map(getPatientsWithObs(questions2, answers2),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		
 		cd.setCompositionString("hasEncounter AND Obs1 AND Obs2");

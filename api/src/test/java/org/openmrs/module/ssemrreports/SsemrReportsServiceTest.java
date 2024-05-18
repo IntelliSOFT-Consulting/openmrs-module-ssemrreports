@@ -17,23 +17,23 @@ import org.mockito.MockitoAnnotations;
 import org.openmrs.User;
 import org.openmrs.api.UserService;
 import org.openmrs.module.ssemrreports.Item;
-import org.openmrs.module.ssemrreports.api.dao.SSEMRReportsDao;
-import org.openmrs.module.ssemrreports.api.impl.SSEMRReportsServiceImpl;
+import org.openmrs.module.ssemrreports.api.dao.SsemrReportsDao;
+import org.openmrs.module.ssemrreports.api.impl.SsemrReportsServiceImpl;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
- * This is a unit test, which verifies logic in SSEMRReportsService. It doesn't extend
+ * This is a unit test, which verifies logic in SsemrReportsService. It doesn't extend
  * BaseModuleContextSensitiveTest, thus it is run without the in-memory DB and Spring context.
  */
-public class SSEMRReportsServiceTest {
+public class SsemrReportsServiceTest {
 	
 	@InjectMocks
-	SSEMRReportsServiceImpl basicModuleService;
+	SsemrReportsServiceImpl basicModuleService;
 	
 	@Mock
-	SSEMRReportsDao dao;
+	SsemrReportsDao dao;
 	
 	@Mock
 	UserService userService;

@@ -1,25 +1,25 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
+import org.openmrs.module.reporting.ReportingException;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
+import org.openmrs.module.reporting.report.ReportDesign;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
+import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
+import org.openmrs.module.ssemrreports.reporting.library.datasets.DocumentedVLDatasetDefinition;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
+import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
-import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
-import org.openmrs.module.ssemrreports.reporting.library.datasets.DocumentedVLDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
-import org.openmrs.module.reporting.ReportingException;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
-import org.openmrs.module.reporting.report.ReportDesign;
-import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 @Component
-public class SetupDocumentedVLRegister extends SSEMRDataExportManager {
+public class SetupDocumentedVLRegister extends SsemrDataExportManager {
 	
 	private final DocumentedVLDatasetDefinition documentedVlDatasetDefinition;
 	
@@ -61,7 +61,7 @@ public class SetupDocumentedVLRegister extends SSEMRDataExportManager {
 		rd.addParameters(documentedVlDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("DVLD",
 		    Mapped.mapStraightThrough(documentedVlDatasetDefinition.constructDocumentedVLDatasetDefinition()));
-		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoHaveDocumentedVL(),
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoHaveDocumentedVL(),
 		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}

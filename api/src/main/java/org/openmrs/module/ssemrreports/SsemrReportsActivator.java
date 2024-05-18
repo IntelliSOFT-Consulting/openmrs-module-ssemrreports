@@ -12,16 +12,16 @@ package org.openmrs.module.ssemrreports;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.BaseModuleActivator;
-import org.openmrs.module.ssemrreports.reporting.SSEMRReportInitializer;
+import org.openmrs.module.ssemrreports.reporting.SsemrReportInitializer;
 
 /**
  * This class contains the logic that is run every time this module is either started or shutdown
  */
-public class SSEMRReportsActivator extends BaseModuleActivator {
+public class SsemrReportsActivator extends BaseModuleActivator {
 	
-	private static Log log = LogFactory.getLog(SSEMRReportsActivator.class);
+	private static Log log = LogFactory.getLog(SsemrReportsActivator.class);
 	
-	private SSEMRReportInitializer reportsInitializer = new SSEMRReportInitializer();
+	private SsemrReportInitializer reportsInitializer = new SsemrReportInitializer();
 	
 	/**
 	 * @see #started()
@@ -36,7 +36,7 @@ public class SSEMRReportsActivator extends BaseModuleActivator {
 			throw e;
 		}
 		
-		log.info("Started SSEMR Reports");
+		log.info("Started Ssemr Reports");
 		
 	}
 	
@@ -44,7 +44,7 @@ public class SSEMRReportsActivator extends BaseModuleActivator {
 	 * @see #shutdown()
 	 */
 	public void shutdown() {
-		log.info("Shutdown SSEMR Reports");
+		log.info("Shutdown Ssemr Reports");
 	}
 	
 }

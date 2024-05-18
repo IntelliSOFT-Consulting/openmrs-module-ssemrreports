@@ -4,9 +4,9 @@ import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.MerIndicatorsDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class setupMerTxCurrTxNewIndicatorsReport extends SSEMRDataExportManager {
+public class setupMerTxCurrTxNewIndicatorsReport extends SsemrDataExportManager {
 	
 	private final MerIndicatorsDatasetDefinition merIndicatorsDatasetDefinition;
 	
@@ -58,23 +58,23 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SSEMRDataExportManager 
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		rd.addDataSetDefinition("TxC",
-		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsQuaterly));
+		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsQuaterly));
 		rd.addDataSetDefinition("TxC1",
-		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsFirstMonth));
+		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsFirstMonth));
 		rd.addDataSetDefinition("TxC2",
-		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsSecondMonth));
+		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsSecondMonth));
 		rd.addDataSetDefinition("TxC3",
-		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsThirdMonth));
+		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsThirdMonth));
 		
 		//Tx new totals for 1,2 and 3 month
 		rd.addDataSetDefinition("TxN",
-		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsQuaterly));
+		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsQuaterly));
 		rd.addDataSetDefinition("TxN1",
-		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsFirstMonth));
+		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsFirstMonth));
 		rd.addDataSetDefinition("TxN2",
-		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsSecondMonth));
+		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsSecondMonth));
 		rd.addDataSetDefinition("TxN3",
-		    SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsThirdMonth));
+		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsThirdMonth));
 		
 		return rd;
 	}

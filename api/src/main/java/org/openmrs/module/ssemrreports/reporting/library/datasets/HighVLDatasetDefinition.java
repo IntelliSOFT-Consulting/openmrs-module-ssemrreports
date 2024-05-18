@@ -46,7 +46,7 @@ import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAt
 import org.openmrs.PersonAttributeType;
 
 @Component
-public class HighVLDatasetDefinition extends SSEMRBaseDataSet {
+public class HighVLDatasetDefinition extends SsemrBaseDataSet {
 	
 	private DataDefinition personPayamAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("payam", new PayamAddressCalculation());

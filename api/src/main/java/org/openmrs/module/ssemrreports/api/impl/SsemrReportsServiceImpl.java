@@ -14,27 +14,27 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.UserService;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.ssemrreports.Item;
-import org.openmrs.module.ssemrreports.api.SSEMRReportsService;
-import org.openmrs.module.ssemrreports.api.dao.SSEMRReportsDao;
+import org.openmrs.module.ssemrreports.api.SsemrReportsService;
+import org.openmrs.module.ssemrreports.api.dao.SsemrReportsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@Component("ssemr.SSEMRReportsService")
-public class SSEMRReportsServiceImpl extends BaseOpenmrsService implements SSEMRReportsService {
+@Component("ssemr.SsemrReportsService")
+public class SsemrReportsServiceImpl extends BaseOpenmrsService implements SsemrReportsService {
 	
 	@Autowired
-	@Qualifier("ssemrreports.SSEMRReportsDao")
-	SSEMRReportsDao dao;
+	@Qualifier("ssemrreports.SsemrReportsDao")
+	SsemrReportsDao dao;
 	
 	UserService userService;
 	
 	/**
 	 * Injected in moduleApplicationContext.xml
 	 */
-	public void setDao(SSEMRReportsDao dao) {
+	public void setDao(SsemrReportsDao dao) {
 		this.dao = dao;
 	}
 	

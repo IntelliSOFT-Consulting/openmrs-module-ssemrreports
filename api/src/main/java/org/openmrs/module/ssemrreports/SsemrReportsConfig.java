@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 /**
  * Contains module's config.
  */
-@Component("ssemrreports.SSEMRReportsConfig")
-public class SSEMRReportsConfig {
+@Component("ssemrreports.SsemrReportsConfig")
+public class SsemrReportsConfig {
 	
-	public final static String MODULE_PRIVILEGE = "SSEMR Reports Privilege";
+	public final static String MODULE_PRIVILEGE = "Ssemr Reports Privilege";
 }

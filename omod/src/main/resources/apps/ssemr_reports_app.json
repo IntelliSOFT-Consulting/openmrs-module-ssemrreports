@@ -5,7 +5,7 @@
     "order": 10,
     "extensionPoints": [
       {
-        "id": "org.openmrs.module.ssemr.reports.overview",
+        "id": "org.openmrs.module.ssemr.reports.quarterly",
         "description": "Links to available Facility level Reports",
         "supportedExtensionTypes": [ "link" ]
       },
@@ -22,94 +22,282 @@
     ],
     "extensions": [
       {
-        "id": "reportingui.reports.homepagelink",
-        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
-        "type": "link",
-        "label": "SSEMR Reports",
-        "url": "reportingui/reportsapp/home.page",
-        "icon": "icon-list-alt",
-        "order": 5,
-        "requiredPrivilege": "App: reportingui.reports"
-      },
-      {
         "id": "ssemr.hvl.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Clients with High VL",
-        "url": "reportingui/runReport.page?reportDefinition=7acb704a-8007-11ee-b962-0242ac120002",
+        "url": "ssemrreports/runReport.page?reportDefinition=7acb704a-8007-11ee-b962-0242ac120002",
         "order": 20,
         "requiredPrivilege": ""
       },
       {
         "id": "ssemr.hvl.suppressed.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Clients with High VL and suppressed",
-        "url": "reportingui/runReport.page?reportDefinition=dcd5f9f8-83e6-11ee-b962-0242ac120002",
+        "url": "ssemrreports/runReport.page?reportDefinition=dcd5f9f8-83e6-11ee-b962-0242ac120002",
         "order": 21,
         "requiredPrivilege": ""
       },
       {
         "id": "ssemr.hvl.repeat.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Clients with High VL who received repeat test after EAC",
-        "url": "reportingui/runReport.page?reportDefinition=cea7db66-83ec-11ee-b962-0242ac120002",
+        "url": "ssemrreports/runReport.page?reportDefinition=271e7124-d5a3-4957-b7a5-eb81d5755d45",
         "order": 22,
         "requiredPrivilege": ""
       },
       {
         "id": "ssemr.hvl.eac.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Clients with High VL and EAC",
-        "url": "reportingui/runReport.page?reportDefinition=44222cac-80af-11ee-b962-0242ac120002",
+        "url": "ssemrreports/runReport.page?reportDefinition=44222cac-80af-11ee-b962-0242ac120002",
         "order": 23,
         "requiredPrivilege": ""
       },
       {
         "id": "ssemr.missed.appointment.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Missed Appointment on date Report",
-        "url": "reportingui/runReport.page?reportDefinition=17a9d6ce-7abe-42d2-a677-53195e22c46b",
-        "order": 30,
+        "url": "ssemrreports/runReport.page?reportDefinition=17a9d6ce-7abe-42d2-a677-53195e22c46b",
+        "order": 24,
         "requiredPrivilege": ""
       },
       {
         "id": "ssemr.missed.appointment.14.days.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Missed appointment for 14 days",
-        "url": "reportingui/runReport.page?reportDefinition=26985654-8c25-11ed-8e58-b7227b8d5928",
-        "order": 31,
+        "url": "ssemrreports/runReport.page?reportDefinition=26985654-8c25-11ed-8e58-b7227b8d5928",
+        "order": 25,
         "requiredPrivilege": ""
       },
       {
         "id": "ssemr.missed.appointment.over.90.days.register",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Patient who missed appointment for over 90 days",
-        "url": "reportingui/runReport.page?reportDefinition=948300f6-a0e1-47d6-a019-9d6e2ec122b2",
+        "url": "ssemrreports/runReport.page?reportDefinition=a563b26a-8d03-11ed-b18e-277f66658de4",
+        "order": 26,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.tpt.register.Report",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Patients taking TPT",
+        "url": "ssemrreports/runReport.page?reportDefinition=f17d8e8a-8976-11ee-b9d1-0242ac120002",
+        "order": 27,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.received.extended.eac.session.Report",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Clients with HVL who received extended EAC session",
+        "url": "ssemrreports/runReport.page?reportDefinition=592c36ef-60d4-4ca7-9c50-7fe9923c9c42",
+        "order": 28,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.family.contact.newly.tested.positive.Report",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "List of Family contacts newly tested positive",
+        "url": "ssemrreports/runReport.page?reportDefinition=ddb48a05-a272-4c21-9fcb-e31644d74962",
+        "order": 29,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.today.appointment.Report",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Report for todays appointments",
+        "url": "ssemrreports/runReport.page?reportDefinition=a6ec5a32-7f0c-11ee-b962-0242ac120002",
+        "order": 30,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.patient.completed.tpt",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Patient completed TPT list on Date",
+        "url": "ssemrreports/runReport.page?reportDefinition=6a040928-8987-11ee-b9d1-0242ac120002",
+        "order": 31,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.family.member.hiv.results.not.known.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "List the family members whose HIV result is not known at the time of listing",
+        "url": "ssemrreports/runReport.page?reportDefinition=bf361528-8e21-11ee-b9d1-0242ac120002",
         "order": 32,
         "requiredPrivilege": ""
       },
       {
-        "id": "ssemr.art.monthly.Report",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "id": "ssemr.family.member.hiv.test.received.results.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
-        "label": "ART Monthly Report",
-        "url": "reportingui/runReport.page?reportDefinition=7e6af78e-9f9d-47d0-8dbb-97a213313c3f",
-        "order": 5,
+        "label": "Listed family members, who have taken HIV test and received HIV results at the time of listing",
+        "url": "ssemrreports/runReport.page?reportDefinition=0c14acb6-8e26-11ee-b9d1-0242ac120002",
+        "order": 33,
         "requiredPrivilege": ""
       },
       {
-        "id": "ssemr.pns.register.Report",
-        "extensionPointId": "org.openmrs.module.reportingui.reports.overview",
+        "id": "ssemr.patient.documented.vl.tests.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
-        "label": "PNS Register Report",
-        "url": "reportingui/runReport.page?reportDefinition=0378b94a-a654-11ed-8e28-bb425a0d3867",
-        "order": 24,
+        "label": "Report for patients with documented VL tests",
+        "url": "ssemrreports/runReport.page?reportDefinition=a22d33c6-8d45-11ee-b9d1-0242ac120002",
+        "order": 34,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.patient.eligible.for.tpt.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Patients eligible for TPT",
+        "url": "ssemrreports/runReport.page?reportDefinition=6fde4ce2-896d-11ee-b9d1-0242ac120002",
+        "order": 35,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.patient.eligible.for.vl.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Patients eligible for VL",
+        "url": "ssemrreports/runReport.page?reportDefinition=5472dd4c-8710-11ee-b9d1-0242ac120002",
+        "order": 36,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.patient.on.iit.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Patients who are on IIT",
+        "url": "ssemrreports/runReport.page?reportDefinition=ae58aa1e-89d9-11ee-b9d1-0242ac120002",
+        "order": 37,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.family.contact.known.hiv.positive.at.start.of.art.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "List of Family contacts known HIV +ve at start of ART",
+        "url": "ssemrreports/runReport.page?reportDefinition=9638c2a2-c624-420a-be4c-1253c94303f1",
+        "order": 38,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.family.contact.newly.tested.hiv.positive.and.linked.to.art.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "List of Family contacts newly tested HIV Positive and linked to ART",
+        "url": "ssemrreports/runReport.page?reportDefinition=4226d249-6f4b-42c1-977c-ce55cdce844a",
+        "order": 39,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.family.contact.with.unknown.hiv.status.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "List of Family contacts with unknown HIV status",
+        "url": "ssemrreports/runReport.page?reportDefinition=a557238b-650c-4f63-a633-5e4c9fa65940",
+        "order": 40,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.family.contact.with.unknown.hiv.status..tested.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "List of Family contacts with unknown HIV status tested",
+        "url": "ssemrreports/runReport.page?reportDefinition=ab7467f6-0ff3-4c03-be48-4ff01a19f329",
+        "order": 41,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.patients.with.pending.vl.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Report for patients with pending VL tests",
+        "url": "ssemrreports/runReport.page?reportDefinition=1a3140ea-8d61-11ee-b9d1-0242ac120002",
+        "order": 42,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.patients.on.rtt.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Patients who are on RTT",
+        "url": "ssemrreports/runReport.page?reportDefinition=835e45bc-8c90-11ee-b9d1-0242ac120002",
+        "order": 43,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.tb.screening.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "TB Screening Register",
+        "url": "ssemrreports/runReport.page?reportDefinition=F4987BA7-FF1B-4E43-88A3-6500E0C808D1",
+        "order": 44,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.patients.with.vl.tests.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Patients with VL tests",
+        "url": "ssemrreports/runReport.page?reportDefinition=d472769e-8a29-11ee-b9d1-0242ac120002",
+        "order": 45,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.art.monthly.Report",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.monthly",
+        "type": "link",
+        "label": "ART Monthly Report",
+        "url": "ssemrreports/runReport.page?reportDefinition=fe2cc6a4-68c6-11ed-b5b2-bb32e6a06527",
+        "order": 10,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.tx.curr.new.quarterly.Report",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.quarterly",
+        "type": "link",
+        "label": "Tx CURR and NEW MER Indicators Report",
+        "url": "ssemrreports/runReport.page?reportDefinition=9810dedc-f508-4ed5-9b86-2355b1cb3ca7",
+        "order": 100,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.tx.ml.mer.quarterly.Report",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.quarterly",
+        "type": "link",
+        "label": "Tx ML MER Indicators Report",
+        "url": "ssemrreports/runReport.page?reportDefinition=135b38f7-f7c5-4e84-ac4d-5c8fcb4ece58",
+        "order": 101,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.tx.pvls.mer.quarterly.Report",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.quarterly",
+        "type": "link",
+        "label": "TX PVLS MER Indicators Report",
+        "url": "ssemrreports/runReport.page?reportDefinition=6ba23385-a11a-4dc0-bcec-dbb02f93e43a",
+        "order": 102,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.tx.rtt.mer.quarterly.Report",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.quarterly",
+        "type": "link",
+        "label": "Tx RTT MER Indicators Report",
+        "url": "ssemrreports/runReport.page?reportDefinition=d4bacb92-1619-4e22-a5aa-0b143ae2597d",
+        "order": 103,
         "requiredPrivilege": ""
       }
     ]

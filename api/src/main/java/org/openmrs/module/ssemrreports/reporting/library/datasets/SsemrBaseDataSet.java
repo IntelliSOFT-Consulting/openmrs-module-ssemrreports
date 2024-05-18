@@ -22,7 +22,7 @@ import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
 
-public abstract class SSEMRBaseDataSet {
+public abstract class SsemrBaseDataSet {
 	
 	/**
 	 * Adds a row to a dataset based on an indicator and a list of column parameters

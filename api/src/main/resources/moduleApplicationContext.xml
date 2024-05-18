@@ -25,16 +25,16 @@
 
     <context:component-scan base-package="org.openmrs.module.ssemrreports" />
 
-    <!-- Wraps SSEMRReportsService methods in DB transactions and OpenMRS interceptors,
+    <!-- Wraps SsemrReportsService methods in DB transactions and OpenMRS interceptors,
     which set audit info like dateCreated, changedBy, etc.-->
-    <bean id="ssemrreports.SSEMRReportsService"
+    <bean id="ssemrreports.SsemrReportsService"
             class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager">
             <ref bean="transactionManager" />
         </property>
         <property name="target">
-            <bean class="org.openmrs.module.ssemrreports.api.impl.SSEMRReportsServiceImpl">
-                <property name="dao" ref="ssemrreports.SSEMRReportsDao" />
+            <bean class="org.openmrs.module.ssemrreports.api.impl.SsemrReportsServiceImpl">
+                <property name="dao" ref="ssemrreports.SsemrReportsDao" />
             </bean>
         </property>
         <property name="preInterceptors">
@@ -45,13 +45,13 @@
         </property>
     </bean>
 
-    <!-- Adds SSEMRReportsService to OpenMRS context so it can be accessed
-    calling Context.getService(SSEMRReportsService.class) -->
+    <!-- Adds SsemrReportsService to OpenMRS context so it can be accessed
+    calling Context.getService(SsemrReportsService.class) -->
     <bean parent="serviceContext">
         <property name="moduleService">
             <list>
-                <value>org.openmrs.module.ssemrreports.api.SSEMRReportsService</value>
-                <ref bean="ssemrreports.SSEMRReportsService" />
+                <value>org.openmrs.module.ssemrreports.api.SsemrReportsService</value>
+                <ref bean="ssemrreports.SsemrReportsService" />
             </list>
         </property>
     </bean>

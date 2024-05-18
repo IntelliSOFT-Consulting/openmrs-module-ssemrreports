@@ -1,13 +1,12 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
-import org.openmrs.Location;
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.MerIndicatorsDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class SetupMerTxPvlsIndicatorsReport extends SSEMRDataExportManager {
+public class SetupMerTxPvlsIndicatorsReport extends SsemrDataExportManager {
 	
 	private final MerIndicatorsDatasetDefinition merIndicatorsDatasetDefinition;
 	
@@ -58,11 +57,11 @@ public class SetupMerTxPvlsIndicatorsReport extends SSEMRDataExportManager {
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		rd.addDataSetDefinition("TxP", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappings));
-		rd.addDataSetDefinition("TxPQ1", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ1));
-		rd.addDataSetDefinition("TxPQ2", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ2));
-		rd.addDataSetDefinition("TxPQ3", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ3));
-		rd.addDataSetDefinition("TxPQ4", SSEMRReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ4));
+		rd.addDataSetDefinition("TxP", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappings));
+		rd.addDataSetDefinition("TxPQ1", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ1));
+		rd.addDataSetDefinition("TxPQ2", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ2));
+		rd.addDataSetDefinition("TxPQ3", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ3));
+		rd.addDataSetDefinition("TxPQ4", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ4));
 		return rd;
 	}
 	

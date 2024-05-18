@@ -24,7 +24,7 @@ import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.
 import org.springframework.stereotype.Component;
 
 @Component
-public class LTFUDatasetDefinition extends SSEMRBaseDataSet {
+public class LTFUDatasetDefinition extends SsemrBaseDataSet {
 	
 	public DataSetDefinition constructLtfuAppointmentRegisterDefinition() {
 		

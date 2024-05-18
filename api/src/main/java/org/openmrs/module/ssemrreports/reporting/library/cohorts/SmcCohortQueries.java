@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.common.TimeQualifier;
@@ -29,7 +29,7 @@ public class SmcCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("C", SSEMRReportUtils.map(
+		cd.addSearch("C", SsemrReportUtils.map(
 		    sharedCohortQueries.hasEncounters(Arrays.asList(smcEncounterType), TimeQualifier.ANY),
 		    "onOrBefore=${endDate},onOrAfter=${startDate},locationList=${location}"));
 		cd.setCompositionString("C");

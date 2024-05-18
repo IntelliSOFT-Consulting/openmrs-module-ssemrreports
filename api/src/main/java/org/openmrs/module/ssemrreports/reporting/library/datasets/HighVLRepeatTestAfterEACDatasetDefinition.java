@@ -38,10 +38,9 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.Pregnan
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLDueDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
-import org.openmrs.module.metadatadeploy.MetadataUtils;
 
 @Component
-public class HighVLRepeatTestAfterEACDatasetDefinition extends SSEMRBaseDataSet {
+public class HighVLRepeatTestAfterEACDatasetDefinition extends SsemrBaseDataSet {
 	
 	private DataDefinition personPayamAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("payam", new PayamAddressCalculation());

@@ -9,7 +9,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.util.IOUtils;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.ssemrreports.api.SSEMRReportsService;
+import org.openmrs.module.ssemrreports.api.SsemrReportsService;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.ReportDesignResource;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
@@ -17,8 +17,8 @@ import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer;
 import org.openmrs.util.OpenmrsClassLoader;
 
-/** Excel Data Export Manager for SSEMR reports */
-public abstract class SSEMRDataExportManager extends SSEMRReportManager {
+/** Excel Data Export Manager for Ssemr reports */
+public abstract class SsemrDataExportManager extends SsemrReportManager {
 	
 	/** @return the uuid for the report design for exporting to Excel */
 	public abstract String getExcelDesignUuid();
@@ -45,10 +45,10 @@ public abstract class SSEMRDataExportManager extends SSEMRReportManager {
 	        String reportDesignName, String excelDesignUuid, Map<? extends Object, ? extends Object> properties)
 	        throws IOException {
 		
-		SSEMRReportsService SSEMRReportsService = Context.getRegisteredComponent("ssemr.SSEMRReportsService",
-		    SSEMRReportsService.class);
+		SsemrReportsService SsemrReportsService = Context.getRegisteredComponent("ssemr.SsemrReportsService",
+		    SsemrReportsService.class);
 		if (StringUtils.isNotBlank(excelDesignUuid)) {
-			SSEMRReportsService.purgeReportDesignIfExists(excelDesignUuid);
+			SsemrReportsService.purgeReportDesignIfExists(excelDesignUuid);
 		}
 		
 		ReportDesignResource resource = new ReportDesignResource();

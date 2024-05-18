@@ -7,14 +7,12 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
-import org.openmrs.module.reporting.data.converter.BirthdateConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.AgeDataDefinition;
-import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.ConvertedPersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.GenderDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefinition;
@@ -24,17 +22,14 @@ import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastDrugVisitDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLDueDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.calculation.CalculationResultDataConverter;
 import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
 import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
@@ -43,7 +38,7 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLT
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLDataDefinition;
 
 @Component
-public class EligibleForVLDatasetDefinition extends SSEMRBaseDataSet {
+public class EligibleForVLDatasetDefinition extends SsemrBaseDataSet {
 	
 	private DataDefinition personPayamAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("payam", new PayamAddressCalculation());

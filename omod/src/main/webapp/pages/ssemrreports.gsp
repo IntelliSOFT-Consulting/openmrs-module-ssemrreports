@@ -6,7 +6,7 @@
   var breadcrumbs = [
     {icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm'},
     {
-      label: "${ ui.message("reportingui.reportsapp.home.title") }", link: "${ ui.pageLink("botswanaemrreports", "reports")
+      label: "${ ui.message("reportingui.reportsapp.home.title") }", link: "${ ui.pageLink("ssemrreports", "reports")
 }"
     }
   ];

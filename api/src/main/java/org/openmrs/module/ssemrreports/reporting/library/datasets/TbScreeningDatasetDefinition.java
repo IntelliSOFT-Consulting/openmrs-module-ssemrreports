@@ -3,8 +3,6 @@ package org.openmrs.module.ssemrreports.reporting.library.datasets;
 import java.util.Arrays;
 import java.util.List;
 
-import org.openmrs.PersonAttributeType;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.BirthdateConverter;
@@ -14,31 +12,29 @@ import org.openmrs.module.reporting.data.patient.definition.PatientIdDataDefinit
 import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.ConvertedPersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.GenderDataDefinition;
-import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefinition;
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.CommonCohortQueries;
-import org.openmrs.module.ssemrreports.reporting.library.dimension.SSEMRCommonDimension;
-import org.openmrs.module.ssemrreports.reporting.library.indicator.SSEMRGeneralIndicator;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
+import org.openmrs.module.ssemrreports.reporting.library.dimension.SsemrCommonDimension;
+import org.openmrs.module.ssemrreports.reporting.library.indicator.SsemrGeneralIndicator;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TbScreeningDatasetDefinition extends SSEMRBaseDataSet {
+public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 	
 	private final CommonCohortQueries commonCohortQueries;
 	
-	private final SSEMRCommonDimension dimension;
+	private final SsemrCommonDimension dimension;
 	
-	private final SSEMRGeneralIndicator indicator;
+	private final SsemrGeneralIndicator indicator;
 	
 	@Autowired
-	public TbScreeningDatasetDefinition(CommonCohortQueries commonCohortQueries, SSEMRCommonDimension dimension,
-	    SSEMRGeneralIndicator indicator) {
+	public TbScreeningDatasetDefinition(CommonCohortQueries commonCohortQueries, SsemrCommonDimension dimension,
+	    SsemrGeneralIndicator indicator) {
 		this.commonCohortQueries = commonCohortQueries;
 		this.dimension = dimension;
 		this.indicator = indicator;
@@ -78,16 +74,16 @@ public class TbScreeningDatasetDefinition extends SSEMRBaseDataSet {
 		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.setName("TBS");
 		dsd.addParameters(getParameters());
-		dsd.addDimension("gender", SSEMRReportUtils.map(dimension.gender(), ""));
-		dsd.addDimension("age", SSEMRReportUtils.map(dimension.age(), "effectiveDate=${endDate}"));
+		dsd.addDimension("gender", SsemrReportUtils.map(dimension.gender(), ""));
+		dsd.addDimension("age", SsemrReportUtils.map(dimension.age(), "effectiveDate=${endDate}"));
 		
 		//		addRow(
 		//		    dsd,
 		//		    "TBNPS",
 		//		    "Number of people screened for TB",
-		//		    SSEMRReportUtils.map(
-		//		        indicator.getIndicator("Number of people screened for TB", SSEMRReportUtils.map(
-		//		            commonCohortQueries.getNumberPatientsSeenPerEncounter(Arrays.asList(SSEMRReportUtils.getEncounterType(
+		//		    SsemrReportUtils.map(
+		//		        indicator.getIndicator("Number of people screened for TB", SsemrReportUtils.map(
+		//		            commonCohortQueries.getNumberPatientsSeenPerEncounter(Arrays.asList(SsemrReportUtils.getEncounterType(
 		//		                SharedReportConstants.TB_SCREENING_ENCOUNTER_TYPE_UUID).getEncounterTypeId())), mappings)), mappings),
 		//		    getGenderAgeColumns());
 		return dsd;

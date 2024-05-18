@@ -10,7 +10,7 @@ import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InventoryItemsDatasetDefinition extends SSEMRBaseDataSet {
+public class InventoryItemsDatasetDefinition extends SsemrBaseDataSet {
 	
 	public DataSetDefinition getInventoryItems(String operationType, String itemUuid) {
 		SqlDataSetDefinition dataSet = new SqlDataSetDefinition();

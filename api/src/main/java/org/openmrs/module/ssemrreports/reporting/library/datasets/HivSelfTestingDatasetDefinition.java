@@ -1,27 +1,27 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
-import static org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils.map;
+import static org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils.map;
 
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.HivSelfTestingCohortQueries;
-import org.openmrs.module.ssemrreports.reporting.library.dimension.SSEMRCommonDimension;
+import org.openmrs.module.ssemrreports.reporting.library.dimension.SsemrCommonDimension;
 import org.openmrs.module.ssemrreports.reporting.library.dimension.EmrDimensionReferences;
-import org.openmrs.module.ssemrreports.reporting.library.indicator.SSEMRGeneralIndicator;
+import org.openmrs.module.ssemrreports.reporting.library.indicator.SsemrGeneralIndicator;
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HivSelfTestingDatasetDefinition extends SSEMRBaseDataSet {
+public class HivSelfTestingDatasetDefinition extends SsemrBaseDataSet {
 	
-	private final SSEMRCommonDimension dimension;
+	private final SsemrCommonDimension dimension;
 	
-	private final SSEMRGeneralIndicator indicator;
+	private final SsemrGeneralIndicator indicator;
 	
 	private final HivSelfTestingCohortQueries hivSelfTestingCohortQueries;
 	
 	@Autowired
-	public HivSelfTestingDatasetDefinition(SSEMRCommonDimension dimension, SSEMRGeneralIndicator indicator,
+	public HivSelfTestingDatasetDefinition(SsemrCommonDimension dimension, SsemrGeneralIndicator indicator,
 	    HivSelfTestingCohortQueries hivSelfTestingCohortQueries) {
 		this.dimension = dimension;
 		this.indicator = indicator;

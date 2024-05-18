@@ -1,25 +1,25 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
+import org.openmrs.module.reporting.ReportingException;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
+import org.openmrs.module.reporting.report.ReportDesign;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
+import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
+import org.openmrs.module.ssemrreports.reporting.library.datasets.DefaultersDatasetDefinition;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
+import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
+import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.openmrs.module.ssemrreports.manager.SSEMRDataExportManager;
-import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
-import org.openmrs.module.ssemrreports.reporting.library.datasets.DefaultersDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.SSEMRReportUtils;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
-import org.openmrs.module.reporting.ReportingException;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
-import org.openmrs.module.reporting.report.ReportDesign;
-import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 @Component
-public class SetupDefaultersRegister extends SSEMRDataExportManager {
+public class SetupDefaultersRegister extends SsemrDataExportManager {
 	
 	private final DefaultersDatasetDefinition defaultersDatasetDefinition;
 	
@@ -61,7 +61,7 @@ public class SetupDefaultersRegister extends SSEMRDataExportManager {
 		rd.addParameters(defaultersDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("DAR",
 		    Mapped.mapStraightThrough(defaultersDatasetDefinition.constructDefaulterAppointmentRegisterDefinition()));
-		rd.setBaseCohortDefinition(SSEMRReportUtils.map(baseCohortQueries.getPatientsWhoMissedAppointmentByDays(13),
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoMissedAppointmentByDays(13),
 		    "startDate=${startDate},endDate=${endDate+23h}"));
 		return rd;
 	}

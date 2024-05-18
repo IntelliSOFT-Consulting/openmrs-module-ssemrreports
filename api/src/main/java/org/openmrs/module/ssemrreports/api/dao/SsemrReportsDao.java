@@ -21,10 +21,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository("ssemrreports.SSEMRReportsDao")
-public class SSEMRReportsDao {
+@Repository("ssemrreports.SsemrReportsDao")
+public class SsemrReportsDao {
 	
-	Logger log = LoggerFactory.getLogger(SSEMRReportsDao.class);
+	Logger log = LoggerFactory.getLogger(SsemrReportsDao.class);
 	
 	@Autowired
 	DbSessionFactory sessionFactory;
