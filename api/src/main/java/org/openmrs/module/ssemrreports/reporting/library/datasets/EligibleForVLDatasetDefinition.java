@@ -108,6 +108,7 @@ public class EligibleForVLDatasetDefinition extends SsemrBaseDataSet {
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last VL result", lastVLDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of last VL test", lastVLTestDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("VL due date", vlDueDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
