@@ -403,13 +403,6 @@ public class CommonQueries {
 		return query;
 	}
 	
-	public static String getPatientsWithVL() {
-		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
-		        + " where date_vl_sample_collected between :startDate and :endDate;";
-		
-		return query;
-	}
-	
 	public static String getPendingVLPatients() {
 		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
 		        + " where date_sample_collected between :startDate and :endDate "
