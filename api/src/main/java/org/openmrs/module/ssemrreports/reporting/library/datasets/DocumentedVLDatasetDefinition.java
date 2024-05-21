@@ -38,6 +38,8 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResul
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.DaysVLPendingDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResultsDocumentedDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.DateVLSampleCollectedDataDefinition;
 
 @Component
 public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
@@ -63,7 +65,7 @@ public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
 		dsd.setName("DVLD");
 		dsd.addParameters(getParameters());
-		dsd.setDescription("Report for documented VL results");
+		dsd.setDescription("Line list for clients with documented viral load result, high viral load, and viral load test");
 		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
 		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -101,6 +103,12 @@ public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
 		VLResultAfter14DaysDataDefinition vlResultAfter14DaysDataDefinition = new VLResultAfter14DaysDataDefinition();
 		vlResultAfter14DaysDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		VLResultsDocumentedDateDataDefinition vlResultsDocumentedDateDataDefinition = new VLResultsDocumentedDateDataDefinition();
+		vlResultsDocumentedDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		DateVLSampleCollectedDataDefinition dateVLSampleCollectedDataDefinition = new DateVLSampleCollectedDataDefinition();
+		dateVLSampleCollectedDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
@@ -110,6 +118,8 @@ public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date VL sample collected", dateVLSampleCollectedDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date VL results documented", vlResultsDocumentedDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("VL Result", daysVLPendingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Days VL Results Pending", vlResultAfter14DaysDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());

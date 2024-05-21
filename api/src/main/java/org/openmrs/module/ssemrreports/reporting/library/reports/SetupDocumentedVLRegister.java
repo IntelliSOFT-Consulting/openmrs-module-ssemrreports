@@ -44,12 +44,12 @@ public class SetupDocumentedVLRegister extends SsemrDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "Report for patients with documented VL tests";
+		return "Line list for clients with documented viral load result, high viral load, and viral load test";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "List of clients whose sample have been collected for and documented VL test in the reporting period";
+		return "Line list for clients with documented viral load result, high viral load, and viral load test";
 	}
 	
 	@Override
@@ -76,7 +76,8 @@ public class SetupDocumentedVLRegister extends SsemrDataExportManager {
 		ReportDesign reportDesign = null;
 		try {
 			reportDesign = createXlsReportDesign(reportDefinition, "documented_vl_register.xls",
-			    "Report for patients with documented VL tests", getExcelDesignUuid(), null);
+			    "Line list for clients with documented viral load result, high viral load, and viral load test",
+			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
 			props.put("repeatingSections", "sheet:1,row:4,dataset:DVLD");
 			props.put("sortWeight", "5000");

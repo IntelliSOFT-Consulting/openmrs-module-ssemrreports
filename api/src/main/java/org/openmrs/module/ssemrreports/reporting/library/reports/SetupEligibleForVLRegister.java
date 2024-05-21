@@ -44,12 +44,12 @@ public class SetupEligibleForVLRegister extends SsemrDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "Patient eligible for VL list on Date";
+		return "Line list of clients eligible for viral load";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Patients eligible for VL";
+		return "Line list of clients eligible for viral load";
 	}
 	
 	@Override
@@ -76,7 +76,7 @@ public class SetupEligibleForVLRegister extends SsemrDataExportManager {
 		ReportDesign reportDesign = null;
 		try {
 			reportDesign = createXlsReportDesign(reportDefinition, "eligibleVlRegister.xls",
-			    "Report for clients eligible for VL", getExcelDesignUuid(), null);
+			    "Line list of clients eligible for viral load", getExcelDesignUuid(), null);
 			Properties props = new Properties();
 			props.put("repeatingSections", "sheet:1,row:4,dataset:EVL");
 			props.put("sortWeight", "5000");

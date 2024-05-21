@@ -68,7 +68,7 @@ public class BaseCohortQueries {
 	
 	public CohortDefinition getPatientsWhoHaveHighVL() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Client with High Viral Load, EAC sessions  and Reapeat Viral Load");
+		cd.setName("Line list of clients with high viral load, EAC sessions and Repeat viral load");
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
@@ -77,20 +77,9 @@ public class BaseCohortQueries {
 		return cd;
 	}
 	
-	public CohortDefinition getPatientsWhoHaveHVLandSupressed() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Patient high VL list and are supressed on Date");
-		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
-		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
-		cd.addParameter(new Parameter("location", "location", Location.class));
-		cd.setQuery(CommonQueries.getSupressedPatientsWithHVL());
-		
-		return cd;
-	}
-	
 	public CohortDefinition getPatientsEligibleForVLTesting() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Patient eligible for VL testing on Date");
+		cd.setName("Line list of clients eligible for viral load");
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
@@ -123,7 +112,7 @@ public class BaseCohortQueries {
 	
 	public CohortDefinition getPatientsWhoHaveDocumentedVL() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Documented VL patients patient set");
+		cd.setName("Line list for clients with documented viral load result, high viral load, and viral load test");
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
