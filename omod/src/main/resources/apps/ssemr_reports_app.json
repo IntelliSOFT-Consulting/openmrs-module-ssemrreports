@@ -220,15 +220,6 @@
         "requiredPrivilege": ""
       },
       {
-        "id": "ssemr.patients.with.pending.vl.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Report for patients with pending VL tests",
-        "url": "ssemrreports/runReport.page?reportDefinition=1a3140ea-8d61-11ee-b9d1-0242ac120002",
-        "order": 42,
-        "requiredPrivilege": ""
-      },
-      {
         "id": "ssemr.patients.on.rtt.register",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
