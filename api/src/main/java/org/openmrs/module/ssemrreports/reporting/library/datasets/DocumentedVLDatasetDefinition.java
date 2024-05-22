@@ -31,15 +31,11 @@ import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAt
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLTestDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.PatientPMTCTDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLDueDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResultsDocumentedDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResultAfter14DaysDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.DaysVLPendingDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 
@@ -84,9 +80,6 @@ public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
 		PersonAttributeType phoneNumber = Context.getPersonService().getPersonAttributeTypeByUuid(
 		    SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
 		
-		ETLArtStartDateDataDefinition etlArtStartDateDataDefinition = new ETLArtStartDateDataDefinition();
-		etlArtStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
 		COVNameDataDefinition covNameDataDefinition = new COVNameDataDefinition();
 		covNameDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
@@ -96,39 +89,29 @@ public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
 		StatusDataDefinition statusDataDefinition = new StatusDataDefinition();
 		statusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		LastVLTestDateDataDefinition lastVLTestDateDataDefinition = new LastVLTestDateDataDefinition();
-		lastVLTestDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		LastVLDataDefinition lastVLDataDefinition = new LastVLDataDefinition();
-		lastVLDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		VLDueDateDataDefinition vlDueDateDataDefinition = new VLDueDateDataDefinition();
-		vlDueDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		VLResultsDocumentedDateDataDefinition vlResultsDocumentedDateDataDefinition = new VLResultsDocumentedDateDataDefinition();
-		vlResultsDocumentedDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		PatientPMTCTDataDefinition patientPMTCTDataDefinition = new PatientPMTCTDataDefinition();
-		patientPMTCTDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
 		PregnantDataDefinition pregnantDataDefinition = new PregnantDataDefinition();
 		pregnantDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		BreastFeedingDataDefinition breastfeedingDataDefinition = new BreastFeedingDataDefinition();
 		breastfeedingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		DaysVLPendingDataDefinition daysVLPendingDataDefinition = new DaysVLPendingDataDefinition();
+		daysVLPendingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		VLResultAfter14DaysDataDefinition vlResultAfter14DaysDataDefinition = new VLResultAfter14DaysDataDefinition();
+		vlResultAfter14DaysDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
-		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date of last VL test", lastVLTestDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("VL due date", vlDueDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("VL Result", daysVLPendingDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Days VL Results Pending", vlResultAfter14DaysDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
