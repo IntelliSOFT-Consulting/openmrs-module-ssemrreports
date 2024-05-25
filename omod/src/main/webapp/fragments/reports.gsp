@@ -9,7 +9,7 @@
     <div class="info-container column">
         <% if (registers) { %>
         <div class="info-section">
-            <div class="info-header"><h3>Registers</h3></div>
+            <div class="info-header"><h3>Line Lists</h3></div>
 
             <div class="info-body">
                 <ul>
