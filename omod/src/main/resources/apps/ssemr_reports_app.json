@@ -25,7 +25,7 @@
         "id": "ssemr.hvl.register",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
-        "label": "Clients with High VL",
+        "label": "Client with High Viral Load, EAC sessions  and Reapeat Viral Load",
         "url": "ssemrreports/runReport.page?reportDefinition=7acb704a-8007-11ee-b962-0242ac120002",
         "order": 20,
         "requiredPrivilege": ""

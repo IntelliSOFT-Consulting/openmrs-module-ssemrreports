@@ -38,6 +38,9 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLT
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PatientPMTCTDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResultsDocumentedDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.RepeatVLSampleDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.RepeatVLResultDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.DateExtendedEACDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
@@ -134,6 +137,15 @@ public class HighVLDatasetDefinition extends SsemrBaseDataSet {
 		BreastFeedingDataDefinition patientBreastfeedingDateDataDefinition = new BreastFeedingDataDefinition();
 		patientBreastfeedingDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		RepeatVLSampleDateDataDefinition repeatVLSampleDateDataDefinition = new RepeatVLSampleDateDataDefinition();
+		repeatVLSampleDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		RepeatVLResultDataDefinition repeatVLResultDataDefinition = new RepeatVLResultDataDefinition();
+		repeatVLResultDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		DateExtendedEACDataDefinition dateExtendedEACDataDefinition = new DateExtendedEACDataDefinition();
+		dateExtendedEACDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
@@ -146,6 +158,9 @@ public class HighVLDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Pregnant", patientPregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", patientBreastfeedingDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("VL due date", vlDueDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Repeat VL Result", repeatVLResultDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date Repeat VL Sample", repeatVLSampleDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date extended EAC", dateExtendedEACDataDefinition, "endDate=${endDate}");
 		// dsd.addColumn("Date VL sample collected", lastVLTestDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of last VL", vlResultsDocumentedDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Last VL result", lastVLDataDefinition, "endDate=${endDate}");

@@ -43,12 +43,12 @@ public class SetupHighVLRegister extends SsemrDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "Patient high VL list on Date";
+		return "Client with High Viral Load, EAC sessions  and Reapeat Viral Load";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Patients with high VL";
+		return "Client with High Viral Load, EAC sessions  and Reapeat Viral Load";
 	}
 	
 	@Override

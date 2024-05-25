@@ -68,7 +68,7 @@ public class BaseCohortQueries {
 	
 	public CohortDefinition getPatientsWhoHaveHighVL() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Patient high VL list on Date");
+		cd.setName("Client with High Viral Load, EAC sessions  and Reapeat Viral Load");
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
@@ -79,7 +79,7 @@ public class BaseCohortQueries {
 	
 	public CohortDefinition getPatientsWhoHaveHighVLAndEAC() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Patient high VL list on Date");
+		cd.setName("Client with High Viral Load, EAC sessions  and Reapeat Viral Load");
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
