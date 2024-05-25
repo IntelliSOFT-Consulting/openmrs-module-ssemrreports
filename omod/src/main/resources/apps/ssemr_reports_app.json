@@ -31,12 +31,30 @@
         "requiredPrivilege": ""
       },
       {
+        "id": "ssemr.patient.eligible.for.vl.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Patients eligible for VL",
+        "url": "ssemrreports/runReport.page?reportDefinition=5472dd4c-8710-11ee-b9d1-0242ac120002",
+        "order": 21,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.patient.documented.vl.tests.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Report for patients with documented VL tests",
+        "url": "ssemrreports/runReport.page?reportDefinition=a22d33c6-8d45-11ee-b9d1-0242ac120002",
+        "order": 22,
+        "requiredPrivilege": ""
+      },
+      {
         "id": "ssemr.hvl.suppressed.register",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Clients with High VL and suppressed",
         "url": "ssemrreports/runReport.page?reportDefinition=dcd5f9f8-83e6-11ee-b962-0242ac120002",
-        "order": 21,
+        "order": 23,
         "requiredPrivilege": ""
       },
       {
@@ -45,7 +63,7 @@
         "type": "link",
         "label": "Clients with High VL who received repeat test after EAC",
         "url": "ssemrreports/runReport.page?reportDefinition=271e7124-d5a3-4957-b7a5-eb81d5755d45",
-        "order": 22,
+        "order": 24,
         "requiredPrivilege": ""
       },
       {
@@ -54,7 +72,7 @@
         "type": "link",
         "label": "Clients with High VL and EAC",
         "url": "ssemrreports/runReport.page?reportDefinition=44222cac-80af-11ee-b962-0242ac120002",
-        "order": 23,
+        "order": 25,
         "requiredPrivilege": ""
       },
       {
@@ -72,7 +90,7 @@
         "type": "link",
         "label": "Missed appointment for 14 days",
         "url": "ssemrreports/runReport.page?reportDefinition=26985654-8c25-11ed-8e58-b7227b8d5928",
-        "order": 25,
+        "order": 27,
         "requiredPrivilege": ""
       },
       {
@@ -81,7 +99,7 @@
         "type": "link",
         "label": "Patient who missed appointment for over 90 days",
         "url": "ssemrreports/runReport.page?reportDefinition=a563b26a-8d03-11ed-b18e-277f66658de4",
-        "order": 26,
+        "order": 28,
         "requiredPrivilege": ""
       },
       {
@@ -90,7 +108,7 @@
         "type": "link",
         "label": "Patients taking TPT",
         "url": "ssemrreports/runReport.page?reportDefinition=f17d8e8a-8976-11ee-b9d1-0242ac120002",
-        "order": 27,
+        "order": 29,
         "requiredPrivilege": ""
       },
       {
@@ -99,7 +117,7 @@
         "type": "link",
         "label": "Clients with HVL who received extended EAC session",
         "url": "ssemrreports/runReport.page?reportDefinition=592c36ef-60d4-4ca7-9c50-7fe9923c9c42",
-        "order": 28,
+        "order": 30,
         "requiredPrivilege": ""
       },
       {
@@ -108,7 +126,7 @@
         "type": "link",
         "label": "List of Family contacts newly tested positive",
         "url": "ssemrreports/runReport.page?reportDefinition=ddb48a05-a272-4c21-9fcb-e31644d74962",
-        "order": 29,
+        "order": 31,
         "requiredPrivilege": ""
       },
       {
@@ -117,7 +135,7 @@
         "type": "link",
         "label": "Report for todays appointments",
         "url": "ssemrreports/runReport.page?reportDefinition=a6ec5a32-7f0c-11ee-b962-0242ac120002",
-        "order": 30,
+        "order": 32,
         "requiredPrivilege": ""
       },
       {
@@ -126,7 +144,7 @@
         "type": "link",
         "label": "Patient completed TPT list on Date",
         "url": "ssemrreports/runReport.page?reportDefinition=6a040928-8987-11ee-b9d1-0242ac120002",
-        "order": 31,
+        "order": 33,
         "requiredPrivilege": ""
       },
       {
@@ -135,7 +153,7 @@
         "type": "link",
         "label": "List the family members whose HIV result is not known at the time of listing",
         "url": "ssemrreports/runReport.page?reportDefinition=bf361528-8e21-11ee-b9d1-0242ac120002",
-        "order": 32,
+        "order": 34,
         "requiredPrivilege": ""
       },
       {
@@ -144,16 +162,7 @@
         "type": "link",
         "label": "Listed family members, who have taken HIV test and received HIV results at the time of listing",
         "url": "ssemrreports/runReport.page?reportDefinition=0c14acb6-8e26-11ee-b9d1-0242ac120002",
-        "order": 33,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.patient.documented.vl.tests.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Report for patients with documented VL tests",
-        "url": "ssemrreports/runReport.page?reportDefinition=a22d33c6-8d45-11ee-b9d1-0242ac120002",
-        "order": 34,
+        "order": 35,
         "requiredPrivilege": ""
       },
       {
@@ -162,15 +171,6 @@
         "type": "link",
         "label": "Patients eligible for TPT",
         "url": "ssemrreports/runReport.page?reportDefinition=6fde4ce2-896d-11ee-b9d1-0242ac120002",
-        "order": 35,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.patient.eligible.for.vl.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Patients eligible for VL",
-        "url": "ssemrreports/runReport.page?reportDefinition=5472dd4c-8710-11ee-b9d1-0242ac120002",
         "order": 36,
         "requiredPrivilege": ""
       },
