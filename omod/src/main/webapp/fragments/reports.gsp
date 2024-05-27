@@ -27,7 +27,7 @@
     <div class="info-container column">
         <% if (monthly) { %>
         <div class="info-section">
-            <div class="info-header"><h3>Monthly Reports</h3></div>
+            <div class="info-header"><h3>MOH Monthly Reports(DHIS2)</h3></div>
 
             <div class="info-body">
                 <ul>
