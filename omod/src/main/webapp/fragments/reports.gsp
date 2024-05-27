@@ -45,7 +45,7 @@
     <div class="info-container column">
             <% if (quarterly) { %>
             <div class="info-section">
-                <div class="info-header"><h3>Quarterly Reports</h3></div>
+                <div class="info-header"><h3>Quarterly Reports(DATIM)</h3></div>
 
                 <div class="info-body">
                     <ul>
