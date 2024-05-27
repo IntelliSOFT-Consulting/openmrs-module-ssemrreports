@@ -272,29 +272,6 @@ public class CommonQueries {
 		return query;
 	}
 	
-	public static String getPatientsWithHighVLAndEAC() {
-		String query = "SELECT t.client_id FROM (SELECT client_id, encounter_datetime, location_id, "
-		        + " mid(max(concat(date(encounter_datetime), recent_vl)), 11) as last_vl_result, "
-		        + " mid(max(concat(date(encounter_datetime), first_eac_tools)), 11) as last_eac_tools "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_high_viral_load GROUP BY client_id, encounter_datetime, location_id "
-		        + " HAVING last_eac_tools IS NOT NULL AND last_vl_result > 1000 "
-		        + " AND encounter_datetime BETWEEN :startDate AND :endDate) t; ";
-		
-		return query;
-	}
-	
-	public static String getPatientsWithHighVLAndRepeatTestAfterEAC() {
-		String query = "SELECT t.client_id FROM  (SELECT client_id, mid(max(concat(date(encounter_datetime), "
-		        + " recent_vl)), 11) as last_vl_result, encounter_datetime, max(location_id) as location_id,"
-		        + " mid(max(concat(date(encounter_datetime), first_eac_tools)), 11) as last_eac_tools, "
-		        + " mid(max(concat(date(encounter_datetime), repeat_vl_date)), 11) as last_repeat_vl_date "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_high_viral_load GROUP BY client_id, encounter_datetime "
-		        + " HAVING last_eac_tools IS NOT NULL AND last_vl_result > 1000 AND last_repeat_vl_date "
-		        + " AND encounter_datetime BETWEEN :startDate AND :endDate) t; ";
-		
-		return query;
-	}
-	
 	public static String getSupressedPatientsWithHVL() {
 		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_high_viral_load "
 		        + " WHERE (SELECT MAX(concat(encounter_datetime, repeat_vl_result)) FROM ssemr_etl.ssemr_flat_encounter_high_viral_load) < 1000 "

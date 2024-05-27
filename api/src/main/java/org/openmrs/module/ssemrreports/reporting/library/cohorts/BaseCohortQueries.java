@@ -77,28 +77,6 @@ public class BaseCohortQueries {
 		return cd;
 	}
 	
-	public CohortDefinition getPatientsWhoHaveHighVLAndEAC() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Client with High Viral Load, EAC sessions  and Reapeat Viral Load");
-		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
-		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
-		cd.addParameter(new Parameter("location", "location", Location.class));
-		cd.setQuery(CommonQueries.getPatientsWithHighVLAndEAC());
-		
-		return cd;
-	}
-	
-	public CohortDefinition getPatientsWhoHaveHVLAndRepeatTestAfterEAC() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Patient high VL list and received repeat test after EAC on Date");
-		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
-		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
-		cd.addParameter(new Parameter("location", "location", Location.class));
-		cd.setQuery(CommonQueries.getPatientsWithHighVLAndRepeatTestAfterEAC());
-		
-		return cd;
-	}
-	
 	public CohortDefinition getPatientsWhoHaveHVLandSupressed() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("Patient high VL list and are supressed on Date");
