@@ -272,14 +272,6 @@ public class CommonQueries {
 		return query;
 	}
 	
-	public static String getSupressedPatientsWithHVL() {
-		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_high_viral_load "
-		        + " WHERE (SELECT MAX(concat(encounter_datetime, repeat_vl_result)) FROM ssemr_etl.ssemr_flat_encounter_high_viral_load) < 1000 "
-		        + " AND encounter_datetime BETWEEN :startDate AND :endDate;";
-		
-		return query;
-	}
-	
 	//	public static String getPatientsEligibleForVL() {
 	//		String query = "select t.client_id from (SELECT fp.client_id, mp.age,fp.vl_results, vlr.date_of_sample_collection, fp.edd, en.art_readiness_confirmation_date, "
 	//		        + " en.date_if_restarted, vlr.patient_pregnant, fp.encounter_datetime, vlr.value, "

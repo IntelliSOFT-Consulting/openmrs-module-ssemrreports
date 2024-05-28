@@ -10,7 +10,7 @@
 package org.openmrs.module.ssemrreports.reporting.library.data.evaluator;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResultsDocumentedDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.DateVLSampleCollectedDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -24,10 +24,10 @@ import java.util.Map;
 import java.util.Date;
 
 /**
- * Date VL Results Documented Data Evaluator
+ * Date VL Sample Collected Data Evaluator
  */
-@Handler(supports = VLResultsDocumentedDateDataDefinition.class, order = 50)
-public class VLResultsDocumentedDateDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = DateVLSampleCollectedDataDefinition.class, order = 50)
+public class DateVLSampleCollectedDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -36,7 +36,7 @@ public class VLResultsDocumentedDateDataEvaluator implements PersonDataEvaluator
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, DATE(max(date_vl_results_received)) as documented_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where DATE(encounter_datetime) <= :endDate group by client_id";
+		String qry = "SELECT client_id, DATE(max(date_vl_sample_collected)) as documented_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where DATE(encounter_datetime) <= :endDate group by client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

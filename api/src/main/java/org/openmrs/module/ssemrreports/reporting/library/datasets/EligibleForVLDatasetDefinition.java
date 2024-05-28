@@ -61,7 +61,7 @@ public class EligibleForVLDatasetDefinition extends SsemrBaseDataSet {
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
 		dsd.setName("EVL");
 		dsd.addParameters(getParameters());
-		dsd.setDescription("Patients eligible for VL");
+		dsd.setDescription("Line list of clients eligible for viral load");
 		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
 		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
