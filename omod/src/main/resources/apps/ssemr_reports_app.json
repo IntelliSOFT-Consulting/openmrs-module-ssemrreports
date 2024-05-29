@@ -49,33 +49,6 @@
         "requiredPrivilege": ""
       },
       {
-        "id": "ssemr.missed.appointment.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Missed Appointment on date Report",
-        "url": "ssemrreports/runReport.page?reportDefinition=17a9d6ce-7abe-42d2-a677-53195e22c46b",
-        "order": 23,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.missed.appointment.14.days.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Missed appointment for 14 days",
-        "url": "ssemrreports/runReport.page?reportDefinition=26985654-8c25-11ed-8e58-b7227b8d5928",
-        "order": 24,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.missed.appointment.over.90.days.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Patient who missed appointment for over 90 days",
-        "url": "ssemrreports/runReport.page?reportDefinition=a563b26a-8d03-11ed-b18e-277f66658de4",
-        "order": 25,
-        "requiredPrivilege": ""
-      },
-      {
         "id": "ssemr.tpt.register.Report",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
@@ -97,7 +70,7 @@
         "id": "ssemr.today.appointment.Report",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
-        "label": "Report for todays appointments",
+        "label": "Line list for clients due for appointment and missed appointment",
         "url": "ssemrreports/runReport.page?reportDefinition=a6ec5a32-7f0c-11ee-b962-0242ac120002",
         "order": 28,
         "requiredPrivilege": ""

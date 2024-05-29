@@ -44,12 +44,12 @@ public class SetupAppointmentsDueRegister extends SsemrDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "Report for todays appointments";
+		return "Line list for clients due for appointment and missed appointment";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Patient who have appointments today";
+		return "Line list for clients due for appointment and missed appointment";
 	}
 	
 	@Override
