@@ -49,12 +49,12 @@ public class SetupTbScreeningRegister extends SsemrDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "TUBERCULOSIS SCREENING REPORT";
+		return "Line list for TB Screening and treatment";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "";
+		return "Line list for TB Screening and treatment";
 	}
 	
 	@Override

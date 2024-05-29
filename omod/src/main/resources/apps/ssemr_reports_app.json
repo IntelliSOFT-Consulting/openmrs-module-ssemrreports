@@ -196,7 +196,7 @@
         "id": "ssemr.tb.screening.register",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
-        "label": "TB Screening Register",
+        "label": "Line list for TB Screening and treatment",
         "url": "ssemrreports/runReport.page?reportDefinition=F4987BA7-FF1B-4E43-88A3-6500E0C808D1",
         "order": 39,
         "requiredPrivilege": ""
