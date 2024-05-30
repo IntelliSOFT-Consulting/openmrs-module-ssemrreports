@@ -258,8 +258,9 @@ public class CommonQueries {
 	}
 	
 	public static String getPatientsWithAppointments() {
-		String query = "SELECT patient_id FROM openmrs.patient_appointment fp where fp.status = 'Scheduled' and "
-		        + " fp.start_date_time BETWEEN :startDate AND :endDate";
+		String query = "select t.patient_id from (select patient_id, appointment_service_id from openmrs.patient_appointment fp "
+		        + " where fp.status = 'Scheduled' or fp.status = 'Missed' and fp.start_date_time BETWEEN :startDate AND :endDate"
+		        + " group by patient_id, appointment_service_id) t";
 		
 		return query;
 	}
@@ -350,14 +351,6 @@ public class CommonQueries {
 		        + "      en.art_readiness_confirmation_date,       en.date_if_restarted, "
 		        + "      vlr.patient_pregnant,       vlr.value,       fp.encounter_datetime, "
 		        + "      vlr.date_of_sample_collection  ) t " + "GROUP BY   client_id HAVING  max(t.due_date) = true";
-		
-		return query;
-	}
-	
-	public static String getMissedAppointments() {
-		String query = "select patient_id from openmrs.patient_appointment "
-		        + " where status = 'Missed' and start_date_time between :startDate "
-		        + " and :endDate and DATEDIFF(CURDATE(), start_date_time) <= 28;";
 		
 		return query;
 	}

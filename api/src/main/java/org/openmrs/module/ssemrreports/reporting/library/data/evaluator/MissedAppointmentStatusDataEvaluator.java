@@ -10,7 +10,7 @@
 package org.openmrs.module.ssemrreports.reporting.library.data.evaluator;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.Reached28DaysAfterIITDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.MissedAppointmentStatusDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -21,12 +21,13 @@ import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
+import java.util.Date;
 
 /**
- * Evaluates Reached 28 Days After IIT Date Data Definition
+ * Evaluates Missed Appointment Status Data Definition
  */
-@Handler(supports = Reached28DaysAfterIITDateDataDefinition.class, order = 50)
-public class Reached28DaysAfterIITDateDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = MissedAppointmentStatusDataDefinition.class, order = 50)
+public class MissedAppointmentStatusDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -35,10 +36,17 @@ public class Reached28DaysAfterIITDateDataEvaluator implements PersonDataEvaluat
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT patient_id, DATE_ADD(max(start_date_time), INTERVAL 28 DAY) FROM openmrs.patient_appointment where status = 'Missed' group by patient_id;";
+		String qry = "SELECT patient_id, CASE WHEN MAX(start_date_time) IS NOT NULL THEN 'Yes' ELSE 'No' "
+		        + " END AS has_max_start_date_time FROM openmrs.patient_appointment WHERE status = 'Missed' "
+		        + " GROUP BY patient_id HAVING MAX(date_created) <= DATE(:endDate);";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
+		Date startDate = (Date) context.getParameterValue("startDate");
+		Date endDate = (Date) context.getParameterValue("endDate");
+		queryBuilder.addParameter("endDate", endDate);
+		queryBuilder.addParameter("startDate", startDate);
+		
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
 		c.setData(data);
 		return c;

@@ -21,6 +21,7 @@ import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
+import java.util.Date;
 
 /**
  * Evaluates Next Appointment Date Data Definition
@@ -35,10 +36,15 @@ public class NextAppointmentDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT patient_id, max(start_date_time) FROM openmrs.patient_appointment where status = 'Scheduled' group by patient_id;";
+		String qry = "SELECT patient_id, max(start_date_time) FROM openmrs.patient_appointment where status = 'Scheduled' group by patient_id HAVING MAX(date_created) <= DATE(:endDate);";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
+		Date startDate = (Date) context.getParameterValue("startDate");
+		Date endDate = (Date) context.getParameterValue("endDate");
+		queryBuilder.addParameter("endDate", endDate);
+		queryBuilder.addParameter("startDate", startDate);
+		
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
 		c.setData(data);
 		return c;
