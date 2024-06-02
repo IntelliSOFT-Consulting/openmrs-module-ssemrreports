@@ -7,7 +7,7 @@ public class MerQueries {
 	 * (art_start_date) Next Drug Pickup: ssemr_flat_encounter_hiv_care_follow_up
 	 * (encounter_datetime + number_of_days_dispensed + 28 ) Pregnancy Status:
 	 * ssemr_flat_encounter_hiv_care_follow_up (client_pregnant) Breastfeeding Status:
-	 * ssemr_flat_encounter_hiv_care_follow_up (patient_breastfeeding) Died:
+	 * ssemr_flat_encounter_hiv_care_follow_up (client_breastfeeding) Died:
 	 * ssemr_flat_encounter_end_of_follow_up (death), Stopped treatment:
 	 * ssemr_flat_encounter_art_interruption(date_of_treatment_interruption) transferred out:
 	 * ssemr_flat_encounter_end_of_follow_up(transfer_out) experienced interruption in treatment
@@ -285,7 +285,7 @@ public class MerQueries {
 	
 	public static String getBreastfeedingQueries() {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + " WHERE fu.patient_breastfeeding IS NOT NULL AND DATE(fu.encounter_datetime) BETWEEN :startDate AND :endDate ";
+		        + " WHERE fu.client_breastfeeding IS NOT NULL AND DATE(fu.encounter_datetime) BETWEEN :startDate AND :endDate ";
 	}
 	
 	public static String getDeadClientsQueries() {
