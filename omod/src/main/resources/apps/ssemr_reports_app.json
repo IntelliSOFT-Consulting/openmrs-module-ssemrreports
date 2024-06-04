@@ -58,15 +58,6 @@
         "requiredPrivilege": ""
       },
       {
-        "id": "ssemr.family.contact.newly.tested.positive.Report",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "List of Family contacts newly tested positive",
-        "url": "ssemrreports/runReport.page?reportDefinition=ddb48a05-a272-4c21-9fcb-e31644d74962",
-        "order": 27,
-        "requiredPrivilege": ""
-      },
-      {
         "id": "ssemr.today.appointment.Report",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
@@ -118,42 +109,6 @@
         "label": "Patients who are on IIT",
         "url": "ssemrreports/runReport.page?reportDefinition=ae58aa1e-89d9-11ee-b9d1-0242ac120002",
         "order": 33,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.family.contact.known.hiv.positive.at.start.of.art.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "List of Family contacts known HIV +ve at start of ART",
-        "url": "ssemrreports/runReport.page?reportDefinition=9638c2a2-c624-420a-be4c-1253c94303f1",
-        "order": 34,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.family.contact.newly.tested.hiv.positive.and.linked.to.art.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "List of Family contacts newly tested HIV Positive and linked to ART",
-        "url": "ssemrreports/runReport.page?reportDefinition=4226d249-6f4b-42c1-977c-ce55cdce844a",
-        "order": 35,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.family.contact.with.unknown.hiv.status.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "List of Family contacts with unknown HIV status",
-        "url": "ssemrreports/runReport.page?reportDefinition=a557238b-650c-4f63-a633-5e4c9fa65940",
-        "order": 36,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.family.contact.with.unknown.hiv.status..tested.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "List of Family contacts with unknown HIV status tested",
-        "url": "ssemrreports/runReport.page?reportDefinition=ab7467f6-0ff3-4c03-be48-4ff01a19f329",
-        "order": 37,
         "requiredPrivilege": ""
       },
       {
