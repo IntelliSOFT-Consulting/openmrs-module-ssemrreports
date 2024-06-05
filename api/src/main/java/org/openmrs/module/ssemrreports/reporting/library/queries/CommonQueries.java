@@ -275,7 +275,7 @@ public class CommonQueries {
 	
 	//	public static String getPatientsEligibleForVL() {
 	//		String query = "select t.client_id from (SELECT fp.client_id, mp.age,fp.vl_results, vlr.date_of_sample_collection, fp.edd, en.art_readiness_confirmation_date, "
-	//		        + " en.date_if_restarted, vlr.patient_pregnant, fp.encounter_datetime, vlr.value, "
+	//		        + " en.date_if_restarted, vlr.client_pregnant, fp.encounter_datetime, vlr.value, "
 	//		        + " CASE WHEN mp.age <= 19 and timestampdiff(MONTH, :endDate , max(vlr.date_of_sample_collection)) >= 6 THEN true "
 	//		        + " WHEN fp.edd IS NOT NULL AND fp.edd > :endDate AND MAX(DATE(en.were_arvs_received)) = CURDATE() THEN true "
 	//		        + " WHEN fp.edd IS NOT NULL AND fp.edd > :endDate AND MAX(DATE(en.were_arvs_received)) > CURDATE() and timestampdiff(MONTH, CURDATE(), "
@@ -286,7 +286,7 @@ public class CommonQueries {
 	//		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_vl_laboratory_request vlr ON vlr.client_id = fp.client_id "
 	//		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = fp.client_id WHERE "
 	//		        + " vlr.date_of_sample_collection is not null GROUP BY fp.client_id,mp.age,fp.vl_results,fp.edd,en.art_readiness_confirmation_date,"
-	//		        + " en.date_if_restarted, vlr.patient_pregnant,vlr.value,fp.encounter_datetime, vlr.date_of_sample_collection "
+	//		        + " en.date_if_restarted, vlr.client_pregnant,vlr.value,fp.encounter_datetime, vlr.date_of_sample_collection "
 	//		        + " ) t group by client_id HAVING max(t.due_date) = true";
 	//		
 	//		return query;
@@ -304,7 +304,7 @@ public class CommonQueries {
 		        + "      fp.edd, "
 		        + "      en.art_readiness_confirmation_date, "
 		        + "      en.date_if_restarted, "
-		        + "      vlr.patient_pregnant, "
+		        + "      vlr.client_pregnant, "
 		        + "      fp.encounter_datetime, "
 		        + "      vlr.value, "
 		        + "      CASE WHEN mp.age <= 15 "
@@ -349,7 +349,7 @@ public class CommonQueries {
 		        + "      vlr.date_of_sample_collection is not null AND vlr.last_vl_date <= :endDate "
 		        + "    GROUP BY       fp.client_id,       mp.age,       fp.vl_results,       fp.edd, "
 		        + "      en.art_readiness_confirmation_date,       en.date_if_restarted, "
-		        + "      vlr.patient_pregnant,       vlr.value,       fp.encounter_datetime, "
+		        + "      vlr.client_pregnant,       vlr.value,       fp.encounter_datetime, "
 		        + "      vlr.date_of_sample_collection  ) t " + "GROUP BY   client_id HAVING  max(t.due_date) = true";
 		
 		return query;

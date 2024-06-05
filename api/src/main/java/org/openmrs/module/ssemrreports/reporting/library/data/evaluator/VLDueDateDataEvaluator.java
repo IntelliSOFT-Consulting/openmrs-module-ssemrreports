@@ -36,20 +36,21 @@ public class VLDueDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select t.client_id, DATE(MAX(t.due_date)) AS max_due_date from (SELECT fp.client_id, mp.age,"
-		        + " fp.vl_results, fp.date_vl_sample_collected, fp.edd, en.art_readiness_confirmation_date,"
-		        + " en.date_if_restarted, vlr.patient_pregnant, fp.encounter_datetime, vlr.value,"
+		String qry = "select t.client_id, DATE(MAX(t.due_date)) AS max_due_date from (SELECT fp.client_id, mp.age, "
+		        + "fp.vl_results, fp.date_vl_sample_collected, fp.edd, fh.art_start_date, "
+		        + "vlr.patient_pregnant, fp.encounter_datetime, vlr.value, "
 		        + " CASE WHEN mp.age <= 19 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 6 MONTH) "
-		        + " WHEN fp.edd IS NOT NULL AND fp.edd > CURDATE() AND MAX(DATE(en.were_arvs_received)) = CURDATE() THEN fp.encounter_datetime"
-		        + " WHEN fp.edd IS NOT NULL AND fp.edd > CURDATE() AND MAX(DATE(en.were_arvs_received)) > CURDATE() THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 3 MONTH)"
-		        + " WHEN mp.age > 19 AND fp.vl_results >= 200 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 3 MONTH)"
-		        + " WHEN mp.age > 19 AND fp.vl_results < 200 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 12 MONTH)"
-		        + " ELSE NULL END as due_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp"
-		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en ON en.client_id = fp.client_id"
-		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_vl_laboratory_request vlr ON vlr.client_id = fp.client_id"
-		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = fp.client_id"
-		        + " WHERE DATE(fp.encounter_datetime) <= DATE(:endDate) GROUP BY fp.client_id,mp.age,fp.vl_results,fp.edd,en.art_readiness_confirmation_date,en.date_if_restarted,"
-		        + " vlr.patient_pregnant,vlr.value,fp.encounter_datetime,fp.date_vl_sample_collected) t group by client_id;";
+		        + " WHEN fp.edd IS NOT NULL AND fp.edd > CURDATE() AND MAX(DATE(fh.were_arvs_received)) = CURDATE() THEN fp.encounter_datetime "
+		        + " WHEN fp.edd IS NOT NULL AND fp.edd > CURDATE() AND MAX(DATE(fh.were_arvs_received)) > CURDATE() THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 3 MONTH) "
+		        + "  WHEN mp.age > 19 AND fp.vl_results >= 200 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 3 MONTH) "
+		        + " WHEN mp.age > 19 AND fp.vl_results < 200 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 12 MONTH) "
+		        + "  ELSE NULL END as due_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp "
+		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en ON en.client_id = fp.client_id "
+		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_vl_laboratory_request vlr ON vlr.client_id = fp.client_id "
+		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = fp.client_id "
+		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_personal_family_tx_history fh on fh.client_id = fp.client_id "
+		        + "  WHERE DATE(fp.encounter_datetime) <= DATE(:endDate) GROUP BY fp.client_id,mp.age,fp.vl_results,fp.edd,fh.art_start_date, "
+		        + "  vlr.patient_pregnant,vlr.value,fp.encounter_datetime,fp.date_vl_sample_collected) t group by client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

@@ -36,9 +36,8 @@ public class ArtStartDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select t.client_id, t.artStartDate from ( select client_id, MID(MIN(CONCAT(encounter_datetime, date(art_start_date))), 20) "
-		        + " AS artStartDate FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment "
-		        + " GROUP BY client_id HAVING MIN(art_start_date) <= DATE(:endDate) " + " ) as t;";
+		String qry = "SELECT client_id, MID(MAX(CONCAT(encounter_datetime, art_start_date)), 20) AS max_art_start_date "
+		        + "FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history where date(encounter_datetime) <= date(:endDate) GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

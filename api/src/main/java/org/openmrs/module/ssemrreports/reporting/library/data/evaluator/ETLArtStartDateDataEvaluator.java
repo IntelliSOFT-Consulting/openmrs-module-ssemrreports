@@ -21,6 +21,7 @@ import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
+import java.util.Date;
 
 /**
  * Evaluates Current regimen Data Definition
@@ -35,10 +36,16 @@ public class ETLArtStartDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, max(art_readiness_confirmation_date) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment group by client_id;";
+		String qry = "SELECT client_id, MID(MAX(CONCAT(encounter_datetime, art_start_date)), 20) AS max_art_start_date "
+		        + "FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history where date(encounter_datetime) <= date(:endDate) GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
+		Date startDate = (Date) context.getParameterValue("startDate");
+		Date endDate = (Date) context.getParameterValue("endDate");
+		queryBuilder.addParameter("endDate", endDate);
+		queryBuilder.addParameter("startDate", startDate);
+		
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
 		c.setData(data);
 		return c;

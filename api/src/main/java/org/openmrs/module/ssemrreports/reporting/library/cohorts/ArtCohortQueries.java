@@ -144,7 +144,7 @@ public class ArtCohortQueries {
 		String qry = "select " + "    e.client_id " + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e "
 		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id) "
 		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate)  "
-		        + "  and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True') ";
+		        + "  and (f.client_breastfeeding is not null and f.client_breastfeeding = 'True') ";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -302,7 +302,7 @@ public class ArtCohortQueries {
 		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
 		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
 		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
-		        + "  and f.art_regimen = ':artRegimen' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
+		        + "  and f.art_regimen = ':artRegimen' and (f.client_breastfeeding is not null and f.client_breastfeeding = 'True')";
 		
 		qry.replace(":artRegimen", regimenName);
 		cd.setQuery(qry);
@@ -319,7 +319,7 @@ public class ArtCohortQueries {
 		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
 		        + "inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
 		        + "where date(f.encounter_datetime) between date(:startDate) and date(:endDate) \n"
-		        + "  and f.art_regimen = ':assessmentStatus' and (f.patient_breastfeeding is not null and f.patient_breastfeeding = 'True')";
+		        + "  and f.art_regimen = ':assessmentStatus' and (f.client_breastfeeding is not null and f.client_breastfeeding = 'True')";
 		
 		qry.replace(":assessmentStatus", assessmentStatus);
 		cd.setQuery(qry);
@@ -363,7 +363,7 @@ public class ArtCohortQueries {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select client_id " + "from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
 		        + "where date(date_of_sample_collection) between date(:startDate) and date(:endDate) "
-		        + "and patient_pregnant = 'True' ";
+		        + "and client_pregnant = 'True' ";
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -376,7 +376,7 @@ public class ArtCohortQueries {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select client_id " + "from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
 		        + "where date(date_of_sample_collection) between date(:startDate) and date(:endDate) "
-		        + "and patient_breastfeeding = 'True' ";
+		        + "and client_breastfeeding = 'True' ";
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -489,7 +489,7 @@ public class ArtCohortQueries {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select client_id " + "from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
 		        + "where date(date_results_dispatched) between date(:startDate) and date(:endDate) "
-		        + "and patient_pregnant = 'True' and value between " + minVal + " and " + maxVal;
+		        + "and client_pregnant = 'True' and value between " + minVal + " and " + maxVal;
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -502,7 +502,7 @@ public class ArtCohortQueries {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select client_id " + "from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
 		        + "where date(date_results_dispatched) between date(:startDate) and date(:endDate) "
-		        + "and patient_breastfeeding = 'True' and value between " + minVal + " and " + maxVal;
+		        + "and client_breastfeeding = 'True' and value between " + minVal + " and " + maxVal;
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
