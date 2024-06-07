@@ -22,12 +22,10 @@ public class TPTQueries {
 		return query;
 	}
 	
+	// to add eligible for tpt and date eligible for tpt and inh details
 	public static String getPatientsEligibleForTPT() {
-		String query = "SELECT tb.client_id FROM ssemr_etl.ssemr_flat_encounter_tb_screening tb "
-		        + "LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp ON fp.client_id = tb.client_id "
-		        + "WHERE (tb.tb_screening_fever = 'True' OR tb.current_cough = 'True' OR tb.tb_screening_weight_loss = 'True' OR tb.close_contact_history_with_tb_patients = 'True')"
-		        + "AND tb.encounter_datetime BETWEEN :startDate AND :endDate "
-		        + "GROUP BY tb.client_id HAVING NOT MID(MAX(CONCAT(fp.encounter_datetime, fp.on_tb_treatment)), 20) = 'True';";
+		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where on_tb_treatment = 'No' and tb_status = 'No Signs' and "
+		        + " encounter_datetime BETWEEN :startDate AND :endDate group by client_id";
 		
 		return query;
 	}

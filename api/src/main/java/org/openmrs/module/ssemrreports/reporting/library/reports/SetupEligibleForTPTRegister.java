@@ -44,12 +44,12 @@ public class SetupEligibleForTPTRegister extends SsemrDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "Patient eligible for TPT list on Date";
+		return "Line list for clients eligible, started and completed TPT on Date";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Patients eligible for TPT";
+		return "Line list for clients eligible, started and completed TPT";
 	}
 	
 	@Override

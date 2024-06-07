@@ -30,7 +30,7 @@ import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalcula
 import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTStartDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTCompleteDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.ClientOnTPTDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTEligibleDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
@@ -62,7 +62,7 @@ public class EligibleForTPTDatasetDefinition extends SsemrBaseDataSet {
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
 		dsd.setName("ETPT");
 		dsd.addParameters(getParameters());
-		dsd.setDescription("Patients eligible for TPT");
+		dsd.setDescription("Line list for clients eligible, started and completed TPT");
 		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
 		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -91,8 +91,8 @@ public class EligibleForTPTDatasetDefinition extends SsemrBaseDataSet {
 		TPTStartDateDataDefinition tptStartDateDataDefinition = new TPTStartDateDataDefinition();
 		tptStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		TPTCompleteDateDataDefinition tptCompleteDateDataDefinition = new TPTCompleteDateDataDefinition();
-		tptCompleteDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		ClientOnTPTDataDefinition clientOnTPTDataDefinition = new ClientOnTPTDataDefinition();
+		clientOnTPTDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		TPTEligibleDateDataDefinition tptEligibleDateDataDefinition = new TPTEligibleDateDataDefinition();
 		tptEligibleDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -110,13 +110,15 @@ public class EligibleForTPTDatasetDefinition extends SsemrBaseDataSet {
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
+		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Linked to COV (Y/N)", linkedToCOVDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date started taking TPT", tptStartDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date completed TPT", tptCompleteDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Client on TPT (Yes/No)", clientOnTPTDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date eligible for TPT", tptEligibleDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
