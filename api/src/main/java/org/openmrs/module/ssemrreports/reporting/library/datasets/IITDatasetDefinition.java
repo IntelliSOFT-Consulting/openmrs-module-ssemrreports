@@ -33,7 +33,8 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedT
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.MissedAppointmentDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.NextAppointmentDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.Reached28DaysAfterIITDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 
@@ -91,8 +92,11 @@ public class IITDatasetDefinition extends SsemrBaseDataSet {
 		MissedAppointmentDateDataDefinition missedAppointmentDateDataDefinition = new MissedAppointmentDateDataDefinition();
 		missedAppointmentDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		StatusDataDefinition statusDataDefinition = new StatusDataDefinition();
-		statusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		PregnantDataDefinition pregnantDataDefinition = new PregnantDataDefinition();
+		pregnantDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		BreastFeedingDataDefinition breastfeedingDataDefinition = new BreastFeedingDataDefinition();
+		breastfeedingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		Reached28DaysAfterIITDateDataDefinition reached28DaysAfterIITDateDataDefinition = new Reached28DaysAfterIITDateDataDefinition();
 		reached28DaysAfterIITDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -100,11 +104,12 @@ public class IITDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
-		dsd.addColumn("Telephone No", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
+		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
-		dsd.addColumn("Status (Preg/BF/High VL)", statusDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of missed appointment", missedAppointmentDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date returned to treatment (RTT)", nextAppointmentDateDataDefinition, "endDate=${endDate}");

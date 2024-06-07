@@ -106,18 +106,9 @@
         "id": "ssemr.patient.on.iit.register",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
-        "label": "Patients who are on IIT",
+        "label": "Line list for IIT and RTT clients",
         "url": "ssemrreports/runReport.page?reportDefinition=ae58aa1e-89d9-11ee-b9d1-0242ac120002",
         "order": 33,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.patients.on.rtt.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Patients who are on RTT",
-        "url": "ssemrreports/runReport.page?reportDefinition=835e45bc-8c90-11ee-b9d1-0242ac120002",
-        "order": 38,
         "requiredPrivilege": ""
       },
       {
