@@ -15,6 +15,7 @@ package org.openmrs.module.ssemrreports.reporting.library.data.converter;
 
 import org.openmrs.PersonAttribute;
 import org.openmrs.module.reporting.data.converter.DataConverter;
+import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 
 public class PersonAttributeDataConverter implements DataConverter {
 	
@@ -24,7 +25,15 @@ public class PersonAttributeDataConverter implements DataConverter {
 			return "";
 		}
 		
-		return ((PersonAttribute) obj).getValue();
+		PersonAttribute attribute = (PersonAttribute) obj;
+		String value = attribute.getValue();
+		
+		// Check if the attribute is a phone number
+		if (isPhoneNumberAttribute(attribute)) {
+			return convertPhoneNumber(value);
+		}
+		
+		return value;
 	}
 	
 	@Override
@@ -35,5 +44,17 @@ public class PersonAttributeDataConverter implements DataConverter {
 	@Override
 	public Class<?> getDataType() {
 		return String.class;
+	}
+	
+	private boolean isPhoneNumberAttribute(PersonAttribute attribute) {
+		return SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID.equals(attribute.getAttributeType().getUuid());
+	}
+	
+	private String convertPhoneNumber(String phoneNumber) {
+		if (phoneNumber == null) {
+			return "";
+		}
+		// Wrap the phone number in quotes to ensure it is treated as text
+		return "\"" + phoneNumber + "\"";
 	}
 }
