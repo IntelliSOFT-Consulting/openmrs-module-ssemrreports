@@ -10,7 +10,7 @@
 package org.openmrs.module.ssemrreports.reporting.library.data.evaluator;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTCompleteDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.ClientOnTPTDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -24,10 +24,10 @@ import java.util.Map;
 import java.util.Date;
 
 /**
- * Evaluates TPT Complete date Data Definition
+ * Evaluates Client On TPT Data Definition
  */
-@Handler(supports = TPTCompleteDateDataDefinition.class, order = 50)
-public class TPTCompleteDateDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = ClientOnTPTDataDefinition.class, order = 50)
+public class ClientOnTPTDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -36,9 +36,8 @@ public class TPTCompleteDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, MAX(encounter_datetime) AS max_encounter_datetime "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up AS e WHERE e.inh = 'True' "
-		        + " GROUP BY e.client_id HAVING TIMESTAMPDIFF(MONTH, MAX(e.encounter_datetime), CURDATE()) > 6 AND max(e.encounter_datetime) <=:endDate;";
+		String qry = "select client_id, case max(tb_status) when 'No Signs' then 'Yes' else 'No' end  as tpt_status from "
+		        + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where date(encounter_datetime) <= date(:endDate) group by client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
@@ -50,5 +49,6 @@ public class TPTCompleteDateDataEvaluator implements PersonDataEvaluator {
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
 		c.setData(data);
 		return c;
+		
 	}
 }

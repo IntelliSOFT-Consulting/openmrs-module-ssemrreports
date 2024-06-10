@@ -14,27 +14,25 @@ import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationPropertyCachingStrategy;
 import org.openmrs.module.reporting.evaluation.caching.Caching;
 
-import java.util.Date;
-
 /**
- * TPT Complete date Data Definition
+ * Client on TPT Data Definition
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
-public class TPTCompleteDateDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
+public class ClientOnTPTDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
 	
 	public static final long serialVersionUID = 1L;
 	
 	/**
 	 * Default Constructor
 	 */
-	public TPTCompleteDateDataDefinition() {
+	public ClientOnTPTDataDefinition() {
 		super();
 	}
 	
 	/**
 	 * Constructor to populate name only
 	 */
-	public TPTCompleteDateDataDefinition(String name) {
+	public ClientOnTPTDataDefinition(String name) {
 		super(name);
 	}
 	
@@ -44,6 +42,6 @@ public class TPTCompleteDateDataDefinition extends BaseDataDefinition implements
 	 * @see org.openmrs.module.reporting.data.DataDefinition#getDataType()
 	 */
 	public Class<?> getDataType() {
-		return Date.class;
+		return String.class;
 	}
 }
