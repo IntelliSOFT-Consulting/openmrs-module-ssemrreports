@@ -45,7 +45,7 @@ public class SetupContactsWithUnknownHivStatusTestedRegister extends SsemrDataEx
 	
 	@Override
 	public String getName() {
-		return "Listed family members, who have taken HIV test and received HIV results at the time of listing";
+		return "Listed family members who have taken HIV test and received HIV results at the time of listing";
 	}
 	
 	@Override

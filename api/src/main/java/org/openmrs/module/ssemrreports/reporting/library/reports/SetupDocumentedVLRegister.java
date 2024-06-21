@@ -44,7 +44,7 @@ public class SetupDocumentedVLRegister extends SsemrDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "Line list for clients with documented viral load result, high viral load, and viral load test";
+		return "Line list for clients with documented viral load result high viral load and viral load test";
 	}
 	
 	@Override
