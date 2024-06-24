@@ -79,7 +79,7 @@ public class SetupDocumentedVLRegister extends SsemrDataExportManager {
 			    "Line list for clients with documented viral load result, high viral load, and viral load test",
 			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:4,dataset:DVLD");
+			props.put("repeatingSections", "sheet:1,row:2,dataset:DVLD");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}
