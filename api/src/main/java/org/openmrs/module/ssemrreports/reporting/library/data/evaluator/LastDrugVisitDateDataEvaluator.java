@@ -21,6 +21,7 @@ import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
+import java.util.Date;
 
 /**
  * Evaluates Last Drug Visit Date Data Definition
@@ -35,12 +36,18 @@ public class LastDrugVisitDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT pa.patient_id, MAX(pa.start_date_time) AS max_drug_pickup FROM patient_appointment pa "
-		        + " LEFT JOIN appointment_service asvc ON pa.appointment_service_id = asvc.appointment_service_id "
-		        + " WHERE asvc.uuid = '4ee8a400-67b2-4f36-b4e3-4b7e83e4dab0' GROUP BY pa.patient_id;";
+		String qry = " SELECT t.client_id, t.last_encounter_datetime FROM ( SELECT client_id, MAX(encounter_datetime) AS last_encounter_datetime, "
+		        + " MID(MAX(CONCAT(encounter_datetime, art_regimen_no_of_pills_dispensed)), 20) AS last_drugs_dispensed, MID(MAX(CONCAT(encounter_datetime, "
+		        + " art_regimen)), 20) AS last_art_regimen FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up WHERE DATE(encounter_datetime) <= date(:endDate) "
+		        + " GROUP BY client_id HAVING  last_drugs_dispensed IS NOT NULL AND last_art_regimen IS NOT NULL) AS t;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
+		Date startDate = (Date) context.getParameterValue("startDate");
+		Date endDate = (Date) context.getParameterValue("endDate");
+		queryBuilder.addParameter("endDate", endDate);
+		queryBuilder.addParameter("startDate", startDate);
+		
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
 		c.setData(data);
 		return c;
