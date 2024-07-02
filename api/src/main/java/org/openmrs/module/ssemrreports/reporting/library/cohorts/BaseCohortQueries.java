@@ -121,4 +121,15 @@ public class BaseCohortQueries {
 		return cd;
 	}
 	
+	public CohortDefinition getPatientsInTbTreatment() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Get patients who are tb screened or in treatment");
+		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.setQuery(CommonQueries.getTbScreenedClients());
+		
+		return cd;
+	}
+	
 }
