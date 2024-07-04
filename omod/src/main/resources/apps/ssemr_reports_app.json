@@ -58,24 +58,6 @@
         "requiredPrivilege": ""
       },
       {
-        "id": "ssemr.family.member.hiv.results.not.known.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "List the family members whose HIV result is not known at the time of listing",
-        "url": "ssemrreports/runReport.page?reportDefinition=bf361528-8e21-11ee-b9d1-0242ac120002",
-        "order": 24,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.family.member.hiv.test.received.results.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Listed family members, who have taken HIV test and received HIV results at the time of listing",
-        "url": "ssemrreports/runReport.page?reportDefinition=0c14acb6-8e26-11ee-b9d1-0242ac120002",
-        "order": 25,
-        "requiredPrivilege": ""
-      },
-      {
         "id": "ssemr.patient.eligible.for.tpt.register",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
