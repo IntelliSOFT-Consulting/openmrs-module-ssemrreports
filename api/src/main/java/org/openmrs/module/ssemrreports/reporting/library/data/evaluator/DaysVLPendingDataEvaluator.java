@@ -36,9 +36,9 @@ public class DaysVLPendingDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT  client_id, DATEDIFF(:endDate, DATE(MAX(date_vl_sample_collected))) AS days_difference "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up WHERE DATE(encounter_datetime) <= :endDate "
-		        + " GROUP BY client_id HAVING days_difference >= 14";
+		String qry = "SELECT client_id, CASE WHEN vl_results IS NOT NULL THEN DATEDIFF(DATE(date_vl_results_received), DATE(date_vl_sample_collected)) "
+		        + " ELSE DATEDIFF(:endDate, DATE(date_vl_sample_collected)) END AS days_difference FROM  ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
+		        + " WHERE encounter_datetime <= :endDate";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
