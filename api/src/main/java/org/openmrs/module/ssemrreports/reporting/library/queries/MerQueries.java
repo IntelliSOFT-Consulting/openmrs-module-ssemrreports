@@ -18,7 +18,7 @@ public class MerQueries {
 		return "SELECT agg.client_id AS client_id FROM ("
 		        
 		        + " SELECT tn.client_id AS client_id FROM("
-		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
+		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
 		        + "	WHERE hce.art_start_date <= :endDate " + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
 		        + "	)tn" + ") agg WHERE client_id NOT IN("
 		        
@@ -40,7 +40,7 @@ public class MerQueries {
 		return "SELECT agg.client_id AS client_id FROM ("
 		        
 		        + " SELECT tn.client_id AS client_id FROM("
-		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
+		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
 		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
 		        + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id" + ")tn" + ") agg "
 		        + " WHERE client_id NOT IN("
@@ -117,13 +117,13 @@ public class MerQueries {
 		        + " GROUP BY fu.client_id)fn "
 		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
 		        + " ON fu1.client_id = fn.client_id AND fu1.encounter_datetime=fn.encounter_datetime "
-		        + " WHERE CAST(fu1.days_dispensed AS UNSIGNED) < 90 )tp"
+		        + " WHERE CAST(fu1.number_of_days_dispensed AS UNSIGNED) < 90 )tp"
 		        + " INNER JOIN("
 		        
 		        + "SELECT agg.client_id AS client_id FROM ("
 		        
 		        + " SELECT tn.client_id AS client_id FROM("
-		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
+		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
 		        + "	WHERE hce.art_start_date <= :endDate " + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
 		        + "	)tn" + ") agg WHERE client_id NOT IN("
 		        
@@ -148,13 +148,13 @@ public class MerQueries {
 		        + " GROUP BY fu.client_id)fn "
 		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
 		        + " ON fu1.client_id = fn.client_id AND fu1.encounter_datetime=fn.encounter_datetime "
-		        + " WHERE CAST(fu1.days_dispensed AS UNSIGNED) BETWEEN 90 AND 150 )tp"
+		        + " WHERE CAST(fu1.number_of_days_dispensed AS UNSIGNED) BETWEEN 90 AND 150 )tp"
 		        + " INNER JOIN("
 		        
 		        + "SELECT agg.client_id AS client_id FROM ("
 		        
 		        + " SELECT tn.client_id AS client_id FROM("
-		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
+		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
 		        + "	WHERE hce.art_start_date <= :endDate " + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
 		        + "	)tn" + ") agg WHERE client_id NOT IN("
 		        
@@ -179,13 +179,13 @@ public class MerQueries {
 		        + " GROUP BY fu.client_id)fn "
 		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
 		        + " ON fu1.client_id = fn.client_id AND fu1.encounter_datetime=fn.encounter_datetime "
-		        + " WHERE CAST(fu1.days_dispensed AS UNSIGNED) > 150 )tp"
+		        + " WHERE CAST(fu1.number_of_days_dispensed AS UNSIGNED) > 150 )tp"
 		        + " INNER JOIN("
 		        
 		        + "SELECT agg.client_id AS client_id FROM ("
 		        
 		        + " SELECT tn.client_id AS client_id FROM("
-		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
+		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
 		        + "	WHERE hce.art_start_date <= :endDate " + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
 		        + "	)tn" + ") agg WHERE client_id NOT IN("
 		        
@@ -239,10 +239,10 @@ public class MerQueries {
 	}
 	
 	public static String getTxRttNotEligibleForCd4Queries() {
-		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment shce "
+		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history shce "
 		        + " WHERE shce.art_start_date IS NULL " + " AND shce.encounter_datetime BETWEEN :startDate AND :endDate "
-		        + " UNION " + "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + " WHERE fu.lost_to_follow_up IS NULL " + " AND fu.encounter_datetime BETWEEN :startDate AND :endDate ";
+		        + " UNION " + "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up fu "
+		        + " WHERE fu.ltfu_date IS NULL " + " AND fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
 	//TX PVLS
