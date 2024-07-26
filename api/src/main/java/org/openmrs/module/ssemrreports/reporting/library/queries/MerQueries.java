@@ -241,8 +241,8 @@ public class MerQueries {
 	public static String getTxRttNotEligibleForCd4Queries() {
 		return "SELECT shce.client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history shce "
 		        + " WHERE shce.art_start_date IS NULL " + " AND shce.encounter_datetime BETWEEN :startDate AND :endDate "
-		        + " UNION " + "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + " WHERE fu.lost_to_follow_up IS NULL " + " AND fu.encounter_datetime BETWEEN :startDate AND :endDate ";
+		        + " UNION " + "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up fu "
+		        + " WHERE fu.ltfu_date IS NULL " + " AND fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 	
 	//TX PVLS
