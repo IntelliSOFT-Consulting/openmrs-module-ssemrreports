@@ -34,8 +34,8 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.Calcula
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResultAfter14DaysDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.DaysVLPendingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResultsDocumentedDateDataDefinition;
@@ -100,8 +100,8 @@ public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
 		DaysVLPendingDataDefinition daysVLPendingDataDefinition = new DaysVLPendingDataDefinition();
 		daysVLPendingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		VLResultAfter14DaysDataDefinition vlResultAfter14DaysDataDefinition = new VLResultAfter14DaysDataDefinition();
-		vlResultAfter14DaysDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		LastVLDataDefinition lastVLDataDefinition = new LastVLDataDefinition();
+		lastVLDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		VLResultsDocumentedDateDataDefinition vlResultsDocumentedDateDataDefinition = new VLResultsDocumentedDateDataDefinition();
 		vlResultsDocumentedDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -120,8 +120,8 @@ public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date VL sample collected", dateVLSampleCollectedDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date VL results documented", vlResultsDocumentedDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("VL Result", daysVLPendingDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Days VL Results Pending", vlResultAfter14DaysDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("VL Result", lastVLDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Days VL Results Pending", daysVLPendingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
