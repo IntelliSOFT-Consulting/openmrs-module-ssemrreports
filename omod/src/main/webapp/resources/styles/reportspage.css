@@ -8,11 +8,11 @@ header {
   -o-border-radius: 5px;
   -ms-border-radius: 5px;
   -khtml-border-radius: 5px;
-  border-radius: 5px;
+  border-radius: 0px;
 }
 
 header .logo a img {
-  content: url('https://ssemr.intellisoftkenya.com/openmrs/spa/primary-navigation.png');
+  content: url('../images/primary-navigation.png');
   width: 100px; 
   height: 40px;
   float: left;
