@@ -4,6 +4,7 @@
     ui.includeJavascript("uicommons", "angular.min.js")
     ui.includeJavascript("ssemrreports", "runReport.js")
     ui.includeCss("ssemrreports", "referenceapplication.css", 100)
+    ui.includeCss("ssemrreports", "reportspage.css", 100)
 
 
 
