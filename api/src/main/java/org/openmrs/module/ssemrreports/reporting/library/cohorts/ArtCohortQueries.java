@@ -487,7 +487,7 @@ public class ArtCohortQueries {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select client_id " + "from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
 		        + "where date(date_results_dispatched) between date(:startDate) and date(:endDate) "
-		        + "and client_pregnant = 'Yes' and value between " + minVal + " and " + maxVal;
+		        + "and patient_pregnant = 'Yes' and value between " + minVal + " and " + maxVal;
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -500,7 +500,7 @@ public class ArtCohortQueries {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select client_id " + "from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
 		        + "where date(date_results_dispatched) between date(:startDate) and date(:endDate) "
-		        + "and client_breastfeeding = 'Yes' and value between " + minVal + " and " + maxVal;
+		        + "and patient_breastfeeding = 'Yes' and value between " + minVal + " and " + maxVal;
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
