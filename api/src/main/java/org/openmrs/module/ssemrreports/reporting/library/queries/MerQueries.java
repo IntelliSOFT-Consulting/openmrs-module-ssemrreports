@@ -64,21 +64,21 @@ public class MerQueries {
 	
 	public static String getClientsWithCd4LessThan200Query() {
 		return "SELECT client_id FROM("
-		        + "SELECT fu.client_id,MAX(fu.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history fu"
-		        + "	WHERE fu.cd4 IS NOT NULL AND fu.cd4 < 200 " + "	AND fu.art_start_date BETWEEN :startDate AND :endDate "
-		        + " GROUP BY fu.client_id) fn";
+		        + "SELECT f.client_id,MAX(f.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
+		        + "	WHERE f.cd4 IS NOT NULL AND f.cd4 < 200 " + " GROUP BY f.client_id" + ") fn";
 	}
 	
 	public static String getClientsWithCd4MoreThanOrEqualTo200Query() {
 		return "SELECT client_id FROM("
-		        + "SELECT fu.client_id,MAX(fu.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history fu"
-		        + "	WHERE fu.cd4 IS NOT NULL AND fu.cd4 >= 200 " + "	AND fu.art_start_date BETWEEN :startDate AND :endDate "
-		        + " GROUP BY fu.client_id) fn";
+		        + "SELECT f.client_id,MAX(f.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
+		        + "	WHERE f.cd4 IS NOT NULL AND f.cd4 >= 200 " + " GROUP BY f.client_id" + ") fn";
 	}
 	
 	public static String getClientsWithUnknownCd4Query() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history fu"
-		        + "	WHERE fu.cd4 IS NULL ";
+		return "SELECT client_id FROM("
+		        + "SELECT f.client_id,MAX(f.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
+		        + "	WHERE f.cd4 IS NULL " + " GROUP BY f.client_id" + ") fn";
+		
 	}
 	
 	//Tx ML
