@@ -470,6 +470,7 @@ public class ArtCohortQueries {
 	
 	// ----- --- viral load results
 	
+	// TODO: we should get the correct dates to use i.e. startDate sub 1 month etc
 	public CohortDefinition getVLResultsCohortDefinition(int minVal, int maxVal) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "select client_id " + "from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
@@ -506,6 +507,20 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("VL results for the breastfeeding received during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition getClientsWithHivVLResultsTracedCohortDefinition() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "select t.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_vl_laboratory_request r\n"
+		        + "inner join ssemr_etl.ssemr_flat_encounter_high_viral_load t using(client_id)\n"
+		        + "where date(date_results_dispatched) between date(:startDate) and date(:endDate) and value >= 1000\n"
+		        + "    and date(t.encounter_datetime) between date(:startDate) and date_add(:endDate, interval 1 month) ";
+		
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Clients with high VL results traced during the reporting period");
 		return cd;
 	}
 	
