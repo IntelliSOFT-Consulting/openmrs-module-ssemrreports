@@ -163,8 +163,7 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 	
 	public DataSetDefinition getArtDataset() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate}";
-		String mappings1 = "endDate=${endDate+23h},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.setName("CummAndNewOnArt");
 		dsd.setDescription("ART dataset");
 		dsd.addParameters(getParameters());
@@ -240,8 +239,7 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 	 */
 	public DataSetDefinition getTxCurrForAgeAtEnrolmentDataset() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate}";
-		String mappings1 = "endDate=${endDate+23h},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.setName("currentOnArtByAge");
 		dsd.setDescription("ART dataset - age at start of ART");
 		dsd.addParameters(getParameters());
@@ -517,8 +515,7 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 	
 	public DataSetDefinition getTxCurrByRegimenDataset() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate}";
-		String mappings1 = "endDate=${endDate+23h},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.setName("currentOnArtByRegimen");
 		dsd.setDescription("ART by regimen dataset");
 		dsd.addParameters(getParameters());
@@ -662,8 +659,7 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 	
 	public DataSetDefinition getViralLoadDataset() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate}";
-		String mappings1 = "endDate=${endDate+23h},location=${location}";
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.setName("viralLoad");
 		dsd.setDescription("VL dataset");
 		dsd.addParameters(getParameters());
