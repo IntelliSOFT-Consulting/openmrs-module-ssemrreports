@@ -60,14 +60,10 @@ public class SetupArtMonthlyReport extends SsemrDataExportManager {
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		// LocationAttributeType mflCodeAttributeType = Context.getLocationService().getLocationAttributeTypeByUuid(
-		//    "8a845a89-6aa5-4111-81d3-0af31c45c002");
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.addParameters(artDatasetDefinition.getParameters());
-		//rd.addDataSetDefinition("DT", Mapped.mapStraightThrough(districtDatasetDefinition
-		//        .getAddressDataset(mflCodeAttributeType.getLocationAttributeTypeId())));
 		rd.addDataSetDefinition("CummAndNewOnArt", Mapped.mapStraightThrough(artDatasetDefinition.getArtDataset()));
 		rd.addDataSetDefinition("currentOnArtByAge",
 		    Mapped.mapStraightThrough(artDatasetDefinition.getTxCurrForAgeAtEnrolmentDataset()));
