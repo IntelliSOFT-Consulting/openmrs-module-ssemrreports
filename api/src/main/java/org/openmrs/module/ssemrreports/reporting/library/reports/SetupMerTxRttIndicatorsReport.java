@@ -1,5 +1,6 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
+import org.openmrs.Location;
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -48,15 +49,16 @@ public class SetupMerTxRttIndicatorsReport extends SsemrDataExportManager {
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate+23h}";
-		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d+23h}";
-		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d+23h}";
-		String mappings3 = "startDate=${startDate+2m},endDate=${endDate+23h}";
+		String mappings = "startDate=${startDate},endDate=${endDate+23h},location=${location}";
+		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d+23h},location=${location}";
+		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d+23h},location=${location}";
+		String mappings3 = "startDate=${startDate+2m},endDate=${endDate+23h},location=${location}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.addParameter(new Parameter("startDate", "StartDate", Date.class));
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		rd.addParameter(new Parameter("location", "Location", Location.class));
 		rd.addDataSetDefinition("TxR", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings));
 		rd.addDataSetDefinition("TxR1", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings1));
 		rd.addDataSetDefinition("TxR2", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings2));
