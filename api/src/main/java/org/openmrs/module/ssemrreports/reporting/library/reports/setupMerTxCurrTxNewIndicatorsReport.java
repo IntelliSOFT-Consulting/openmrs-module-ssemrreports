@@ -39,12 +39,12 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SsemrDataExportManager 
 	
 	@Override
 	public String getName() {
-		return "Tx CURR and NEW MER Indicators Report";
+		return "TX_CURR and TX_NEW MER Indicators Report";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Tx CURR and NEW MER Indicators Reports";
+		return "TX_CURR and TX_NEW MER Indicators Reports";
 	}
 	
 	@Override
@@ -91,7 +91,7 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SsemrDataExportManager 
 		ReportDesign reportDesign = null;
 		try {
 			reportDesign = createXlsReportDesign(reportDefinition, "tx_new_curr_mer_indicators.xls",
-			    "Tx CURR AND NEW MER Indicators Report", getExcelDesignUuid(), null);
+			    "TX_CURR AND NEW MER Indicators Report", getExcelDesignUuid(), null);
 		}
 		catch (IOException e) {
 			throw new ReportingException(e.toString());
