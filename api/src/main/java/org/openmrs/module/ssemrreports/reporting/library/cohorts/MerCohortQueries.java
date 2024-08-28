@@ -1,5 +1,6 @@
 package org.openmrs.module.ssemrreports.reporting.library.cohorts;
 
+import org.openmrs.Location;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
@@ -26,6 +27,7 @@ public class MerCohortQueries {
 		cd.setName("TxCurr Cohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getPatientsWhoInitiatedArtDuringReportingPeriod());
 		return cd;
 	}
@@ -36,6 +38,7 @@ public class MerCohortQueries {
 		cd.setName("TxNew Cohorts - Totals");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxNewTotals());
 		return cd;
 	}
@@ -45,6 +48,7 @@ public class MerCohortQueries {
 		cd.setName("Cohorts - CD4 < 200");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getClientsWithCd4LessThan200Query());
 		return cd;
 	}
@@ -54,6 +58,7 @@ public class MerCohortQueries {
 		cd.setName("Cohorts - CD4 ≥ 200");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getClientsWithCd4MoreThanOrEqualTo200Query());
 		return cd;
 	}
@@ -63,6 +68,7 @@ public class MerCohortQueries {
 		cd.setName("TxNew Cohorts - Unknown CD4");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getClientsWithUnknownCd4Query());
 		return cd;
 	}
@@ -72,8 +78,11 @@ public class MerCohortQueries {
 		cd.setName("Tx new clients who are breastfeeding");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getTxNewCohorts(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("B", SsemrReportUtils.map(getBreastfeedingCohorts(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("NEW",
+		    SsemrReportUtils.map(getTxNewCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("B", SsemrReportUtils.map(getBreastfeedingCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("NEW AND B");
 		return cd;
 	}
@@ -83,8 +92,11 @@ public class MerCohortQueries {
 		cd.setName("Tx new clients Cd4LessThan200Cohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getTxNewCohorts(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("C1", SsemrReportUtils.map(getCd4LessThan200Cohorts(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("NEW",
+		    SsemrReportUtils.map(getTxNewCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("C1", SsemrReportUtils.map(getCd4LessThan200Cohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("NEW AND C1");
 		return cd;
 	}
@@ -94,9 +106,11 @@ public class MerCohortQueries {
 		cd.setName("Tx new clients Cd4GreaterThanOrEqualTo200Cohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getTxNewCohorts(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("C2",
-		    SsemrReportUtils.map(getCd4GreaterThanOrEqualTo200Cohorts(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("NEW",
+		    SsemrReportUtils.map(getTxNewCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("C2", SsemrReportUtils.map(getCd4GreaterThanOrEqualTo200Cohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("NEW AND C2");
 		return cd;
 	}
@@ -106,8 +120,11 @@ public class MerCohortQueries {
 		cd.setName("Tx new clients WithUnknownCd4Cohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getTxNewCohorts(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("C3", SsemrReportUtils.map(getWithUnknownCd4Cohorts(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("NEW",
+		    SsemrReportUtils.map(getTxNewCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("C3", SsemrReportUtils.map(getWithUnknownCd4Cohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("NEW AND C3");
 		return cd;
 	}
@@ -118,6 +135,7 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContact");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContact());
 		return cd;
 	}
@@ -127,11 +145,12 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLater");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T1", SsemrReportUtils.map(
 		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("T2", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T1 AND T2");
 		return cd;
 	}
@@ -141,6 +160,7 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - Identified as Died");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getDeadClientsQueries());
 		return cd;
 	}
@@ -150,10 +170,12 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterDiedCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T1", SsemrReportUtils.map(
 		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("T2", SsemrReportUtils.map(getTxMlDiedCohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T2",
+		    SsemrReportUtils.map(getTxMlDiedCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T1 AND T2");
 		return cd;
 	}
@@ -163,6 +185,7 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - IIT After being on Treatment for <3 months");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlIitL3mQuery());
 		return cd;
 	}
@@ -172,10 +195,12 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitL3mCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T1", SsemrReportUtils.map(
 		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("T2", SsemrReportUtils.map(getTxMlIitL3mCohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T2",
+		    SsemrReportUtils.map(getTxMlIitL3mCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T1 AND T2");
 		return cd;
 	}
@@ -185,6 +210,7 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - IIT After being on Treatment for 3-5 months");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlIitL3To5mQuery());
 		return cd;
 	}
@@ -194,10 +220,12 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIit3To5mCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T1", SsemrReportUtils.map(
 		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("T2", SsemrReportUtils.map(getTxMlIit3To5mCohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T2",
+		    SsemrReportUtils.map(getTxMlIit3To5mCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T1 AND T2");
 		return cd;
 	}
@@ -207,6 +235,7 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - IIT After being on Treatment for 6+ months");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlIitM6mQuery());
 		return cd;
 	}
@@ -216,10 +245,12 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitM6mCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T1", SsemrReportUtils.map(
 		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("T2", SsemrReportUtils.map(getTxMlIitM6mCohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T2",
+		    SsemrReportUtils.map(getTxMlIitM6mCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T1 AND T2");
 		return cd;
 	}
@@ -229,6 +260,7 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - Self Transfer Out");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTransferOutQueries());
 		return cd;
 	}
@@ -238,11 +270,12 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterSelfTransferOutCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T1", SsemrReportUtils.map(
 		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("T2",
-		    SsemrReportUtils.map(getTxMlSelfTransferOutCohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T2", SsemrReportUtils.map(getTxMlSelfTransferOutCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T1 AND T2");
 		return cd;
 	}
@@ -252,6 +285,7 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - Refused (Stopped) Treatment");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getStoppedTreatmentQueries());
 		return cd;
 	}
@@ -261,11 +295,12 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterRefusedStoppedTreatmentCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T1", SsemrReportUtils.map(
 		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("T2",
-		    SsemrReportUtils.map(getTxMlRefusedStoppedTreatmentCohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T2", SsemrReportUtils.map(getTxMlRefusedStoppedTreatmentCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T1 AND T2");
 		return cd;
 	}
@@ -275,6 +310,7 @@ public class MerCohortQueries {
 		cd.setName("TxMl Cohorts - Refused (Stopped) Treatment");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlCauseOfDeathQueries(cause));
 		return cd;
 	}
@@ -285,6 +321,7 @@ public class MerCohortQueries {
 		cd.setName("TxRTT Cohorts - getClientsTracedBroughtBackToCareRestarted");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getClientsTracedBroughtBackToCareRestarted());
 		return cd;
 	}
@@ -294,6 +331,7 @@ public class MerCohortQueries {
 		cd.setName("TxRTT Cohorts - getHowLongWerePeopleOffArvs28DaysTo3Months");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getHowLongWerePeopleOffArvs28DaysTo3MonthsQuery());
 		return cd;
 	}
@@ -303,6 +341,7 @@ public class MerCohortQueries {
 		cd.setName("TxRTT Cohorts - getHowLongWerePeopleOffArvs3To6MonthsQuery");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getHowLongWerePeopleOffArvs3To6MonthsQuery());
 		return cd;
 	}
@@ -312,6 +351,7 @@ public class MerCohortQueries {
 		cd.setName("TxRTT Cohorts - getHowLongWerePeopleOffArvs6To12MonthsQuery");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getHowLongWerePeopleOffArvs6To12MonthsQuery());
 		return cd;
 	}
@@ -322,10 +362,11 @@ public class MerCohortQueries {
 		cd.setName("Tx RTT getHowLongWerePeopleOffArvs28DaysTo3MonthsFromLastTcaCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("T1", SsemrReportUtils.map(getHowLongWerePeopleOffArvs28DaysTo3MonthsCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -335,10 +376,11 @@ public class MerCohortQueries {
 		cd.setName("Tx RTT getHowLongWerePeopleOffArvs3To6MonthsFromLastTcaCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("T1", SsemrReportUtils.map(getHowLongWerePeopleOffArvs3To6MonthsQueryCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -348,10 +390,11 @@ public class MerCohortQueries {
 		cd.setName("Tx RTT getHowLongWerePeopleOffArvs6To12MonthsFromLastTcaCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("T1", SsemrReportUtils.map(getHowLongWerePeopleOffArvs6To12MonthsQueryCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -361,6 +404,7 @@ public class MerCohortQueries {
 		cd.setName("TxRTT Cohorts - CD4: < 200");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getClientsWithCd4LessThan200Query());
 		return cd;
 	}
@@ -370,10 +414,11 @@ public class MerCohortQueries {
 		cd.setName("Tx RTT getHowLongWerePeopleOffMonthsFromLastTcaWithCd4LessThan200Cohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("T1",
-		    SsemrReportUtils.map(getTxRttWithCd4LessThan200Cohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T1", SsemrReportUtils.map(getTxRttWithCd4LessThan200Cohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -383,6 +428,7 @@ public class MerCohortQueries {
 		cd.setName("TxRTT Cohorts - CD4: ≥ 200");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getClientsWithCd4MoreThanOrEqualTo200Query());
 		return cd;
 	}
@@ -392,10 +438,11 @@ public class MerCohortQueries {
 		cd.setName("Tx RTT getHowLongWerePeopleOffFromLastTcaWithCd4GreaterOrEqual200Cohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("T1",
-		    SsemrReportUtils.map(getTxRttWithCd4GreaterOrEqual200Cohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T1", SsemrReportUtils.map(getTxRttWithCd4GreaterOrEqual200Cohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -405,6 +452,7 @@ public class MerCohortQueries {
 		cd.setName("TxRTT Cohorts - Unknown CD4");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getClientsWithUnknownCd4Query());
 		return cd;
 	}
@@ -414,10 +462,11 @@ public class MerCohortQueries {
 		cd.setName("Tx RTT getHowLongWerePeopleOffFromLastTcaWithUnknownCd4Cohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("T1",
-		    SsemrReportUtils.map(getTxRttWithUnknownCd4Cohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T1", SsemrReportUtils.map(getTxRttWithUnknownCd4Cohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -427,6 +476,7 @@ public class MerCohortQueries {
 		cd.setName("TxRTT Cohorts - Unknown CD4");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxRttNotEligibleForCd4Queries());
 		return cd;
 	}
@@ -436,10 +486,11 @@ public class MerCohortQueries {
 		cd.setName("Tx RTT getHowLongWerePeopleOffFromLastTcaNotEligibleForCd4Cohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("T1",
-		    SsemrReportUtils.map(getTxRttNotEligibleForCd4Cohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T1", SsemrReportUtils.map(getTxRttNotEligibleForCd4Cohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -450,6 +501,7 @@ public class MerCohortQueries {
 		cd.setName("TxPVLS Cohorts - All patients with VL results documented");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterQueries());
 		return cd;
 	}
@@ -459,6 +511,7 @@ public class MerCohortQueries {
 		cd.setName("TxPVLS Cohorts - All patients with VL results documented greater or equal to 1000");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterQueries());
 		return cd;
 	}
@@ -468,6 +521,7 @@ public class MerCohortQueries {
 		cd.setName("TxPVLS Cohorts - All patients with VL results documented less than 1000");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterQueries());
 		return cd;
 	}
@@ -477,9 +531,11 @@ public class MerCohortQueries {
 		cd.setName("Tx pvls clients who are breastfeeding with documented VL result");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("P", SsemrReportUtils.map(getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("B", SsemrReportUtils.map(getBreastfeedingCohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("B", SsemrReportUtils.map(getBreastfeedingCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("P AND B");
 		return cd;
 	}
@@ -489,10 +545,12 @@ public class MerCohortQueries {
 		cd.setName("Tx pvls clients who are breastfeeding with documented VL result");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("P", SsemrReportUtils.map(
 		    getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("B", SsemrReportUtils.map(getBreastfeedingCohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("B", SsemrReportUtils.map(getBreastfeedingCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("P AND B");
 		return cd;
 	}
@@ -502,9 +560,11 @@ public class MerCohortQueries {
 		cd.setName("Tx pvls clients who are pregnant with documented VL result");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("PV", SsemrReportUtils.map(getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("PR", SsemrReportUtils.map(getPregnantCohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("PR",
+		    SsemrReportUtils.map(getPregnantCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("PV AND PR");
 		return cd;
 	}
@@ -514,10 +574,12 @@ public class MerCohortQueries {
 		cd.setName("Tx pvls clients who are pregnant with documented VL result > 1000");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("PV", SsemrReportUtils.map(
 		    getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterCohorts(),
-		    "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("PR", SsemrReportUtils.map(getPregnantCohorts(), "startDate=${startDate},endDate=${endDate}"));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("PR",
+		    SsemrReportUtils.map(getPregnantCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("PV AND PR");
 		return cd;
 	}
@@ -528,6 +590,7 @@ public class MerCohortQueries {
 		cd.setName("Cohorts - Pregnant");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getPregnantQueries());
 		return cd;
 	}
@@ -537,6 +600,7 @@ public class MerCohortQueries {
 		cd.setName("Cohorts - Breastfeeding");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getBreastfeedingQueries());
 		return cd;
 	}
@@ -546,6 +610,7 @@ public class MerCohortQueries {
 		cd.setName("Cohorts - Dead clients");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getDeadClientsQueries());
 		return cd;
 	}
@@ -555,6 +620,7 @@ public class MerCohortQueries {
 		cd.setName("Cohorts - Stopped treatment clients");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getStoppedTreatmentQueries());
 		return cd;
 	}
@@ -564,6 +630,7 @@ public class MerCohortQueries {
 		cd.setName("Cohorts - Transfer out clients");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTransferOutQueries());
 		return cd;
 	}
@@ -573,15 +640,17 @@ public class MerCohortQueries {
 		cd.setName("Cohorts - Interrupted clients");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getInterruptionQueries());
 		return cd;
 	}
 	
 	public CohortDefinition getAllExclusionCohort() {
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		String mapping = "startDate=${startDate},endDate=${endDate}";
+		String mapping = "startDate=${startDate},endDate=${endDate},location=${location}";
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("D", SsemrReportUtils.map(getDeadClientsCohort(), mapping));
 		cd.addSearch("S", SsemrReportUtils.map(getStoppedTreatmentCohort(), mapping));
 		cd.addSearch("TO", SsemrReportUtils.map(getTransferOutCohort(), mapping));

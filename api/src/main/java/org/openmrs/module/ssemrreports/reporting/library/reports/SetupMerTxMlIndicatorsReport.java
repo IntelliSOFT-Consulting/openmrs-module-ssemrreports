@@ -1,5 +1,6 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
+import org.openmrs.Location;
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -37,26 +38,27 @@ public class SetupMerTxMlIndicatorsReport extends SsemrDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "Tx ML MER Indicators Report";
+		return "TX_ML MER Indicators Report";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Tx ML MER Indicators Reports";
+		return "TX_ML MER Indicators Reports";
 	}
 	
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		String mappings0 = "startDate=${startDate},endDate=${endDate+23h}";
-		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d+23h}";
-		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d+23h}";
-		String mappings3 = "startDate=${startDate+2m},endDate=${startDate+3m-1d+23h}";
-		String mappings4 = "startDate=${startDate+3m},endDate=${endDate+23h}";
+		String mappings0 = "startDate=${startDate},endDate=${endDate+23h},location=${location}";
+		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d+23h},location=${location}";
+		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d+23h},location=${location}";
+		String mappings3 = "startDate=${startDate+2m},endDate=${startDate+3m-1d+23h},location=${location}";
+		String mappings4 = "startDate=${startDate+3m},endDate=${endDate+23h},location=${location}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		rd.addParameter(new Parameter("location", "Location", Location.class));
 		rd.addDataSetDefinition("TxM", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings0));
 		rd.addDataSetDefinition("TxM1", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings1));
 		rd.addDataSetDefinition("TxM2", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings2));

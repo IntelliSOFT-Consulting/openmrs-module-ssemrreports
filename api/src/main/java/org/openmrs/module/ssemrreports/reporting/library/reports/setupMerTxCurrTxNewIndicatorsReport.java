@@ -1,5 +1,6 @@
 package org.openmrs.module.ssemrreports.reporting.library.reports;
 
+import org.openmrs.Location;
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -38,25 +39,26 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SsemrDataExportManager 
 	
 	@Override
 	public String getName() {
-		return "Tx CURR and NEW MER Indicators Report";
+		return "TX_CURR and TX_NEW MER Indicators Report";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Tx CURR and NEW MER Indicators Reports";
+		return "TX_CURR and TX_NEW MER Indicators Reports";
 	}
 	
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		String mappingsQuaterly = "startDate=${startDate},endDate=${endDate+23h}";
-		String mappingsFirstMonth = "startDate=${startDate},endDate=${endDate-2m+23h}";
-		String mappingsSecondMonth = "startDate=${startDate},endDate=${endDate-1m+23h}";
-		String mappingsThirdMonth = "startDate=${endDate-1m},endDate=${endDate+23h}";
+		String mappingsQuaterly = "startDate=${startDate},endDate=${endDate+23h},location=${location}";
+		String mappingsFirstMonth = "startDate=${startDate},endDate=${endDate-2m+23h},location=${location}";
+		String mappingsSecondMonth = "startDate=${startDate},endDate=${endDate-1m+23h},location=${location}";
+		String mappingsThirdMonth = "startDate=${endDate-1m},endDate=${endDate+23h},location=${location}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		rd.addParameter(new Parameter("location", "Location", Location.class));
 		rd.addDataSetDefinition("TxC",
 		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxCurrDataset(), mappingsQuaterly));
 		rd.addDataSetDefinition("TxC1",
@@ -89,7 +91,7 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SsemrDataExportManager 
 		ReportDesign reportDesign = null;
 		try {
 			reportDesign = createXlsReportDesign(reportDefinition, "tx_new_curr_mer_indicators.xls",
-			    "Tx CURR AND NEW MER Indicators Report", getExcelDesignUuid(), null);
+			    "TX_CURR AND NEW MER Indicators Report", getExcelDesignUuid(), null);
 		}
 		catch (IOException e) {
 			throw new ReportingException(e.toString());
