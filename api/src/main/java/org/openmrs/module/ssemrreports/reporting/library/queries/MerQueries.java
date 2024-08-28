@@ -124,7 +124,7 @@ public class MerQueries {
 		        + "SELECT agg.client_id AS client_id FROM ("
 		        
 		        + " SELECT tn.client_id AS client_id FROM("
-		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
+		        + " SELECT hce.client_id AS client_id,MIN(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
 		        + "	WHERE hce.art_start_date <= :endDate " + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
 		        + "	)tn" + ") agg WHERE client_id NOT IN("
 		        
@@ -155,7 +155,7 @@ public class MerQueries {
 		        + "SELECT agg.client_id AS client_id FROM ("
 		        
 		        + " SELECT tn.client_id AS client_id FROM("
-		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
+		        + " SELECT hce.client_id AS client_id,MIN(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
 		        + "	WHERE hce.art_start_date <= :endDate " + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
 		        + "	)tn" + ") agg WHERE client_id NOT IN("
 		        
@@ -186,7 +186,7 @@ public class MerQueries {
 		        + "SELECT agg.client_id AS client_id FROM ("
 		        
 		        + " SELECT tn.client_id AS client_id FROM("
-		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
+		        + " SELECT hce.client_id AS client_id,MIN(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
 		        + "	WHERE hce.art_start_date <= :endDate " + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
 		        + "	)tn" + ") agg WHERE client_id NOT IN("
 		        

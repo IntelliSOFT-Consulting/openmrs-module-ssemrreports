@@ -1,5 +1,6 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
+import org.openmrs.Location;
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Locale;
 
 import static org.openmrs.module.ssemrreports.reporting.library.columns.ShareDatasetColumns.getDispensationColumnsGenderAndAge;
 import static org.openmrs.module.ssemrreports.reporting.library.columns.ShareDatasetColumns.getMerGenderAndAgeColumns;
@@ -34,9 +36,10 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 	
 	public DataSetDefinition getTxCurrDataset() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
-		String mappings = "startDate=${startDate},endDate=${endDate}";
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addDimension("gender", map(dimension.gender(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
 		dsd.setName("TxC");
@@ -83,9 +86,10 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addDimension("gender", map(dimension.gender(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
-		String mappings = "startDate=${startDate},endDate=${endDate}";
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.setName("TxN");
 		addRow(
 		    dsd,
@@ -129,9 +133,10 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addDimension("gender", map(dimension.gender(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
-		String mappings = "startDate=${startDate},endDate=${endDate}";
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.setName("TxM");
 		
 		addRow(
@@ -253,9 +258,10 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addDimension("gender", map(dimension.gender(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
-		String mappings = "startDate=${startDate},endDate=${endDate}";
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.setName("TxR");
 		
 		addRow(
@@ -329,9 +335,10 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addDimension("gender", map(dimension.gender(), ""));
 		dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
-		String mappings = "startDate=${startDate},endDate=${endDate}";
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		dsd.setName("TxP");
 		
 		addRow(
