@@ -351,4 +351,9 @@ public class CommonQueries {
 		        + " encounter_datetime between :startDate and :endDate group by client_id";
 		return query;
 	}
+	
+	public static String getClientsOnArtPerFacility() {
+		return "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
+		        + " WHERE art_start_date <=:endDate AND location_id=:location ";
+	}
 }

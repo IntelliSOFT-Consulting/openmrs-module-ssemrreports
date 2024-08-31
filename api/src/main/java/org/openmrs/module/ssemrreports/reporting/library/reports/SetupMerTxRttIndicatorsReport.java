@@ -6,6 +6,7 @@ import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
+import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.MerIndicatorsDatasetDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,13 @@ public class SetupMerTxRttIndicatorsReport extends SsemrDataExportManager {
 	
 	private final MerIndicatorsDatasetDefinition merIndicatorsDatasetDefinition;
 	
+	private final BaseCohortQueries baseCohortQueries;
+	
 	@Autowired
-	public SetupMerTxRttIndicatorsReport(MerIndicatorsDatasetDefinition merIndicatorsDatasetDefinition) {
+	public SetupMerTxRttIndicatorsReport(MerIndicatorsDatasetDefinition merIndicatorsDatasetDefinition,
+	    BaseCohortQueries baseCohortQueries) {
 		this.merIndicatorsDatasetDefinition = merIndicatorsDatasetDefinition;
+		this.baseCohortQueries = baseCohortQueries;
 	}
 	
 	@Override
@@ -63,6 +68,9 @@ public class SetupMerTxRttIndicatorsReport extends SsemrDataExportManager {
 		rd.addDataSetDefinition("TxR1", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings1));
 		rd.addDataSetDefinition("TxR2", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings2));
 		rd.addDataSetDefinition("TxR3", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings3));
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getClientsOnArtPerFacility(),
+		    "endDate=${endDate+23h},location=${location}"));
+		
 		return rd;
 	}
 	
