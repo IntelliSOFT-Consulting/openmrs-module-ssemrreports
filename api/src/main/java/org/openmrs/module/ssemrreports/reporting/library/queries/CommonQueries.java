@@ -302,7 +302,7 @@ public class CommonQueries {
 	
 	public static String getIITPatients() {
 		String query = "SELECT p.patient_id FROM openmrs.patient_appointment p LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up e "
-		        + " ON e.client_id = p.patient_id WHERE  p.status = 'Missed' AND p.start_date_time BETWEEN :startDate AND :endDate "
+		        + " ON e.client_id = p.patient_id WHERE  p.status = 'Missed' AND p.location_id=:location and p.start_date_time BETWEEN :startDate AND :endDate "
 		        + " AND DATEDIFF(CURDATE(), p.start_date_time) >= 28 GROUP BY p.patient_id HAVING DATEDIFF(CURDATE(), MAX(e.encounter_datetime)) >= 28;";
 		
 		return query;
