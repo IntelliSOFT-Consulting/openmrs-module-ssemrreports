@@ -267,7 +267,7 @@ public class CommonQueries {
 	
 	public static String getPatientsWithHighVL() {
 		String query = "SELECT r.client_id FROM ( "
-		        + " SELECT client_id,MID(MAX(concat(encounter_datetime, vl_results)),20) as vl_results FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f WHERE DATE(encounter_datetime) BETWEEN :startDate AND :endDate GROUP BY f.client_id) r "
+		        + " SELECT client_id,MID(MAX(concat(encounter_datetime, vl_results)),20) as vl_results FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f WHERE DATE(encounter_datetime) BETWEEN :startDate AND :endDate and location_id=:location GROUP BY f.client_id) r "
 		        + " WHERE r.vl_results >=1000;";
 		
 		return query;
@@ -292,7 +292,7 @@ public class CommonQueries {
 		        + "LEFT JOIN ssemr_etl.ssemr_flat_encounter_personal_family_tx_history fh ON fh.client_id = fp.client_id "
 		        + "LEFT JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load hvl ON hvl.client_id = en.client_id "
 		        + "WHERE vlr.date_of_sample_collection IS NOT NULL "
-		        + "AND vlr.last_vl_date <= :endDate "
+		        + "AND vlr.last_vl_date <= :endDate AND fp.location_id = :location "
 		        + "AND hvl.encounter_datetime < :endDate "
 		        + "GROUP BY fp.client_id, mp.age, fp.vl_results, fp.edd, fh.art_start_date, vlr.value, fp.encounter_datetime, vlr.date_of_sample_collection, hvl.eac_session "
 		        + ") t " + "GROUP BY t.client_id " + "HAVING MAX(t.due_date) = true";
@@ -310,7 +310,7 @@ public class CommonQueries {
 	
 	public static String getDocumentedVLPatients() {
 		String query = "SELECT client_id  FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where viral_load_test_done = 'Yes' and encounter_datetime "
-		        + " between :startDate and :endDate group by client_id";
+		        + " between :startDate and :endDate and location_id=:location group by client_id";
 		
 		return query;
 	}

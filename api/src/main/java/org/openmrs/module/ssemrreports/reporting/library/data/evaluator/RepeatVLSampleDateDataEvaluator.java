@@ -36,7 +36,7 @@ public class RepeatVLSampleDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT lr.client_id, CONCAT(MID(MAX(CONCAT(fp.encounter_datetime, lr.last_vl_date_repeat)), 20)) "
+		String qry = "SELECT lr.client_id, DATE_FORMAT(CONCAT(MID(MAX(CONCAT(fp.encounter_datetime, lr.last_vl_date_repeat)), 20)), '%Y-%m-%d') "
 		        + " as vl_repeat_date FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request lr "
 		        + " left join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp on lr.client_id = fp.client_id "
 		        + " where fp.encounter_datetime <= DATE(:endDate) and lr.last_vl_date_repeat is not null "

@@ -60,7 +60,7 @@ public class SetupHighVLRegister extends SsemrDataExportManager {
 		rd.addParameters(highVLDatasetDefinition.getParameters());
 		rd.addDataSetDefinition("HVL", Mapped.mapStraightThrough(highVLDatasetDefinition.constructHighVLDatasetDefinition()));
 		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoHaveHighVL(),
-		    "startDate=${startDate},endDate=${endDate+23h}"));
+		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
 		return rd;
 	}
 	
