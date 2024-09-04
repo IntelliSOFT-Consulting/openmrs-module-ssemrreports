@@ -62,7 +62,7 @@ public class SetupDocumentedVLRegister extends SsemrDataExportManager {
 		rd.addDataSetDefinition("DVLD",
 		    Mapped.mapStraightThrough(documentedVlDatasetDefinition.constructDocumentedVLDatasetDefinition()));
 		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoHaveDocumentedVL(),
-		    "startDate=${startDate},endDate=${endDate+23h}"));
+		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
 		return rd;
 	}
 	
