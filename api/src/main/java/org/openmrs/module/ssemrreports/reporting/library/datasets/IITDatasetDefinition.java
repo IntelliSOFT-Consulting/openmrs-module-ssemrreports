@@ -27,6 +27,7 @@ import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConv
 import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.DaysMissedAppointmentDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastDrugVisitDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
@@ -101,6 +102,9 @@ public class IITDatasetDefinition extends SsemrBaseDataSet {
 		Reached28DaysAfterIITDateDataDefinition reached28DaysAfterIITDateDataDefinition = new Reached28DaysAfterIITDateDataDefinition();
 		reached28DaysAfterIITDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		DaysMissedAppointmentDataDefinition daysMissedAppointmentDataDefinition = new DaysMissedAppointmentDataDefinition();
+		daysMissedAppointmentDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
@@ -112,6 +116,7 @@ public class IITDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of missed appointment", missedAppointmentDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Days missed appointment", daysMissedAppointmentDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date returned to treatment (RTT)", nextAppointmentDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date reached 28 days after missed appointment (IIT)", reached28DaysAfterIITDateDataDefinition,
 		    "endDate=${endDate}");
