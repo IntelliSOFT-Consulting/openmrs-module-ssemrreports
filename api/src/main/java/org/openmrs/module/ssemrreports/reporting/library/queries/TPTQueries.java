@@ -25,7 +25,7 @@ public class TPTQueries {
 	// to add eligible for tpt and date eligible for tpt and inh details
 	public static String getPatientsEligibleForTPT() {
 		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where on_tb_treatment = 'No' and tb_status = 'No Signs' and "
-		        + " encounter_datetime BETWEEN :startDate AND :endDate group by client_id";
+		        + " encounter_datetime BETWEEN :startDate AND :endDate and location_id= :location group by client_id";
 		
 		return query;
 	}
