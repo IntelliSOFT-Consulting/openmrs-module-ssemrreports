@@ -348,7 +348,7 @@ public class CommonQueries {
 	
 	public static String getTbScreenedClients() {
 		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where on_tb_treatment = 'Yes' and "
-		        + " encounter_datetime between :startDate and :endDate group by client_id";
+		        + " encounter_datetime between :startDate and :endDate and location_id= :location group by client_id";
 		return query;
 	}
 	

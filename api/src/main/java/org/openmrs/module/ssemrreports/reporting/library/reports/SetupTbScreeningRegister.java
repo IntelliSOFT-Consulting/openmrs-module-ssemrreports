@@ -60,7 +60,7 @@ public class SetupTbScreeningRegister extends SsemrDataExportManager {
 		rd.addDataSetDefinition("ETB",
 		    Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTbDatasetDefinition()));
 		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsInTbTreatment(),
-		    "startDate=${startDate},endDate=${endDate+23h}"));
+		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
 		// LocationAttributeType mflCodeAttributeType =
 		// Context.getLocationService().getLocationAttributeTypeByUuid(
 		// "8a845a89-6aa5-4111-81d3-0af31c45c002");
