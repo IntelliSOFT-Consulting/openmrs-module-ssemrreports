@@ -267,19 +267,19 @@ public class CommonQueries {
 	
 	public static String getPatientsWithHighVL() {
 		String query = "SELECT r.client_id FROM ( "
-		        + " SELECT client_id,MID(MAX(concat(encounter_datetime, vl_results)),20) as vl_results FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f WHERE DATE(encounter_datetime) BETWEEN :startDate AND :endDate and location_id=:location GROUP BY f.client_id) r "
-		        + " WHERE r.vl_results >=1000;";
+		        + " SELECT client_id,MID(MAX(concat(encounter_datetime, viral_load_value)),20) as viral_load_value FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f WHERE DATE(encounter_datetime) BETWEEN :startDate AND :endDate and location_id=:location GROUP BY f.client_id) r "
+		        + " WHERE r.viral_load_value >=1000;";
 		
 		return query;
 	}
 	
 	public static String getPatientsEligibleForVL() {
 		String query = "SELECT t.client_id FROM ("
-		        + "SELECT fp.client_id, mp.age, fp.vl_results, vlr.date_of_sample_collection, fp.edd, fh.art_start_date, fp.encounter_datetime, vlr.value, "
+		        + "SELECT fp.client_id, mp.age, fp.viral_load_value, vlr.date_of_sample_collection, fp.edd, fh.art_start_date, fp.encounter_datetime, vlr.value, "
 		        + "CASE "
 		        + "WHEN mp.age > 15 AND TIMESTAMPDIFF(MONTH, MAX(fh.art_start_date), :endDate) >= 6 THEN true "
-		        + "WHEN mp.age > 15 AND MAX(fp.vl_results) >= 200 AND TIMESTAMPDIFF(MONTH, MAX(vlr.date_of_sample_collection), :endDate) >= 6 THEN true "
-		        + "WHEN mp.age > 15 AND MAX(fp.vl_results) < 200 AND TIMESTAMPDIFF(MONTH, MAX(fp.date_vl_sample_collected), :endDate) >= 12 THEN true "
+		        + "WHEN mp.age > 15 AND MAX(fp.viral_load_value) >= 200 AND TIMESTAMPDIFF(MONTH, MAX(vlr.date_of_sample_collection), :endDate) >= 6 THEN true "
+		        + "WHEN mp.age > 15 AND MAX(fp.viral_load_value) < 200 AND TIMESTAMPDIFF(MONTH, MAX(fp.date_vl_sample_collected), :endDate) >= 12 THEN true "
 		        + "WHEN mp.age <= 15 AND TIMESTAMPDIFF(MONTH, MAX(fp.date_vl_sample_collected), :endDate) >= 6 THEN true "
 		        + "WHEN hvl.eac_session = 'Third EAC Session' THEN true "
 		        + "WHEN fp.edd IS NOT NULL AND fp.edd > :endDate AND MAX(DATE(fh.art_start_date)) = :endDate THEN true "
@@ -294,16 +294,19 @@ public class CommonQueries {
 		        + "WHERE vlr.date_of_sample_collection IS NOT NULL "
 		        + "AND vlr.last_vl_date <= :endDate AND fp.location_id = :location "
 		        + "AND hvl.encounter_datetime < :endDate "
-		        + "GROUP BY fp.client_id, mp.age, fp.vl_results, fp.edd, fh.art_start_date, vlr.value, fp.encounter_datetime, vlr.date_of_sample_collection, hvl.eac_session "
+		        + "GROUP BY fp.client_id, mp.age, fp.viral_load_value, fp.edd, fh.art_start_date, vlr.value, fp.encounter_datetime, vlr.date_of_sample_collection, hvl.eac_session "
 		        + ") t " + "GROUP BY t.client_id " + "HAVING MAX(t.due_date) = true";
 		
 		return query;
 	}
 	
 	public static String getIITPatients() {
-		String query = "SELECT p.patient_id FROM openmrs.patient_appointment p LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up e "
-		        + " ON e.client_id = p.patient_id WHERE  p.status = 'Missed' AND p.location_id=:location and p.start_date_time BETWEEN :startDate AND :endDate "
-		        + " AND DATEDIFF(CURDATE(), p.start_date_time) >= 28 GROUP BY p.patient_id HAVING DATEDIFF(CURDATE(), MAX(e.encounter_datetime)) >= 28;";
+		String query = "SELECT t.patient_id FROM (SELECT p.patient_id, p.status, p.start_date_time, DATEDIFF(CURDATE(), p.start_date_time) AS date_diff "
+		        + "FROM openmrs.patient_appointment p JOIN (SELECT patient_id,  MAX(start_date_time) AS max_start_date_time "
+		        + "FROM openmrs.patient_appointment WHERE location_id =:location GROUP BY patient_id) AS latest_appt ON p.patient_id = latest_appt.patient_id "
+		        + "AND p.start_date_time = latest_appt.max_start_date_time LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up e "
+		        + "ON e.client_id = p.patient_id WHERE p.status = 'Missed' AND DATE(e.encounter_datetime) <= DATE(:endDate) "
+		        + "AND DATEDIFF(CURDATE(), p.start_date_time) >= 28 ORDER BY  p.patient_id ASC) AS t;";
 		
 		return query;
 	}
