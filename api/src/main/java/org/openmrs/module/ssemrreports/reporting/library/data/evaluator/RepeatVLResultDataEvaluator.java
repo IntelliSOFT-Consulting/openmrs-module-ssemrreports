@@ -36,11 +36,8 @@ public class RepeatVLResultDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT lr.client_id, CONCAT(MID(MAX(CONCAT(fp.encounter_datetime, lr.value_repeat)), 20)) "
-		        + " as vl_repeat_value FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request lr "
-		        + " left join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp on lr.client_id = fp.client_id "
-		        + "where fp.encounter_datetime <= DATE(:endDate) and lr.value_repeat is not null "
-		        + "group by fp.client_id, lr.value_repeat;";
+		String qry = "SELECT client_id, CONCAT(MID(MAX(CONCAT(encounter_datetime, repeat_vl_result)), 20)) as vl "
+		        + "FROM ssemr_etl.ssemr_flat_encounter_high_viral_load where DATE(encounter_datetime) <= :endDate group by client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

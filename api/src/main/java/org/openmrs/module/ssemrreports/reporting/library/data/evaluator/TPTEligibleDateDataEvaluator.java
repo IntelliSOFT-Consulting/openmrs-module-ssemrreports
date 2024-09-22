@@ -36,9 +36,8 @@ public class TPTEligibleDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, MAX(encounter_datetime) AS max_encounter_datetime "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up AS e WHERE e.inh = 'True' "
-		        + " GROUP BY e.client_id HAVING TIMESTAMPDIFF(MONTH, MAX(e.encounter_datetime), CURDATE()) < 6 AND max(e.encounter_datetime) <=:endDate;";
+		String qry = "SELECT client_id, DATE_FORMAT(max(date_eligible_for_tpt), '%Y-%m-%d') as documented_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
+		        + "where DATE(encounter_datetime) <= :endDate group by client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
