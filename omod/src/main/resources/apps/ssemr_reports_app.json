@@ -7,54 +7,27 @@
       {
         "id": "org.openmrs.module.ssemr.reports.quarterly",
         "description": "Links to available Facility level Reports",
-        "supportedExtensionTypes": [ "link" ]
+        "supportedExtensionTypes": ["link"]
       },
       {
         "id": "org.openmrs.module.ssemr.reports.registers",
         "description": "Links to available Register Reports",
-        "supportedExtensionTypes": [ "link" ]
+        "supportedExtensionTypes": ["link"]
       },
       {
         "id": "org.openmrs.module.ssemr.reports.monthly",
         "description": "Links to available Monthly Reports",
-        "supportedExtensionTypes": [ "link" ]
+        "supportedExtensionTypes": ["link"]
       }
     ],
     "extensions": [
       {
-        "id": "ssemr.hvl.register",
+        "id": "ssemr.tb.screening.register",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
-        "label": "Line list of clients with high viral load, EAC sessions and Repeat viral load",
-        "url": "ssemrreports/runReport.page?reportDefinition=7acb704a-8007-11ee-b962-0242ac120002",
-        "order": 20,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.patient.eligible.for.vl.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Line list of clients eligible for viral load",
-        "url": "ssemrreports/runReport.page?reportDefinition=5472dd4c-8710-11ee-b9d1-0242ac120002",
-        "order": 21,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.patient.documented.vl.tests.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Line list for clients with documented viral load result, high viral load, and viral load test",
-        "url": "ssemrreports/runReport.page?reportDefinition=a22d33c6-8d45-11ee-b9d1-0242ac120002",
+        "label": "Line list for TB Screening and treatment",
+        "url": "ssemrreports/runReport.page?reportDefinition=F4987BA7-FF1B-4E43-88A3-6500E0C808D1",
         "order": 22,
-        "requiredPrivilege": ""
-      },
-      {
-        "id": "ssemr.today.appointment.Report",
-        "extensionPointId": "orgpt.openmrs.module.ssemr.reports.registers",
-        "type": "link",
-        "label": "Line list for clients due for appointment and missed appointment",
-        "url": "ssemrreports/runReport.page?reportDefinition=a6ec5a32-7f0c-11ee-b962-0242ac120002",
-        "order": 23,
         "requiredPrivilege": ""
       },
       {
@@ -63,7 +36,7 @@
         "type": "link",
         "label": "Line list for clients eligible, started and completed TPT",
         "url": "ssemrreports/runReport.page?reportDefinition=6fde4ce2-896d-11ee-b9d1-0242ac120002",
-        "order": 26,
+        "order": 23,
         "requiredPrivilege": ""
       },
       {
@@ -72,15 +45,42 @@
         "type": "link",
         "label": "Line list for IIT and RTT clients",
         "url": "ssemrreports/runReport.page?reportDefinition=ae58aa1e-89d9-11ee-b9d1-0242ac120002",
+        "order": 24,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.patient.eligible.for.vl.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Line list of clients eligible for viral load",
+        "url": "ssemrreports/runReport.page?reportDefinition=5472dd4c-8710-11ee-b9d1-0242ac120002",
+        "order": 25,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.patient.documented.vl.tests.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Line list for clients with documented viral load result, high viral load, and viral load test",
+        "url": "ssemrreports/runReport.page?reportDefinition=a22d33c6-8d45-11ee-b9d1-0242ac120002",
+        "order": 26,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.hvl.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Line list of clients with high viral load, EAC sessions and Repeat viral load",
+        "url": "ssemrreports/runReport.page?reportDefinition=7acb704a-8007-11ee-b962-0242ac120002",
         "order": 27,
         "requiredPrivilege": ""
       },
       {
-        "id": "ssemr.tb.screening.register",
-        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "id": "ssemr.today.appointment.Report",
+        "extensionPointId": "orgpt.openmrs.module.ssemr.reports.registers",
         "type": "link",
-        "label": "Line list for TB Screening and treatment",
-        "url": "ssemrreports/runReport.page?reportDefinition=F4987BA7-FF1B-4E43-88A3-6500E0C808D1",
+        "label": "Line list for clients due for appointment and missed appointment",
+        "url": "ssemrreports/runReport.page?reportDefinition=a6ec5a32-7f0c-11ee-b962-0242ac120002",
         "order": 28,
         "requiredPrivilege": ""
       },
