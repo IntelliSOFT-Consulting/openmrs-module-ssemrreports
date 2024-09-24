@@ -266,9 +266,11 @@ public class CommonQueries {
 	}
 	
 	public static String getPatientsWithHighVL() {
-		String query = "SELECT r.client_id FROM ( "
-		        + " SELECT client_id,MID(MAX(concat(encounter_datetime, viral_load_value)),20) as viral_load_value FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f WHERE DATE(encounter_datetime) BETWEEN :startDate AND :endDate and location_id=:location GROUP BY f.client_id) r "
-		        + " WHERE r.viral_load_value >=1000;";
+		String query = "select s.client_id from (SELECT f.client_id, p.person_name_short, f.encounter_datetime, f.viral_load_value, f.vl_results, f.art_regimen "
+		        + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f LEFT JOIN ssemr_etl.mamba_dim_person p ON p.person_id = f.client_id "
+		        + "WHERE f.encounter_datetime = (SELECT MAX(f2.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f2 "
+		        + "WHERE f2.client_id = f.client_id AND DATE(f2.encounter_datetime) BETWEEN :startDate AND :endDate AND f2.location_id = :location) "
+		        + " AND f.viral_load_value IS NOT NULL AND f.viral_load_value >= 1000 AND f.location_id = :location ORDER BY f.client_id ASC) as s;";
 		
 		return query;
 	}
