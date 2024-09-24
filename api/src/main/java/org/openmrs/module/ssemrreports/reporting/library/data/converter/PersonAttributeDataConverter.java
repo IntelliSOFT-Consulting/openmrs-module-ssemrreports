@@ -29,7 +29,7 @@ public class PersonAttributeDataConverter implements DataConverter {
 		String value = attribute.getValue();
 		
 		// Check if the attribute is a phone number
-		if (isPhoneNumberAttribute(attribute)) {
+		if (isPhoneNumberAttribute(attribute) || isAlternativePhoneNumberAttribute(attribute)) {
 			return convertPhoneNumber(value);
 		}
 		
@@ -48,6 +48,11 @@ public class PersonAttributeDataConverter implements DataConverter {
 	
 	private boolean isPhoneNumberAttribute(PersonAttribute attribute) {
 		return SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID.equals(attribute.getAttributeType().getUuid());
+	}
+	
+	private boolean isAlternativePhoneNumberAttribute(PersonAttribute attribute) {
+		return SharedReportConstants.ALTERNATIVE_PHONE_NUMBER_ATTRIBUTE_TYPE_UUID.equals(attribute.getAttributeType()
+		        .getUuid());
 	}
 	
 	private String convertPhoneNumber(String phoneNumber) {

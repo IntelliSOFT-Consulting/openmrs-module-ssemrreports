@@ -75,6 +75,9 @@ public class IITDatasetDefinition extends SsemrBaseDataSet {
 		PersonAttributeType phoneNumber = Context.getPersonService().getPersonAttributeTypeByUuid(
 		    SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
 		
+		PersonAttributeType alternativePhoneNumber = Context.getPersonService().getPersonAttributeTypeByUuid(
+		    SharedReportConstants.ALTERNATIVE_PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
+		
 		COVNameDataDefinition covNameDataDefinition = new COVNameDataDefinition();
 		covNameDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
@@ -110,6 +113,8 @@ public class IITDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
+		dsd.addColumn("Alternative telephone", new PersonAttributeDataDefinition("Alternative Phone Number",
+		        alternativePhoneNumber), "", new PersonAttributeDataConverter());
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
