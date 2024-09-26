@@ -26,7 +26,7 @@ public class MerQueries {
 		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
 		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " UNION "
 		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
-		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
+		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL "
 		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate " + " UNION "
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
@@ -54,7 +54,7 @@ public class MerQueries {
 		        + "	AND hce.date_tranferred_in IS NOT NULL "
 		        
 		        + " UNION " + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
-		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
+		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL "
 		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate"
 		        
 		        + " UNION " + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
@@ -132,7 +132,7 @@ public class MerQueries {
 		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
 		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " UNION "
 		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
-		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
+		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL"
 		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate " + " UNION "
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
@@ -163,7 +163,7 @@ public class MerQueries {
 		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
 		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " UNION "
 		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
-		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
+		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL"
 		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate " + " UNION "
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
@@ -194,7 +194,7 @@ public class MerQueries {
 		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
 		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " UNION "
 		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
-		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL AND ai.date_of_treatment_interruption IS NOT NULL"
+		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL"
 		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate " + " UNION "
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
@@ -214,7 +214,7 @@ public class MerQueries {
 	public static String getClientsTracedBroughtBackToCareRestarted() {
 		return "SELECT client_id FROM("
 		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
-		        + "	WHERE fu.date_restarted IS NOT NULL AND fu.encounter_datetime BETWEEN :startDate AND :endDate "
+		        + "	WHERE fu.art_treatment_restarted='Yes' AND fu.encounter_datetime BETWEEN :startDate AND :endDate "
 		        + " GROUP BY fu.client_id" + ")fn";
 	}
 	
@@ -291,7 +291,7 @@ public class MerQueries {
 	
 	public static String getDeadClientsQueries() {
 		return "SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.death IS NOT NULL ";
+		        + " WHERE efu.death IS NOT NULL AND efu.death='Yes' ";
 	}
 	
 	public static String getStoppedTreatmentQueries() {
@@ -301,13 +301,11 @@ public class MerQueries {
 	
 	public static String getTransferOutQueries() {
 		return "SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.transfer_out IS NOT NULL "
-		        + " AND DATE(efu.encounter_datetime) BETWEEN :startDate AND :endDate ";
+		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out='Yes'";
 	}
 	
 	public static String getInterruptionQueries() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
-		        + " WHERE "
-		        + " DATE_ADD(DATE_ADD(DATE(fu.encounter_datetime), INTERVAL CAST(fu.number_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY) < :endDate ";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu " + " WHERE "
+		        + " fu.date_of_treatment_interruption IS NOT NULL AND fu.encounter_datetime) < :endDate ";
 	}
 }
