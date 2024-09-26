@@ -36,7 +36,7 @@ public class LTFUDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		DataConverter nameFormatter = new ObjectFormatter("{familyName} {givenName} {middleName}");
+		DataConverter nameFormatter = new ObjectFormatter("{givenName} {middleName} {familyName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
 		// PatientIdentifierType openmrsID = Context.getPatientService().getPatientIdentifierTypeByUuid(
 		//     SharedReportConstants.OPENMRS_ID_IDENTIFIER_TYPE);

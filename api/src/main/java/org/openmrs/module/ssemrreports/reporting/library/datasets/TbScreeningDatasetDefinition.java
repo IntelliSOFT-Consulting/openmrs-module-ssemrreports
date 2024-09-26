@@ -66,7 +66,7 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		DataConverter nameFormatter = new ObjectFormatter("{familyName} {givenName} {middleName}");
+		DataConverter nameFormatter = new ObjectFormatter("{givenName} {middleName} {familyName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
 		
 		PatientIdentifierType openmrsID = Context.getPatientService().getPatientIdentifierTypeByUuid(
