@@ -89,6 +89,9 @@ public class HighVLDatasetDefinition extends SsemrBaseDataSet {
 		PersonAttributeType phoneNumber = Context.getPersonService().getPersonAttributeTypeByUuid(
 		    SharedReportConstants.PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
 		
+		PersonAttributeType alternativePhoneNumber = Context.getPersonService().getPersonAttributeTypeByUuid(
+		    SharedReportConstants.ALTERNATIVE_PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
+		
 		ETLArtStartDateDataDefinition etlArtStartDateDataDefinition = new ETLArtStartDateDataDefinition();
 		etlArtStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
@@ -154,6 +157,8 @@ public class HighVLDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Status", statusDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
+		dsd.addColumn("Alternative telephone", new PersonAttributeDataDefinition("Alternative Phone Number",
+		        alternativePhoneNumber), "", new PersonAttributeDataConverter());
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Pregnant", patientPregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", patientBreastfeedingDateDataDefinition, "endDate=${endDate}");

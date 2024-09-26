@@ -46,6 +46,8 @@ public class SharedReportConstants {
 	
 	public static final String PHONE_NUMBER_ATTRIBUTE_TYPE_UUID = "8f0a2a16-c073-4622-88ad-a11f2d6966ad";
 	
+	public static final String ALTERNATIVE_PHONE_NUMBER_ATTRIBUTE_TYPE_UUID = "be6d2471-4152-42f5-904d-3f2274f35fe4";
+	
 	public static final String DIAGNOSIS_ENCOUNTER_VISIT_TYPE_UUID = "TO DEFINE";
 	
 	public static final String ART_PROGRAM_UUID = "TO DEFINE";
