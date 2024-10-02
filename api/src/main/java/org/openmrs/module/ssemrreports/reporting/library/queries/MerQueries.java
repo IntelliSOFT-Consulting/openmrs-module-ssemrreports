@@ -16,21 +16,34 @@ public class MerQueries {
 	//TX Curr query formulations
 	public static String getPatientsWhoInitiatedArtDuringReportingPeriod() {
 		return "SELECT agg.client_id AS client_id FROM ("
+		
+		+ "SELECT su1.client_id FROM("
+		
+		+ "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
 		        
-		        + " SELECT tn.client_id AS client_id FROM("
-		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
-		        + "	WHERE hce.art_start_date <= :endDate " + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id"
-		        + "	)tn" + ") agg WHERE client_id NOT IN("
+		        + "UNION "
+		        
+		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
+		        
+		        + "UNION "
+		        
+		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location " + ")su1"
+		        
+		        + " WHERE su1.client_id NOT IN("
 		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
-		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " UNION "
+		        + " WHERE efu.death ='Yes' " + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " UNION "
+		        
 		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
 		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL "
 		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate " + " UNION "
+		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
-		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate " + ")";
+		        + " WHERE efu.transfer_out ='Yes' AND efu.transfer_out_date IS NOT NULL "
+		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate " + ") " + ")agg";
 	}
 	
 	//end TX curr formulations
