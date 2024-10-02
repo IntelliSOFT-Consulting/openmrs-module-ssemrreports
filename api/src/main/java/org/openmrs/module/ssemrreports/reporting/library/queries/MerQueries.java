@@ -52,27 +52,34 @@ public class MerQueries {
 	public static String getTxNewTotals() {
 		return "SELECT agg.client_id AS client_id FROM ("
 		        
-		        + " SELECT tn.client_id AS client_id FROM("
-		        + " SELECT hce.client_id AS client_id,MAX(hce.art_start_date) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history hce "
-		        + "	WHERE DATE(hce.art_start_date) BETWEEN :startDate AND :endDate "
-		        + "	AND hce.art_start_date IS NOT NULL GROUP BY hce.client_id" + ")tn" + ") agg "
-		        + " WHERE client_id NOT IN("
+		        + "SELECT su1.client_id FROM("
+		        
+		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN :startDate AND :endDate AND location_id=:location "
+		        
+		        + "UNION "
+		        
+		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN :startDate AND :endDate AND location_id=:location "
+		        
+		        + "UNION "
+		        
+		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN :startDate AND :endDate AND location_id=:location "
+		        + ")su1"
+		        
+		        + " WHERE su1.client_id NOT IN("
 		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.death IS NOT NULL AND efu.date_of_death IS NOT NULL"
-		        + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate"
+		        + " WHERE efu.death ='Yes' " + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " UNION "
 		        
-		        + " UNION " + "SELECT hce.client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment hce "
-		        + "	WHERE hce.date_tranferred_in BETWEEN :startDate AND :endDate"
-		        + "	AND hce.date_tranferred_in IS NOT NULL "
-		        
-		        + " UNION " + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
+		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
 		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL "
-		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate"
+		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate " + " UNION "
 		        
-		        + " UNION " + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out_date IS NOT NULL "
-		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate " + ")";
+		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
+		        + " WHERE efu.transfer_out ='Yes' AND efu.transfer_out_date IS NOT NULL "
+		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate " + ") " + ")agg";
 	}
 	
 	public static String getClientsWithCd4LessThan200Query() {
