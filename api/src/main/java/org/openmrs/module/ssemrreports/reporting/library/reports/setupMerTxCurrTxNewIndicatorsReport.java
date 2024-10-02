@@ -82,7 +82,7 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SsemrDataExportManager 
 		rd.addDataSetDefinition("TxN3",
 		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsThirdMonth));
 		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getClientsOnArtPerFacility(),
-		    "endDate=${endDate+23h},location=${location}"));
+		    "endDate=${endDate},location=${location}"));
 		
 		return rd;
 	}

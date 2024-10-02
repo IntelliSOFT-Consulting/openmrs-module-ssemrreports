@@ -70,7 +70,7 @@ public class SetupMerTxMlIndicatorsReport extends SsemrDataExportManager {
 		rd.addDataSetDefinition("TxM3", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings3));
 		rd.addDataSetDefinition("TxM4", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings4));
 		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getClientsOnArtPerFacility(),
-		    "endDate=${endDate+23h},location=${location}"));
+		    "endDate=${endDate},location=${location}"));
 		
 		return rd;
 	}

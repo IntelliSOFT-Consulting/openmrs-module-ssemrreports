@@ -358,7 +358,20 @@ public class CommonQueries {
 	}
 	
 	public static String getClientsOnArtPerFacility() {
-		return "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
-		        + " WHERE art_start_date <=:endDate AND location_id=:location ";
+		String sql = "SELECT su1.client_id FROM("
+		
+		+ "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
+		        
+		        + "UNION "
+		        
+		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
+		        
+		        + "UNION "
+		        
+		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location " + ")su1";
+		return sql;
 	}
 }

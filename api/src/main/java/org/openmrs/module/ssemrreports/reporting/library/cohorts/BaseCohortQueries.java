@@ -134,8 +134,7 @@ public class BaseCohortQueries {
 	
 	public CohortDefinition getClientsOnArtPerFacility() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Get clients who are on ART from a specific facility");
-		//cd.addParameter(new Parameter("startDate", "startDate", Date.class));
+		cd.setName("Get total clients who are on ART from a specific facility");
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		cd.setQuery(CommonQueries.getClientsOnArtPerFacility());
