@@ -54,10 +54,10 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SsemrDataExportManager 
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
-		String mappingsQuaterly = "startDate=${startDate},endDate=${endDate+23h},location=${location}";
-		String mappingsFirstMonth = "startDate=${startDate},endDate=${endDate-2m+23h},location=${location}";
-		String mappingsSecondMonth = "startDate=${startDate},endDate=${endDate-1m+23h},location=${location}";
-		String mappingsThirdMonth = "startDate=${endDate-1m},endDate=${endDate+23h},location=${location}";
+		String mappingsQuaterly = "startDate=${startDate},endDate=${endDate},location=${location}";
+		String mappingsFirstMonth = "startDate=${startDate},endDate=${endDate-2m},location=${location}";
+		String mappingsSecondMonth = "startDate=${startDate},endDate=${endDate-1m},location=${location}";
+		String mappingsThirdMonth = "startDate=${endDate-1m},endDate=${endDate},location=${location}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -81,7 +81,7 @@ public class setupMerTxCurrTxNewIndicatorsReport extends SsemrDataExportManager 
 		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsSecondMonth));
 		rd.addDataSetDefinition("TxN3",
 		    SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxNewDataset(), mappingsThirdMonth));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getClientsOnArtPerFacility(),
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getAccurateClientsOnArtPerFacility(),
 		    "endDate=${endDate},location=${location}"));
 		
 		return rd;

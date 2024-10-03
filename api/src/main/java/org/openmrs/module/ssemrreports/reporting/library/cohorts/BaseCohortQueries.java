@@ -4,11 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.openmrs.Location;
+import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.queries.CommonQueries;
 import org.openmrs.module.ssemrreports.reporting.library.queries.PnsRegisterQueries;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -139,6 +141,25 @@ public class BaseCohortQueries {
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		cd.setQuery(CommonQueries.getClientsOnArtPerFacility());
 		
+		return cd;
+	}
+	
+	public CohortDefinition getClientsWithBirthdateAndGender() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Get total clients who are on ART from a specific facility who have birthdate and gender captured correctly");
+		cd.setQuery(CommonQueries.getOnlyPatientsWithBirthdateAndGender());
+		
+		return cd;
+	}
+	
+	public CohortDefinition getAccurateClientsOnArtPerFacility() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Get total clients who are on ART from a specific facility intersected with person table for gender and DOB");
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.addParameter(new Parameter("location", "location", Location.class));
+		cd.addSearch("T1", SsemrReportUtils.map(getClientsOnArtPerFacility(), "endDate=${endDate},location=${location}"));
+		cd.addSearch("T2", SsemrReportUtils.map(getClientsWithBirthdateAndGender(), ""));
+		cd.setCompositionString("T1 AND T2");
 		return cd;
 	}
 	

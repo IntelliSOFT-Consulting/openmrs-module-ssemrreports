@@ -374,4 +374,8 @@ public class CommonQueries {
 		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location " + ")su1";
 		return sql;
 	}
+	
+	public static String getOnlyPatientsWithBirthdateAndGender() {
+		return "SELECT person_id FROM ssemr_etl.mamba_dim_person WHERE birthdate IS NOT NULL AND gender IN('M','F')";
+	}
 }
