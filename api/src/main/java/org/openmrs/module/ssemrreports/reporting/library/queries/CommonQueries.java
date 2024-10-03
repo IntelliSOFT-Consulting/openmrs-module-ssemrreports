@@ -352,8 +352,11 @@ public class CommonQueries {
 	}
 	
 	public static String getTbScreenedClients() {
-		String query = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where on_tb_treatment = 'Yes' and "
-		        + " encounter_datetime between :startDate and :endDate and location_id= :location group by client_id";
+		String query = "select z.client_id from (SELECT f.client_id, mp.person_name_long, f.encounter_datetime, f.on_tb_treatment FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
+		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = f.client_id WHERE f.encounter_datetime = (SELECT MAX(f2.encounter_datetime) "
+		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f2 WHERE f2.client_id = f.client_id AND f2.location_id = :location AND f2.encounter_datetime BETWEEN :startDate AND :endDate) "
+		        + " AND f.location_id = :location AND f.encounter_datetime BETWEEN :startDate AND :endDate AND f.on_tb_treatment = 'Yes') as z";
+		
 		return query;
 	}
 	
