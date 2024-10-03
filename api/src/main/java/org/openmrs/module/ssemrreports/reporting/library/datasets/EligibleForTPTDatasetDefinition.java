@@ -35,6 +35,7 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTElig
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTCompletedDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 
@@ -106,6 +107,9 @@ public class EligibleForTPTDatasetDefinition extends SsemrBaseDataSet {
 		BreastFeedingDataDefinition breastfeedingDataDefinition = new BreastFeedingDataDefinition();
 		breastfeedingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		TPTCompletedDataDefinition tptCompletedDataDefinition = new TPTCompletedDataDefinition();
+		tptCompletedDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
@@ -117,6 +121,7 @@ public class EligibleForTPTDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("TPT Complete", tptCompletedDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
