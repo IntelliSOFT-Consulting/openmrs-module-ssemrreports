@@ -58,10 +58,9 @@ public class SetupAllClientsReport extends SsemrDataExportManager {
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.addParameters(allClientsDatasetDefinition.getParameters());
-		rd.addDataSetDefinition("ALLCLIENTS",
+		rd.addDataSetDefinition("ALL",
 		    Mapped.mapStraightThrough(allClientsDatasetDefinition.constructAllClientsDatasetDefinition()));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getAllClients(),
-		    "startDate=${startDate},endDate=${endDate+23h}"));
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getAllClients(), "endDate=${endDate+23h}"));
 		return rd;
 	}
 	
@@ -74,10 +73,10 @@ public class SetupAllClientsReport extends SsemrDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "all_clients.xls", "ALl Clients Report",
+			reportDesign = createXlsReportDesign(reportDefinition, "all_clients.xls", "Line list of all Client",
 			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:ALLCLIENTS");
+			props.put("repeatingSections", "sheet:1,row:4,dataset:ALL");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

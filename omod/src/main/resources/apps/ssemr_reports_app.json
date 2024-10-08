@@ -25,7 +25,7 @@
         "id": "ssemr.all.clients.Report",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
-        "label": "Line list for All Patients",
+        "label": "Line list of All Clients",
         "url": "ssemrreports/runReport.page?reportDefinition=601db9f2-67f4-4ba9-9242-8a3d1acc076c",
         "order": 21,
         "requiredPrivilege": ""

@@ -28,7 +28,7 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 	public DataSetDefinition constructAllClientsDatasetDefinition() {
 		
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
-		dsd.setName("ALLCLIENTS");
+		dsd.setName("ALL");
 		dsd.setDescription("All Clients");
 		
 		DataConverter nameFormatter = new ObjectFormatter("{givenName} {middleName} {familyName}");
@@ -57,8 +57,7 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		
 		ArtStartDateDataDefinition artStartDateDataDefinition = new ArtStartDateDataDefinition();
 		artStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		// Add the necessary columns (ID, Name, Gender, Age, Phone numbers, etc.)
+
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
