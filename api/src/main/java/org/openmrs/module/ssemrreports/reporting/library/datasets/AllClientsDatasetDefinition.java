@@ -57,7 +57,7 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		
 		ArtStartDateDataDefinition artStartDateDataDefinition = new ArtStartDateDataDefinition();
 		artStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
