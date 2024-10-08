@@ -11,15 +11,17 @@ import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+@Component
 public class SetupAllClientsReport extends SsemrDataExportManager {
 	
-	public final AllClientsDatasetDefinition allClientsDatasetDefinition;
+	private final AllClientsDatasetDefinition allClientsDatasetDefinition;
 	
 	private final BaseCohortQueries baseCohortQueries;
 	

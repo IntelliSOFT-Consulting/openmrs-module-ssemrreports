@@ -275,6 +275,14 @@ public class CommonQueries {
 		return query;
 	}
 	
+	public static String getAllPatients() {
+		String query = "SELECT p.patient_id FROM patient p " + "LEFT JOIN encounter e ON p.patient_id = e.patient_id "
+		        + "WHERE p.voided = 0 " + "AND p.date_created BETWEEN :startDate AND :endDate "
+		        + "ORDER BY p.date_created ASC";
+		
+		return query;
+	}
+	
 	public static String getPatientsEligibleForVL() {
 		String query = "WITH MaxSampleDate AS (SELECT client_id,MAX(date_vl_sample_collected) AS max_date_vl_sample_collected "
 		        + "FROM  ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up  WHERE  date_vl_sample_collected < :endDate "

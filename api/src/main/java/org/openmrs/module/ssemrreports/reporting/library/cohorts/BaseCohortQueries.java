@@ -85,7 +85,7 @@ public class BaseCohortQueries {
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
-		cd.setQuery(CommonQueries.getPatientsWithHighVL());
+		cd.setQuery(CommonQueries.getAllPatients());
 		
 		return cd;
 	}
