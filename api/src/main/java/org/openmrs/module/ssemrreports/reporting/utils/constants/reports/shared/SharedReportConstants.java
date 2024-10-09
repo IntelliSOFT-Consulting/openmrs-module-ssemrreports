@@ -8,6 +8,8 @@ public class SharedReportConstants {
 	
 	public static final String APPOINTMENTS_DUE_LIST_UUID = "a6ec5a32-7f0c-11ee-b962-0242ac120002";
 	
+	public static final String ALL_CLIENTS_LIST_UUID = "601db9f2-67f4-4ba9-9242-8a3d1acc076c";
+	
 	public static final String HIGH_VL_LIST_UUID = "7acb704a-8007-11ee-b962-0242ac120002";
 	
 	public static final String HIGH_VL_AND_EAC_LIST_UUID = "44222cac-80af-11ee-b962-0242ac120002";

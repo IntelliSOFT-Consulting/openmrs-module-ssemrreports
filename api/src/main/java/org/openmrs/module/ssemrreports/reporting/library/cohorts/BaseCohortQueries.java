@@ -79,6 +79,15 @@ public class BaseCohortQueries {
 		return cd;
 	}
 	
+	public CohortDefinition getAllClients() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("All Clients");
+		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		cd.setQuery(CommonQueries.getAllPatients());
+		
+		return cd;
+	}
+	
 	public CohortDefinition getPatientsEligibleForVLTesting() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("Line list of clients eligible for viral load");
