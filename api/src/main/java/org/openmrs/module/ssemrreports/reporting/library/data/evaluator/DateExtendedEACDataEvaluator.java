@@ -35,12 +35,12 @@ public class DateExtendedEACDataEvaluator implements PersonDataEvaluator {
 	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-		
-		String qry = "SELECT lr.client_id, DATE_FORMAT(CONCAT(MID(MAX(CONCAT(fp.encounter_datetime, lr.last_vl_date_repeat)), 20)), '%Y-%m-%d')  "
-		        + " as vl_repeat_date FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request lr "
-		        + " left join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp on lr.client_id = fp.client_id "
-		        + " where fp.encounter_datetime <= DATE(:endDate) and lr.last_vl_date_repeat is not null "
-		        + " group by fp.client_id, lr.last_vl_date_repeat;";
+
+		String qry = "SELECT client_id, DATE_FORMAT(MID(MAX(CONCAT(encounter_datetime, date_of_extra_session)), 20), '%Y-%m-%d') AS lastEacExtendedDate "
+				+ "FROM ssemr_etl.ssemr_flat_encounter_high_viral_load "
+				+ "WHERE date(encounter_datetime) <= date(:endDate) "
+				+ "AND third_eac_session_date IS NOT NULL "
+				+ "GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
