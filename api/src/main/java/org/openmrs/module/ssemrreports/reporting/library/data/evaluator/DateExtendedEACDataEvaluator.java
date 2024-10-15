@@ -36,7 +36,7 @@ public class DateExtendedEACDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, DATE_FORMAT(MID(MAX(CONCAT(encounter_datetime, date_of_extra_session)), 20), '%Y-%m-%d') AS lastEacExtendedDate "
+		String qry = "SELECT client_id, DATE_FORMAT(MID(MAX(CONCAT(encounter_datetime, date_of_extra_session)), 20), '%d-%m-%Y') AS lastEacExtendedDate "
 		        + "FROM ssemr_etl.ssemr_flat_encounter_high_viral_load "
 		        + "WHERE date(encounter_datetime) <= date(:endDate) "
 		        + "AND third_eac_session_date IS NOT NULL "
