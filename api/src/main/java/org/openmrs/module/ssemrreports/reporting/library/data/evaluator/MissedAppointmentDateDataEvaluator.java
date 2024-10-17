@@ -35,7 +35,7 @@ public class MissedAppointmentDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT patient_id, DATE_FORMAT(max(start_date_time), '%Y-%m-%d') FROM openmrs.patient_appointment where status = 'Missed' group by patient_id;";
+		String qry = "SELECT patient_id, DATE_FORMAT(max(start_date_time), '%d-%m-%Y') FROM openmrs.patient_appointment where status = 'Missed' group by patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
