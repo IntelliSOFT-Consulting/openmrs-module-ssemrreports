@@ -64,7 +64,7 @@ public class SetupMerTxMlIndicatorsReport extends SsemrDataExportManager {
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		rd.addParameter(new Parameter("location", "Location", Location.class));
-		rd.addDataSetDefinition("TxM", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings0));
+		//rd.addDataSetDefinition("TxM", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings0));
 		rd.addDataSetDefinition("TxM1", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings1));
 		rd.addDataSetDefinition("TxM2", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings2));
 		rd.addDataSetDefinition("TxM3", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings3));
