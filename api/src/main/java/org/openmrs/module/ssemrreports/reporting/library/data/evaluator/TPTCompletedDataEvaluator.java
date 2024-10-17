@@ -36,10 +36,10 @@ public class TPTCompletedDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 
-		String qry = "select client_id, case when max(is_tpt_finished) = 'Yes' then 'Yes' "
-				+ "when max(is_tpt_finished) is null then 'N/A' else 'No' end as tpt_finished "
-				+ "from ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
-				+ "where date(encounter_datetime) <= date(:endDate) " + "group by client_id";
+		String qry = "SELECT client_id, CASE WHEN MAX(is_tpt_finished) = 'Yes' THEN 'Yes' "
+				+ "WHEN MAX(is_tpt_finished) IS NULL THEN 'N/A' ELSE 'No' END AS tpt_finished "
+				+ "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
+				+ "WHERE DATE(encounter_datetime) <= DATE(:endDate) " + "GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
