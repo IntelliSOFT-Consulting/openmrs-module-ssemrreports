@@ -52,7 +52,7 @@
         "id": "ssemr.patient.on.iit.register",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
-        "label": "Line list for IIT and RTT clients",
+        "label": "Line list for IIT clients",
         "url": "ssemrreports/runReport.page?reportDefinition=ae58aa1e-89d9-11ee-b9d1-0242ac120002",
         "order": 24,
         "requiredPrivilege": ""
