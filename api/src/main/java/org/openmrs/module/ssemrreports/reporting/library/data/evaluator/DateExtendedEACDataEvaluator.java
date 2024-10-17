@@ -28,27 +28,27 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Handler(supports = DateExtendedEACDataDefinition.class, order = 50)
 public class DateExtendedEACDataEvaluator implements PersonDataEvaluator {
-
+	
 	@Autowired
 	private EvaluationService evaluationService;
-
+	
 	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
-			throws EvaluationException {
+	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-
+		
 		String qry = "SELECT client_id, DATE_FORMAT(MID(MAX(CONCAT(encounter_datetime, date_of_extra_session)), 20), '%d-%m-%Y') AS lastEacExtendedDate "
-				+ "FROM ssemr_etl.ssemr_flat_encounter_high_viral_load "
-				+ "WHERE date(encounter_datetime) <= date(:endDate) "
-				+ "AND third_eac_session_date IS NOT NULL "
-				+ "GROUP BY client_id";
-
+		        + "FROM ssemr_etl.ssemr_flat_encounter_high_viral_load "
+		        + "WHERE date(encounter_datetime) <= date(:endDate) "
+		        + "AND third_eac_session_date IS NOT NULL "
+		        + "GROUP BY client_id";
+		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
 		Date startDate = (Date) context.getParameterValue("startDate");
 		Date endDate = (Date) context.getParameterValue("endDate");
 		queryBuilder.addParameter("endDate", endDate);
 		queryBuilder.addParameter("startDate", startDate);
-
+		
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
 		c.setData(data);
 		return c;
