@@ -5,7 +5,7 @@ public class MerQueries {
 	/***
 	 * pick-up should not be counted. ART Start Date: ssemr_flat_encounter_hiv_care_enrolment
 	 * (art_start_date) Next Drug Pickup: ssemr_flat_encounter_hiv_care_follow_up
-	 * (encounter_datetime + number_of_days_dispensed + 28 ) Pregnancy Status:
+	 * (encounter_datetime + art_regimen_no_of_days_dispensed + 28 ) Pregnancy Status:
 	 * ssemr_flat_encounter_hiv_care_follow_up (client_pregnant) Breastfeeding Status:
 	 * ssemr_flat_encounter_hiv_care_follow_up (client_breastfeeding) Died:
 	 * ssemr_flat_encounter_end_of_follow_up (death), Stopped treatment:
@@ -133,11 +133,11 @@ public class MerQueries {
 		return "SELECT tp.client_id FROM(" + " SELECT fn.client_id FROM("
 		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu WHERE fu.encounter_datetime <= :endDate "
-		        + " AND fu.number_of_days_dispensed IS NOT NULL" + " GROUP BY fu.client_id)fn "
+		        + " AND fu.art_regimen_no_of_days_dispensed IS NOT NULL" + " GROUP BY fu.client_id)fn "
 		        
 		        + " INNER JOIN " + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
 		        + " ON fu1.client_id = fn.client_id AND fu1.encounter_datetime=fn.encounter_datetime "
-		        + " WHERE CAST(fu1.number_of_days_dispensed AS UNSIGNED) <= 90 )tp"
+		        + " WHERE CAST(fu1.art_regimen_no_of_days_dispensed AS UNSIGNED) < 90 )tp"
 		        
 		        + " INNER JOIN("
 		        
@@ -185,13 +185,13 @@ public class MerQueries {
 		        + " SELECT fn.client_id FROM("
 		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu WHERE fu.encounter_datetime <= :endDate "
-		        + " AND fu.number_of_days_dispensed IS NOT NULL"
+		        + " AND fu.art_regimen_no_of_days_dispensed IS NOT NULL"
 		        + " GROUP BY fu.client_id)fn "
 		        
 		        + " INNER JOIN "
 		        + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
 		        + " ON fu1.client_id = fn.client_id AND fu1.encounter_datetime=fn.encounter_datetime "
-		        + " WHERE CAST(fu1.number_of_days_dispensed AS UNSIGNED) > 91 AND CAST(fu1.number_of_days_dispensed AS UNSIGNED) < 180)tp"
+		        + " WHERE CAST(fu1.art_regimen_no_of_days_dispensed AS UNSIGNED) > 89 AND CAST(fu1.art_regimen_no_of_days_dispensed AS UNSIGNED) < 180)tp"
 		        
 		        + " INNER JOIN("
 		        
@@ -238,11 +238,11 @@ public class MerQueries {
 		return "SELECT tp.client_id FROM(" + " SELECT fn.client_id FROM("
 		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu WHERE fu.encounter_datetime <= :endDate "
-		        + " AND fu.number_of_days_dispensed IS NOT NULL" + " GROUP BY fu.client_id)fn "
+		        + " AND fu.art_regimen_no_of_days_dispensed IS NOT NULL" + " GROUP BY fu.client_id)fn "
 		        
 		        + " INNER JOIN " + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
 		        + " ON fu1.client_id = fn.client_id AND fu1.encounter_datetime=fn.encounter_datetime "
-		        + " WHERE fu1.number_of_days_dispensed ='180+')tp"
+		        + " WHERE fu1.art_regimen_no_of_days_dispensed like '180%')tp"
 		        
 		        + " INNER JOIN("
 		        
