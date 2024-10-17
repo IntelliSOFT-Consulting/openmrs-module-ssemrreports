@@ -43,12 +43,12 @@ public class SetupIITRegister extends SsemrDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "Line list for IIT and RTT clients on Date";
+		return "Line list for IIT clients on Date";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Line list for IIT and RTT clients";
+		return "Line list for IIT clients";
 	}
 	
 	@Override
