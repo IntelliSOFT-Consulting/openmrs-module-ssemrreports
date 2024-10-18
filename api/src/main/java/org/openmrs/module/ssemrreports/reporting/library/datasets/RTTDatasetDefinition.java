@@ -76,6 +76,12 @@ public class RTTDatasetDefinition extends SsemrBaseDataSet {
 		NextAppointmentDateDataDefinition nextAppointmentDateDataDefinition = new NextAppointmentDateDataDefinition();
 		nextAppointmentDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		ReturnToTreatmentDateDataDefinition returnToTreatmentDateDataDefinition = new ReturnToTreatmentDateDataDefinition();
+		returnToTreatmentDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		LastVisitDateDataDefinition lastVisitDateDataDefinition = new LastVisitDateDataDefinition();
+		lastVisitDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		LastDrugVisitDateDataDefinition lastDrugVisitDateDataDefinition = new LastDrugVisitDateDataDefinition();
 		lastDrugVisitDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
@@ -106,8 +112,8 @@ public class RTTDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date returned to treatment (RTT)", nextAppointmentDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Last date of visit", lastDrugVisitDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date returned to treatment (RTT)", returnToTreatmentDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last date of visit", lastVisitDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");
