@@ -58,13 +58,13 @@ public class SetupMerTxMlIndicatorsReport extends SsemrDataExportManager {
 		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d+23h},location=${location}";
 		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d+23h},location=${location}";
 		String mappings3 = "startDate=${startDate+2m},endDate=${startDate+3m-1d+23h},location=${location}";
-		String mappings4 = "startDate=${startDate+3m},endDate=${endDate+23h},location=${location}";
+		String mappings4 = "startDate=${startDate+3m},endDate=${endDate+1m+23h},location=${location}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		rd.addParameter(new Parameter("location", "Location", Location.class));
-		//rd.addDataSetDefinition("TxM", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings0));
+		rd.addDataSetDefinition("TxM", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings0));
 		rd.addDataSetDefinition("TxM1", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings1));
 		rd.addDataSetDefinition("TxM2", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings2));
 		rd.addDataSetDefinition("TxM3", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings3));

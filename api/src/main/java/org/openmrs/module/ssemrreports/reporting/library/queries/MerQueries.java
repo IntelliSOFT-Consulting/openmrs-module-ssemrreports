@@ -147,10 +147,10 @@ public class MerQueries {
 		        
 		        + " SELECT client_id,follow_up_date FROM ( "
 		        
-		        + " SELECT fu.patient_id AS client_id, MAX(fu.start_date_time) AS follow_up_date FROM ssudan.patient_appointment fu "
-		        + " WHERE fu.start_date_time <= :endDate " + " GROUP BY fu.patient_id) fn "
+		        + " SELECT fu.patient_id AS client_id, MAX(fu.start_date_time) AS follow_up_date FROM openmrs.patient_appointment fu "
+		        + " WHERE fu.date_created <= :endDate " + " GROUP BY fu.patient_id) fn "
 		        
-		        + ") fn1 " + " WHERE " + " DATE_ADD(fn1.follow_up_date, INTERVAL 28 DAY) < :endDate AND "
+		        + ") fn1 " + " WHERE  DATE_ADD(fn1.follow_up_date, INTERVAL 28 DAY) <:endDate AND "
 		        + " DATE_ADD(fn1.follow_up_date, INTERVAL 28 DAY) >= DATE_ADD( :startDate, INTERVAL -1 DAY) ";
 	}
 	
@@ -319,7 +319,7 @@ public class MerQueries {
 	public static String getClientsTracedBroughtBackToCareRestarted() {
 		return "SELECT client_id FROM("
 		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
-		        + "	WHERE fu.art_treatment_restarted='Yes' AND fu.encounter_datetime BETWEEN :startDate AND :endDate "
+		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted BETWEEN :startDate AND :endDate"
 		        + " GROUP BY fu.client_id" + ")fn";
 	}
 	
