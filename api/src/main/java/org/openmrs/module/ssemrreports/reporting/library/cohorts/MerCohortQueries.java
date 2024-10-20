@@ -5,6 +5,7 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.ssemrreports.reporting.library.queries.CommonQueries;
 import org.openmrs.module.ssemrreports.reporting.library.queries.MerQueries;
 import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -190,18 +191,14 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
-	public CohortDefinition getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitL3mCohorts() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+	public CohortDefinition getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitmCohorts(
+	        int l, int h) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitL3mCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("T1", SsemrReportUtils.map(
-		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T2",
-		    SsemrReportUtils.map(getTxMlIitL3mCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.setCompositionString("T1 AND T2");
+		cd.setQuery(CommonQueries.getClientsWithArtDateAndDateLost(l, h));
 		return cd;
 	}
 	
@@ -307,7 +304,7 @@ public class MerCohortQueries {
 	
 	public CohortDefinition getTxMlCauseOfDeathCohorts(String cause) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxMl Cohorts - Refused (Stopped) Treatment");
+		cd.setName("TxMl Cohorts - Cause of death " + cause);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));

@@ -168,7 +168,7 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    map(indicator.getIndicator(
 		        "Number of ART clients On treatment for  <3 months when LTFU/IIT",
 		        map(merCohortQueries
-		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitL3mCohorts(),
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitmCohorts(0, 90),
 		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
@@ -177,7 +177,7 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    map(indicator.getIndicator(
 		        "On treatment for 3-5 months when LTFU/IIT",
 		        map(merCohortQueries
-		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIit3To5mCohorts(),
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitmCohorts(90, 180),
 		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
@@ -186,8 +186,8 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    map(indicator.getIndicator(
 		        "On treatment for 6+ months when LTFU/IIT",
 		        map(merCohortQueries
-		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitM6mCohorts(),
-		            mappings)), mappings), getMerGenderAndAgeColumns());
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitmCohorts(180,
+		                    1000), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "MLCD",

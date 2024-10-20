@@ -312,7 +312,9 @@ public class MerQueries {
 	
 	public static String getTxMlCauseOfDeathQueries(String cause) {
 		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up fu "
-		        + "	WHERE fu.cause_of_death IS NOT NULL AND  fu.cause_of_death='" + cause + "'";
+		        + "	WHERE fu.death IS NOT NULL " + "	AND fu.cause_of_death IS NOT NULL "
+		        + " AND fu.date_of_death IS NOT NULL " + " AND fu.death = 'Yes' "
+		        + " AND fu.date_of_death BETWEEN :startDate AND :endDate" + " AND  fu.cause_of_death='" + cause + "'";
 	}
 	
 	//TX RTT
@@ -406,11 +408,12 @@ public class MerQueries {
 	
 	public static String getTransferOutQueries() {
 		return "SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out='Yes'";
+		        + " WHERE efu.transfer_out IS NOT NULL AND efu.transfer_out='Yes' AND efu.encounter_datetime BETWEEN :startDate AND :endDate";
 	}
 	
 	public static String getInterruptionQueries() {
-		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu " + " WHERE "
-		        + " fu.date_of_treatment_interruption IS NOT NULL AND fu.encounter_datetime) < :endDate ";
+		return "SELECT fu.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
+		        + " WHERE "
+		        + " fu.date_of_treatment_interruption IS NOT NULL AND fu.encounter_datetime BETWEEN :startDate AND :endDate ";
 	}
 }
