@@ -271,14 +271,15 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    map(indicator
 		            .getIndicator(
 		                "Clients traced and brought back to care (Re-started) from those who were lost in the previous quarters (I.e from those who were not active at the beginning of this reporting period)",
-		                map(merCohortQueries.getClientsTracedBroughtBackToCareRestartedCohorts(), mappings)), mappings),
-		    getMerGenderAndAgeColumns());
+		                map(merCohortQueries
+		                        .getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod(),
+		                    mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "RTT21",
 		    "How long were people off ARVs - 28 days-3 months",
 		    map(indicator.getIndicator("How long were people off ARVs - 28 days-3 months",
-		        map(merCohortQueries.getHowLongWerePeopleOffArvs28DaysTo3MonthsFromLastTcaCohorts(), mappings)), mappings),
+		        map(merCohortQueries.getHowLongWerePeopleOffArvsNdaysCohorts(28, 90), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		addRow(
@@ -286,7 +287,7 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    "RTT22",
 		    "How long were people off ARVs - 3 -6 months",
 		    map(indicator.getIndicator("How long were people off ARVs - 3 -6 months",
-		        map(merCohortQueries.getHowLongWerePeopleOffArvs3To6MonthsFromLastTcaCohorts(), mappings)), mappings),
+		        map(merCohortQueries.getHowLongWerePeopleOffArvsNdaysCohorts(90, 180), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		addRow(
@@ -294,7 +295,7 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    "RTT23",
 		    "How long were people off ARVs - 6-12 months ",
 		    map(indicator.getIndicator("How long were people off ARVs - 6-12 months ",
-		        map(merCohortQueries.getHowLongWerePeopleOffArvs6To12MonthsFromLastTcaCohorts(), mappings)), mappings),
+		        map(merCohortQueries.getHowLongWerePeopleOffArvsNdaysCohorts(180, 360), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		addRow(
