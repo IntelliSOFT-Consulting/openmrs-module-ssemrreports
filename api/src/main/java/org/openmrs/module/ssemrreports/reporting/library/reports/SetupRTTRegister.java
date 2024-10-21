@@ -6,7 +6,7 @@ import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
-import org.openmrs.module.ssemrreports.reporting.library.datasets.IITDatasetDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.datasets.RTTDatasetDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.templates.shared.SharedTemplatesConstants;
@@ -19,36 +19,36 @@ import java.util.List;
 import java.util.Properties;
 
 @Component
-public class SetupIITRegister extends SsemrDataExportManager {
+public class SetupRTTRegister extends SsemrDataExportManager {
 	
-	private final IITDatasetDefinition iitDatasetDefinition;
+	private final RTTDatasetDefinition rttDatasetDefinition;
 	
 	private final BaseCohortQueries baseCohortQueries;
 	
 	@Autowired
-	public SetupIITRegister(IITDatasetDefinition iitDatasetDefinition, BaseCohortQueries baseCohortQueries) {
-		this.iitDatasetDefinition = iitDatasetDefinition;
+	public SetupRTTRegister(RTTDatasetDefinition rttDatasetDefinition, BaseCohortQueries baseCohortQueries) {
+		this.rttDatasetDefinition = rttDatasetDefinition;
 		this.baseCohortQueries = baseCohortQueries;
 	}
 	
 	@Override
 	public String getExcelDesignUuid() {
-		return SharedTemplatesConstants.IIT_LIST_TEMPLATE;
+		return SharedTemplatesConstants.RTT_LIST_TEMPLATE;
 	}
 	
 	@Override
 	public String getUuid() {
-		return SharedReportConstants.IIT_LIST_UUID;
+		return SharedReportConstants.RTT_LIST_UUID;
 	}
 	
 	@Override
 	public String getName() {
-		return "Line list for IIT clients on Date";
+		return "Line list for RTT clients on Date";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Line list for IIT clients";
+		return "Line list for RTT clients";
 	}
 	
 	@Override
@@ -57,9 +57,9 @@ public class SetupIITRegister extends SsemrDataExportManager {
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
-		rd.addParameters(iitDatasetDefinition.getParameters());
-		rd.addDataSetDefinition("IIT", Mapped.mapStraightThrough(iitDatasetDefinition.constructIITDatasetDefinition()));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoAreIIT(),
+		rd.addParameters(rttDatasetDefinition.getParameters());
+		rd.addDataSetDefinition("RTT", Mapped.mapStraightThrough(rttDatasetDefinition.constructRTTDatasetDefinition()));
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsWhoAreRTT(),
 		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
 		return rd;
 	}
@@ -73,10 +73,10 @@ public class SetupIITRegister extends SsemrDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "iitRegister.xls", "Report for IIT clients",
+			reportDesign = createXlsReportDesign(reportDefinition, "rttRegister.xls", "Report for RTT clients",
 			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:IIT");
+			props.put("repeatingSections", "sheet:1,row:5,dataset:RTT");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}
