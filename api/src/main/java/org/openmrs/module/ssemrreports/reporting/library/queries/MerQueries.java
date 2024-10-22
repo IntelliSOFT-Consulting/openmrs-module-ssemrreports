@@ -350,7 +350,7 @@ public class MerQueries {
 	public static String getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterQueries() {
 		String sql = "SELECT client_id FROM ( "
 		        + " SELECT en.client_id,MAX(en.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
-		        + " WHERE en.vl_results IS NOT NULL "
+		        + " WHERE (en.vl_results IS NOT NULL OR en.viral_load_value IS NOT NULL)"
 		        + " AND DATE(en.encounter_datetime) BETWEEN DATE_ADD(DATE_ADD(:endDate, INTERVAL -12 MONTH) , INTERVAL 1 day) AND :endDate "
 		        + " GROUP BY en.client_id " + ")su";
 		
@@ -358,27 +358,32 @@ public class MerQueries {
 	}
 	
 	public static String getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterQueries() {
-		return "SELECT fil1.client_id FROM ("
-		        + " SELECT fu1.client_id AS client_id, MAX(fu1.encounter_datetime) AS encounter_datetime "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
-		        + " WHERE fu1.vl_results is not null AND DATE(fu1.encounter_datetime) BETWEEN :startDate AND :endDate "
-		        + " GROUP  BY fu1.client_id" + ") fil1 "
+		String sql = "SELECT su1.client_id FROM( "
+		        + " SELECT en.client_id,MAX(en.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
+		        + " WHERE en.viral_load_value IS NOT NULL "
+		        + " AND DATE(en.encounter_datetime) BETWEEN DATE_ADD(DATE_ADD(:endDate, INTERVAL -12 MONTH) , INTERVAL 1 day) AND :endDate "
+		        + " GROUP BY en.client_id)su1 "
 		        
-		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu2 "
-		        + " ON fil1.client_id=fu2.client_id AND fil1.encounter_datetime=fu2.encounter_datetime "
-		        + " WHERE fu2.vl_results >= 1000 ";
+		        + " INNER JOIN( "
+		        + " SELECT fu2.client_id,fu2.viral_load_value,fu2.encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu2 "
+		        + " WHERE fu2.viral_load_value IS NOT NULL " + " )su2 "
+		        + " ON su1.client_id=su2.client_id AND su1.encounter_datetime=su2.encounter_datetime "
+		        + " WHERE su2.viral_load_value >= 1000";
+		return sql;
 	}
 	
 	public static String getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterQueries() {
-		return "SELECT fil1.client_id FROM ("
-		        + " SELECT fu1.client_id AS client_id, MAX(fu1.encounter_datetime) AS encounter_datetime "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
-		        + " WHERE fu1.vl_results is not null AND DATE(fu1.encounter_datetime) BETWEEN :startDate AND :endDate "
-		        + " GROUP  BY fu1.client_id" + ") fil1 "
+		return "SELECT su1.client_id FROM( "
+		        + " SELECT en.client_id,MAX(en.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
+		        + " WHERE en.viral_load_value IS NOT NULL "
+		        + " AND DATE(en.encounter_datetime) BETWEEN DATE_ADD(DATE_ADD(:endDate, INTERVAL -12 MONTH) , INTERVAL 1 day) AND :endDate "
+		        + " GROUP BY en.client_id)su1 "
 		        
-		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu2 "
-		        + " ON fil1.client_id=fu2.client_id AND fil1.encounter_datetime=fu2.encounter_datetime "
-		        + " WHERE fu2.vl_results < 1000 ";
+		        + " INNER JOIN( "
+		        + " SELECT fu2.client_id,fu2.viral_load_value,fu2.encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu2 "
+		        + " WHERE fu2.viral_load_value IS NOT NULL " + " )su2 "
+		        + " ON su1.client_id=su2.client_id AND su1.encounter_datetime=su2.encounter_datetime "
+		        + " WHERE su2.viral_load_value < 1000";
 	}
 	
 	public static String getPregnantQueries() {
