@@ -348,11 +348,13 @@ public class MerQueries {
 	
 	//TX PVLS
 	public static String getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterQueries() {
-		return "SELECT client_id FROM ( "
-		        + " SELECT en.client_id,MAX(vl.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
-		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up vl " + " ON en.client_id=vl.client_id "
-		        + " WHERE vl.vl_results IS NOT NULL " + " AND DATE(vl.encounter_datetime) BETWEEN :startDate AND :endDate "
-		        + " GROUP BY en.client_id) viral_load ";
+		String sql = "SELECT client_id FROM ( "
+		        + " SELECT en.client_id,MAX(en.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
+		        + " WHERE en.vl_results IS NOT NULL "
+		        + " AND DATE(en.encounter_datetime) BETWEEN DATE_ADD(DATE_ADD(:endDate, INTERVAL -12 MONTH) , INTERVAL 1 day) AND :endDate "
+		        + " GROUP BY en.client_id " + ")su";
+		
+		return sql;
 	}
 	
 	public static String getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterQueries() {
