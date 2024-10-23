@@ -168,7 +168,7 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    map(indicator.getIndicator(
 		        "Number of ART clients On treatment for  <3 months when LTFU/IIT",
 		        map(merCohortQueries
-		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitL3mCohorts(),
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitmCohorts(0, 90),
 		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
@@ -177,7 +177,7 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    map(indicator.getIndicator(
 		        "On treatment for 3-5 months when LTFU/IIT",
 		        map(merCohortQueries
-		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIit3To5mCohorts(),
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitmCohorts(90, 180),
 		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
@@ -186,8 +186,8 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    map(indicator.getIndicator(
 		        "On treatment for 6+ months when LTFU/IIT",
 		        map(merCohortQueries
-		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitM6mCohorts(),
-		            mappings)), mappings), getMerGenderAndAgeColumns());
+		                .getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitmCohorts(180,
+		                    1000), mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "MLCD",
@@ -222,34 +222,38 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    "COD1",
 		    "Cause of death -TB",
 		    map(indicator.getIndicator("Cause of death -TB",
-		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("TB"), mappings)), mappings), getMerGenderAndAgeColumns());
+		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Cause Of Death, TB"), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "COD2",
 		    "Cause of death -Cancer",
 		    map(indicator.getIndicator("Cause of death -Cancer",
-		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Cancer"), mappings)), mappings),
+		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Cause Of Death, Cancer"), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "COD3",
 		    "Cause of death -Other infectious and parasitic disease",
-		    map(indicator.getIndicator("Cause of death -Other infectious and parasitic disease",
-		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Other infectious and parasitic disease"), mappings)),
-		        mappings), getMerGenderAndAgeColumns());
+		    map(indicator.getIndicator(
+		        "Cause of death -Other infectious and parasitic disease",
+		        map(merCohortQueries
+		                .getTxMlCauseOfDeathCohorts("Cause Of Death, Other Other infectious and parasitic disease"),
+		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "COD4",
 		    "Cause of death - Non-natural causes (accident/war)",
-		    map(indicator.getIndicator("Cause of death - Non-natural causes (accident/war)",
-		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Non-natural causes (accident/war)"), mappings)), mappings),
-		    getMerGenderAndAgeColumns());
+		    map(indicator.getIndicator(
+		        "Cause of death - Non-natural causes (accident/war)",
+		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Cause Of Death, Non-natural causes (accident/war)"),
+		            mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "COD5",
 		    "Cause of death - Unknown Cause",
 		    map(indicator.getIndicator("Cause of death - Unknown Cause",
-		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Unknown Cause"), mappings)), mappings),
+		        map(merCohortQueries.getTxMlCauseOfDeathCohorts("Cause Of Death,Unknown Cause"), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		return dsd;
 	}
@@ -271,14 +275,15 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    map(indicator
 		            .getIndicator(
 		                "Clients traced and brought back to care (Re-started) from those who were lost in the previous quarters (I.e from those who were not active at the beginning of this reporting period)",
-		                map(merCohortQueries.getClientsTracedBroughtBackToCareRestartedCohorts(), mappings)), mappings),
-		    getMerGenderAndAgeColumns());
+		                map(merCohortQueries
+		                        .getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod(),
+		                    mappings)), mappings), getMerGenderAndAgeColumns());
 		addRow(
 		    dsd,
 		    "RTT21",
 		    "How long were people off ARVs - 28 days-3 months",
 		    map(indicator.getIndicator("How long were people off ARVs - 28 days-3 months",
-		        map(merCohortQueries.getHowLongWerePeopleOffArvs28DaysTo3MonthsFromLastTcaCohorts(), mappings)), mappings),
+		        map(merCohortQueries.getHowLongWerePeopleOffArvsNdaysCohorts(28, 90), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		addRow(
@@ -286,7 +291,7 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    "RTT22",
 		    "How long were people off ARVs - 3 -6 months",
 		    map(indicator.getIndicator("How long were people off ARVs - 3 -6 months",
-		        map(merCohortQueries.getHowLongWerePeopleOffArvs3To6MonthsFromLastTcaCohorts(), mappings)), mappings),
+		        map(merCohortQueries.getHowLongWerePeopleOffArvsNdaysCohorts(90, 180), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		addRow(
@@ -294,7 +299,7 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    "RTT23",
 		    "How long were people off ARVs - 6-12 months ",
 		    map(indicator.getIndicator("How long were people off ARVs - 6-12 months ",
-		        map(merCohortQueries.getHowLongWerePeopleOffArvs6To12MonthsFromLastTcaCohorts(), mappings)), mappings),
+		        map(merCohortQueries.getHowLongWerePeopleOffArvsNdaysCohorts(180, 360), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		addRow(
