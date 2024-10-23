@@ -24,30 +24,30 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * Evaluates Current regimen Data Definition
+ * Evaluates Date of Last Visit Data Definition
  */
 @Handler(supports = LastVisitDateDataDefinition.class, order = 50)
 public class LastVisitDateDataEvaluator implements PersonDataEvaluator {
-
-    @Autowired
-    private EvaluationService evaluationService;
-
-    public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
-            throws EvaluationException {
-        EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-
-        String qry = "SELECT client_id, DATE_FORMAT(MID(MAX(CONCAT(encounter_datetime, date_of_last_visit)), 20), '%d-%m-%Y') AS max_art_start_date "
-                + "FROM ssemr_etl.ssemr_flat_encounter_art_interruption where date(encounter_datetime) <= date(:endDate) GROUP BY client_id";
-
-        SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
-        queryBuilder.append(qry);
-        Date startDate = (Date) context.getParameterValue("startDate");
-        Date endDate = (Date) context.getParameterValue("endDate");
-        queryBuilder.addParameter("endDate", endDate);
-        queryBuilder.addParameter("startDate", startDate);
-
-        Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
-        c.setData(data);
-        return c;
-    }
+	
+	@Autowired
+	private EvaluationService evaluationService;
+	
+	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
+	        throws EvaluationException {
+		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
+		
+		String qry = "SELECT client_id, DATE_FORMAT(MID(MAX(CONCAT(encounter_datetime, date_of_last_visit)), 20), '%d-%m-%Y') AS max_art_start_date "
+		        + "FROM ssemr_etl.ssemr_flat_encounter_art_interruption where date(encounter_datetime) <= date(:endDate) GROUP BY client_id";
+		
+		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
+		queryBuilder.append(qry);
+		Date startDate = (Date) context.getParameterValue("startDate");
+		Date endDate = (Date) context.getParameterValue("endDate");
+		queryBuilder.addParameter("endDate", endDate);
+		queryBuilder.addParameter("startDate", startDate);
+		
+		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
+		c.setData(data);
+		return c;
+	}
 }

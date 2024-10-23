@@ -17,33 +17,33 @@ import org.openmrs.module.reporting.evaluation.caching.Caching;
 import java.util.Date;
 
 /**
- * art start date Data Definition
+ * Last Visit Date Data Definition
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
 public class LastVisitDateDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
-
-    public static final long serialVersionUID = 1L;
-
-    /**
-     * Default Constructor
-     */
-    public LastVisitDateDataDefinition() {
-        super();
-    }
-
-    /**
-     * Constructor to populate name only
-     */
-    public LastVisitDateDataDefinition(String name) {
-        super(name);
-    }
-
-    //***** INSTANCE METHODS *****
-
-    /**
-     * @see org.openmrs.module.reporting.data.DataDefinition#getDataType()
-     */
-    public Class<?> getDataType() {
-        return Date.class;
-    }
+	
+	public static final long serialVersionUID = 1L;
+	
+	/**
+	 * Default Constructor
+	 */
+	public LastVisitDateDataDefinition() {
+		super();
+	}
+	
+	/**
+	 * Constructor to populate name only
+	 */
+	public LastVisitDateDataDefinition(String name) {
+		super(name);
+	}
+	
+	//***** INSTANCE METHODS *****
+	
+	/**
+	 * @see org.openmrs.module.reporting.data.DataDefinition#getDataType()
+	 */
+	public Class<?> getDataType() {
+		return Date.class;
+	}
 }
