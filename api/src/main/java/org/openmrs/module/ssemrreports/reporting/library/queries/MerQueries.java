@@ -350,7 +350,7 @@ public class MerQueries {
 	public static String getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterQueries() {
 		String sql = "SELECT client_id FROM ( "
 		        + " SELECT en.client_id,MAX(en.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
-		        + " WHERE (en.vl_results IS NOT NULL OR en.viral_load_value IS NOT NULL)"
+		        + " WHERE en.viral_load_test_done ='Yes' AND (en.vl_results IS NOT NULL OR en.viral_load_value IS NOT NULL)"
 		        + " AND DATE(en.encounter_datetime) BETWEEN DATE_ADD(DATE_ADD(:endDate, INTERVAL -12 MONTH) , INTERVAL 1 day) AND :endDate "
 		        + " GROUP BY en.client_id " + ")su";
 		
@@ -360,13 +360,13 @@ public class MerQueries {
 	public static String getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterQueries() {
 		String sql = "SELECT su1.client_id FROM( "
 		        + " SELECT en.client_id,MAX(en.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
-		        + " WHERE en.viral_load_value IS NOT NULL "
+		        + " WHERE en.viral_load_value IS NOT NULL AND en.viral_load_test_done='Yes' "
 		        + " AND DATE(en.encounter_datetime) BETWEEN DATE_ADD(DATE_ADD(:endDate, INTERVAL -12 MONTH) , INTERVAL 1 day) AND :endDate "
 		        + " GROUP BY en.client_id)su1 "
 		        
 		        + " INNER JOIN( "
 		        + " SELECT fu2.client_id,fu2.viral_load_value,fu2.encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu2 "
-		        + " WHERE fu2.viral_load_value IS NOT NULL " + " )su2 "
+		        + " WHERE fu2.viral_load_value IS NOT NULL AND fu2.viral_load_test_done='Yes'" + " )su2 "
 		        + " ON su1.client_id=su2.client_id AND su1.encounter_datetime=su2.encounter_datetime "
 		        + " WHERE su2.viral_load_value >= 1000";
 		return sql;
@@ -375,15 +375,30 @@ public class MerQueries {
 	public static String getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterQueries() {
 		return "SELECT su1.client_id FROM( "
 		        + " SELECT en.client_id,MAX(en.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
-		        + " WHERE en.viral_load_value IS NOT NULL "
+		        + " WHERE en.viral_load_value IS NOT NULL AND en.viral_load_test_done='Yes' "
 		        + " AND DATE(en.encounter_datetime) BETWEEN DATE_ADD(DATE_ADD(:endDate, INTERVAL -12 MONTH) , INTERVAL 1 day) AND :endDate "
 		        + " GROUP BY en.client_id)su1 "
 		        
 		        + " INNER JOIN( "
 		        + " SELECT fu2.client_id,fu2.viral_load_value,fu2.encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu2 "
-		        + " WHERE fu2.viral_load_value IS NOT NULL " + " )su2 "
+		        + " WHERE fu2.viral_load_value IS NOT NULL AND fu2.viral_load_test_done='Yes' "
+		        + " )su2 "
 		        + " ON su1.client_id=su2.client_id AND su1.encounter_datetime=su2.encounter_datetime "
-		        + " WHERE su2.viral_load_value < 1000";
+		        + " WHERE su2.viral_load_value < 1000"
+		        
+		        + " UNION "
+		        
+		        + "SELECT su11.client_id FROM( "
+		        + " SELECT en1.client_id,MAX(en1.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en1 "
+		        + " WHERE en1.vl_results IS NOT NULL AND en1.viral_load_test_done='Yes' "
+		        + " AND DATE(en1.encounter_datetime) BETWEEN DATE_ADD(DATE_ADD(:endDate, INTERVAL -12 MONTH) , INTERVAL 1 day) AND :endDate "
+		        + " GROUP BY en1.client_id)su11 "
+		        
+		        + " INNER JOIN( "
+		        + " SELECT fu21.client_id,fu21.viral_load_value,fu21.encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu21 "
+		        + " WHERE fu21.vl_results IS NOT NULL AND fu21.viral_load_test_done='Yes' " + " )su21 "
+		        + " ON su11.client_id=su21.client_id AND su11.encounter_datetime=su21.encounter_datetime "
+		        + " WHERE su21.vl_results = 'Below Detectable (BDL'";
 	}
 	
 	public static String getPregnantQueries() {
