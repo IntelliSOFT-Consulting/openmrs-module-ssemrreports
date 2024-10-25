@@ -383,8 +383,8 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		addRow(
 		    dsd,
 		    "PPRTN",
-		    "Pregnant women High VL results (>1,000 copies/ml)",
-		    map(indicator.getIndicator("Pregnant women High VL results (>1,000 copies/ml)",
+		    "Pregnant women High VL results (>=1,000 copies/ml)",
+		    map(indicator.getIndicator("Pregnant women High VL results (>=1,000 copies/ml)",
 		        map(merCohortQueries.getTxPvlsPregnantWithDocumentedVlResultsGreatorThan1000Cohort(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
