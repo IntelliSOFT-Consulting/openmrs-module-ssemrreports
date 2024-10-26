@@ -632,4 +632,35 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
+	//ad cohort definitions for the pregnant and breastfeeding women who have suppressed VL
+	public CohortDefinition getTxPvlsPregnantWithSuppressedVlResultsLessThan1000Cohort() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx pvls clients who are pregnant with suppressed VL result - <1000");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("SUP", SsemrReportUtils.map(
+		    getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("P",
+		    SsemrReportUtils.map(getPregnantCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("SUP AND P");
+		return cd;
+	}
+	
+	public CohortDefinition getTxPvlsBreastfeedingWithSuppressedVlResultsLessThan1000Cohort() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx pvls clients who are breastfeeding with suppressed VL result - <1000");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("SUP", SsemrReportUtils.map(
+		    getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("B", SsemrReportUtils.map(getBreastfeedingCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("SUP AND B");
+		return cd;
+	}
+	
 }

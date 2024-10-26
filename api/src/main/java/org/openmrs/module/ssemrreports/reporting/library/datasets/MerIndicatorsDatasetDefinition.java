@@ -402,6 +402,23 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    map(indicator.getIndicator("Breastfeeding women High VL results (>1,000 copies/ml) ",
 		        map(merCohortQueries.getTxPvlsBreastfeedingWithDocumentedVlResultsGreatorThan1000Cohort(), mappings)),
 		        mappings), getMerGenderAndAgeColumns());
+		
+		//adding the pregnant and breastfeeding for the VL suppressed
+		addRow(
+		    dsd,
+		    "PPSUP",
+		    "Pregnant women with suppressed VL results (<1,000 copies/ml)",
+		    map(indicator.getIndicator("Pregnant women with suppressed VL results (<1,000 copies/ml)",
+		        map(merCohortQueries.getTxPvlsPregnantWithSuppressedVlResultsLessThan1000Cohort(), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
+		
+		addRow(
+		    dsd,
+		    "BDSUP",
+		    "Breastfeeding women with suppressed VL result(<1000)",
+		    map(indicator.getIndicator("Breastfeeding women with suppressed VL result(<1000)",
+		        map(merCohortQueries.getTxPvlsBreastfeedingWithSuppressedVlResultsLessThan1000Cohort(), mappings)), mappings),
+		    getMerGenderAndAgeColumns());
 		return dsd;
 	}
 	
