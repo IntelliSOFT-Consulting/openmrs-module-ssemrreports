@@ -68,7 +68,7 @@ public class SetupMerTxRttIndicatorsReport extends SsemrDataExportManager {
 		rd.addDataSetDefinition("TxR1", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings1));
 		rd.addDataSetDefinition("TxR2", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings2));
 		rd.addDataSetDefinition("TxR3", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxRttDataset(), mappings3));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getClientsOnArtPerFacility(),
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getAccurateClientsOnArtPerFacility(),
 		    "endDate=${endDate},location=${location}"));
 		
 		return rd;
