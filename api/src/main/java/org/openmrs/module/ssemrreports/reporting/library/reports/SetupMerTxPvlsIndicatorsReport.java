@@ -69,7 +69,7 @@ public class SetupMerTxPvlsIndicatorsReport extends SsemrDataExportManager {
 		rd.addDataSetDefinition("TxPQ2", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ2));
 		rd.addDataSetDefinition("TxPQ3", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ3));
 		rd.addDataSetDefinition("TxPQ4", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxPvlsDataset(), mappingsQ4));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getClientsOnArtPerFacility(),
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getAccurateClientsOnArtPerFacility(),
 		    "endDate=${endDate},location=${location}"));
 		
 		return rd;
