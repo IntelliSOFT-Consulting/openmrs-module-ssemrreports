@@ -298,7 +298,7 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    "RTT23",
 		    "How long were people off ARVs - 6-12 months ",
 		    map(indicator.getIndicator("How long were people off ARVs - 6-12 months ",
-		        map(merCohortQueries.getHowLongWerePeopleOffArvsNdaysCohorts(180, 360), mappings)), mappings),
+		        map(merCohortQueries.getHowLongWerePeopleOffArvsNdaysCohorts(180, 366), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		addRow(
