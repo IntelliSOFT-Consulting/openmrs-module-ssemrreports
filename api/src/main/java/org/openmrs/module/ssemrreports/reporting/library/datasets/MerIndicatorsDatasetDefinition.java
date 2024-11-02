@@ -298,7 +298,7 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    "RTT23",
 		    "How long were people off ARVs - 6-12 months ",
 		    map(indicator.getIndicator("How long were people off ARVs - 6-12 months ",
-		        map(merCohortQueries.getHowLongWerePeopleOffArvsNdaysCohorts(180, 360), mappings)), mappings),
+		        map(merCohortQueries.getHowLongWerePeopleOffArvsNdaysCohorts(180, 366), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		addRow(
@@ -322,14 +322,6 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		    "CD4 results - Unknown CD4",
 		    map(indicator.getIndicator("CD4 results - Unknown CD4",
 		        map(merCohortQueries.getHowLongWerePeopleOffFromLastTcaWithUnknownCd4Cohorts(), mappings)), mappings),
-		    getMerGenderAndAgeColumns());
-		
-		addRow(
-		    dsd,
-		    "RTT7",
-		    "CD4 results - Not Eligible for CD4",
-		    map(indicator.getIndicator("CD4 results - Not Eligible for CD4",
-		        map(merCohortQueries.getHowLongWerePeopleOffFromLastTcaNotEligibleForCd4Cohorts(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
 		return dsd;

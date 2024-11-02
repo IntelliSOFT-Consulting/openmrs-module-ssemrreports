@@ -345,11 +345,13 @@ public class MerQueries {
 	
 	//TX PVLS
 	public static String getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterQueries() {
-		String sql = "SELECT client_id FROM ( "
-		        + " SELECT en.client_id,MAX(en.date_vl_results_received) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
-		        + " WHERE en.viral_load_test_done ='Yes' AND (en.vl_results IS NOT NULL OR en.viral_load_value IS NOT NULL)"
-		        + " AND DATE(en.date_vl_results_received) BETWEEN :startDate AND :endDate " + " GROUP BY en.client_id "
-		        + ")su";
+		String sql = "SELECT su.client_id FROM( "
+		        + " SELECT fu.client_id,MAX(fu.date_vl_results_received) AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE  fu.date_vl_results_received BETWEEN :startDate AND :endDate "
+		        + " GROUP BY fu.client_id)su "
+		        + " INNER JOIN "
+		        + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 ON su.client_id=fu1.client_id "
+		        + " WHERE  su.date_vl_results_received=fu1.date_vl_results_received AND fu1.viral_load_test_done='Yes' AND (fu1.vl_results='Below Detectable (BDL)' OR fu1.viral_load_value IS NOT NULL)";
 		
 		return sql;
 	}
