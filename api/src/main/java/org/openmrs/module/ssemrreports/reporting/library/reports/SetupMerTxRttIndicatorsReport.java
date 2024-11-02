@@ -56,8 +56,8 @@ public class SetupMerTxRttIndicatorsReport extends SsemrDataExportManager {
 		ReportDefinition rd = new ReportDefinition();
 		String mappings = "startDate=${startDate},endDate=${endDate+23h},location=${location}";
 		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d+23h},location=${location}";
-		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d+23h},location=${location}";
-		String mappings3 = "startDate=${startDate+2m},endDate=${endDate+23h},location=${location}";
+		String mappings2 = "startDate=${startDate+1m+1d},endDate=${startDate+2m-1d+23h},location=${location}";
+		String mappings3 = "startDate=${startDate+2m+1d},endDate=${endDate+23h},location=${location}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());

@@ -324,14 +324,6 @@ public class MerIndicatorsDatasetDefinition extends SsemrBaseDataSet {
 		        map(merCohortQueries.getHowLongWerePeopleOffFromLastTcaWithUnknownCd4Cohorts(), mappings)), mappings),
 		    getMerGenderAndAgeColumns());
 		
-		addRow(
-		    dsd,
-		    "RTT7",
-		    "CD4 results - Not Eligible for CD4",
-		    map(indicator.getIndicator("CD4 results - Not Eligible for CD4",
-		        map(merCohortQueries.getHowLongWerePeopleOffFromLastTcaNotEligibleForCd4Cohorts(), mappings)), mappings),
-		    getMerGenderAndAgeColumns());
-		
 		return dsd;
 	}
 	
