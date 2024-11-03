@@ -369,7 +369,7 @@ public class MerCohortQueries {
 		    getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod(),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		comp.addSearch("LMT", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
-		comp.setCompositionString("BASE AND LMT");
+		comp.setCompositionString("LMT");
 		return comp;
 	}
 	
