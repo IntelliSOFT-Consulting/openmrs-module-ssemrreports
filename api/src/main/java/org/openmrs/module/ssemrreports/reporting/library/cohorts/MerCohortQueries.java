@@ -346,7 +346,7 @@ public class MerCohortQueries {
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.addSearch("T2", SsemrReportUtils.map(getClientsWhoLTFUatTheBeginningOfTheReportingPeriod(),
 		    "startDate=${startDate},location=${location}"));
-		cd.setCompositionString("T1 AND T2");
+		cd.setCompositionString("T1");
 		return cd;
 	}
 	
