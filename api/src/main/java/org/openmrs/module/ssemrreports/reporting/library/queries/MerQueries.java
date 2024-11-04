@@ -317,17 +317,23 @@ public class MerQueries {
 	//TX RTT
 	public static String getClientsTracedBroughtBackToCareRestarted() {
 		return "SELECT client_id FROM("
-		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
-		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted BETWEEN :startDate AND :endDate AND location_id=:location "
+		        + " SELECT fu.client_id AS client_id, MAX(fu.date_restarted) AS date_restarted FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
+		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted > DATE_ADD( :startDate, INTERVAL -1 DAY) AND location_id=:location "
 		        + " GROUP BY fu.client_id" + ")fn";
 	}
 	
 	public static String getHowLongWerePeopleOffArvQuery(int l, int h) {
-		return "SELECT client_id FROM ( "
-		        + " SELECT fu.patient_id AS client_id, Date_add(MAX(fu.start_date_time), interval 28 day) AS follow_up_date FROM openmrs.patient_appointment fu "
-		        + " WHERE fu.date_created <= :endDate AND location_id=:location "
-		        + " GROUP BY client_id) fn WHERE DATEDIFF(fn.follow_up_date, :endDate) >=" + l
-		        + " AND DATEDIFF(fn.follow_up_date, :endDate) <" + h;
+		return "SELECT  client_id FROM ( "
+		        + " SELECT t1.client_id AS client_id, t1.date_restarted AS date_restarted, t2.date_out_of_drugs AS out_of_drugs_date FROM( "
+		        + " SELECT fu.client_id AS client_id, MAX(fu.date_restarted) AS date_restarted FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
+		        + " WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted > DATE_ADD( :startDate, INTERVAL -1 DAY) AND location_id=:location "
+		        + " GROUP BY fu.client_id)t1 "
+		        + " INNER JOIN( "
+		        + " SELECT f1.patient_id, Date_add(MAX(f1.start_date_time), interval 28 day) AS date_out_of_drugs FROM openmrs.patient_appointment f1 "
+		        + " WHERE f1.date_created <= :endDate AND location_id=:location "
+		        + " GROUP BY f1.patient_id)t2 ON t1.client_id=t2.patient_id)t3 "
+		        + " WHERE DATEDIFF(t3.out_of_drugs_date, t3.date_restarted) >=" + l
+		        + " AND DATEDIFF(t3.out_of_drugs_date, t3.date_restarted) <" + h;
 	}
 	
 	public static String getHowLongWerePeopleOffArvAfterLTFUQuery() {
