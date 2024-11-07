@@ -317,23 +317,32 @@ public class MerQueries {
 	//TX RTT
 	public static String getClientsTracedBroughtBackToCareRestarted() {
 		return "SELECT client_id FROM("
-		        + " SELECT fu.client_id AS client_id, MAX(fu.date_restarted) AS date_restarted FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
-		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted > DATE_ADD( :startDate, INTERVAL -1 DAY) AND location_id=:location "
+		        + " SELECT fu.client_id AS client_id, MAX(fu.date_of_treatment_interruption) AS date_of_treatment_interruption FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
+		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_of_treatment_interruption > DATE_ADD( :startDate, INTERVAL -1 DAY) AND :endDate AND location_id=:location "
 		        + " GROUP BY fu.client_id" + ")fn";
 	}
 	
 	public static String getHowLongWerePeopleOffArvQuery(int l, int h) {
-		return "SELECT  client_id FROM ( "
-		        + " SELECT t1.client_id AS client_id, t1.date_restarted AS date_restarted, t2.date_out_of_drugs AS out_of_drugs_date FROM( "
-		        + " SELECT fu.client_id AS client_id, MAX(fu.date_restarted) AS date_restarted FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
-		        + " WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted > DATE_ADD( :startDate, INTERVAL -1 DAY) AND location_id=:location "
-		        + " GROUP BY fu.client_id)t1 "
-		        + " INNER JOIN( "
-		        + " SELECT f1.patient_id, Date_add(MAX(f1.start_date_time), interval 28 day) AS date_out_of_drugs FROM openmrs.patient_appointment f1 "
-		        + " WHERE f1.date_created <= :endDate AND location_id=:location "
-		        + " GROUP BY f1.patient_id)t2 ON t1.client_id=t2.patient_id)t3 "
-		        + " WHERE DATEDIFF(t3.out_of_drugs_date, t3.date_restarted) >=" + l
-		        + " AND DATEDIFF(t3.out_of_drugs_date, t3.date_restarted) <" + h;
+		return "SELECT fn.client_id FROM("
+		        + " SELECT fu.client_id AS client_id, MAX(fu.date_of_treatment_interruption) AS date_of_treatment_interruption FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
+		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_of_treatment_interruption > DATE_ADD( :startDate, INTERVAL -1 DAY) AND :endDate AND location_id=:location "
+		        + " GROUP BY fu.client_id" + ")fn "
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_art_interruption fu1 ON fu1.client_id=fn.client_id "
+		        + " WHERE fn.date_of_treatment_interruption = fu1.date_of_treatment_interruption "
+		        + " AND DATEDIFF(fu1.date_restarted, fn.date_of_treatment_interruption) >=" + l
+		        + " AND DATEDIFF(fu1.date_restarted, fn.date_of_treatment_interruption) <" + h;
+		
+		/*"SELECT  client_id FROM ( "
+		+ " SELECT t1.client_id AS client_id, t1.date_restarted AS date_restarted, t2.date_out_of_drugs AS out_of_drugs_date FROM( "
+		+ " SELECT fu.client_id AS client_id, MAX(fu.date_restarted) AS date_restarted FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
+		+ " WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted > DATE_ADD( :startDate, INTERVAL -1 DAY) AND location_id=:location "
+		+ " GROUP BY fu.client_id)t1 "
+		+ " INNER JOIN( "
+		+ " SELECT f1.patient_id, Date_add(MAX(f1.start_date_time), interval 28 day) AS date_out_of_drugs FROM openmrs.patient_appointment f1 "
+		+ " WHERE f1.date_created <= :endDate AND location_id=:location "
+		+ " GROUP BY f1.patient_id)t2 ON t1.client_id=t2.patient_id)t3 "
+		+ " WHERE DATEDIFF(t3.out_of_drugs_date, t3.date_restarted) >=" + l
+		+ " AND DATEDIFF(t3.out_of_drugs_date, t3.date_restarted) <" + h;*/
 	}
 	
 	public static String getHowLongWerePeopleOffArvAfterLTFUQuery() {
