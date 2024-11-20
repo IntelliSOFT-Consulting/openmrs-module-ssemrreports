@@ -13,7 +13,7 @@ import java.util.List;
 public class FacilityFragmentController {
 	
 	public void controller(FragmentModel fragmentModel,
-	        @FragmentParam(value = "loggedInLocation", required = false) Location location, UiSessionContext uiSessionContext) {
+	        @FragmentParam(value = "location", required = false) Location location, UiSessionContext uiSessionContext) {
 		List<Location> getLocations = new ArrayList<Location>();
 		User currentUSer = uiSessionContext.getCurrentUser();
 		List<Location> visitLocations = Context.getLocationService().getLocationsByTag(
@@ -22,7 +22,7 @@ public class FacilityFragmentController {
 			//getLocations.addAll(visitLocations);
 			getLocations.add(location);
 		} else {
-			getLocations.add(visitLocations.get(0));
+			getLocations.addAll(visitLocations);
 		}
 		
 		fragmentModel.addAttribute("loggedInLocation", getLocations);
