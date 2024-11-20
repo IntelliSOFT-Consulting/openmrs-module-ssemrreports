@@ -7,11 +7,12 @@ import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.Module;
 import org.openmrs.module.ModuleFactory;
+import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.ui.framework.page.PageModel;
 
 public class ReportsPageController {
 	
-	public void controller(PageModel model){
+	public void controller(PageModel model, UiSessionContext uiSessionContext){
 		boolean moduleStatus = false;
 		
 		for (Module mod : ModuleFactory.getLoadedModules()) {
@@ -23,5 +24,6 @@ public class ReportsPageController {
 		model.addAttribute("moduleStatus", moduleStatus);
 		model.addAttribute("userRoles", new ArrayList<>(Context.getService(UserService.class).getAllRoles().stream().filter(role -> role.getName().startsWith("Org")).collect(
 				Collectors.toList())));
+		model.addAttribute("loggedInLocation", uiSessionContext.getSessionLocation());
 	}
 }

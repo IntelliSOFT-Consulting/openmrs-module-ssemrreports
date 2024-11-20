@@ -23,6 +23,7 @@
 		<require_module version="${reportingUIVersion}">org.openmrs.module.reportingui</require_module>
 		<require_module version="${reportingRestVersion}">org.openmrs.module.reportingrest</require_module>
 		<require_module>org.openmrs.module.uicommons</require_module>
+		<require_module>org.openmrs.module.appui</require_module>
 		<require_module version="${webservices.restModuleVersion}">org.openmrs.module.webservices.rest</require_module>
 	</require_modules>
 
