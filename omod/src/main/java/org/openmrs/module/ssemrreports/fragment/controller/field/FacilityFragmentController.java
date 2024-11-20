@@ -17,7 +17,7 @@ public class FacilityFragmentController {
 		List<Location> getLocations = new ArrayList<Location>();
 		User currentUSer = uiSessionContext.getCurrentUser();
 		List<Location> visitLocations = Context.getLocationService().getLocationsByTag(
-		    Context.getLocationService().getLocationTagByName("Visit Location"));
+		    Context.getLocationService().getLocationTagByName("Login Location"));
 		if (currentUSer != null && location != null) { //&& currentUSer.hasPrivilege(BotswanaPrivilegeConstants.VIEW_BOTS_REPORTS) && !visitLocations.isEmpty()) {
 			//getLocations.addAll(visitLocations);
 			getLocations.add(location);
