@@ -15,6 +15,6 @@
 }
 </style>
 <div>
-  ${ui.includeFragment("ssemrreports", "reports")}
+  ${ui.includeFragment("ssemrreports", "reports", ['loggedInLocation': loggedInLocation])}
 </div>
 
