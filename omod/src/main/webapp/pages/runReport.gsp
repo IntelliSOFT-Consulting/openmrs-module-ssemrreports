@@ -186,7 +186,7 @@
                                         defaultDate: it.defaultValue
                                 ])}
                                 <% } else if (it.type == org.openmrs.Location) { %>
-                                ${ ui.includeFragment("uicommons", "field/location", [
+                                ${ ui.includeFragment("ssemrreports", "field/facility", [
                                         formFieldName: "parameterValues[" + it.name + "]",
                                         label: 'Facility',
                                         initialValue: it.defaultValue ?: sessionContext.sessionLocation,
