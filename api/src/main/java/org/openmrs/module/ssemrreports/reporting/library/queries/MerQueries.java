@@ -301,7 +301,7 @@ public class MerQueries {
 	public static String getClientsTracedBroughtBackToCareRestarted() {
 		return "SELECT client_id FROM("
 		        + " SELECT fu.client_id AS client_id, MAX(fu.date_restarted) AS date_restarted FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
-		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted BETWEEN DATE_ADD( :startDate, INTERVAL -1 DAY) AND :endDate AND location_id=:location "
+		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted BETWEEN :startDate AND :endDate AND location_id=:location "
 		        + " GROUP BY fu.client_id" + ")fn";
 	}
 	
