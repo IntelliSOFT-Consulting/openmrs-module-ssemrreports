@@ -93,40 +93,23 @@ public class MerQueries {
 		return "SELECT client_id FROM("
 		        
 		        + "SELECT f.client_id,MAX(f.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
-		        + "	WHERE f.cd4 IS NOT NULL AND f.cd4 < 200 AND f.encounter_datetime <=:endDate"
-		        + " GROUP BY f.client_id"
-		        
-		        + " UNION "
-		        + "SELECT tx.client_id,MAX(tx.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history tx"
-		        + "	WHERE tx.cd4 IS NOT NULL AND tx.cd4 < 200 AND tx.encounter_datetime <=:endDate"
-		        + " GROUP BY tx.client_id"
-		        
-		        + ") fn";
+		        + "	WHERE f.cd4 IS NOT NULL AND f.cd4 < 200 AND f.encounter_datetime BETWEEN :startDate AND :endDate AND f.location_id=:location "
+		        + " GROUP BY f.client_id " + ") fn";
 	}
 	
 	public static String getClientsWithCd4MoreThanOrEqualTo200Query() {
 		return "SELECT client_id FROM("
 		        
 		        + "SELECT f.client_id,MAX(f.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
-		        + "	WHERE f.cd4 IS NOT NULL AND f.cd4 >= 200 AND f.encounter_datetime <=:endDate"
-		        + " GROUP BY f.client_id"
-		        
-		        + " UNION "
-		        + "SELECT tx.client_id,MAX(tx.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history tx"
-		        + "	WHERE tx.cd4 IS NOT NULL AND tx.cd4 >= 200 AND tx.encounter_datetime <=:endDate"
-		        + " GROUP BY tx.client_id"
-		        
-		        + ") fn";
+		        + "	WHERE f.cd4 IS NOT NULL AND f.cd4 >= 200 AND f.encounter_datetime BETWEEN :startDate AND :endDate AND f.location_id=:location "
+		        + " GROUP BY f.client_id " + ") fn";
 	}
 	
 	public static String getClientsWithUnknownCd4Query() {
 		return "SELECT client_id FROM("
 		        + "SELECT f.client_id,MAX(f.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
-		        + "	WHERE f.cd4 IS NULL AND f.encounter_datetime <=:endDate"
-		        + " GROUP BY f.client_id"
-		        + " UNION "
-		        + "SELECT tx.client_id,MAX(tx.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history tx"
-		        + "	WHERE tx.cd4 IS NULL AND tx.encounter_datetime <=:endDate" + " GROUP BY tx.client_id" + ") fn";
+		        + "	WHERE f.cd4 IS NULL AND f.encounter_datetime BETWEEN :startDate AND :endDate AND f.location_id=:location "
+		        + " GROUP BY f.client_id " + ") fn";
 		
 	}
 	
@@ -318,7 +301,7 @@ public class MerQueries {
 	public static String getClientsTracedBroughtBackToCareRestarted() {
 		return "SELECT client_id FROM("
 		        + " SELECT fu.client_id AS client_id, MAX(fu.date_restarted) AS date_restarted FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
-		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted > DATE_ADD( :startDate, INTERVAL -1 DAY) AND :endDate AND location_id=:location "
+		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted BETWEEN DATE_ADD( :startDate, INTERVAL -1 DAY) AND :endDate AND location_id=:location "
 		        + " GROUP BY fu.client_id" + ")fn";
 	}
 	
