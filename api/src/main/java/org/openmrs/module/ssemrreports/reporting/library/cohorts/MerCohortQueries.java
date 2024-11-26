@@ -209,12 +209,22 @@ public class MerCohortQueries {
 	
 	public CohortDefinition getTxMlIitL3mCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxMl Cohorts - IIT After being on Treatment for <3 months");
+		cd.setName("TxCurr Cohorts - IIT After being on Treatment for <3 months");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlIitL3mQuery());
-		return cd;
+		
+		CompositionCohortDefinition cdComp = new CompositionCohortDefinition();
+		cdComp.setName("TxCurr Cohorts - combine with IIT After being on Treatment for <3 months");
+		cdComp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cdComp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cdComp.addParameter(new Parameter("location", "Location", Location.class));
+		cdComp.addSearch("TxCURR",
+		    SsemrReportUtils.map(getTxCurrCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.addSearch("IIT", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.setCompositionString("TxCURR AND IIT");
+		return cdComp;
 	}
 	
 	public CohortDefinition getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitmCohorts(
@@ -230,12 +240,22 @@ public class MerCohortQueries {
 	
 	public CohortDefinition getTxMlIit3To5mCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxMl Cohorts - IIT After being on Treatment for 3-5 months");
+		cd.setName("TxCURR Cohorts - IIT After being on Treatment for 3-5 months");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlIitL3To5mQuery());
-		return cd;
+		
+		CompositionCohortDefinition cdComp = new CompositionCohortDefinition();
+		cdComp.setName("TxCurr Cohorts - combine with IIT After being on Treatment for 3-5 months");
+		cdComp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cdComp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cdComp.addParameter(new Parameter("location", "Location", Location.class));
+		cdComp.addSearch("TxCURR",
+		    SsemrReportUtils.map(getTxCurrCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.addSearch("IIT", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.setCompositionString("TxCURR AND IIT");
+		return cdComp;
 	}
 	
 	public CohortDefinition getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIit3To5mCohorts() {
@@ -260,22 +280,17 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlIitM6mQuery());
-		return cd;
-	}
-	
-	public CohortDefinition getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitM6mCohorts() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitM6mCohorts");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("T1", SsemrReportUtils.map(
-		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T2",
-		    SsemrReportUtils.map(getTxMlIitM6mCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.setCompositionString("T1 AND T2");
-		return cd;
+		
+		CompositionCohortDefinition cdComp = new CompositionCohortDefinition();
+		cdComp.setName("TxCurr Cohorts - combine with IIT After being on Treatment for 6+ months");
+		cdComp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cdComp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cdComp.addParameter(new Parameter("location", "Location", Location.class));
+		cdComp.addSearch("TxCURR",
+		    SsemrReportUtils.map(getTxCurrCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.addSearch("IIT", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.setCompositionString("TxCURR AND IIT");
+		return cdComp;
 	}
 	
 	public CohortDefinition getTxMlSelfTransferOutCohorts() {

@@ -140,55 +140,18 @@ public class MerQueries {
 	}
 	
 	public static String getTxMlIitL3mQuery() {
-		return "SELECT tp.client_id FROM(" + " SELECT fn.client_id FROM("
+		return "SELECT fn.client_id FROM("
 		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu WHERE fu.encounter_datetime <= :endDate "
 		        + " AND fu.art_regimen_no_of_days_dispensed IS NOT NULL" + " GROUP BY fu.client_id)fn "
 		        
 		        + " INNER JOIN " + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
 		        + " ON fu1.client_id = fn.client_id AND fu1.encounter_datetime=fn.encounter_datetime "
-		        + " WHERE CAST(fu1.art_regimen_no_of_days_dispensed AS UNSIGNED) < 90 )tp"
-		        
-		        + " INNER JOIN("
-		        
-		        + "SELECT agg.client_id AS client_id FROM ("
-		        
-		        + "SELECT su1.client_id FROM("
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
-		        
-		        + "UNION "
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
-		        
-		        + "UNION "
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location " + ")su1"
-		        
-		        + " WHERE su1.client_id NOT IN("
-		        
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.death ='Yes' " + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " UNION "
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.ltfu ='Yes' " + " AND DATE(efu.ltfu_date) BETWEEN :startDate AND :endDate " + " UNION "
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.client_refused_treatment ='Yes' "
-		        + " AND DATE(efu.date_client_refused_treatment) BETWEEN :startDate AND :endDate " + " UNION "
-		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
-		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL "
-		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate " + " UNION "
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.transfer_out ='Yes' AND efu.transfer_out_date IS NOT NULL "
-		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate " + ") " + ")agg"
-		        + ")tn1  ON tp.client_id=tn1.client_id";
+		        + " WHERE CAST(fu1.art_regimen_no_of_days_dispensed AS UNSIGNED) < 90 ";
 	}
 	
 	public static String getTxMlIitL3To5mQuery() {
-		return "SELECT tp.client_id FROM("
-		        + " SELECT fn.client_id FROM("
+		return " SELECT fn.client_id FROM("
 		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu WHERE fu.encounter_datetime <= :endDate "
 		        + " AND fu.art_regimen_no_of_days_dispensed IS NOT NULL"
@@ -197,98 +160,19 @@ public class MerQueries {
 		        + " INNER JOIN "
 		        + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
 		        + " ON fu1.client_id = fn.client_id AND fu1.encounter_datetime=fn.encounter_datetime "
-		        + " WHERE CAST(fu1.art_regimen_no_of_days_dispensed AS UNSIGNED) > 89 AND CAST(fu1.art_regimen_no_of_days_dispensed AS UNSIGNED) < 180)tp"
-		        
-		        + " INNER JOIN("
-		        
-		        + "SELECT agg.client_id AS client_id FROM ("
-		        
-		        + "SELECT su1.client_id FROM("
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
-		        
-		        + "UNION "
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
-		        
-		        + "UNION "
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location " + ")su1"
-		        
-		        + " WHERE su1.client_id NOT IN("
-		        
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.death ='Yes' " + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " UNION "
-		        
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.ltfu ='Yes' " + " AND DATE(efu.ltfu_date) BETWEEN :startDate AND :endDate " + " UNION "
-		        
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.client_refused_treatment ='Yes' "
-		        + " AND DATE(efu.date_client_refused_treatment) BETWEEN :startDate AND :endDate " + " UNION "
-		        
-		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
-		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL "
-		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate " + " UNION "
-		        
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.transfer_out ='Yes' AND efu.transfer_out_date IS NOT NULL "
-		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate " + ") " + ")agg"
-		        + ")tn1  ON tp.client_id=tn1.client_id";
+		        + " WHERE CAST(fu1.art_regimen_no_of_days_dispensed AS UNSIGNED) > 89 AND CAST(fu1.art_regimen_no_of_days_dispensed AS UNSIGNED) < 180 ";
+		
 	}
 	
 	public static String getTxMlIitM6mQuery() {
-		return "SELECT tp.client_id FROM(" + " SELECT fn.client_id FROM("
+		return " SELECT fn.client_id FROM("
 		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu WHERE fu.encounter_datetime <= :endDate "
 		        + " AND fu.art_regimen_no_of_days_dispensed IS NOT NULL" + " GROUP BY fu.client_id)fn "
 		        
 		        + " INNER JOIN " + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 "
 		        + " ON fu1.client_id = fn.client_id AND fu1.encounter_datetime=fn.encounter_datetime "
-		        + " WHERE fu1.art_regimen_no_of_days_dispensed like '180%')tp"
-		        
-		        + " INNER JOIN("
-		        
-		        + "SELECT agg.client_id AS client_id FROM ("
-		        
-		        + "SELECT su1.client_id FROM("
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
-		        
-		        + "UNION "
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
-		        
-		        + "UNION "
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location " + ")su1"
-		        
-		        + " WHERE su1.client_id NOT IN("
-		        
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.death ='Yes' " + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " UNION "
-		        
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.ltfu ='Yes' " + " AND DATE(efu.ltfu_date) BETWEEN :startDate AND :endDate " + " UNION "
-		        
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.client_refused_treatment ='Yes' "
-		        + " AND DATE(efu.date_client_refused_treatment) BETWEEN :startDate AND :endDate " + " UNION "
-		        
-		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
-		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL "
-		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate " + " UNION "
-		        
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.transfer_out ='Yes' AND efu.transfer_out_date IS NOT NULL "
-		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate " + ") " + ")agg"
-		        + ")tn1  ON tp.client_id=tn1.client_id";
+		        + " WHERE fu1.art_regimen_no_of_days_dispensed like '180%' ";
 	}
 	
 	public static String getTxMlCauseOfDeathQueries(String cause) {
