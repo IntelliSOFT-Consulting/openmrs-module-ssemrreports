@@ -45,7 +45,7 @@ public class MerCohortQueries {
 		comp.addParameter(new Parameter("location", "Location", Location.class));
 		comp.addSearch("Tx1", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
 		comp.addSearch("Tx2", SsemrReportUtils.map(cd1, "startDate=${startDate},endDate=${endDate},location=${location}"));
-		comp.setCompositionString("Tx2");
+		comp.setCompositionString("Tx1 OR Tx2");
 		return comp;
 	}
 	
