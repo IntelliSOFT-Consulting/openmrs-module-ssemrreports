@@ -53,6 +53,11 @@ public class MerQueries {
 		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate " + ") " + ")agg";
 	}
 	
+	public static String getArtPatientsWhoRestartedTreatmentInPeriod() {
+		return " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
+		        + " WHERE ai.date_restarted IS NOT NULL " + " AND ai.date_restarted BETWEEN :startDate AND :endDate ";
+	}
+	
 	//end TX curr formulations
 	
 	//Tx new cohort queries

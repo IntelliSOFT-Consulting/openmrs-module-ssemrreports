@@ -25,12 +25,28 @@ public class MerCohortQueries {
 	
 	public CohortDefinition getTxCurrCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxCurr Cohorts");
+		cd.setName("TxCurr Cohorts excluding interruptions");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getPatientsWhoInitiatedArtDuringReportingPeriod());
-		return cd;
+		
+		SqlCohortDefinition cd1 = new SqlCohortDefinition();
+		cd1.setName("ART restarted patients within the period ");
+		cd1.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd1.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd1.addParameter(new Parameter("location", "Location", Location.class));
+		cd1.setQuery(MerQueries.getArtPatientsWhoRestartedTreatmentInPeriod());
+		
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("TXCURR TOTAL");
+		comp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		comp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		comp.addParameter(new Parameter("location", "Location", Location.class));
+		comp.addSearch("Tx1", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.addSearch("Tx2", SsemrReportUtils.map(cd1, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.setCompositionString("Tx2");
+		return comp;
 	}
 	
 	//TX new  cohort queries
