@@ -172,18 +172,14 @@ public class MerQueries {
 		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.death ='Yes' " + " AND DATE(efu.date_of_death) BETWEEN :startDate AND :endDate " + " UNION "
-		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.ltfu ='Yes' " + " AND DATE(efu.ltfu_date) BETWEEN :startDate AND :endDate " + " UNION "
-		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.client_refused_treatment ='Yes' "
 		        + " AND DATE(efu.date_client_refused_treatment) BETWEEN :startDate AND :endDate " + " UNION "
-		        
 		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
 		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL "
 		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate " + " UNION "
-		        
 		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
 		        + " WHERE efu.transfer_out ='Yes' AND efu.transfer_out_date IS NOT NULL "
 		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate " + ") " + ")agg"
@@ -437,5 +433,16 @@ public class MerQueries {
 		        
 		        + ") fn1 "
 		        + " WHERE DATE_ADD(fn1.follow_up_date, INTERVAL 28 DAY) <= DATE_ADD( :startDate, INTERVAL -1 DAY) ";
+	}
+	
+	public static String getIITPatients() {
+		return " SELECT t2.client_id AS client_id FROM ( "
+		        + " SELECT t1.client_id AS client_id, t1.encounter_datetime AS encounter_date, fu1.art_regimen_no_of_pills_dispensed AS pills_dispensed FROM( "
+		        + " SELECT fu.client_id AS client_id, MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.number_of_pills_dispensed IS NOT NULL AND fu.encounter_datetime < :endDate AND location_id=:location "
+		        + " GROUP BY fu.client_id) t1 "
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 ON t1.client_id=fu1.client_id "
+		        + " WHERE t1.encounter_datetime=fu1.encounter_datetime ) t2 WHERE DATE_ADD(t2.encounter_date, interval CAST(t2.pills_dispensed AS UNSIGNED) DAY) < :endDate";
+		
 	}
 }

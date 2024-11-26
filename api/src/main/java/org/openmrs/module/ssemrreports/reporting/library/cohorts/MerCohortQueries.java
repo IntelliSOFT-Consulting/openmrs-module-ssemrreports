@@ -23,6 +23,15 @@ public class MerCohortQueries {
 		this.sharedCohortQueries = sharedCohortQueries;
 	}
 	
+	public CohortDefinition getIITPatientsOverPeriod() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Interruptions over time");
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.setQuery(MerQueries.getIITPatients());
+		return cd;
+	}
+	
 	public CohortDefinition getTxCurrCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxCurr Cohorts excluding interruptions");
@@ -45,7 +54,8 @@ public class MerCohortQueries {
 		comp.addParameter(new Parameter("location", "Location", Location.class));
 		comp.addSearch("Tx1", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
 		comp.addSearch("Tx2", SsemrReportUtils.map(cd1, "startDate=${startDate},endDate=${endDate},location=${location}"));
-		comp.setCompositionString("Tx1 OR Tx2");
+		comp.addSearch("IIT", SsemrReportUtils.map(getIITPatientsOverPeriod(), "endDate=${endDate},location=${location}"));
+		comp.setCompositionString("(Tx1 AND NOT IIT) OR Tx2");
 		return comp;
 	}
 	
