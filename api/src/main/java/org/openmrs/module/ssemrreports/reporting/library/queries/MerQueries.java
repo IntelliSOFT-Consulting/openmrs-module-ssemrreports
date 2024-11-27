@@ -326,7 +326,7 @@ public class MerQueries {
 		        + " WHERE fu.number_of_pills_dispensed IS NOT NULL AND fu.encounter_datetime < :endDate AND location_id=:location "
 		        + " GROUP BY fu.client_id) t1 "
 		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 ON t1.client_id=fu1.client_id "
-		        + " WHERE t1.encounter_datetime=fu1.encounter_datetime ) t2 WHERE DATE(DATE_ADD(t2.encounter_date, interval CAST(t2.pills_dispensed AS UNSIGNED) DAY)) < DATE(:endDate)";
+		        + " WHERE t1.encounter_datetime=fu1.encounter_datetime ) t2 WHERE DATE_ADD(DATE(DATE_ADD(t2.encounter_date, interval CAST(t2.pills_dispensed AS UNSIGNED) DAY)), interval 28 DAY) < DATE(:endDate)";
 		
 	}
 }
