@@ -43,7 +43,7 @@ public class VLDueDateDataEvaluator implements PersonDataEvaluator {
 		        + " WHEN fp.client_pregnant = 'Yes' AND TIMESTAMPDIFF(MONTH, fh.art_start_date, CURRENT_DATE) < 6 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 3 MONTH) "
 		        + " WHEN fp.client_pregnant = 'Yes' AND TIMESTAMPDIFF(MONTH, fh.art_start_date, CURRENT_DATE) >= 6 THEN fp.encounter_datetime"
 		        + "  WHEN mp.age > 18 AND fp.viral_load_value >= 1000 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 3 MONTH) "
-		        + " WHEN mp.age > 18 AND fp.viral_load_value < 1000 OR fp.vl_results = 'Below Detectable (BDL)' THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 12 MONTH) "
+		        + " WHEN mp.age > 18 AND (fp.viral_load_value < 1000 OR fp.vl_results = 'Below Detectable (BDL)') THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 12 MONTH) "
 		        + " WHEN hvl.third_eac_session_date IS NOT NULL THEN DATE_ADD(hvl.third_eac_session_date, INTERVAL 1 MONTH)"
 		        + "  ELSE NULL END as due_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp "
 		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en ON en.client_id = fp.client_id "
@@ -51,8 +51,7 @@ public class VLDueDateDataEvaluator implements PersonDataEvaluator {
 		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load hvl ON hvl.client_id = fp.client_id"
 		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = fp.client_id "
 		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_personal_family_tx_history fh on fh.client_id = fp.client_id "
-		        + "  WHERE DATE(fp.encounter_datetime) <= DATE(:endDate) GROUP BY fp.client_id,mp.age,fp.vl_results,fh.art_start_date, "
-		        + "  fp.client_pregnant, fp.viral_load_value, vlr.value, hvl.third_eac_session_date, fp.encounter_datetime,fp.date_vl_sample_collected) t group by client_id";
+		        + "  WHERE DATE(fp.encounter_datetime) <= DATE(:endDate) GROUP BY fp.client_id) t GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
