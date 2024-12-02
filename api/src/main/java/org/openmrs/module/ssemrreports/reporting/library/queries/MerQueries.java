@@ -95,26 +95,30 @@ public class MerQueries {
 	}
 	
 	public static String getClientsWithCd4LessThan200Query() {
-		return "SELECT client_id FROM("
-		        
-		        + "SELECT f.client_id,MAX(f.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
-		        + "	WHERE f.cd4 IS NOT NULL AND f.cd4 < 200 AND f.encounter_datetime BETWEEN :startDate AND :endDate AND f.location_id=:location "
-		        + " GROUP BY f.client_id " + ") fn";
+		return
+		
+		" SELECT t1.client_id FROM ("
+		        + "SELECT f.client_id AS client_id,MAX(f.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
+		        + " GROUP BY f.client_id) t1"
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up t2 ON t1.client_id=t2.client_id"
+		        + "	WHERE t2.cd4 IS NOT NULL AND t2.cd4 < 200 AND t1.encounter_datetime=t2.encounter_datetime AND t2.encounter_datetime <= :endDate AND t2.location_id=:location ";
 	}
 	
 	public static String getClientsWithCd4MoreThanOrEqualTo200Query() {
-		return "SELECT client_id FROM("
-		        
-		        + "SELECT f.client_id,MAX(f.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
-		        + "	WHERE f.cd4 IS NOT NULL AND f.cd4 >= 200 AND f.encounter_datetime BETWEEN :startDate AND :endDate AND f.location_id=:location "
-		        + " GROUP BY f.client_id " + ") fn";
+		return " SELECT t1.client_id FROM ("
+		        + "SELECT f.client_id AS client_id,MAX(f.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
+		        + " GROUP BY f.client_id) t1"
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up t2 ON t1.client_id=t2.client_id"
+		        + "	WHERE t2.cd4 IS NOT NULL AND t2.cd4 >= 200 AND t1.encounter_datetime=t2.encounter_datetime AND t2.encounter_datetime <= :endDate AND t2.location_id=:location ";
+		
 	}
 	
 	public static String getClientsWithUnknownCd4Query() {
-		return "SELECT client_id FROM("
-		        + "SELECT f.client_id,MAX(f.encounter_datetime) FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
-		        + "	WHERE f.cd4 IS NULL AND f.encounter_datetime BETWEEN :startDate AND :endDate AND f.location_id=:location "
-		        + " GROUP BY f.client_id " + ") fn";
+		return " SELECT t1.client_id FROM ("
+		        + "SELECT f.client_id AS client_id,MAX(f.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f"
+		        + " GROUP BY f.client_id) t1"
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up t2 ON t1.client_id=t2.client_id"
+		        + "	WHERE t2.cd4 IS NULL AND t1.encounter_datetime=t2.encounter_datetime AND t2.encounter_datetime <= :endDate AND t2.location_id=:location ";
 		
 	}
 	
@@ -186,7 +190,7 @@ public class MerQueries {
 	public static String getClientsTracedBroughtBackToCareRestarted() {
 		return "SELECT client_id FROM("
 		        + " SELECT fu.client_id AS client_id, MAX(fu.date_restarted) AS date_restarted FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
-		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted BETWEEN :startDate AND :endDate AND location_id=:location "
+		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_restarted BETWEEN :startDate AND  :endDate AND location_id=:location "
 		        + " GROUP BY fu.client_id" + ")fn";
 	}
 	

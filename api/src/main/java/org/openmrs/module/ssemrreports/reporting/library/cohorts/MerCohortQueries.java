@@ -428,7 +428,6 @@ public class MerCohortQueries {
 	public CohortDefinition getTxRttWithCd4LessThan200Cohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxRTT Cohorts - CD4: < 200");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getClientsWithCd4LessThan200Query());
@@ -444,8 +443,8 @@ public class MerCohortQueries {
 		cd.addSearch("T0", SsemrReportUtils.map(
 		    getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod(),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T1", SsemrReportUtils.map(getTxRttWithCd4LessThan200Cohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T1",
+		    SsemrReportUtils.map(getTxRttWithCd4LessThan200Cohorts(), "endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -469,8 +468,8 @@ public class MerCohortQueries {
 		cd.addSearch("T0", SsemrReportUtils.map(
 		    getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod(),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T1", SsemrReportUtils.map(getTxRttWithCd4GreaterOrEqual200Cohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T1",
+		    SsemrReportUtils.map(getTxRttWithCd4GreaterOrEqual200Cohorts(), "endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -478,7 +477,6 @@ public class MerCohortQueries {
 	public CohortDefinition getTxRttWithUnknownCd4Cohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxRTT Cohorts - Unknown CD4");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getClientsWithUnknownCd4Query());
@@ -494,8 +492,7 @@ public class MerCohortQueries {
 		cd.addSearch("T0", SsemrReportUtils.map(
 		    getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod(),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T1", SsemrReportUtils.map(getTxRttWithUnknownCd4Cohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T1", SsemrReportUtils.map(getTxRttWithUnknownCd4Cohorts(), "endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
