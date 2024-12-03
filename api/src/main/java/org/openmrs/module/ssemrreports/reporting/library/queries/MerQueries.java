@@ -195,14 +195,14 @@ public class MerQueries {
 	}
 	
 	public static String getHowLongWerePeopleOffArvQuery(int l, int h) {
-		return "SELECT fn.client_id FROM("
-		        + " SELECT fu.client_id AS client_id, MAX(fu.date_of_treatment_interruption) AS date_of_treatment_interruption FROM ssemr_etl.ssemr_flat_encounter_art_interruption fu "
-		        + "    WHERE fu.art_treatment_restarted='Yes' AND fu.date_of_treatment_interruption > DATE_ADD( :startDate, INTERVAL -1 DAY) AND :endDate AND location_id=:location "
-		        + " GROUP BY fu.client_id" + ")fn "
-		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_art_interruption fu1 ON fu1.client_id=fn.client_id "
-		        + " WHERE fn.date_of_treatment_interruption = fu1.date_of_treatment_interruption "
-		        + " AND DATEDIFF(fu1.date_restarted, fn.date_of_treatment_interruption) >=" + l
-		        + " AND DATEDIFF(fu1.date_restarted, fn.date_of_treatment_interruption) <" + h;
+		return "SELECT " + " f3.client_id " + " FROM " + " ssemr_etl.ssemr_flat_encounter_art_interruption f3 "
+		        + " INNER JOIN ( " + " SELECT " + " f2.client_id, " + " MAX(f2.encounter_datetime) AS last_follow_up "
+		        + " FROM " + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f2 " + " WHERE "
+		        + " f2.encounter_datetime <= :endDate " + " AND f2.location_id = :location " + " GROUP BY "
+		        + " f2.client_id " + " ) f2 ON f3.client_id = f2.client_id " + " WHERE "
+		        + " f3.art_treatment_restarted = 'Yes' " + " AND f3.date_restarted BETWEEN :startDate AND :endDate "
+		        + " AND f3.location_id = :location " + " AND DATEDIFF(f3.date_restarted, f2.last_follow_up) BETWEEN " + l
+		        + " AND " + h;
 	}
 	
 	public static String getHowLongWerePeopleOffArvAfterLTFUQuery() {
