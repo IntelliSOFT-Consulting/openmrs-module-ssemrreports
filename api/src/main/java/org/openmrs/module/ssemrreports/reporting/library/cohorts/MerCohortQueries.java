@@ -1,5 +1,6 @@
 package org.openmrs.module.ssemrreports.reporting.library.cohorts;
 
+import org.joda.time.Seconds;
 import org.openmrs.Location;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
@@ -235,7 +236,19 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(CommonQueries.getClientsWithArtDateAndDateLost(l, h));
-		return cd;
+		
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Combined query");
+		comp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		comp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		comp.addParameter(new Parameter("location", "Location", Location.class));
+		comp.addSearch("T1", SsemrReportUtils.map(
+		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.addSearch("T2", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		
+		comp.setCompositionString("T1 AND T2");
+		return comp;
 	}
 	
 	public CohortDefinition getTxMlIit3To5mCohorts() {
@@ -350,7 +363,19 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlCauseOfDeathQueries(cause));
-		return cd;
+		
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("TxMl Cohorts - Combined cause of death");
+		comp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		comp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		comp.addParameter(new Parameter("location", "Location", Location.class));
+		
+		comp.addSearch("T1", SsemrReportUtils.map(
+		    getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterDiedCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.addSearch("T2", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.setCompositionString("T1 AND T2");
+		return comp;
 	}
 	
 	//TX RTT cohort Queries
