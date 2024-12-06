@@ -37,20 +37,21 @@ public class VLDueDateDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select t.client_id, DATE_FORMAT(MAX(t.due_date), '%d-%m-%Y') AS max_due_date from (SELECT fp.client_id, mp.age, "
-		        + "fp.vl_results, fp.date_vl_sample_collected, fp.edd, fh.art_start_date, "
-		        + "vlr.patient_pregnant, fp.encounter_datetime, vlr.value, "
-		        + " CASE WHEN mp.age <= 19 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 6 MONTH) "
-		        + " WHEN fp.edd IS NOT NULL AND fp.edd > CURDATE() AND MAX(DATE(fh.were_arvs_received)) = CURDATE() THEN fp.encounter_datetime "
-		        + " WHEN fp.edd IS NOT NULL AND fp.edd > CURDATE() AND MAX(DATE(fh.were_arvs_received)) > CURDATE() THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 3 MONTH) "
-		        + "  WHEN mp.age > 19 AND fp.vl_results >= 200 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 3 MONTH) "
-		        + " WHEN mp.age > 19 AND fp.vl_results < 200 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 12 MONTH) "
+		        + "fp.vl_results, fp.viral_load_value, fp.date_vl_sample_collected, fh.art_start_date, "
+		        + "fp.client_pregnant, fp.encounter_datetime, hvl.third_eac_session_date, vlr.value, "
+		        + " CASE WHEN mp.age <= 18 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 6 MONTH) "
+		        + " WHEN fp.client_pregnant = 'Yes' AND TIMESTAMPDIFF(MONTH, fh.art_start_date, CURRENT_DATE) < 6 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 3 MONTH) "
+		        + " WHEN fp.client_pregnant = 'Yes' AND TIMESTAMPDIFF(MONTH, fh.art_start_date, CURRENT_DATE) >= 6 THEN fp.encounter_datetime"
+		        + "  WHEN mp.age > 18 AND fp.viral_load_value >= 1000 THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 3 MONTH) "
+		        + " WHEN mp.age > 18 AND (fp.viral_load_value < 1000 OR fp.vl_results = 'Below Detectable (BDL)') THEN DATE_ADD(fp.date_vl_sample_collected, INTERVAL 12 MONTH) "
+		        + " WHEN hvl.third_eac_session_date IS NOT NULL THEN DATE_ADD(hvl.third_eac_session_date, INTERVAL 1 MONTH)"
 		        + "  ELSE NULL END as due_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp "
 		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en ON en.client_id = fp.client_id "
 		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_vl_laboratory_request vlr ON vlr.client_id = fp.client_id "
+		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load hvl ON hvl.client_id = fp.client_id"
 		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = fp.client_id "
 		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_personal_family_tx_history fh on fh.client_id = fp.client_id "
-		        + "  WHERE DATE(fp.encounter_datetime) <= DATE(:endDate) GROUP BY fp.client_id,mp.age,fp.vl_results,fp.edd,fh.art_start_date, "
-		        + "  vlr.patient_pregnant,vlr.value,fp.encounter_datetime,fp.date_vl_sample_collected) t group by client_id";
+		        + "  WHERE DATE(fp.encounter_datetime) <= DATE(:endDate) GROUP BY fp.client_id) t GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
