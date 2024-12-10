@@ -364,6 +364,15 @@ public class CommonQueries {
 	}
 	
 	public static String getTbScreenedClients() {
+		String query = "select z.client_id from (SELECT f.client_id, mp.person_name_long, f.encounter_datetime, f.tb_status FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
+		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = f.client_id WHERE f.encounter_datetime = (SELECT MAX(f2.encounter_datetime) "
+		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f2 WHERE f2.client_id = f.client_id AND f2.location_id = :location AND f2.encounter_datetime BETWEEN :startDate AND :endDate) "
+		        + " AND f.location_id = :location AND f.encounter_datetime BETWEEN :startDate AND :endDate AND (f.tb_status = 'No Signs' OR f.tb_status = 'Pr TB - Presumptive TB')) as z";
+		
+		return query;
+	}
+	
+	public static String getTbTreatmentClients() {
 		String query = "select z.client_id from (SELECT f.client_id, mp.person_name_long, f.encounter_datetime, f.on_tb_treatment FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
 		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = f.client_id WHERE f.encounter_datetime = (SELECT MAX(f2.encounter_datetime) "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f2 WHERE f2.client_id = f.client_id AND f2.location_id = :location AND f2.encounter_datetime BETWEEN :startDate AND :endDate) "

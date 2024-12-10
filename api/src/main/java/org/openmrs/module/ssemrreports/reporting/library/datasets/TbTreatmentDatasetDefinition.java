@@ -1,9 +1,8 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
-import java.util.Date;
 import org.openmrs.Location;
-
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.PersonAttributeType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
@@ -12,31 +11,25 @@ import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
-import org.openmrs.module.reporting.data.person.definition.AgeDataDefinition;
-import org.openmrs.module.reporting.data.person.definition.ConvertedPersonDataDefinition;
-import org.openmrs.module.reporting.data.person.definition.GenderDataDefinition;
-import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.*;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
+import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
+import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
+import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
+import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.TbUnitNumberDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.*;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.DateStartedTbDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
-import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
-import org.openmrs.PersonAttributeType;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
-import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
+
+import java.util.Date;
 
 @Component
-public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
+public class TbTreatmentDatasetDefinition extends SsemrBaseDataSet {
 	
 	private DataDefinition personPayamAddress() {
 		CalculationDataDefinition cd = new CalculationDataDefinition("payam", new PayamAddressCalculation());
@@ -57,9 +50,9 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		
 		String DATE_FORMAT = "dd-MMM-yyyy";
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
-		dsd.setName("TBS");
+		dsd.setName("STB");
 		dsd.addParameters(getParameters());
-		dsd.setDescription("Line list for TB Screening");
+		dsd.setDescription("Line list of Clients On TB Treatment");
 		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
 		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -94,6 +87,12 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		BreastFeedingDataDefinition breastfeedingDataDefinition = new BreastFeedingDataDefinition();
 		breastfeedingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		DateStartedTbDataDefinition dateStartedTbDataDefinition = new DateStartedTbDataDefinition();
+		dateStartedTbDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		TbUnitNumberDataDefinition tbUnitNumberDataDefinition = new TbUnitNumberDataDefinition();
+		tbUnitNumberDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
@@ -106,6 +105,8 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("TB unit number", tbUnitNumberDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date Started TB", dateStartedTbDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");

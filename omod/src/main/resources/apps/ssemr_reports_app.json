@@ -34,9 +34,18 @@
         "id": "ssemr.tb.screening.register",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
-        "label": "Line list for TB Screening and treatment",
+        "label": "Line list for TB Screening",
         "url": "ssemrreports/runReport.page?reportDefinition=F4987BA7-FF1B-4E43-88A3-6500E0C808D1",
         "order": 22,
+        "requiredPrivilege": ""
+      },
+      {
+        "id": "ssemr.tb.screening.register",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Line list of Clients On TB Treatment",
+        "url": "ssemrreports/runReport.page?reportDefinition=5d9bbc09-8c56-49c0-aa58-d9bb2a11277c",
+        "order": 23,
         "requiredPrivilege": ""
       },
       {
@@ -45,7 +54,7 @@
         "type": "link",
         "label": "Line list for clients eligible, started and completed TPT",
         "url": "ssemrreports/runReport.page?reportDefinition=6fde4ce2-896d-11ee-b9d1-0242ac120002",
-        "order": 23,
+        "order": 24,
         "requiredPrivilege": ""
       },
       {
@@ -54,7 +63,7 @@
         "type": "link",
         "label": "Line list for IIT clients",
         "url": "ssemrreports/runReport.page?reportDefinition=ae58aa1e-89d9-11ee-b9d1-0242ac120002",
-        "order": 24,
+        "order": 25,
         "requiredPrivilege": ""
       },
       {
@@ -63,7 +72,7 @@
         "type": "link",
         "label": "Line list for RTT clients",
         "url": "ssemrreports/runReport.page?reportDefinition=835e45bc-8c90-11ee-b9d1-0242ac120002",
-        "order": 25,
+        "order": 26,
         "requiredPrivilege": ""
       },
       {
@@ -72,7 +81,7 @@
         "type": "link",
         "label": "Line list of clients eligible for viral load",
         "url": "ssemrreports/runReport.page?reportDefinition=5472dd4c-8710-11ee-b9d1-0242ac120002",
-        "order": 26,
+        "order": 27,
         "requiredPrivilege": ""
       },
       {
@@ -81,7 +90,7 @@
         "type": "link",
         "label": "Line list for clients with documented viral load result, high viral load, and viral load test",
         "url": "ssemrreports/runReport.page?reportDefinition=a22d33c6-8d45-11ee-b9d1-0242ac120002",
-        "order": 27,
+        "order": 28,
         "requiredPrivilege": ""
       },
       {
@@ -90,7 +99,7 @@
         "type": "link",
         "label": "Line list of clients with high viral load, EAC sessions and Repeat viral load",
         "url": "ssemrreports/runReport.page?reportDefinition=7acb704a-8007-11ee-b962-0242ac120002",
-        "order": 28,
+        "order": 29,
         "requiredPrivilege": ""
       },
       {
@@ -99,7 +108,7 @@
         "type": "link",
         "label": "Line list for clients due for appointment and missed appointment",
         "url": "ssemrreports/runReport.page?reportDefinition=a6ec5a32-7f0c-11ee-b962-0242ac120002",
-        "order": 29,
+        "order": 30,
         "requiredPrivilege": ""
       },
       {
@@ -108,7 +117,7 @@
         "type": "link",
         "label": "ART Monthly Report",
         "url": "ssemrreports/runReport.page?reportDefinition=fe2cc6a4-68c6-11ed-b5b2-bb32e6a06527",
-        "order": 30,
+        "order": 31,
         "requiredPrivilege": ""
       },
       {
@@ -117,7 +126,7 @@
         "type": "link",
         "label": "Tx CURR and NEW MER Indicators Report",
         "url": "ssemrreports/runReport.page?reportDefinition=9810dedc-f508-4ed5-9b86-2355b1cb3ca7",
-        "order": 31,
+        "order": 32,
         "requiredPrivilege": ""
       },
       {
@@ -126,7 +135,7 @@
         "type": "link",
         "label": "Tx ML MER Indicators Report",
         "url": "ssemrreports/runReport.page?reportDefinition=135b38f7-f7c5-4e84-ac4d-5c8fcb4ece58",
-        "order": 32,
+        "order": 33,
         "requiredPrivilege": ""
       },
       {
@@ -135,7 +144,7 @@
         "type": "link",
         "label": "TX PVLS MER Indicators Report",
         "url": "ssemrreports/runReport.page?reportDefinition=6ba23385-a11a-4dc0-bcec-dbb02f93e43a",
-        "order": 33,
+        "order": 34,
         "requiredPrivilege": ""
       },
       {
@@ -144,7 +153,7 @@
         "type": "link",
         "label": "Tx RTT MER Indicators Report",
         "url": "ssemrreports/runReport.page?reportDefinition=d4bacb92-1619-4e22-a5aa-0b143ae2597d",
-        "order": 34,
+        "order": 35,
         "requiredPrivilege": ""
       }
     ]
