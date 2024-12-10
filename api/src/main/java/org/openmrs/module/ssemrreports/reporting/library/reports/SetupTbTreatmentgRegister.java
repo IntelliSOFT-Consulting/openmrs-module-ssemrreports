@@ -6,7 +6,6 @@ import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
-import org.openmrs.module.ssemrreports.reporting.library.datasets.TbScreeningDatasetDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.TbTreatmentDatasetDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
