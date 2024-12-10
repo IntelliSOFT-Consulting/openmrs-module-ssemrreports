@@ -134,7 +134,7 @@ public class BaseCohortQueries {
 	
 	public CohortDefinition getPatientsInTbTreatment() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Get patients who are in tb treatment");
+		cd.setName("Get patients who are on TB treatment");
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
@@ -145,7 +145,7 @@ public class BaseCohortQueries {
 	
 	public CohortDefinition getPatientsScreenedForTbTreatment() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("Get patients who are tb screened");
+		cd.setName("Get patients who are screened for TB");
 		cd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));

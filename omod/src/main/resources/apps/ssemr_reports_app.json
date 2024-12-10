@@ -40,7 +40,7 @@
         "requiredPrivilege": ""
       },
       {
-        "id": "ssemr.tb.screening.register",
+        "id": "ssemr.tb.treatment.register",
         "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
         "type": "link",
         "label": "Line list of Clients On TB Treatment",

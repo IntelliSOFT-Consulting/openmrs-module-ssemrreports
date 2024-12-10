@@ -17,14 +17,14 @@ import java.util.List;
 import java.util.Properties;
 
 @Component
-public class SetupTbTreatmentgRegister extends SsemrDataExportManager {
+public class SetupTbTreatmentRegister extends SsemrDataExportManager {
 	
 	private final TbTreatmentDatasetDefinition tbTreatmentDatasetDefinition;
 	
 	private final BaseCohortQueries baseCohortQueries;
 	
 	@Autowired
-	public SetupTbTreatmentgRegister(TbTreatmentDatasetDefinition tbTreatmentDatasetDefinition,
+	public SetupTbTreatmentRegister(TbTreatmentDatasetDefinition tbTreatmentDatasetDefinition,
 	    BaseCohortQueries baseCohortQueries) {
 		this.tbTreatmentDatasetDefinition = tbTreatmentDatasetDefinition;
 		this.baseCohortQueries = baseCohortQueries;

@@ -111,8 +111,6 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Linked to COV (Y/N)", linkedToCOVDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
-		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		
 		return dsd;
 	}
