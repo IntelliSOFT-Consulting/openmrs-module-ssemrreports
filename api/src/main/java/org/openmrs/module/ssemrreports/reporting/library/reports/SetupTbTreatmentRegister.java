@@ -80,7 +80,9 @@ public class SetupTbTreatmentRegister extends SsemrDataExportManager {
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}
-		catch (IOException e) { throw new ReportingException("Error creating report design", e); }
+		catch (IOException e) {
+			throw new ReportingException("Error creating report design", e);
+		}
 		
 		return Arrays.asList(reportDesign);
 	}
