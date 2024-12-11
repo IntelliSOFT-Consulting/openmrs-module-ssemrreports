@@ -59,17 +59,21 @@ public class SetupArtMonthlyReport extends SsemrDataExportManager {
 	
 	@Override
 	public ReportDefinition constructReportDefinition() {
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
 		ReportDefinition rd = new ReportDefinition();
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.addParameters(artDatasetDefinition.getParameters());
-		rd.addDataSetDefinition("CummAndNewOnArt", Mapped.mapStraightThrough(artDatasetDefinition.getArtDataset()));
+		rd.addDataSetDefinition("CummAndNewOnArt", SsemrReportUtils.map(artDatasetDefinition.getArtDataset(), mappings));
 		rd.addDataSetDefinition("currentOnArtByAge",
 		    Mapped.mapStraightThrough(artDatasetDefinition.getTxCurrForAgeAtEnrolmentDataset()));
 		rd.addDataSetDefinition("currentOnArtByRegimen",
 		    Mapped.mapStraightThrough(artDatasetDefinition.getTxCurrByRegimenDataset()));
 		rd.addDataSetDefinition("viralLoad", Mapped.mapStraightThrough(artDatasetDefinition.getViralLoadDataset()));
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getAccurateClientsOnArtPerFacility(),
+		    "endDate=${endDate},location=${location}"));
+		
 		return rd;
 	}
 	

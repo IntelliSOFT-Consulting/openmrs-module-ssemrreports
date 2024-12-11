@@ -172,11 +172,13 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 		addRow(
 		    dsd,
 		    "1",
-		    "Cumulative no ever started on ART at this facility",
-		    map(indicator.getIndicator("Cumulative no ever started on ART at this facility",
-		        map(artCohortQueries.getCumulativeEverOnARTAtThisFacilityCohortDefinition(), mappings)), mappings),
-		    allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
-		        "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
+		    "Cumulative patients started on ART at the end of the previous reporting period",
+		    map(indicator.getIndicator(
+		        "Cumulative patients started on ART at the end of the previous reporting period",
+		        map(artCohortQueries.getCumulativeEverOnARTAtThisFacilityInPreviousReportingPeriodCohortDefinition(),
+		            mappings)), mappings), allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07",
+		        "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25",
+		        "26", "27"));
 		
 		addRow(
 		    dsd,
@@ -224,8 +226,8 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 		addRow(
 		    dsd,
 		    "7",
-		    "Cumulative no ever started on ART at this facility",
-		    map(indicator.getIndicator("Cumulative no ever started on ART at this facility",
+		    "Cumulative no ever started on ART at this facility by end of reporting period",
+		    map(indicator.getIndicator("Cumulative no ever started on ART at this facility by end of reporting period",
 		        map(artCohortQueries.getCumulativeEverOnARTAtThisFacilityAtEndOfReportingCohortDefinition(), mappings)),
 		        mappings), allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
 		        "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
