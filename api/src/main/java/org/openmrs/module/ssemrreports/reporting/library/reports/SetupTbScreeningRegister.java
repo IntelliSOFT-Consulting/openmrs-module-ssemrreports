@@ -61,20 +61,6 @@ public class SetupTbScreeningRegister extends SsemrDataExportManager {
 		    Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTbDatasetDefinition()));
 		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsScreenedForTbTreatment(),
 		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
-		// LocationAttributeType mflCodeAttributeType =
-		// Context.getLocationService().getLocationAttributeTypeByUuid(
-		// "8a845a89-6aa5-4111-81d3-0af31c45c002");
-		// rd.addDataSetDefinition("TBSCR",
-		// Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTbScreeningRegisterDefinition()));
-		// rd.addDataSetDefinition("TBSCRC",
-		// Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTheAggregatePartOfTheScreeningRegister()));
-		// rd.setBaseCohortDefinition(SsemrReportUtils.map(
-		// baseCohortQueries.getPatientsWhoQualifiesForAgivenEncounter(Arrays.asList(SsemrReportUtils.getEncounterType(
-		// SharedReportConstants.TB_SCREENING_ENCOUNTER_TYPE_UUID).getEncounterTypeId())),
-		// "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
-		// rd.addDataSetDefinition("DT",
-		// Mapped.mapStraightThrough(districtDatasetDefinition
-		// .getAddressDataset(mflCodeAttributeType.getLocationAttributeTypeId())));
 		return rd;
 	}
 	
@@ -94,9 +80,7 @@ public class SetupTbScreeningRegister extends SsemrDataExportManager {
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}
-		catch (IOException e) {
-			throw new ReportingException(e.toString());
-		}
+		catch (IOException e) { throw new ReportingException("Error creating report design", e); }
 		
 		return Arrays.asList(reportDesign);
 	}
