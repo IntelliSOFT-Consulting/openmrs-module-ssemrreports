@@ -72,7 +72,7 @@ public class SetupArtMonthlyReport extends SsemrDataExportManager {
 		    Mapped.mapStraightThrough(artDatasetDefinition.getTxCurrByRegimenDataset()));
 		rd.addDataSetDefinition("viralLoad", Mapped.mapStraightThrough(artDatasetDefinition.getViralLoadDataset()));
 		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getAccurateClientsOnArtPerFacility(),
-		"endDate=${endDate},location=${location}"));
+		    "endDate=${endDate},location=${location}"));
 		
 		return rd;
 	}

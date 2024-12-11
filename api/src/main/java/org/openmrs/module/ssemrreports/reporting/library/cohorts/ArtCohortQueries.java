@@ -94,11 +94,7 @@ public class ArtCohortQueries {
 		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
 		        + " WHERE art_start_date IS NOT NULL AND art_start_date <= DATE(:endDate) AND location_id=:location "
 		        + ")su1";
-		String qry = "select "
-		        + "    client_id "
-		        + "from ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
-		        + "where location_id=:location and DATE(encounter_datetime) <= date(:endDate) and date(art_start_date) <= date(:endDate)  ";
-		cd.setQuery(qry);
+		cd.setQuery(sql);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
