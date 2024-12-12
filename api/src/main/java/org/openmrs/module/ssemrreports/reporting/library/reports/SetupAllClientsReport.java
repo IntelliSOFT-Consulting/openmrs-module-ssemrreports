@@ -73,8 +73,8 @@ public class SetupAllClientsReport extends SsemrDataExportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign reportDesign = null;
 		try {
-			reportDesign = createXlsReportDesign(reportDefinition, "all_clients.xls", "Line list of all Client",
-			    getExcelDesignUuid(), null);
+			reportDesign = createXlsReportDesign(reportDefinition, "line_list_of_all_clients.xls",
+			    "Line list of all Client", getExcelDesignUuid(), null);
 			Properties props = new Properties();
 			props.put("repeatingSections", "sheet:1,row:4,dataset:ALL");
 			props.put("sortWeight", "5000");

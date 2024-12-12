@@ -1,10 +1,8 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
-import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
