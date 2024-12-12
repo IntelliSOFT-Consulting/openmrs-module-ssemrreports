@@ -1,8 +1,10 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
+import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
@@ -14,7 +16,9 @@ import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.*;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.ArtStartDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.RegimenDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +32,10 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
 		dsd.setName("ALL");
 		dsd.setDescription("All Clients");
+		dsd.addParameters(getParameters());
+		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
+		dsd.addParameter(new Parameter("location", "Location", Location.class));
+		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		DataConverter nameFormatter = new ObjectFormatter("{givenName} {middleName} {familyName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
@@ -44,17 +52,14 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		PersonAttributeType alternativePhoneNumber = Context.getPersonService().getPersonAttributeTypeByUuid(
 		    SharedReportConstants.ALTERNATIVE_PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
 		
-		ETLArtStartDateDataDefinition etlArtStartDateDataDefinition = new ETLArtStartDateDataDefinition();
-		etlArtStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
 		StatusDataDefinition statusDataDefinition = new StatusDataDefinition();
 		statusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		RegimenDataDefinition regimenDataDefinition = new RegimenDataDefinition();
-		regimenDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
 		ArtStartDateDataDefinition artStartDateDataDefinition = new ArtStartDateDataDefinition();
 		artStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		RegimenDataDefinition regimenDataDefinition = new RegimenDataDefinition();
+		regimenDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
@@ -62,7 +67,7 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		dsd.addColumn("Regimen", regimenDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date of ART initiation", artStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Alternative telephone", new PersonAttributeDataDefinition("Alternative Phone Number",
