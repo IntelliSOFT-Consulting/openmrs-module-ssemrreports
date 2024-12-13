@@ -231,6 +231,18 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 		        map(artCohortQueries.getCumulativeEverOnARTAtThisFacilityAtEndOfReportingCohortDefinition(), mappings)),
 		        mappings), allAgeDisaggregation, Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
 		        "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"));
+		
+		//adding dapsone and ctx on the report
+		dsd.addColumn(
+		    "NCTX",
+		    "Number of new clients started on CTX ",
+		    map(indicator.getIndicator("Number of new clients started on CTX ",
+		        map(artCohortQueries.getNewOnARTonCTXCohortDefinition(), mappings)), mappings), "");
+		dsd.addColumn(
+		    "NDAP",
+		    "Number of new clients started Dapsone",
+		    map(indicator.getIndicator("Number of new clients started Dapsone",
+		        map(artCohortQueries.getNewOnARTonDapsoneCohortDefinition(), mappings)), mappings), "");
 		return dsd;
 	}
 	
