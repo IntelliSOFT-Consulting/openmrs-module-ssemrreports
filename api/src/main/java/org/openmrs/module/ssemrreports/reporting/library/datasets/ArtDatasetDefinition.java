@@ -262,128 +262,128 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 		
 		dsd.addColumn(
 		    "8-01",
-		    "Current on ART on 1st-line regimen, Male <1 ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen <1, male",
+		    "Current on ART on 1st-line regimen, Male <1 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen <1, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(0, 0, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-02",
-		    "Current on ART on 1st-line regimen, Female <1",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen <1, female",
+		    "Current on ART on 1st-line regimen, Female <1 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen <1, female at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(0, 0, "F"), mappings)), mappings), "");
 		
 		dsd.addColumn(
 		    "8-03",
-		    "Current on ART on 1st-line regimen, Male 1-4 ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 1-4, male",
+		    "Current on ART on 1st-line regimen, Male 1-4 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 1-4, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(1, 4, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-04",
-		    "Current on ART on 1st-line regimen, Female 1-4",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 1-4, female",
+		    "Current on ART on 1st-line regimen, Female 1-4 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 1-4, female at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(1, 4, "F"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-05",
-		    "Current on ART on 1st-line regimen, Male 5-9 ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 5-9, male",
+		    "Current on ART on 1st-line regimen, Male 5-9 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 5-9, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(5, 9, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-06",
-		    "Current on ART on 1st-line regimen, Female 5-9",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 5-9, female",
+		    "Current on ART on 1st-line regimen, Female 5-9 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 5-9, female at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(5, 9, "F"), mappings)), mappings), "");
 		
 		dsd.addColumn(
 		    "8-07",
-		    "Current on ART on 1st-line regimen, Male 10-14 ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 10-14, male",
+		    "Current on ART on 1st-line regimen, Male 10-14 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 10-14, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(10, 14, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-08",
-		    "Current on ART on 1st-line regimen, Female 10-14",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 10-14, female",
+		    "Current on ART on 1st-line regimen, Female 10-14 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 10-14, female at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(10, 14, "F"), mappings)), mappings), "");
 		
 		dsd.addColumn(
 		    "8-09",
-		    "Current on ART on 1st-line regimen, Male 15-19 ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 15-19, male",
+		    "Current on ART on 1st-line regimen, Male 15-19 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 15-19, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(15, 19, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-10",
-		    "Current on ART on 1st-line regimen, Female 15-19",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 15-19, female",
+		    "Current on ART on 1st-line regimen, Female 15-19 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 15-19, female at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(15, 19, "F"), mappings)), mappings), "");
 		
 		dsd.addColumn(
 		    "8-11",
-		    "Current on ART on 1st-line regimen, Male 20-24 ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 20-24, male",
+		    "Current on ART on 1st-line regimen, Male 20-24 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 20-24, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(20, 24, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-12",
-		    "Current on ART on 1st-line regimen, Female 20-24",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 20-24, female",
+		    "Current on ART on 1st-line regimen, Female 20-24 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 20-24, female at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(20, 24, "F"), mappings)), mappings), "");
 		
 		dsd.addColumn(
 		    "8-13",
-		    "Current on ART on 1st-line regimen, Male 25-29 ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 25-29, male",
+		    "Current on ART on 1st-line regimen, Male 25-29 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 25-29, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(25, 29, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-14",
-		    "Current on ART on 1st-line regimen, Female 25-29",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 25-29, female",
+		    "Current on ART on 1st-line regimen, Female 25-29 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 25-29, female at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(25, 29, "F"), mappings)), mappings), "");
 		
 		dsd.addColumn(
 		    "8-15",
-		    "Current on ART on 1st-line regimen, Male 30-34 ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 30-34, male",
+		    "Current on ART on 1st-line regimen, Male 30-34 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 30-34, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(30, 34, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-16",
-		    "Current on ART on 1st-line regimen, Female 30-34",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 30-34, female",
+		    "Current on ART on 1st-line regimen, Female 30-34 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 30-34, female at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(30, 34, "F"), mappings)), mappings), "");
 		
 		dsd.addColumn(
 		    "8-17",
-		    "Current on ART on 1st-line regimen, Male 35-39 ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 35-39, male",
+		    "Current on ART on 1st-line regimen, Male 35-39 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 35-39, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(35, 39, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-18",
-		    "Current on ART on 1st-line regimen, Female 35-39",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 35-39, female",
+		    "Current on ART on 1st-line regimen, Female 35-39 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 35-39, female at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(35, 39, "F"), mappings)), mappings), "");
 		
 		dsd.addColumn(
 		    "8-19",
-		    "Current on ART on 1st-line regimen, Male 40-44 ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 40-44, male",
+		    "Current on ART on 1st-line regimen, Male 40-44 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 40-44, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(40, 44, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-20",
-		    "Current on ART on 1st-line regimen, Female 40-44",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 40-44, female",
+		    "Current on ART on 1st-line regimen, Female 40-44 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 40-44, female at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(40, 44, "F"), mappings)), mappings), "");
 		
 		dsd.addColumn(
 		    "8-21",
-		    "Current on ART on 1st-line regimen, Male 45-49 ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 45-49, male",
+		    "Current on ART on 1st-line regimen, Male 45-49 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 45-49, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(45, 49, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-22",
-		    "Current on ART on 1st-line regimen, Female 45-49",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 45-49, female",
+		    "Current on ART on 1st-line regimen, Female 45-49 at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 45-49, female at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(45, 49, "F"), mappings)), mappings), "");
 		
 		dsd.addColumn(
 		    "8-23",
-		    "Current on ART on 1st-line regimen, Male 50+ ",
-		    map(indicator.getIndicator("Current on ART on 1st-line regimen 50+, male",
+		    "Current on ART on 1st-line regimen, Male 50+ at end of Last Month",
+		    map(indicator.getIndicator("Current on ART on 1st-line regimen 50+, male at end of Last Month",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(50, 150, "M"), mappings)), mappings), "");
 		dsd.addColumn(
 		    "8-24",

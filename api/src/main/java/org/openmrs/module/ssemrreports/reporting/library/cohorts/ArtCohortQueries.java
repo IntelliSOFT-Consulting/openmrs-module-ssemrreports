@@ -296,13 +296,11 @@ public class ArtCohortQueries {
 		
 		String regimensString = SsemrReportUtils.concatenateStringAndQuote(ArtReportsConstants.adultFirstLineRegimen)
 		        + SsemrReportUtils.concatenateStringAndQuote(ArtReportsConstants.childFirstLineRegimen);
-		String qry = "SELECT client_id from ( " + " SELECT "
-		        + "   e.client_id , mid(max(CONCAT(f.encounter_datetime,f.art_regimen)),20) as art_regimen "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history e  "
-		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)  "
-		        + " WHERE e.location_id=:location and date(f.encounter_datetime) <= date(:endDate)   "
-		        + " GROUP BY client_id  " + ") c where (REPLACE(c.art_regimen,' ',''))  " + " IN ( " + regimensString
-		        + " ) ";
+		String qry = "SELECT client_id FROM ( " + " SELECT "
+		        + " f.client_id , mid(max(CONCAT(f.encounter_datetime,f.art_regimen)),20) AS art_regimen "
+		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
+		        + " WHERE f.location_id=:location AND DATE(f.encounter_datetime) <= DATE(:endDate)   "
+		        + " GROUP BY client_id  " + ") c where REPLACE(c.art_regimen,' ','')  " + " IN ( " + regimensString + " ) ";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
