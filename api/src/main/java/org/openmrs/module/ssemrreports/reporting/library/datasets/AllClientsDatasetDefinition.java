@@ -50,7 +50,7 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		dsd.setName("ALL");
 		dsd.setDescription("All Clients");
 		dsd.addParameters(getParameters());
-		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
+		dsd.addSortCriteria("PatientSequenceNumber", SortCriteria.SortDirection.ASC);
 		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
@@ -68,9 +68,6 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		
 		PersonAttributeType alternativePhoneNumber = Context.getPersonService().getPersonAttributeTypeByUuid(
 		    SharedReportConstants.ALTERNATIVE_PHONE_NUMBER_ATTRIBUTE_TYPE_UUID);
-		
-		StatusDataDefinition statusDataDefinition = new StatusDataDefinition();
-		statusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		ArtStartDateDataDefinition artStartDateDataDefinition = new ArtStartDateDataDefinition();
 		artStartDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));

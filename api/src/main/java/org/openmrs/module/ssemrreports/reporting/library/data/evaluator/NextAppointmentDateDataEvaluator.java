@@ -36,7 +36,9 @@ public class NextAppointmentDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT patient_id, max(start_date_time) FROM openmrs.patient_appointment where status = 'Scheduled' group by patient_id HAVING MAX(date_created) <= DATE(:endDate);";
+		String qry = "SELECT patient_id, DATE_FORMAT(MAX(start_date_time), '%d-%m-%Y') AS max_start_date "
+		        + "FROM openmrs.patient_appointment " + "WHERE status = 'Scheduled' " + "GROUP BY patient_id "
+		        + "HAVING MAX(date_created) <= DATE(:endDate);";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
