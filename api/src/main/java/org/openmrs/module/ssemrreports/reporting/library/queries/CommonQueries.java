@@ -276,7 +276,8 @@ public class CommonQueries {
 	}
 	
 	public static String getAllPatients() {
-		String query = "SELECT p.person_id FROM ssemr_etl.mamba_dim_person p " + "WHERE p.voided = 0 "
+		String query = "SELECT DISTINCT p.person_id FROM ssemr_etl.mamba_dim_person p "
+		        + "JOIN ssemr_etl.mamba_dim_patient_identifier id ON id.patient_id = p.person_id " + "WHERE p.voided = 0 "
 		        + "AND p.date_created <= :endDate " + "ORDER BY p.date_created DESC";
 		
 		return query;
