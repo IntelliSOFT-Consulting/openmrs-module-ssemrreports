@@ -221,12 +221,9 @@ public class MerQueries {
 	//TX PVLS
 	public static String getTxPvlsArtPatientsWithVlResultDocumentedInArtRegisterQueries() {
 		String sql = "SELECT su.client_id FROM( "
-		        + " SELECT fu.client_id,MAX(fu.date_vl_results_received) AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " SELECT fu.client_id,fu.date_vl_results_received AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
 		        + " WHERE  fu.date_vl_results_received BETWEEN :startDate AND :endDate "
-		        + " GROUP BY fu.client_id)su "
-		        + " INNER JOIN "
-		        + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 ON su.client_id=fu1.client_id "
-		        + " WHERE  su.date_vl_results_received=fu1.date_vl_results_received AND fu1.viral_load_test_done='Yes' AND (fu1.vl_results='Below Detectable (BDL)' OR fu1.viral_load_value IS NOT NULL)";
+		        + " AND fu.viral_load_test_done='Yes' AND (fu.vl_results='Below Detectable (BDL)' OR fu.viral_load_value IS NOT NULL))su";
 		
 		return sql;
 	}
@@ -245,48 +242,33 @@ public class MerQueries {
 	
 	public static String getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterQueries() {
 		return "SELECT su1.client_id FROM( "
-		        + " SELECT en.client_id,MAX(en.date_vl_results_received) AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
+		        + " SELECT en.client_id,en.date_vl_results_received AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
 		        + " WHERE en.viral_load_value IS NOT NULL"
 		        + " AND DATE(en.date_vl_results_received) BETWEEN :startDate AND :endDate "
-		        + " GROUP BY en.client_id)su1 "
-		        
-		        + " INNER JOIN "
-		        + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu2 ON fu2.client_id=su1.client_id "
-		        + " WHERE fu2.viral_load_value IS NOT NULL AND fu2.viral_load_test_done='Yes'"
-		        + " AND su1.date_vl_results_received=fu2.date_vl_results_received"
-		        + " AND fu2.viral_load_value < 1000"
+		        + " AND  en.viral_load_test_done='Yes'"
+		        + " AND en.viral_load_value < 1000)su1"
 		        
 		        + " UNION "
 		        
 		        + "SELECT su11.client_id FROM( "
-		        + " SELECT en1.client_id,MAX(en1.date_vl_results_received) AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en1 "
+		        + " SELECT en1.client_id,en1.date_vl_results_received AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en1 "
 		        + " WHERE en1.vl_results IS NOT NULL"
 		        + " AND DATE(en1.date_vl_results_received) BETWEEN :startDate AND :endDate "
-		        + " GROUP BY en1.client_id)su11 "
-		        
-		        + " INNER JOIN "
-		        + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu21 ON su11.client_id=fu21.client_id "
-		        + " WHERE fu21.vl_results IS NOT NULL AND fu21.viral_load_test_done='Yes' "
-		        + " AND su11.date_vl_results_received=fu21.date_vl_results_received "
-		        + " AND vl_results = 'Below Detectable (BDL)'";
+		        + " AND en1.viral_load_test_done='Yes' " + " AND en1.vl_results = 'Below Detectable (BDL)')su11";
 	}
 	
 	public static String getPregnantQueries() {
 		return "SELECT su.client_id FROM( "
-		        + " SELECT fu.client_id,MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " SELECT fu.client_id,fu.encounter_datetime AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
 		        + " WHERE fu.client_pregnant IS NOT NULL AND fu.encounter_datetime BETWEEN :startDate AND :endDate "
-		        + " GROUP BY fu.client_id " + ")su" + " INNER JOIN "
-		        + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 ON su.client_id=fu1.client_id "
-		        + " WHERE fu1.client_pregnant='Yes' AND su.encounter_datetime=fu1.encounter_datetime ";
+		        + " AND fu.client_pregnant='Yes')su ";
 	}
 	
 	public static String getBreastfeedingQueries() {
 		return "SELECT su1.client_id FROM( "
-		        + " SELECT fu.client_id,MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " SELECT fu.client_id,fu.encounter_datetime AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
 		        + " WHERE fu.client_breastfeeding IS NOT NULL AND DATE(fu.encounter_datetime) BETWEEN :startDate AND :endDate "
-		        + "GROUP BY fu.client_id " + ")su1" + " INNER JOIN "
-		        + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu1 ON su1.client_id=fu1.client_id "
-		        + " WHERE fu1.client_breastfeeding='Yes' AND su1.encounter_datetime=fu1.encounter_datetime ";
+		        + " AND fu.client_breastfeeding='Yes')su1 ";
 	}
 	
 	public static String getDeadClientsQueries() {
