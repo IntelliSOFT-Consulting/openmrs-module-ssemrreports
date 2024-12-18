@@ -338,21 +338,6 @@ public class ArtCohortQueries {
 		        + " GROUP BY e.client_id, f.encounter_datetime, p.gender, ageAtArtStart,fup.ltfu_date,f.number_of_days_dispensed, nextDrugApptDate "
 		        + " HAVING DATE_ADD(nextDrugApptDate, INTERVAL 30 DAY) > DATE(:endDate)) a "
 		        + " WHERE  ageAtArtStart BETWEEN " + minAge + "  and " + maxAge + " and gender = '" + sex + "'";
-		/*String qry = "select client_id "
-		        + " from ( "
-		        + " select f.encounter_datetime, f.client_id, p.gender, timestampdiff(YEAR, p.birthdate, e.art_start_date) ageAtArtStart, fup.ltfu_date, f.number_of_days_dispensed, "
-		        + "        date_add(f.encounter_datetime, interval (case f.number_of_days_dispensed when '30 days' then 30 when '60 days' then 60 when '90 days' then 90 when '180 days' then 180 else 0 end) DAY) nextDrugApptDate "
-		        + " from ssemr_etl.ssemr_flat_encounter_personal_family_tx_history e "
-		        + "  inner join ssemr_etl.mamba_dim_person p on p.person_id = e.client_id "
-		        + "     inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f on f.client_id = e.client_id "
-		        + "  left join ssemr_etl.ssemr_flat_encounter_end_of_follow_up fup on e.client_id = fup.client_id "
-		        + "  where e.location_id=:location and (fup.date_of_death is null or fup.date_of_death > date(:endDate)) "
-		        + "  and (fup.ltfu_date is null or fup.ltfu_date not between date(:startDate) and date(:endDate)) "
-		        + "  group by e.client_id, " + "			  f.encounter_datetime, " + "             p.gender, "
-		        + "             ageAtArtStart, " + "             fup.ltfu_date, "
-		        + "             f.number_of_days_dispensed, " + "             nextDrugApptDate  "
-		        + "  having date_add(nextDrugApptDate, interval 30 day) > date(:endDate) " + "  ) a  "
-		        + "where  ageAtArtStart between " + minAge + "  and " + maxAge + " and gender = '" + sex + "'";*/
 		cd.setQuery(query);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));

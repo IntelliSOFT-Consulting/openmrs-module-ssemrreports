@@ -393,12 +393,12 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 		
 		//totals
 		dsd.addColumn(
-		    "MT",
+		    "MT1",
 		    "Current on ART on 1st-line regimen, Male Total",
 		    map(indicator.getIndicator("Current on ART on 1st-line regimen, Male Total",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(0, 150, "M"), mappings)), mappings), "");
 		dsd.addColumn(
-		    "FT",
+		    "FT1",
 		    "Current on ART on 1st-line regimen, Female Total",
 		    map(indicator.getIndicator("Current on ART on 1st-line regimen, Female Total",
 		        map(artCohortQueries.getCurrentOnArtOnFirstLineRegimen(0, 150, "F"), mappings)), mappings), "");
@@ -535,8 +535,18 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 		    "Current on ART on 2nd-line regimen, Female 50+",
 		    map(indicator.getIndicator("Current on ART on 2nd-line regimen 50+, female",
 		        map(artCohortQueries.getCurrentOnArtOnSecondLineRegimen(50, 150, "F"), mappings)), mappings), "");
+		//totals
+		dsd.addColumn(
+		    "MT2",
+		    "Current on ART on 2nd-line regimen, Male Total",
+		    map(indicator.getIndicator("Current on ART on 2nd-line regimen, Male Total",
+		        map(artCohortQueries.getCurrentOnArtOnSecondLineRegimen(0, 150, "M"), mappings)), mappings), "");
+		dsd.addColumn(
+		    "FT2",
+		    "Current on ART on 2nd-line regimen, Female Total",
+		    map(indicator.getIndicator("Current on ART on 2nd-line regimen, Female Total",
+		        map(artCohortQueries.getCurrentOnArtOnSecondLineRegimen(0, 150, "F"), mappings)), mappings), "");
 		return dsd;
-		
 	}
 	
 	public DataSetDefinition getTxCurrByRegimenDataset() {
