@@ -114,11 +114,19 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		COVNameDataDefinition covNameDataDefinition = new COVNameDataDefinition();
 		covNameDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
+		WeightDataDefinition weightDataDefinition = new WeightDataDefinition();
+		weightDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		BMIDataDefinition bmiDataDefinition = new BMIDataDefinition();
+		bmiDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
+		dsd.addColumn("Weight", weightDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("BMI", bmiDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Regimen", regimenDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", artStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Pregnant", patientPregnantDataDefinition, "endDate=${endDate}");
