@@ -1,5 +1,7 @@
 package org.openmrs.module.ssemrreports.reporting.library.datasets;
 
+import static org.openmrs.module.ssemrreports.reporting.library.columns.ShareDatasetColumns.getGenderColumns;
+import static org.openmrs.module.ssemrreports.reporting.library.columns.ShareDatasetColumns.getMerGenderAndAgeColumns;
 import static org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils.map;
 
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
@@ -257,8 +259,7 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 		dsd.setName("currentOnArtByAge");
 		dsd.setDescription("ART dataset - age at start of ART");
 		dsd.addParameters(getParameters());
-		///dsd.addDimension("gender", map(dimension.gender(), ""));
-		//dsd.addDimension("age", map(dimension.age(), "effectiveDate=${endDate}"));
+		dsd.addDimension("gender", map(dimension.gender(), ""));
 		
 		dsd.addColumn(
 		    "8-01",
@@ -546,6 +547,42 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 		    "Current on ART on 2nd-line regimen, Female Total",
 		    map(indicator.getIndicator("Current on ART on 2nd-line regimen, Female Total",
 		        map(artCohortQueries.getCurrentOnArtOnSecondLineRegimen(0, 150, "F"), mappings)), mappings), "");
+		
+		//add datasets for the TB cases
+		addRow(
+		    dsd,
+		    "TBS1",
+		    "TB Status No signs ",
+		    map(indicator.getIndicator("TB Status No signs ",
+		        map(artCohortQueries.getNewOnArtWithTbStatusCohortDefinition("No Signs"), mappings)), mappings),
+		    getGenderColumns());
+		addRow(
+		    dsd,
+		    "TBS2",
+		    "Pr TB - Presumptive TB ",
+		    map(indicator.getIndicator("Pr TB - Presumptive TB ",
+		        map(artCohortQueries.getNewOnArtWithTbStatusCohortDefinition("Pr TB - Presumptive TB"), mappings)), mappings),
+		    getGenderColumns());
+		addRow(
+		    dsd,
+		    "TBS3",
+		    "ND - TB Screening not done ",
+		    map(indicator.getIndicator("ND - TB Screening not done ",
+		        map(artCohortQueries.getNewOnArtWithTbStatusCohortDefinition("ND - TB Screening not done"), mappings)),
+		        mappings), getGenderColumns());
+		addRow(
+		    dsd,
+		    "TBS4",
+		    "INH = Cleint was screened negative and currently on INH prophylaxis (IPT)",
+		    map(indicator.getIndicator("INH = Cleint was screened negative and currently on INH prophylaxis (IPT) ",
+		        map(artCohortQueries.getNewOnArtAndOnInhCohortDefinition(), mappings)), mappings), getGenderColumns());
+		addRow(
+		    dsd,
+		    "TBS5",
+		    "TB Rx = Client currently on TB treatment",
+		    map(indicator.getIndicator("TB Rx = Client currently on TB treatment",
+		        map(artCohortQueries.getNewOnArtAndOnTbTreatmentCohortDefinition(), mappings)), mappings),
+		    getGenderColumns());
 		return dsd;
 	}
 	

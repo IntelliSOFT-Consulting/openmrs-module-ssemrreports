@@ -462,30 +462,81 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition patientsNewlyInitiatedOnTBTreatmentCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "select e.client_id\n"
-		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
-		        + "         inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
-		        + "where f.on_tb_treatment = 'Yes' and date(f.encounter_datetime) between date(:startDate) and date(:endDate)\n"
-		        + "group by f.client_id;";
+		String qry = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
+		        + " WHERE f.on_tb_treatment = 'Yes' AND DATE(f.encounter_datetime) BETWEEN date(:startDate) AND date(:endDate) ";
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("Patients newly initiated on TB during the reporting period");
+		cd.setDescription("Patients newly initiated on TB treatment during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition patientsWithTbStatusWithStatusCohortDefinition(String status) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String qry = "SELECT f.client_id "
+		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
+		        + " WHERE f.tb_status IS NOT NULL AND DATE(f.encounter_datetime) BETWEEN DATE(:startDate) AND DATE(:endDate) "
+		        + " AND f.tb_status='" + status + "'";
+		
+		cd.setQuery(qry);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Patients with TB status recorded by end of reporting period");
 		return cd;
 	}
 	
 	public CohortDefinition patientsOnINHTreatmentCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "select e.client_id\n" + "from ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment e\n"
-		        + "         inner join ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f using(client_id)\n"
-		        + "where f.inh = 'Yes' and date(f.encounter_datetime) between date(:startDate) and date(:endDate)\n"
-		        + "group by f.client_id;";
+		String qry = "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
+		        + " WHERE f.inh = 'Yes' AND DATE(f.encounter_datetime) BETWEEN DATE(:startDate) AND DATE(:endDate) ";
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setDescription("Patients on INH during the reporting period");
+		return cd;
+	}
+	
+	public CohortDefinition getNewOnArtWithTbStatusCohortDefinition(String status) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("New patients who are on ART with TB status");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("TB", SsemrReportUtils.map(patientsWithTbStatusWithStatusCohortDefinition(status),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("NEW AND TB");
+		return cd;
+	}
+	
+	public CohortDefinition getNewOnArtAndOnTbTreatmentCohortDefinition() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("New patients who are on ART and on TB treatment");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("TxR", SsemrReportUtils.map(patientsNewlyInitiatedOnTBTreatmentCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("NEW AND TxR");
+		return cd;
+	}
+	
+	public CohortDefinition getNewOnArtAndOnInhCohortDefinition() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("New patients who are on ART and on INH");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("INH",
+		    SsemrReportUtils.map(patientsOnINHTreatmentCohortDefinition(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("NEW AND INH");
 		return cd;
 	}
 	
