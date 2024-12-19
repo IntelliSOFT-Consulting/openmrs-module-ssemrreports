@@ -405,29 +405,32 @@ public class CommonQueries {
 	}
 	
 	public static String getClientsWithArtDateAndDateLost(int lower, int higher) {
-		String sql = "SELECT client_id FROM ( "
-		        + " SELECT su1.client_id AS client_id,art_start_date, follow_up_date FROM( "
+		String sql = "SELECT fn2.client_id FROM ( "
+		        + " SELECT su1.client_id AS client_id,su1.art_start_date,fn1.ltfu_date, TIMESTAMPDIFF(DAY, su1.art_start_date,fn1.ltfu_date) FROM( "
 		        
 		        + " SELECT client_id, MIN(art_start_date) AS art_start_date FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location GROUP BY client_id "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate  GROUP BY client_id "
 		        
 		        + " UNION "
 		        
 		        + " SELECT client_id,  MIN(art_start_date) AS art_start_date FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location GROUP BY client_id "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate  GROUP BY client_id "
 		        
 		        + " UNION "
 		        
 		        + " SELECT client_id,  MIN(art_start_date) AS art_start_date FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location  GROUP BY client_id "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate  GROUP BY client_id "
 		        
-		        + ")su1 "
+		        + " )su1 "
 		        + " INNER JOIN ( "
-		        + " SELECT client_id,follow_up_date FROM ( "
-		        + " SELECT fu.patient_id AS client_id, Date_add(MAX(fu.start_date_time), interval 30 day) AS follow_up_date FROM openmrs.patient_appointment fu "
-		        + " WHERE fu.date_created <= :endDate AND location_id=:location GROUP BY fu.patient_id)fn " + ")fn1 "
-		        + "ON su1.client_id=fn1.client_id" + " )fn2 WHERE TIMESTAMPDIFF(day, art_start_date, follow_up_date) >= "
-		        + lower + " AND TIMESTAMPDIFF(day, art_start_date, follow_up_date) < " + higher;
+		        + " SELECT fn.client_id,DATE(DATE_ADD(DATE_ADD(fn.encounter_datetime, interval CAST(f1.art_regimen_no_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 30 DAY)) AS ltfu_date FROM ( "
+		        + " SELECT fu.client_id AS client_id,MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.encounter_datetime <= :endDate AND fu.art_regimen_no_of_days_dispensed IS NOT NULL GROUP BY fu.client_id)fn "
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f1 "
+		        + " WHERE f1.encounter_datetime=fn.encounter_datetime " + " )fn1 " + " ON su1.client_id=fn1.client_id)fn2 "
+		        + " WHERE TIMESTAMPDIFF(DAY, fn2.art_start_date, fn2.ltfu_date) >=" + lower
+		        + " AND TIMESTAMPDIFF(day, fn2.art_start_date, fn2.ltfu_date) <" + higher;
+		
 		return sql;
 	}
 }
