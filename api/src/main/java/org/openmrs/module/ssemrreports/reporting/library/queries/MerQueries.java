@@ -140,7 +140,6 @@ public class MerQueries {
 		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up t2 ON q1.client_id=t2.client_id "
 		        + " WHERE q1.follow_up_date = t2.encounter_datetime "
 		        + " AND DATE(DATE_ADD(DATE_ADD(q1.follow_up_date, interval CAST(t2.art_regimen_no_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY)) <= :endDate)q2";
-		//+ " AND DATE(DATE_ADD(DATE_ADD(q1.follow_up_date, interval CAST(t2.art_regimen_no_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY)) >= DATE_ADD(:startDate, INTERVAL -1 DAY)) q2 ";
 	}
 	
 	public static String getTxMlIitL3mQuery() {
