@@ -230,30 +230,23 @@ public class MerQueries {
 	public static String getTxPvlsArtPatientsWithVlGreaterOrEqual1000ResultDocumentedInArtRegisterQueries() {
 		String sql = "SELECT su1.client_id FROM( "
 		        + " SELECT en.client_id,MAX(en.date_vl_results_received) AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
-		        + " WHERE en.viral_load_value IS NOT NULL"
+		        + " WHERE (en.viral_load_value IS NOT NULL OR en.vl_results IS NOT NULL) AND en.viral_load_test_done='Yes'"
 		        + " AND DATE(en.date_vl_results_received) BETWEEN :startDate AND :endDate " + " GROUP BY en.client_id)su1 "
 		        
 		        + " INNER JOIN " + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu2 ON fu2.client_id=su1.client_id "
-		        + " WHERE fu2.viral_load_value IS NOT NULL AND fu2.viral_load_test_done='Yes'"
 		        + " AND su1.date_vl_results_received=fu2.date_vl_results_received" + " AND fu2.viral_load_value >= 1000";
 		return sql;
 	}
 	
 	public static String getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterQueries() {
 		return "SELECT su1.client_id FROM( "
-		        + " SELECT en.client_id,en.date_vl_results_received AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
-		        + " WHERE en.viral_load_value IS NOT NULL"
-		        + " AND DATE(en.date_vl_results_received) BETWEEN :startDate AND :endDate "
-		        + " AND  en.viral_load_test_done='Yes'"
-		        + " AND en.viral_load_value < 1000)su1"
+		        + " SELECT en.client_id,MAX(en.date_vl_results_received) AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
+		        + " WHERE (en.viral_load_value IS NOT NULL OR en.vl_results IS NOT NULL) AND en.viral_load_test_done='Yes'"
+		        + " AND DATE(en.date_vl_results_received) BETWEEN :startDate AND :endDate " + " GROUP BY en.client_id)su1 "
 		        
-		        + " UNION "
-		        
-		        + "SELECT su11.client_id FROM( "
-		        + " SELECT en1.client_id,en1.date_vl_results_received AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en1 "
-		        + " WHERE en1.vl_results IS NOT NULL"
-		        + " AND DATE(en1.date_vl_results_received) BETWEEN :startDate AND :endDate "
-		        + " AND en1.viral_load_test_done='Yes' " + " AND en1.vl_results = 'Below Detectable (BDL)')su11";
+		        + " INNER JOIN " + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu2 ON fu2.client_id=su1.client_id "
+		        + " AND su1.date_vl_results_received=fu2.date_vl_results_received"
+		        + " AND (fu2.viral_load_value < 1000 OR fu2.vl_results = 'Below Detectable (BDL)')";
 	}
 	
 	public static String getPregnantQueries() {
