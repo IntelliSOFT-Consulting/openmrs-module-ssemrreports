@@ -29,10 +29,11 @@ public class SuspectedVirologicalFailureDataEvaluator implements PersonDataEvalu
 		
 		String qry = "SELECT client_id, " + "CASE "
 		        + "WHEN SUM(CASE WHEN viral_load_value >= 1000 THEN 1 ELSE 0 END) >= 2 THEN 'Yes' " + "ELSE 'No' "
-		        + "END AS result " + "FROM ( " + "  SELECT client_id, viral_load_value "
+		        + "END AS result " + "FROM ( " + " SELECT client_id, viral_load_value, "
+		        + " ROW_NUMBER() OVER (PARTITION BY client_id ORDER BY encounter_datetime DESC) AS rn "
 		        + "  FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
-		        + "  WHERE DATE(encounter_datetime) <= DATE(:endDate) " + "  ORDER BY client_id, encounter_datetime DESC "
-		        + "  LIMIT 2 " + ") AS last_two_encounters " + "GROUP BY client_id;";
+		        + "  WHERE DATE(encounter_datetime) <= DATE(:endDate) " + ") AS encounters " + "WHERE rn <= 2 "
+		        + "GROUP BY client_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
