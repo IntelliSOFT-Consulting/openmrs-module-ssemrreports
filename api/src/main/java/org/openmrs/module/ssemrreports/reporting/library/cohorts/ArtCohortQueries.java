@@ -429,8 +429,7 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition getVLSampleCollectionForPregnantCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "SELECT client_id "
-				+ "FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
+		String qry = "SELECT client_id " + "FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
 		        + "WHERE DATE(date_of_sample_collection) BETWEEN DATE(:startDate) AND DATE(:endDate) "
 		        + "AND location_id=:location AND patient_pregnant = 'Yes' ";
 		
@@ -444,8 +443,7 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition getVLSampleCollectionForBreastfeedingCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "SELECT client_id "
-				+ "FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
+		String qry = "SELECT client_id " + "FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
 		        + "WHERE DATE(date_of_sample_collection) BETWEEN DATE(:startDate) AND DATE(:endDate) "
 		        + "AND location_id=:location AND patient_breastfeeding = 'Yes' ";
 		
@@ -572,13 +570,13 @@ public class ArtCohortQueries {
 	public CohortDefinition patientsLtfuCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "SELECT q2.client_id FROM ( "
-				+ " SELECT q1.client_id,q1.follow_up_date,t2.art_regimen_no_of_days_dispensed FROM ( "
-				+ " SELECT t1.client_id AS client_id, MAX(t1.encounter_datetime) AS follow_up_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up t1 "
-				+ " WHERE t1.encounter_datetime <= :endDate AND t1.location_id=:location "
-				+ " GROUP BY t1.client_id) q1 "
-				+ " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up t2 ON q1.client_id=t2.client_id "
-				+ " WHERE q1.follow_up_date = t2.encounter_datetime "
-				+ " AND DATE(DATE_ADD(DATE_ADD(q1.follow_up_date, interval CAST(t2.art_regimen_no_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY)) <= :endDate)q2";
+		        + " SELECT q1.client_id,q1.follow_up_date,t2.art_regimen_no_of_days_dispensed FROM ( "
+		        + " SELECT t1.client_id AS client_id, MAX(t1.encounter_datetime) AS follow_up_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up t1 "
+		        + " WHERE t1.encounter_datetime <= :endDate AND t1.location_id=:location "
+		        + " GROUP BY t1.client_id) q1 "
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up t2 ON q1.client_id=t2.client_id "
+		        + " WHERE q1.follow_up_date = t2.encounter_datetime "
+		        + " AND DATE(DATE_ADD(DATE_ADD(q1.follow_up_date, interval CAST(t2.art_regimen_no_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 28 DAY)) <= :endDate)q2";
 		
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -590,8 +588,7 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition patientsDeadCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "SELECT f.client_id "
-				+ "FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up f "
+		String qry = "SELECT f.client_id " + "FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up f "
 		        + "WHERE f.location_id=:location AND DATE(f.date_of_death) BETWEEN DATE(:startDate) AND DATE(:endDate) ";
 		
 		cd.setQuery(qry);
@@ -621,8 +618,7 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition getVLResultsForPregnantCohortDefinition(int minVal, int maxVal) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "SELECT client_id "
-				+ "FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
+		String qry = "SELECT client_id " + "FROM ssemr_etl.ssemr_flat_encounter_vl_laboratory_request "
 		        + "WHERE date(date_results_dispatched) between date(:startDate) and date(:endDate) "
 		        + "AND location_id=:location AND patient_pregnant = 'Yes' AND value BETWEEN " + minVal + " AND " + maxVal;
 		
