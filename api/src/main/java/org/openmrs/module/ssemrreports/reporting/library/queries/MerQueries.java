@@ -194,14 +194,13 @@ public class MerQueries {
 	}
 	
 	public static String getHowLongWerePeopleOffArvQuery(int l, int h) {
-		return "SELECT " + " f3.client_id " + " FROM " + " ssemr_etl.ssemr_flat_encounter_art_interruption f3 "
-		        + " INNER JOIN ( " + " SELECT " + " f2.client_id, " + " MAX(f2.encounter_datetime) AS last_follow_up "
-		        + " FROM " + " ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f2 " + " WHERE "
-		        + " f2.encounter_datetime <= :endDate " + " AND f2.location_id = :location " + " GROUP BY "
-		        + " f2.client_id " + " ) f2 ON f3.client_id = f2.client_id " + " WHERE "
-		        + " f3.art_treatment_restarted = 'Yes' " + " AND f3.date_restarted BETWEEN :startDate AND :endDate "
-		        + " AND f3.location_id = :location " + " AND DATEDIFF(f3.date_restarted, f2.last_follow_up) BETWEEN " + l
-		        + " AND " + h;
+		return "SELECT f2.client_id FROM ( "
+		        + " SELECT f1.client_id, MAX(date_restarted) AS date_restarted FROM ssemr_etl.ssemr_flat_encounter_art_interruption f1 "
+		        + " WHERE f1.date_restarted IS NOT NULL AND f1.date_restarted BETWEEN :startDate AND :endDate AND f1.location_id=:location "
+		        + " GROUP BY f1.client_id) f2 "
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_art_interruption f3 "
+		        + " ON f2.client_id=f3.client_id WHERE f2.date_restarted=f3.date_restarted AND f3.date_of_treatment_interruption IS NOT NULL "
+		        + " AND  DATEDIFF(f2.date_restarted, f3.date_of_treatment_interruption) BETWEEN " + l + " AND " + h;
 	}
 	
 	public static String getHowLongWerePeopleOffArvAfterLTFUQuery() {
