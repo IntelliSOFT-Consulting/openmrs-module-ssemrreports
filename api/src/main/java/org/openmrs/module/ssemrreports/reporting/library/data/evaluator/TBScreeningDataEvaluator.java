@@ -27,10 +27,8 @@ public class TBScreeningDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, " + "CASE WHEN on_tb_treatment = 'Yes' THEN 'YES' "
-		        + "     WHEN on_tb_treatment = 'No' THEN 'NO' " + "END AS tb_screening "
-		        + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
-		        + "WHERE encounter_datetime BETWEEN :startDate AND :endDate " + "GROUP BY client_id";
+		String qry = "select client_id, CASE MID(MAX(CONCAT(encounter_datetime, on_tb_treatment)), 20) WHEN 'Yes' THEN 'YES' WHEN 'No' THEN 'NO' END "
+		        + " AS tb_screening FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
