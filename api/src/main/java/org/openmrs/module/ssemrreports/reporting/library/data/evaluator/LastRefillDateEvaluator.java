@@ -8,17 +8,18 @@ import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.TBScreeningDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.EDDDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastRefillDateDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Map;
 
 /**
- * Evaluates TB Screening Data Definition
+ * Evaluates Last Refill Date Data Definition
  */
-@Handler(supports = TBScreeningDataDefinition.class, order = 50)
-public class TBScreeningDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = LastRefillDateDefinition.class, order = 50)
+public class LastRefillDateEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -27,8 +28,8 @@ public class TBScreeningDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select client_id, CASE MID(MAX(CONCAT(encounter_datetime, on_tb_treatment)), 20) WHEN 'Yes' THEN 'YES' WHEN 'No' THEN 'NO' END "
-		        + " AS tb_screening FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up GROUP BY client_id";
+		String qry = "SELECT client_id, DATE_FORMAT(MID(MAX(CONCAT(encounter_datetime, date_scheduled)), 20), '%d-%m-%Y') AS max_date_scheduled "
+		        + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where date(encounter_datetime) <= date(:endDate) GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

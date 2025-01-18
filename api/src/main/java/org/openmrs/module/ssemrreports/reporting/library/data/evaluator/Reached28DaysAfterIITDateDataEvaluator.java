@@ -35,7 +35,12 @@ public class Reached28DaysAfterIITDateDataEvaluator implements PersonDataEvaluat
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT patient_id, DATE_FORMAT(DATE_ADD(max(start_date_time), INTERVAL 28 DAY), '%d-%m-%Y')  FROM openmrs.patient_appointment where status = 'Missed' group by patient_id;";
+		String qry = "SELECT patient_id, "
+		        + "DATE_FORMAT(DATE_ADD(MAX(start_date_time), INTERVAL 28 DAY), '%d-%m-%Y') AS followup_date "
+		        + "FROM openmrs.patient_appointment " + "WHERE status = 'Missed' "
+		        + "  AND DATE_ADD(start_date_time, INTERVAL 28 DAY) <= CURDATE() " + "  AND patient_id NOT IN ( "
+		        + "      SELECT DISTINCT patient_id " + "      FROM openmrs.patient_appointment "
+		        + "      WHERE start_date_time > CURDATE() " + "  ) " + "GROUP BY patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
