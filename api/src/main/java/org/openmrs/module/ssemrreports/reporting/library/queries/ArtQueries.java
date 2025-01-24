@@ -69,54 +69,17 @@ public class ArtQueries {
 		        + "SELECT su1.client_id FROM("
 		        
 		        + " SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN  :startDate AND :endDate AND location_id=:location "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
 		        
 		        + " UNION "
 		        
 		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN :startDate AND :endDate AND location_id=:location "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
 		        
 		        + "UNION "
 		        
 		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN :startDate AND :endDate AND location_id=:location "
-		        + ")su1"
-		        
-		        + " WHERE su1.client_id NOT IN("
-		        
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.ltfu ='Yes' " + " AND DATE(efu.ltfu_date) BETWEEN :startDate AND :endDate " + " UNION "
-		        
-		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
-		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL "
-		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate " + " UNION "
-		        
-		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
-		        + " WHERE efu.transfer_out ='Yes' AND efu.transfer_out_date IS NOT NULL "
-		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate " + ") " + ")agg " + ")d "
-		        + "INNER JOIN " + "( " + " SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
-		        + " WHERE f.inh = 'Yes' AND DATE(f.encounter_datetime) BETWEEN DATE(:startDate) AND DATE(:endDate) " + " )e"
-		        + " ON e.client_id=d.client_id";
-	}
-	
-	public static String getTxNewTotalsAndOnTbWithStatusTreatment() {
-		return "SELECT d.client_id FROM ("
-		        + " SELECT agg.client_id AS client_id FROM ("
-		        
-		        + "SELECT su1.client_id FROM("
-		        
-		        + " SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN  :startDate AND :endDate AND location_id=:location "
-		        
-		        + " UNION "
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN :startDate AND :endDate AND location_id=:location "
-		        
-		        + "UNION "
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN :startDate AND :endDate AND location_id=:location "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
 		        + ")su1"
 		        
 		        + " WHERE su1.client_id NOT IN("
@@ -138,8 +101,60 @@ public class ArtQueries {
 		        + ")agg "
 		        + ")d "
 		        + "INNER JOIN "
-		        + "( SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
-		        + " WHERE f.on_tb_treatment = 'Yes' AND DATE(f.encounter_datetime) BETWEEN date(:startDate) AND date(:endDate)  "
-		        + " )e" + " ON e.client_id=d.client_id";
+		        + "( "
+		        + " SELECT a.client_id FROM("
+		        + " SELECT f.client_id,MAX(f.encounter_datetime) AS encounter_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
+		        + " WHERE f.inh IS NOT NULL AND DATE(f.encounter_datetime) BETWEEN DATE(:startDate) AND DATE(:endDate) "
+		        + " GROUP BY f.client_id) a " + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up b "
+		        + " ON a.client_id=b.client_id WHERE a.encounter_date=b.encounter_datetime " + " AND b.inh = 'Yes' " + " )e"
+		        + " ON e.client_id=d.client_id";
+	}
+	
+	public static String getTxNewTotalsAndOnTbWithStatusTreatment() {
+		return "SELECT d.client_id FROM ("
+		        + " SELECT agg.client_id AS client_id FROM ("
+		        
+		        + "SELECT su1.client_id FROM("
+		        
+		        + " SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
+		        
+		        + " UNION "
+		        
+		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
+		        
+		        + "UNION "
+		        
+		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
+		        + ")su1"
+		        
+		        + " WHERE su1.client_id NOT IN("
+		        
+		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
+		        + " WHERE efu.ltfu ='Yes' "
+		        + " AND DATE(efu.ltfu_date) BETWEEN :startDate AND :endDate "
+		        + " UNION "
+		        
+		        + " SELECT ai.client_id FROM ssemr_etl.ssemr_flat_encounter_art_interruption ai "
+		        + " WHERE ai.date_of_treatment_interruption IS NOT NULL "
+		        + " AND DATE(ai.date_of_treatment_interruption) BETWEEN :startDate AND :endDate "
+		        + " UNION "
+		        
+		        + " SELECT efu.client_id FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up efu "
+		        + " WHERE efu.transfer_out ='Yes' AND efu.transfer_out_date IS NOT NULL "
+		        + " AND DATE(efu.transfer_out_date) BETWEEN :startDate AND :endDate "
+		        + ") "
+		        + ")agg "
+		        + ")d "
+		        + "INNER JOIN "
+		        + "("
+		        + " SELECT a.client_id FROM( "
+		        + " SELECT f.client_id,MAX(f.encounter_datetime) AS encounter_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
+		        + " WHERE f.on_tb_treatment IS NOT NULL AND DATE(f.encounter_datetime) BETWEEN DATE(:startDate) AND DATE(:endDate) "
+		        + " GROUP BY f.client_id) a " + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up b "
+		        + " ON a.client_id=b.client_id WHERE a.encounter_date=b.encounter_datetime "
+		        + " AND b.on_tb_treatment = 'Yes' " + " )e" + " ON e.client_id=d.client_id";
 	}
 }
