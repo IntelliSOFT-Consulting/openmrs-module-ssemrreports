@@ -772,8 +772,6 @@ public class ArtCohortQueries {
 		cd.addSearch("currentOnArtAndOnSecondLineRegimen", SsemrReportUtils.map(
 		    getAgeAtStartOfARTonSecondLine(minAge, maxAge, sex),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("onSecondLineRegimen", SsemrReportUtils.map(getPatientsOnSecondLineRegimenCohortDefinition(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("currentOnArtAndOnSecondLineRegimen");
 		return cd;
 	}

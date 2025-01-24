@@ -18,17 +18,17 @@ public class ArtQueries {
 		        + "SELECT su1.client_id FROM("
 		        
 		        + " SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN  :startDate AND :endDate AND location_id=:location "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
 		        
 		        + " UNION "
 		        
 		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN :startDate AND :endDate AND location_id=:location "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
 		        
 		        + "UNION "
 		        
 		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date BETWEEN :startDate AND :endDate AND location_id=:location "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
 		        + ")su1"
 		        
 		        + " WHERE su1.client_id NOT IN("
@@ -51,10 +51,15 @@ public class ArtQueries {
 		        + ")d "
 		        + "INNER JOIN "
 		        + "( "
-		        + "SELECT f.client_id "
+		        + " SELECT a.client_id FROM( "
+		        + " SELECT f.client_id,MAX(f.encounter_datetime) AS encounter_date "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
 		        + " WHERE f.tb_status IS NOT NULL AND DATE(f.encounter_datetime) BETWEEN DATE(:startDate) AND DATE(:endDate) "
-		        + " AND f.tb_status='" + status + "'" + " )e" + " ON e.client_id=d.client_id";
+		        + " GROUP BY f.client_id) a " + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up b "
+		        + " ON a.client_id=b.client_id WHERE a.encounter_date=b.encounter_datetime " + " AND b.tb_status='" + status
+		        + "'" + ") c ON c.client_id=d.client_id ";
+		
+		//AND f.tb_status='" + status + "'" + "
 	}
 	
 	public static String getTxNewTotalsAndOnTbWithStatusINH() {
