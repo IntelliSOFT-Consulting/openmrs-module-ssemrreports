@@ -238,7 +238,7 @@ public class MerQueries {
 	}
 	
 	public static String getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterQueries() {
-		return "SELECT su1.client_id FROM( "
+		return " SELECT su1.client_id FROM( "
 		        + " SELECT en.client_id,MAX(en.date_vl_results_received) AS date_vl_results_received FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up en "
 		        + " WHERE (en.viral_load_value IS NOT NULL OR en.vl_results IS NOT NULL) AND en.viral_load_test_done='Yes'"
 		        + " AND DATE(en.date_vl_results_received) BETWEEN :startDate AND :endDate " + " GROUP BY en.client_id)su1 "
