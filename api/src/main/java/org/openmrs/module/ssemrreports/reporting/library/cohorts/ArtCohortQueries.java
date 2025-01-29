@@ -354,7 +354,7 @@ public class ArtCohortQueries {
 		String query = "SELECT b.client_id FROM( "
 		        + " SELECT DISTINCT(client_id)"
 		        + " FROM ( "
-		        + " SELECT f.encounter_datetime, f.client_id, p.gender, timestampdiff(YEAR, p.birthdate, e.art_start_date) ageAtArtStart, fup.ltfu_date, f.art_regimen_no_of_days_dispensed, "
+		        + " SELECT f.encounter_datetime, f.client_id, p.gender, timestampdiff(YEAR, p.birthdate, :endDate) ageAtArtStart, fup.ltfu_date, f.art_regimen_no_of_days_dispensed, "
 		        + " DATE_ADD(f.encounter_datetime, interval (case f.art_regimen_no_of_days_dispensed when '30 Days' then 30 when '60 Days' then 60 when '90 Days' then 90 when '180 Days' then 180 when '180+ Days' then 180 when '150 Days' then 150 else 0 end) DAY) nextDrugApptDate "
 		        + " FROM("
 		        
