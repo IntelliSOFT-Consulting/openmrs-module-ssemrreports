@@ -44,7 +44,7 @@ public class ClinicalStatusDataEvaluator implements PersonDataEvaluator {
                 + "END AS status "
                 + "FROM openmrs.patient_appointment p "
                 + "LEFT JOIN ( "
-                + "    SELECT client_id, transfer_out, death, client_refused_treatment, transfer_out_date, MAX(encounter_datetime) AS latest_encounter_date "
+                + "    SELECT client_id, MAX(transfer_out) AS transfer_out, MAX(death) AS death, MAX(client_refused_treatment) AS client_refused_treatment, MAX(transfer_out_date) AS transfer_out_date, MAX(encounter_datetime) AS latest_encounter_date "
                 + "    FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up " + "    GROUP BY client_id "
                 + ") latest_encounter ON latest_encounter.client_id = p.patient_id " + "LEFT JOIN ( "
                 + "    SELECT patient_id, MAX(start_date_time) AS max_start_date_time "

@@ -27,8 +27,10 @@ public class ClientRepresentedDataEvaluator implements PersonDataEvaluator {
             throws EvaluationException {
         EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 
-        String qry = "select client_id, CASE MID(MAX(CONCAT(encounter_datetime, client_represented)), 20) WHEN 'Yes' THEN 'YES' WHEN 'No' THEN 'NO' ELSE 'N/A' END "
-                + " AS represented FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up GROUP BY client_id, edd >= DATE(:endDate)";
+        String qry = "SELECT client_id, " + "CASE MAX(client_represented) WHEN 'Yes' THEN 'YES' WHEN 'No' THEN 'NO' ELSE 'N/A' END AS represented "
+                + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
+                + "WHERE encounter_datetime <= :endDate "
+                + "GROUP BY client_id";
 
         SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
         queryBuilder.append(qry);

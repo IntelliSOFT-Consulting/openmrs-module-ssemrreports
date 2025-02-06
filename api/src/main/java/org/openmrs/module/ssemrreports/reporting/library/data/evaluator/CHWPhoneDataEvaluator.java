@@ -24,6 +24,9 @@ public class CHWPhoneDataEvaluator implements PersonDataEvaluator {
 
     public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
             throws EvaluationException {
+        if (!(definition instanceof CHWPhoneDataDefinition)) {
+            throw new IllegalArgumentException("Definition must be of type CHWPhoneDataDefinition");
+        }
         EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 
         String qry = "SELECT client_id, "
