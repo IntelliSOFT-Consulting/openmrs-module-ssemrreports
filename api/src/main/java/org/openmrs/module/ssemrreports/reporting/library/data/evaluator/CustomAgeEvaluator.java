@@ -40,6 +40,7 @@ public class CustomAgeEvaluator implements PersonDataEvaluator {
         for (Map.Entry<Integer, Object> e : birthdateData.getData().entrySet()) {
             Integer personId = e.getKey();
             Object birthDateObj = e.getValue();
+            if (birthDateObj == null) { continue; }
 
             // Extract the actual birthdate from the Birthdate object
             Date birthDate;
