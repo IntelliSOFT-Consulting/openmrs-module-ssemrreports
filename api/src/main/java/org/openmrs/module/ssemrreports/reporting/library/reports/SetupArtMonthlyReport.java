@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.openmrs.LocationAttributeType;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -14,9 +12,6 @@ import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ArtDatasetDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.DistrictDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.datasets.SsemrBaseDataSet;
-import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -70,6 +65,8 @@ public class SetupArtMonthlyReport extends SsemrDataExportManager {
 		rd.addDataSetDefinition("currentOnArtByRegimen",
 		    Mapped.mapStraightThrough(artDatasetDefinition.getTxCurrByRegimenDataset()));
 		rd.addDataSetDefinition("viralLoad", Mapped.mapStraightThrough(artDatasetDefinition.getViralLoadDataset()));
+		// Add TB Status dataset
+		rd.addDataSetDefinition("tbStatus", Mapped.mapStraightThrough(artDatasetDefinition.getTbStatusDataset()));
 		return rd;
 	}
 	

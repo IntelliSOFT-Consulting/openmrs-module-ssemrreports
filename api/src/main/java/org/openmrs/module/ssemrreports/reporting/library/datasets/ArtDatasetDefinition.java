@@ -735,4 +735,69 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 		    pbfAgeOnlyDisaggregation, Arrays.asList("38", "39", "40", "41", "42", "43", "44", "45", "46", "47"));
 		return dsd;
 	}
+	
+	public DataSetDefinition getTbStatusDataset() {
+		/*
+		 * No signs = no signs or symptoms of TB	
+		Pr TB  = PresumptiveTB	
+		INH = Cleint was screened negative and currently on INH prophylaxis (IPT)	
+		TB Rx = Client currently on TB treatment	
+		ND =TB Screening not done for any reason	
+		*/
+		
+		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
+		dsd.setName("tbStatus");
+		dsd.setDescription("TB status dataset");
+		dsd.addParameters(getParameters());
+		dsd.addDimension("gender", map(dimension.gender(), ""));
+		
+		addRow(
+		    dsd,
+		    "NoTb",
+		    "No signs of TB ",
+		    map(indicator.getIndicator("No signs of TB", map(artCohortQueries.getNoTbStatusCohortDefinition(), mappings)),
+		        mappings), Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
+		addRow(
+		    dsd,
+		    "PrTb",
+		    "TB Presumptive",
+		    map(indicator.getIndicator("TB Presumptive",
+		        map(artCohortQueries.getPresumptiveTbStatusCohortDefinition(), mappings)), mappings),
+		    Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
+		addRow(
+		    dsd,
+		    "OnInhProphylaxis",
+		    "On INH Prophylaxis",
+		    map(indicator.getIndicator("On INH Prophylaxis", map(artCohortQueries.getInhStatusCohortDefinition(), mappings)),
+		        mappings), Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
+		addRow(
+		    dsd,
+		    "TbRx",
+		    "Client currently on TB treatment",
+		    map(indicator.getIndicator("Currently on TB Treatmenr",
+		        map(artCohortQueries.getOnTbTreatmentCohortDefinition(), mappings)), mappings),
+		    Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
+		addRow(
+		    dsd,
+		    "TbNd",
+		    "TB Screening not done",
+		    map(indicator.getIndicator("TB Screening not done",
+		        map(artCohortQueries.getNoTbSCreeningStatusCohortDefinition(), mappings)), mappings),
+		    Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
+		addRow(
+		    dsd,
+		    "TbTxStarted",
+		    "TB Treatment started during the reporting period",
+		    map(indicator.getIndicator("TB Treatment started during the reporting period",
+		        map(artCohortQueries.getTbTreatmentStartedDuringReportingPeriod(), mappings)), mappings),
+		    Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
+		return dsd;
+	}
 }
