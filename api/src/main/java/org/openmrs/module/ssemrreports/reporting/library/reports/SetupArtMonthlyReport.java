@@ -52,6 +52,15 @@ public class SetupArtMonthlyReport extends SsemrDataExportManager {
 		return "ART Monthly Report Implementation";
 	}
 	
+	/**
+	 * Constructs and returns the report definition for the ART Monthly Report.
+	 *
+	 * <p>This method creates a new ReportDefinition and initializes it with the report's unique identifier, name,
+	 * and description. It adds parameters from the ART dataset definition and registers datasets for cumulative and new
+	 * ART patients, current ART patients by age and regimen, viral load data, and tuberculosis status.</p>
+	 *
+	 * @return the configured ReportDefinition for the ART Monthly Report
+	 */
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		ReportDefinition rd = new ReportDefinition();
