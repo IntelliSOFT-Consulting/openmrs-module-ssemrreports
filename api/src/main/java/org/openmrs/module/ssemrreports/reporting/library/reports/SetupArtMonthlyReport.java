@@ -14,6 +14,7 @@ import org.openmrs.module.ssemrreports.reporting.library.datasets.ArtDatasetDefi
 import org.openmrs.module.ssemrreports.reporting.library.datasets.DistrictDatasetDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 
 @Component
 public class SetupArtMonthlyReport extends SsemrDataExportManager {
@@ -54,11 +55,13 @@ public class SetupArtMonthlyReport extends SsemrDataExportManager {
 	
 	/**
 	 * Constructs and returns the report definition for the ART Monthly Report.
-	 *
-	 * <p>This method creates a new ReportDefinition and initializes it with the report's unique identifier, name,
-	 * and description. It adds parameters from the ART dataset definition and registers datasets for cumulative and new
-	 * ART patients, current ART patients by age and regimen, viral load data, and tuberculosis status.</p>
-	 *
+	 * <p>
+	 * This method creates a new ReportDefinition and initializes it with the report's unique
+	 * identifier, name, and description. It adds parameters from the ART dataset definition and
+	 * registers datasets for cumulative and new ART patients, current ART patients by age and
+	 * regimen, viral load data, and tuberculosis status.
+	 * </p>
+	 * 
 	 * @return the configured ReportDefinition for the ART Monthly Report
 	 */
 	@Override
