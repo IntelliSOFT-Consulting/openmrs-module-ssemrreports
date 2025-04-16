@@ -276,7 +276,8 @@ public class CommonQueries {
 	}
 	
 	public static String getAllPatients() {
-		String query = "SELECT p.person_id FROM ssemr_etl.mamba_dim_person p " + "WHERE p.voided = 0 "
+		String query = "SELECT DISTINCT p.person_id FROM ssemr_etl.mamba_dim_person p "
+		        + "JOIN ssemr_etl.mamba_dim_patient_identifier id ON id.patient_id = p.person_id " + "WHERE p.voided = 0 "
 		        + "AND p.date_created <= :endDate " + "ORDER BY p.date_created DESC";
 		
 		return query;
@@ -286,7 +287,7 @@ public class CommonQueries {
 		String query = "WITH MaxSampleDate AS (SELECT client_id, MAX(date_vl_sample_collected) AS max_date_vl_sample_collected "
 		        + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up WHERE date_vl_sample_collected < :endDate "
 		        + "GROUP BY client_id), "
-		        + "RankedData AS (SELECT a.client_id, d.age, a.viral_load_value, a.date_vl_sample_collected, "
+		        + "RankedData AS (SELECT a.client_id, d.age, a.viral_load_value, a.vl_results, a.date_vl_sample_collected, "
 		        + "a.encounter_datetime, a.client_pregnant, b.art_start_date, c.third_eac_session_date, "
 		        + "ROW_NUMBER() OVER (PARTITION BY a.client_id ORDER BY "
 		        + "CASE WHEN a.date_vl_sample_collected IS NULL THEN 1 ELSE 0 END, "
@@ -299,10 +300,10 @@ public class CommonQueries {
 		        + "AND a.date_vl_sample_collected = ms.max_date_vl_sample_collected "
 		        + "WHERE a.encounter_datetime <= :endDate AND a.location_id = :location "
 		        + "AND (a.date_vl_sample_collected IS NULL OR a.encounter_datetime >= a.date_vl_sample_collected) "
-		        + "AND ((d.age > 19 "
+		        + "AND ((d.age > 18 "
 		        + "AND TIMESTAMPDIFF(MONTH, b.art_start_date, NOW()) >= 6 "
 		        + "AND TIMESTAMPDIFF(MONTH, a.date_vl_sample_collected, :endDate) >= 6 "
-		        + "AND (a.viral_load_value < 1000 OR a.viral_load_value IS NULL)) "
+		        + "AND (a.viral_load_value < 1000 OR a.vl_results = 'Below Detectable (BDL)')) "
 		        + "OR (d.age <= 18 "
 		        + "AND TIMESTAMPDIFF(MONTH, a.date_vl_sample_collected, :endDate) >= 6) "
 		        + "OR (c.third_eac_session_date IS NOT NULL "
@@ -323,7 +324,7 @@ public class CommonQueries {
 		        + "FROM openmrs.patient_appointment WHERE location_id =:location GROUP BY patient_id) AS latest_appt ON p.patient_id = latest_appt.patient_id "
 		        + "AND p.start_date_time = latest_appt.max_start_date_time LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up e "
 		        + "ON e.client_id = p.patient_id WHERE p.status = 'Missed' AND DATE(e.encounter_datetime) <= DATE(:endDate) "
-		        + "AND DATEDIFF(CURDATE(), p.start_date_time) >= 28 ORDER BY  p.patient_id ASC) AS t;";
+		        + "AND DATEDIFF(CURDATE(), p.start_date_time) > 28 ORDER BY  p.patient_id ASC) AS t;";
 		
 		return query;
 	}
@@ -336,11 +337,8 @@ public class CommonQueries {
 	}
 	
 	public static String getRTTPatients() {
-		String query = "SELECT p.patient_id FROM openmrs.patient_appointment p WHERE p.status = 'Missed'  AND p.start_date_time BETWEEN :startDate "
-		        + "AND :endDate  AND DATEDIFF(CURDATE(), p.start_date_time) >= 28 AND "
-		        + "EXISTS (SELECT 1 FROM (SELECT client_id, MAX(follow_up_date) AS max_follow_up_date "
-		        + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up WHERE days_dispensed is not null GROUP BY client_id "
-		        + "HAVING max_follow_up_date >= :endDate ) as f ) GROUP BY p.patient_id";
+		String query = "SELECT client_id  FROM ssemr_etl.ssemr_flat_encounter_art_interruption WHERE art_treatment_restarted = 'Yes' and encounter_datetime "
+		        + " between :startDate and :endDate and location_id=:location GROUP by client_id";
 		
 		return query;
 	}
@@ -367,6 +365,15 @@ public class CommonQueries {
 	}
 	
 	public static String getTbScreenedClients() {
+		String query = "select z.client_id from (SELECT f.client_id, mp.person_name_long, f.encounter_datetime, f.tb_status FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
+		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = f.client_id WHERE f.encounter_datetime = (SELECT MAX(f2.encounter_datetime) "
+		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f2 WHERE f2.client_id = f.client_id AND f2.location_id = :location AND f2.encounter_datetime BETWEEN :startDate AND :endDate) "
+		        + " AND f.location_id = :location AND f.encounter_datetime BETWEEN :startDate AND :endDate AND (f.tb_status = 'No Signs' OR f.tb_status = 'Pr TB - Presumptive TB')) as z";
+		
+		return query;
+	}
+	
+	public static String getTbTreatmentClients() {
 		String query = "select z.client_id from (SELECT f.client_id, mp.person_name_long, f.encounter_datetime, f.on_tb_treatment FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
 		        + " LEFT JOIN ssemr_etl.mamba_dim_person mp ON mp.person_id = f.client_id WHERE f.encounter_datetime = (SELECT MAX(f2.encounter_datetime) "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f2 WHERE f2.client_id = f.client_id AND f2.location_id = :location AND f2.encounter_datetime BETWEEN :startDate AND :endDate) "
@@ -395,5 +402,35 @@ public class CommonQueries {
 	
 	public static String getOnlyPatientsWithBirthdateAndGender() {
 		return "SELECT person_id FROM ssemr_etl.mamba_dim_person WHERE birthdate IS NOT NULL AND gender IN('M','F')";
+	}
+	
+	public static String getClientsWithArtDateAndDateLost(int lower, int higher) {
+		String sql = "SELECT fn2.client_id FROM ( "
+		        + " SELECT su1.client_id AS client_id,su1.art_start_date,fn1.ltfu_date, TIMESTAMPDIFF(DAY, su1.art_start_date,fn1.ltfu_date) FROM( "
+		        
+		        + " SELECT client_id, MIN(art_start_date) AS art_start_date FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate  GROUP BY client_id "
+		        
+		        + " UNION "
+		        
+		        + " SELECT client_id,  MIN(art_start_date) AS art_start_date FROM ssemr_etl.ssemr_flat_encounter_adult_and_adolescent_intake "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate  GROUP BY client_id "
+		        
+		        + " UNION "
+		        
+		        + " SELECT client_id,  MIN(art_start_date) AS art_start_date FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate  GROUP BY client_id "
+		        
+		        + " )su1 "
+		        + " INNER JOIN ( "
+		        + " SELECT fn.client_id,DATE(DATE_ADD(DATE_ADD(fn.encounter_datetime, interval CAST(f1.art_regimen_no_of_days_dispensed AS UNSIGNED) DAY), INTERVAL 30 DAY)) AS ltfu_date FROM ( "
+		        + " SELECT fu.client_id AS client_id,MAX(fu.encounter_datetime) AS encounter_datetime FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fu "
+		        + " WHERE fu.encounter_datetime <= :endDate AND fu.art_regimen_no_of_days_dispensed IS NOT NULL GROUP BY fu.client_id)fn "
+		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f1 "
+		        + " WHERE f1.encounter_datetime=fn.encounter_datetime " + " )fn1 " + " ON su1.client_id=fn1.client_id)fn2 "
+		        + " WHERE TIMESTAMPDIFF(DAY, fn2.art_start_date, fn2.ltfu_date) >=" + lower
+		        + " AND TIMESTAMPDIFF(day, fn2.art_start_date, fn2.ltfu_date) <" + higher;
+		
+		return sql;
 	}
 }

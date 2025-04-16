@@ -1,6 +1,7 @@
 package org.openmrs.module.ssemrreports.page.controller;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openmrs.Location;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportRequest;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -25,8 +26,8 @@ public class RunReportPageController {
 	
 	public void get(@SpringBean ReportDefinitionService reportDefinitionService, @SpringBean ReportService reportService,
 	        @RequestParam("reportDefinition") String reportDefinitionUuid,
+	        @RequestParam(value = "location", required = false) Location location,
 	        @RequestParam(value = "breadcrumb", required = false) String breadcrumb, PageModel model) throws Exception {
-		
 		ReportDefinition reportDefinition = reportDefinitionService.getDefinitionByUuid(reportDefinitionUuid);
 		if (reportDefinition == null) {
 			throw new IllegalArgumentException("No reportDefinition with the given uuid");
@@ -34,6 +35,7 @@ public class RunReportPageController {
 		model.addAttribute("reportDefinition", reportDefinition);
 		model.addAttribute("renderingModes", reportService.getRenderingModes(reportDefinition));
 		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("location", location);
 	}
 	
 	public String post(@SpringBean ReportDefinitionService reportDefinitionService, @SpringBean ReportService reportService,

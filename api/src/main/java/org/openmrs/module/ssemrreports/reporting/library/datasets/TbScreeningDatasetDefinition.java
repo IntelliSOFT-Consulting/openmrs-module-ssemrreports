@@ -19,22 +19,15 @@ import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefi
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.*;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
 import org.openmrs.PersonAttributeType;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.TbUnitNumberDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.DateStartedTbDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 
 @Component
@@ -59,9 +52,9 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		
 		String DATE_FORMAT = "dd-MMM-yyyy";
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
-		dsd.setName("ETB");
+		dsd.setName("TBS");
 		dsd.addParameters(getParameters());
-		dsd.setDescription("Line list for TB Screening and treatment");
+		dsd.setDescription("Line list for TB Screening");
 		dsd.addSortCriteria("Psn", SortCriteria.SortDirection.ASC);
 		dsd.addParameter(new Parameter("location", "Location", Location.class));
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -96,11 +89,8 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		BreastFeedingDataDefinition breastfeedingDataDefinition = new BreastFeedingDataDefinition();
 		breastfeedingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		DateStartedTbDataDefinition dateStartedTbDataDefinition = new DateStartedTbDataDefinition();
-		dateStartedTbDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-		
-		TbUnitNumberDataDefinition tbUnitNumberDataDefinition = new TbUnitNumberDataDefinition();
-		tbUnitNumberDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		TBStatusDataDefinition tbStatusDataDefinition = new TBStatusDataDefinition();
+		tbStatusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		dsd.addColumn("id", new PatientIdDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
@@ -114,15 +104,12 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("TB unit number", tbUnitNumberDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Date Started TB", dateStartedTbDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("TB Status", tbStatusDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Name of COV", covNameDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Linked to COV (Y/N)", linkedToCOVDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
-		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		
 		return dsd;
 	}

@@ -42,12 +42,12 @@ public class SetupTbScreeningRegister extends SsemrDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "Line list for TB Screening and treatment";
+		return "Line list for TB Screening";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Line list for TB Screening and treatment";
+		return "Line list for TB Screening";
 	}
 	
 	@Override
@@ -57,24 +57,10 @@ public class SetupTbScreeningRegister extends SsemrDataExportManager {
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.addParameters(tbScreeningDatasetDefinition.getParameters());
-		rd.addDataSetDefinition("ETB",
+		rd.addDataSetDefinition("TBS",
 		    Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTbDatasetDefinition()));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsInTbTreatment(),
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getPatientsScreenedForTbTreatment(),
 		    "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
-		// LocationAttributeType mflCodeAttributeType =
-		// Context.getLocationService().getLocationAttributeTypeByUuid(
-		// "8a845a89-6aa5-4111-81d3-0af31c45c002");
-		// rd.addDataSetDefinition("TBSCR",
-		// Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTbScreeningRegisterDefinition()));
-		// rd.addDataSetDefinition("TBSCRC",
-		// Mapped.mapStraightThrough(tbScreeningDatasetDefinition.constructTheAggregatePartOfTheScreeningRegister()));
-		// rd.setBaseCohortDefinition(SsemrReportUtils.map(
-		// baseCohortQueries.getPatientsWhoQualifiesForAgivenEncounter(Arrays.asList(SsemrReportUtils.getEncounterType(
-		// SharedReportConstants.TB_SCREENING_ENCOUNTER_TYPE_UUID).getEncounterTypeId())),
-		// "startDate=${startDate},endDate=${endDate+23h},location=${location}"));
-		// rd.addDataSetDefinition("DT",
-		// Mapped.mapStraightThrough(districtDatasetDefinition
-		// .getAddressDataset(mflCodeAttributeType.getLocationAttributeTypeId())));
 		return rd;
 	}
 	
@@ -88,14 +74,14 @@ public class SetupTbScreeningRegister extends SsemrDataExportManager {
 		ReportDesign reportDesign = null;
 		try {
 			reportDesign = createXlsReportDesign(reportDefinition, "tb_screening_register.xls",
-			    "Line list for TB Screening and treatment", getExcelDesignUuid(), null);
+			    "Line list for TB Screening", getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:ETB");
+			props.put("repeatingSections", "sheet:1,row:4,dataset:TBS");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}
 		catch (IOException e) {
-			throw new ReportingException(e.toString());
+			throw new ReportingException("Error creating report design", e);
 		}
 		
 		return Arrays.asList(reportDesign);

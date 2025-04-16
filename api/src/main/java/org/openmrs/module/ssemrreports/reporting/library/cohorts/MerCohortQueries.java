@@ -1,10 +1,12 @@
 package org.openmrs.module.ssemrreports.reporting.library.cohorts;
 
+import org.joda.time.Seconds;
 import org.openmrs.Location;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.ssemrreports.reporting.library.queries.CommonQueries;
 import org.openmrs.module.ssemrreports.reporting.library.queries.MerQueries;
 import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +24,40 @@ public class MerCohortQueries {
 		this.sharedCohortQueries = sharedCohortQueries;
 	}
 	
+	public CohortDefinition getIITPatientsOverPeriod() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		cd.setName("Interruptions over time");
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.setQuery(MerQueries.getIITPatients());
+		return cd;
+	}
+	
 	public CohortDefinition getTxCurrCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxCurr Cohorts");
+		cd.setName("TxCurr Cohorts excluding interruptions");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getPatientsWhoInitiatedArtDuringReportingPeriod());
-		return cd;
+		
+		SqlCohortDefinition cd1 = new SqlCohortDefinition();
+		cd1.setName("ART restarted patients within the period ");
+		cd1.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd1.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd1.addParameter(new Parameter("location", "Location", Location.class));
+		cd1.setQuery(MerQueries.getArtPatientsWhoRestartedTreatmentInPeriod());
+		
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("TXCURR TOTAL");
+		comp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		comp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		comp.addParameter(new Parameter("location", "Location", Location.class));
+		comp.addSearch("Tx1", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.addSearch("Tx2", SsemrReportUtils.map(cd1, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.addSearch("IIT", SsemrReportUtils.map(getIITPatientsOverPeriod(), "endDate=${endDate},location=${location}"));
+		comp.setCompositionString("(Tx1 AND NOT IIT) OR Tx2");
+		return comp;
 	}
 	
 	//TX new  cohort queries
@@ -182,37 +210,65 @@ public class MerCohortQueries {
 	
 	public CohortDefinition getTxMlIitL3mCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxMl Cohorts - IIT After being on Treatment for <3 months");
+		cd.setName("TxCurr Cohorts - IIT After being on Treatment for <3 months");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlIitL3mQuery());
-		return cd;
+		
+		CompositionCohortDefinition cdComp = new CompositionCohortDefinition();
+		cdComp.setName("TxCurr Cohorts - combine with IIT After being on Treatment for <3 months");
+		cdComp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cdComp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cdComp.addParameter(new Parameter("location", "Location", Location.class));
+		cdComp.addSearch("TxCURR",
+		    SsemrReportUtils.map(getTxCurrCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.addSearch("IIT", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.setCompositionString("TxCURR AND IIT");
+		return cdComp;
 	}
 	
-	public CohortDefinition getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitL3mCohorts() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+	public CohortDefinition getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitmCohorts(
+	        int l, int h) {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitL3mCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("T1", SsemrReportUtils.map(
+		cd.setQuery(CommonQueries.getClientsWithArtDateAndDateLost(l, h));
+		
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Combined query");
+		comp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		comp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		comp.addParameter(new Parameter("location", "Location", Location.class));
+		comp.addSearch("T1", SsemrReportUtils.map(
 		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T2",
-		    SsemrReportUtils.map(getTxMlIitL3mCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.setCompositionString("T1 AND T2");
-		return cd;
+		comp.addSearch("T2", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		
+		comp.setCompositionString("T1 AND T2");
+		return comp;
 	}
 	
 	public CohortDefinition getTxMlIit3To5mCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxMl Cohorts - IIT After being on Treatment for 3-5 months");
+		cd.setName("TxCURR Cohorts - IIT After being on Treatment for 3-5 months");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlIitL3To5mQuery());
-		return cd;
+		
+		CompositionCohortDefinition cdComp = new CompositionCohortDefinition();
+		cdComp.setName("TxCurr Cohorts - combine with IIT After being on Treatment for 3-5 months");
+		cdComp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cdComp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cdComp.addParameter(new Parameter("location", "Location", Location.class));
+		cdComp.addSearch("TxCURR",
+		    SsemrReportUtils.map(getTxCurrCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.addSearch("IIT", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.setCompositionString("TxCURR AND IIT");
+		return cdComp;
 	}
 	
 	public CohortDefinition getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIit3To5mCohorts() {
@@ -237,22 +293,17 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlIitM6mQuery());
-		return cd;
-	}
-	
-	public CohortDefinition getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitM6mCohorts() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.setName("TxMl Cohorts - getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterIitM6mCohorts");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("T1", SsemrReportUtils.map(
-		    getArtPatientsAtTheBeginningAndHaveClinicalContactGreaterThan28DaysSinceLastExpectedContactCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T2",
-		    SsemrReportUtils.map(getTxMlIitM6mCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.setCompositionString("T1 AND T2");
-		return cd;
+		
+		CompositionCohortDefinition cdComp = new CompositionCohortDefinition();
+		cdComp.setName("TxCurr Cohorts - combine with IIT After being on Treatment for 6+ months");
+		cdComp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cdComp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cdComp.addParameter(new Parameter("location", "Location", Location.class));
+		cdComp.addSearch("TxCURR",
+		    SsemrReportUtils.map(getTxCurrCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.addSearch("IIT", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cdComp.setCompositionString("TxCURR AND IIT");
+		return cdComp;
 	}
 	
 	public CohortDefinition getTxMlSelfTransferOutCohorts() {
@@ -307,12 +358,24 @@ public class MerCohortQueries {
 	
 	public CohortDefinition getTxMlCauseOfDeathCohorts(String cause) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxMl Cohorts - Refused (Stopped) Treatment");
+		cd.setName("TxMl Cohorts - Cause of death " + cause);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getTxMlCauseOfDeathQueries(cause));
-		return cd;
+		
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("TxMl Cohorts - Combined cause of death");
+		comp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		comp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		comp.addParameter(new Parameter("location", "Location", Location.class));
+		
+		comp.addSearch("T1", SsemrReportUtils.map(
+		    getPatientOutcomeClientsTracedAndBroughtBackByHfEffortsOrSelfReturned28DaysLaterDiedCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.addSearch("T2", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.setCompositionString("T1 AND T2");
+		return comp;
 	}
 	
 	//TX RTT cohort Queries
@@ -326,83 +389,70 @@ public class MerCohortQueries {
 		return cd;
 	}
 	
-	public CohortDefinition getHowLongWerePeopleOffArvs28DaysTo3MonthsCohorts() {
+	public CohortDefinition getClientsWhoLTFUatTheBeginningOfTheReportingPeriod() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxRTT Cohorts - getHowLongWerePeopleOffArvs28DaysTo3Months");
+		cd.setName("TxRTT Cohorts - getClientsWhoLTFUatTheBeginningOfTheReportingPeriod");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.setQuery(MerQueries.getHowLongWerePeopleOffArvs28DaysTo3MonthsQuery());
+		cd.setQuery(MerQueries.getArtPatientsNotActiveAtBeginningOfReportingPeriod());
 		return cd;
 	}
 	
-	public CohortDefinition getHowLongWerePeopleOffArvs3To6MonthsQueryCohorts() {
+	/**
+	 * Clients traced and brought back to care (Re-started) from those who were lost in the previous
+	 * quarters (I.e from those who were not active at the beginning of this reporting period)
+	 */
+	public CohortDefinition getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("TxRTT Cohorts - getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("T1", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T2", SsemrReportUtils.map(getClientsWhoLTFUatTheBeginningOfTheReportingPeriod(),
+		    "startDate=${startDate},location=${location}"));
+		cd.setCompositionString("T1");
+		return cd;
+	}
+	
+	//How long were people off ARVs - n days
+	public CohortDefinition getHowLongWerePeopleOffArvsNdaysCohorts(int l, int h) {
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("How long were people off ARVs - Combined with base");
+		comp.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		comp.addParameter(new Parameter("endDate", "End Date", Date.class));
+		comp.addParameter(new Parameter("location", "Location", Location.class));
+		
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxRTT Cohorts - getHowLongWerePeopleOffArvs3To6MonthsQuery");
+		cd.setName("TxRTT Cohorts - getHowLongWerePeopleOffArvsNdaysCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.setQuery(MerQueries.getHowLongWerePeopleOffArvs3To6MonthsQuery());
-		return cd;
+		cd.setQuery(MerQueries.getHowLongWerePeopleOffArvQuery(l, h));
+		
+		comp.addSearch("BASE", SsemrReportUtils.map(
+		    getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.addSearch("LMT", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.setCompositionString("LMT");
+		return comp;
 	}
 	
-	public CohortDefinition getHowLongWerePeopleOffArvs6To12MonthsQueryCohorts() {
+	//LTFU patients
+	public CohortDefinition getLTFUCohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxRTT Cohorts - getHowLongWerePeopleOffArvs6To12MonthsQuery");
+		cd.setName("TxRTT Cohorts - getLTFUCohorts");
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.setQuery(MerQueries.getHowLongWerePeopleOffArvs6To12MonthsQuery());
-		return cd;
-	}
-	
-	//Combine the lost patients with the base query that they actually restarted treatment
-	public CohortDefinition getHowLongWerePeopleOffArvs28DaysTo3MonthsFromLastTcaCohorts() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.setName("Tx RTT getHowLongWerePeopleOffArvs28DaysTo3MonthsFromLastTcaCohorts");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T1", SsemrReportUtils.map(getHowLongWerePeopleOffArvs28DaysTo3MonthsCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.setCompositionString("T0 AND T1");
-		return cd;
-	}
-	
-	public CohortDefinition getHowLongWerePeopleOffArvs3To6MonthsFromLastTcaCohorts() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.setName("Tx RTT getHowLongWerePeopleOffArvs3To6MonthsFromLastTcaCohorts");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T1", SsemrReportUtils.map(getHowLongWerePeopleOffArvs3To6MonthsQueryCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.setCompositionString("T0 AND T1");
-		return cd;
-	}
-	
-	public CohortDefinition getHowLongWerePeopleOffArvs6To12MonthsFromLastTcaCohorts() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.setName("Tx RTT getHowLongWerePeopleOffArvs6To12MonthsFromLastTcaCohorts");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T1", SsemrReportUtils.map(getHowLongWerePeopleOffArvs6To12MonthsQueryCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.setCompositionString("T0 AND T1");
+		cd.setQuery(MerQueries.getHowLongWerePeopleOffArvAfterLTFUQuery());
 		return cd;
 	}
 	
 	public CohortDefinition getTxRttWithCd4LessThan200Cohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxRTT Cohorts - CD4: < 200");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getClientsWithCd4LessThan200Query());
@@ -415,10 +465,11 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		cd.addSearch("T0", SsemrReportUtils.map(
+		    getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod(),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T1", SsemrReportUtils.map(getTxRttWithCd4LessThan200Cohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T1",
+		    SsemrReportUtils.map(getTxRttWithCd4LessThan200Cohorts(), "endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -439,10 +490,11 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		cd.addSearch("T0", SsemrReportUtils.map(
+		    getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod(),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T1", SsemrReportUtils.map(getTxRttWithCd4GreaterOrEqual200Cohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T1",
+		    SsemrReportUtils.map(getTxRttWithCd4GreaterOrEqual200Cohorts(), "endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -450,7 +502,6 @@ public class MerCohortQueries {
 	public CohortDefinition getTxRttWithUnknownCd4Cohorts() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		cd.setName("TxRTT Cohorts - Unknown CD4");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.setQuery(MerQueries.getClientsWithUnknownCd4Query());
@@ -463,34 +514,10 @@ public class MerCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
+		cd.addSearch("T0", SsemrReportUtils.map(
+		    getClientsTracedBroughtBackToCareRestartedCohortsNotActiveAtTheBeginningOfThisReportingPeriod(),
 		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T1", SsemrReportUtils.map(getTxRttWithUnknownCd4Cohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.setCompositionString("T0 AND T1");
-		return cd;
-	}
-	
-	public CohortDefinition getTxRttNotEligibleForCd4Cohorts() {
-		SqlCohortDefinition cd = new SqlCohortDefinition();
-		cd.setName("TxRTT Cohorts - Unknown CD4");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.setQuery(MerQueries.getTxRttNotEligibleForCd4Queries());
-		return cd;
-	}
-	
-	public CohortDefinition getHowLongWerePeopleOffFromLastTcaNotEligibleForCd4Cohorts() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.setName("Tx RTT getHowLongWerePeopleOffFromLastTcaNotEligibleForCd4Cohorts");
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("T0", SsemrReportUtils.map(getClientsTracedBroughtBackToCareRestartedCohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("T1", SsemrReportUtils.map(getTxRttNotEligibleForCd4Cohorts(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("T1", SsemrReportUtils.map(getTxRttWithUnknownCd4Cohorts(), "endDate=${endDate},location=${location}"));
 		cd.setCompositionString("T0 AND T1");
 		return cd;
 	}
@@ -656,6 +683,37 @@ public class MerCohortQueries {
 		cd.addSearch("TO", SsemrReportUtils.map(getTransferOutCohort(), mapping));
 		cd.addSearch("ITT", SsemrReportUtils.map(getInterruptionCohort(), mapping));
 		cd.setCompositionString("D OR S OR TO OR ITT");
+		return cd;
+	}
+	
+	//ad cohort definitions for the pregnant and breastfeeding women who have suppressed VL
+	public CohortDefinition getTxPvlsPregnantWithSuppressedVlResultsLessThan1000Cohort() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx pvls clients who are pregnant with suppressed VL result - <1000");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("SUP", SsemrReportUtils.map(
+		    getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("P",
+		    SsemrReportUtils.map(getPregnantCohorts(), "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("SUP AND P");
+		return cd;
+	}
+	
+	public CohortDefinition getTxPvlsBreastfeedingWithSuppressedVlResultsLessThan1000Cohort() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Tx pvls clients who are breastfeeding with suppressed VL result - <1000");
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addSearch("SUP", SsemrReportUtils.map(
+		    getTxPvlsArtPatientsWithVlLessThan1000ResultDocumentedInArtRegisterCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("B", SsemrReportUtils.map(getBreastfeedingCohorts(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.setCompositionString("SUP AND B");
 		return cd;
 	}
 	

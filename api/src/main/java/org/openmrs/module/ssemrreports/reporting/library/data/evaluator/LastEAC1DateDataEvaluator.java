@@ -21,7 +21,6 @@ import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastEAC1DateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLDataDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

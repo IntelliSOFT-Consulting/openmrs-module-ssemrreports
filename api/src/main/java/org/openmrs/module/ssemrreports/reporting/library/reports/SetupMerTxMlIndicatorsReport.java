@@ -58,7 +58,7 @@ public class SetupMerTxMlIndicatorsReport extends SsemrDataExportManager {
 		String mappings1 = "startDate=${startDate},endDate=${startDate+1m-1d+23h},location=${location}";
 		String mappings2 = "startDate=${startDate+1m},endDate=${startDate+2m-1d+23h},location=${location}";
 		String mappings3 = "startDate=${startDate+2m},endDate=${startDate+3m-1d+23h},location=${location}";
-		String mappings4 = "startDate=${startDate+3m},endDate=${endDate+23h},location=${location}";
+		String mappings4 = "startDate=${startDate+3m},endDate=${endDate+1m+23h},location=${location}";
 		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -69,7 +69,7 @@ public class SetupMerTxMlIndicatorsReport extends SsemrDataExportManager {
 		rd.addDataSetDefinition("TxM2", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings2));
 		rd.addDataSetDefinition("TxM3", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings3));
 		rd.addDataSetDefinition("TxM4", SsemrReportUtils.map(merIndicatorsDatasetDefinition.getTxMlDataset(), mappings4));
-		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getClientsOnArtPerFacility(),
+		rd.setBaseCohortDefinition(SsemrReportUtils.map(baseCohortQueries.getAccurateClientsOnArtPerFacility(),
 		    "endDate=${endDate},location=${location}"));
 		
 		return rd;

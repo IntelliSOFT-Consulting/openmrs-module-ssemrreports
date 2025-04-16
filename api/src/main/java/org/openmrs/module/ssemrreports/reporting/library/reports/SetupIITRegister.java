@@ -43,12 +43,12 @@ public class SetupIITRegister extends SsemrDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "Line list for IIT and RTT clients on Date";
+		return "Line list for IIT clients on Date";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Line list for IIT and RTT clients";
+		return "Line list for IIT clients";
 	}
 	
 	@Override
@@ -76,7 +76,7 @@ public class SetupIITRegister extends SsemrDataExportManager {
 			reportDesign = createXlsReportDesign(reportDefinition, "iitRegister.xls", "Report for IIT clients",
 			    getExcelDesignUuid(), null);
 			Properties props = new Properties();
-			props.put("repeatingSections", "sheet:1,row:2,dataset:IIT");
+			props.put("repeatingSections", "sheet:1,row:3,dataset:IIT");
 			props.put("sortWeight", "5000");
 			reportDesign.setProperties(props);
 		}

@@ -108,4 +108,11 @@ public class ShareDatasetColumns {
 		return Arrays.asList(under15M, plus15M, unkM, under15F, plus15F, unkF, all3);
 	}
 	
+	public static List<SsemrBaseDataSet.ColumnParameters> getGenderColumns() {
+		SsemrBaseDataSet.ColumnParameters male = new SsemrBaseDataSet.ColumnParameters("male", "Male", "gender=M", "01");
+		SsemrBaseDataSet.ColumnParameters female = new SsemrBaseDataSet.ColumnParameters("female", "Female", "gender=F",
+		        "02");
+		SsemrBaseDataSet.ColumnParameters total = new SsemrBaseDataSet.ColumnParameters("total", "Total", "", "03");
+		return Arrays.asList(male, female, total);
+	}
 }
