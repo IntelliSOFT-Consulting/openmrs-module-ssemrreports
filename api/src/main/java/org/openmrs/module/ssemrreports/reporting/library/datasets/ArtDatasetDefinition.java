@@ -730,6 +730,24 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 		
 	}
 	
+	/**
+	 * Constructs a dataset definition for viral load indicators.
+	 * <p>
+	 * This method creates a CohortIndicatorDataSetDefinition configured to report viral load
+	 * metrics. It sets the dataset's name, description, parameters, and dimensions (for gender and
+	 * age), and adds rows to capture:
+	 * <ul>
+	 * <li>Samples collected overall, as well as for pregnant and breastfeeding patients</li>
+	 * <li>Results received with viral load values below 1000 copies overall, and for pregnant and
+	 * breastfeeding patients</li>
+	 * <li>Results received with viral load values of 1000 copies or above overall, and for pregnant
+	 * and breastfeeding patients</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @return a DataSetDefinition encapsulating viral load data disaggregated by age, gender, and
+	 *         specific patient subgroups
+	 */
 	public DataSetDefinition getViralLoadDataset() {
 		// VL smaples collecetd and results received during the previous reporting period(month)
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
@@ -806,6 +824,90 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 		    map(indicator.getIndicator("Results received - breastfeeding",
 		        map(artCohortQueries.getRetentionVLResultsForBreastFeedingCohortDefinition(), mappings)), mappings),
 		    pbfAgeOnlyDisaggregation, Arrays.asList("38", "39", "40", "41", "42", "43", "44", "45", "46", "47"));
+		return dsd;
+	}
+	
+	/**
+	 * Constructs and returns a dataset definition for tuberculosis (TB) status among ART patients.
+	 * <p>
+	 * This dataset aggregates patient data into several TB status categories disaggregated by
+	 * gender, including:
+	 * <ul>
+	 * <li>No signs of TB</li>
+	 * <li>TB Presumptive</li>
+	 * <li>On INH Prophylaxis</li>
+	 * <li>Currently on TB treatment</li>
+	 * <li>TB Screening not done</li>
+	 * <li>TB Treatment started during the reporting period</li>
+	 * </ul>
+	 * It is parameterized with start and end dates as well as location, and it leverages cohort
+	 * queries to define each indicator.
+	 * </p>
+	 * 
+	 * @return the TB status cohort indicator dataset definition
+	 */
+	public DataSetDefinition getTbStatusDataset() {
+		/*
+		 * No signs = no signs or symptoms of TB	
+		Pr TB  = PresumptiveTB	
+		INH = Cleint was screened negative and currently on INH prophylaxis (IPT)	
+		TB Rx = Client currently on TB treatment	
+		ND =TB Screening not done for any reason	
+		*/
+		
+		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
+		dsd.setName("tbStatus");
+		dsd.setDescription("TB status dataset");
+		dsd.addParameters(getParameters());
+		dsd.addDimension("gender", map(dimension.gender(), ""));
+		
+		addRow(
+		    dsd,
+		    "NoTb",
+		    "No signs of TB ",
+		    map(indicator.getIndicator("No signs of TB", map(artCohortQueries.getNoTbStatusCohortDefinition(), mappings)),
+		        mappings), Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
+		addRow(
+		    dsd,
+		    "PrTb",
+		    "TB Presumptive",
+		    map(indicator.getIndicator("TB Presumptive",
+		        map(artCohortQueries.getPresumptiveTbStatusCohortDefinition(), mappings)), mappings),
+		    Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
+		addRow(
+		    dsd,
+		    "OnInhProphylaxis",
+		    "On INH Prophylaxis",
+		    map(indicator.getIndicator("On INH Prophylaxis", map(artCohortQueries.getInhStatusCohortDefinition(), mappings)),
+		        mappings), Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
+		addRow(
+		    dsd,
+		    "TbRx",
+		    "Client currently on TB treatment",
+		    map(indicator.getIndicator("Currently on TB Treatmenr",
+		        map(artCohortQueries.getOnTbTreatmentCohortDefinition(), mappings)), mappings),
+		    Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
+		addRow(
+		    dsd,
+		    "TbNd",
+		    "TB Screening not done",
+		    map(indicator.getIndicator("TB Screening not done",
+		        map(artCohortQueries.getNoTbSCreeningStatusCohortDefinition(), mappings)), mappings),
+		    Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
+		addRow(
+		    dsd,
+		    "TbTxStarted",
+		    "TB Treatment started during the reporting period",
+		    map(indicator.getIndicator("TB Treatment started during the reporting period",
+		        map(artCohortQueries.getTbTreatmentStartedDuringReportingPeriod(), mappings)), mappings),
+		    Arrays.asList(subTotalFemales, subTotalMales), Arrays.asList("F", "M"));
+		
 		return dsd;
 	}
 }
