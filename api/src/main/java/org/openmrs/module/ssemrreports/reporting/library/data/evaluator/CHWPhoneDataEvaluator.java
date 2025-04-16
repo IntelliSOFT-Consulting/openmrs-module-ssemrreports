@@ -18,25 +18,25 @@ import java.util.Map;
  */
 @Handler(supports = CHWPhoneDataDefinition.class, order = 50)
 public class CHWPhoneDataEvaluator implements PersonDataEvaluator {
-
-    @Autowired
-    private EvaluationService evaluationService;
-
-    public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
-            throws EvaluationException {
-        if (!(definition instanceof CHWPhoneDataDefinition)) {
-            throw new IllegalArgumentException("Definition must be of type CHWPhoneDataDefinition");
-        }
-        EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-
-        String qry = "SELECT client_id, "
-                + "SUBSTRING_INDEX(MAX(CONCAT(encounter_datetime, '|', chw_phone_number)), '|', -1) AS chw_phone "
-                + "FROM ssemr_etl.ssemr_flat_encounter_community_linkage " + "GROUP BY client_id";
-
-        SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
-        queryBuilder.append(qry);
-        Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
-        c.setData(data);
-        return c;
-    }
+	
+	@Autowired
+	private EvaluationService evaluationService;
+	
+	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
+	        throws EvaluationException {
+		if (!(definition instanceof CHWPhoneDataDefinition)) {
+			throw new IllegalArgumentException("Definition must be of type CHWPhoneDataDefinition");
+		}
+		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
+		
+		String qry = "SELECT client_id, "
+		        + "SUBSTRING_INDEX(MAX(CONCAT(encounter_datetime, '|', chw_phone_number)), '|', -1) AS chw_phone "
+		        + "FROM ssemr_etl.ssemr_flat_encounter_community_linkage " + "GROUP BY client_id";
+		
+		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
+		queryBuilder.append(qry);
+		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
+		c.setData(data);
+		return c;
+	}
 }
