@@ -1124,7 +1124,7 @@ public class ArtCohortQueries {
 		        + "    e.client_id "
 		        + "from ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up e "
 		        + "where e.location_id=:location and date(e.encounter_datetime) between date(:startDate) and date(:endDate)  "
-		        + "  and ((e.tb_status = 'TB Rx - currently on TB treatment' ) OR e.on_tb_treatment = 'YES') ";
+		        + "  and ((e.tb_status = 'TB Rx - currently on TB treatment' ) OR UPPER(e.on_tb_treatment) = 'YES') ";
 		cd.setQuery(qry);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
