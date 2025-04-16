@@ -732,17 +732,21 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 	
 	/**
 	 * Constructs a dataset definition for viral load indicators.
-	 *
-	 * <p>This method creates a CohortIndicatorDataSetDefinition configured to report viral load metrics. It sets the dataset's name,
-	 * description, parameters, and dimensions (for gender and age), and adds rows to capture:
+	 * <p>
+	 * This method creates a CohortIndicatorDataSetDefinition configured to report viral load
+	 * metrics. It sets the dataset's name, description, parameters, and dimensions (for gender and
+	 * age), and adds rows to capture:
 	 * <ul>
-	 *   <li>Samples collected overall, as well as for pregnant and breastfeeding patients</li>
-	 *   <li>Results received with viral load values below 1000 copies overall, and for pregnant and breastfeeding patients</li>
-	 *   <li>Results received with viral load values of 1000 copies or above overall, and for pregnant and breastfeeding patients</li>
+	 * <li>Samples collected overall, as well as for pregnant and breastfeeding patients</li>
+	 * <li>Results received with viral load values below 1000 copies overall, and for pregnant and
+	 * breastfeeding patients</li>
+	 * <li>Results received with viral load values of 1000 copies or above overall, and for pregnant
+	 * and breastfeeding patients</li>
 	 * </ul>
 	 * </p>
-	 *
-	 * @return a DataSetDefinition encapsulating viral load data disaggregated by age, gender, and specific patient subgroups
+	 * 
+	 * @return a DataSetDefinition encapsulating viral load data disaggregated by age, gender, and
+	 *         specific patient subgroups
 	 */
 	public DataSetDefinition getViralLoadDataset() {
 		// VL smaples collecetd and results received during the previous reporting period(month)
@@ -825,19 +829,21 @@ public class ArtDatasetDefinition extends SsemrBaseDataSet {
 	
 	/**
 	 * Constructs and returns a dataset definition for tuberculosis (TB) status among ART patients.
-	 *
-	 * <p>This dataset aggregates patient data into several TB status categories disaggregated by gender, including:
+	 * <p>
+	 * This dataset aggregates patient data into several TB status categories disaggregated by
+	 * gender, including:
 	 * <ul>
-	 *   <li>No signs of TB</li>
-	 *   <li>TB Presumptive</li>
-	 *   <li>On INH Prophylaxis</li>
-	 *   <li>Currently on TB treatment</li>
-	 *   <li>TB Screening not done</li>
-	 *   <li>TB Treatment started during the reporting period</li>
+	 * <li>No signs of TB</li>
+	 * <li>TB Presumptive</li>
+	 * <li>On INH Prophylaxis</li>
+	 * <li>Currently on TB treatment</li>
+	 * <li>TB Screening not done</li>
+	 * <li>TB Treatment started during the reporting period</li>
 	 * </ul>
-	 * It is parameterized with start and end dates as well as location, and it leverages cohort queries to define each indicator.
+	 * It is parameterized with start and end dates as well as location, and it leverages cohort
+	 * queries to define each indicator.
 	 * </p>
-	 *
+	 * 
 	 * @return the TB status cohort indicator dataset definition
 	 */
 	public DataSetDefinition getTbStatusDataset() {
