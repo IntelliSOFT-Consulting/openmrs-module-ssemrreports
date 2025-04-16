@@ -22,6 +22,8 @@ public class ArtCohortQueries {
 	
 	private final MerCohortQueries merCohortQueries;
 	
+	String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";
+	
 	public ArtCohortQueries(MerCohortQueries merCohortQueries) {
 		this.merCohortQueries = merCohortQueries;
 	}
@@ -61,9 +63,8 @@ public class ArtCohortQueries {
 		comp.addParameter(new Parameter("endDate", "End Date", Date.class));
 		comp.addParameter(new Parameter("location", "Location", Location.class));
 		
-		comp.addSearch("CUMM", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
-		comp.addSearch("IIT",
-		    SsemrReportUtils.map(merCohortQueries.getIITPatientsOverPeriod(), "endDate=${endDate},location=${location}"));
+		comp.addSearch("CUMM", SsemrReportUtils.map(cd, "startDate=,endDate=,location="));
+		comp.addSearch("IIT", SsemrReportUtils.map(merCohortQueries.getIITPatientsOverPeriod(), "endDate=,location="));
 		
 		comp.setCompositionString("CUMM AND NOT IIT");
 		return comp;
@@ -127,10 +128,8 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("CTX", SsemrReportUtils.map(patientsOnCTXTreatmentCohortDefinition(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(), "startDate=,endDate=,location="));
+		cd.addSearch("CTX", SsemrReportUtils.map(patientsOnCTXTreatmentCohortDefinition(), "startDate=,endDate=,location="));
 		cd.setCompositionString("NEW AND CTX");
 		return cd;
 	}
@@ -146,10 +145,9 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("DAP", SsemrReportUtils.map(patientsOnDapsoneTreatmentCohortDefinition(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(), "startDate=,endDate=,location="));
+		cd.addSearch("DAP",
+		    SsemrReportUtils.map(patientsOnDapsoneTreatmentCohortDefinition(), "startDate=,endDate=,location="));
 		cd.setCompositionString("NEW AND DAP");
 		return cd;
 	}
@@ -272,14 +270,16 @@ public class ArtCohortQueries {
 	
 	/**
 	 * Constructs a cohort definition for patients on first-line ART regimens.
-	 *
-	 * <p>This method builds an SQL query that retrieves client IDs from the patient encounter history by joining
-	 * personal/transmission records with HIV care follow-up data. It extracts the most recent regimen information for
-	 * each patient and compares it against a concatenation of adult and child first-line regimens. Records are filtered
-	 * based on the specified location and end date, ensuring that only patients on a first-line regimen during the
-	 * reporting period are included.
-	 *
-	 * @return a cohort definition for patients on first-line ART regimens during the reporting period
+	 * <p>
+	 * This method builds an SQL query that retrieves client IDs from the patient encounter history
+	 * by joining personal/transmission records with HIV care follow-up data. It extracts the most
+	 * recent regimen information for each patient and compares it against a concatenation of adult
+	 * and child first-line regimens. Records are filtered based on the specified location and end
+	 * date, ensuring that only patients on a first-line regimen during the reporting period are
+	 * included.
+	 * 
+	 * @return a cohort definition for patients on first-line ART regimens during the reporting
+	 *         period
 	 */
 	public CohortDefinition getPatientsOnFirstLineRegimenCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
@@ -301,13 +301,15 @@ public class ArtCohortQueries {
 	
 	/**
 	 * Creates a cohort definition for patients on second-line ART regimens.
-	 *
-	 * <p>This method constructs a SQL-based cohort definition that selects patients whose latest ART regimen,
-	 * after whitespace normalization, matches one of the predefined adult or child second-line regimens.
-	 * The resulting definition is parameterized with a reporting period end date, a start date (included for completeness),
-	 * and a location.</p>
-	 *
-	 * @return a CohortDefinition representing patients on second-line ART regimens during the reporting period
+	 * <p>
+	 * This method constructs a SQL-based cohort definition that selects patients whose latest ART
+	 * regimen, after whitespace normalization, matches one of the predefined adult or child
+	 * second-line regimens. The resulting definition is parameterized with a reporting period end
+	 * date, a start date (included for completeness), and a location.
+	 * </p>
+	 * 
+	 * @return a CohortDefinition representing patients on second-line ART regimens during the
+	 *         reporting period
 	 */
 	public CohortDefinition getPatientsOnSecondLineRegimenCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
@@ -534,12 +536,14 @@ public class ArtCohortQueries {
 	}
 	
 	/**
-	 * Returns a cohort definition for patients with a viral load (VL) sample collected during the reporting period.
-	 *
-	 * <p>This method constructs a SQL-based cohort definition that retrieves client IDs from the HIV care
-	 * follow-up table based on the VL sample collection date falling between the specified start and end dates
-	 * for a given location.</p>
-	 *
+	 * Returns a cohort definition for patients with a viral load (VL) sample collected during the
+	 * reporting period.
+	 * <p>
+	 * This method constructs a SQL-based cohort definition that retrieves client IDs from the HIV
+	 * care follow-up table based on the VL sample collection date falling between the specified
+	 * start and end dates for a given location.
+	 * </p>
+	 * 
 	 * @return a SQL cohort definition for VL sample collection during the reporting period
 	 */
 	
@@ -627,7 +631,7 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("NEWTBSTATUS", SsemrReportUtils.map(patientsOnArtWithTbStatusWithStatusCohortDefinition(status),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		    "startDate=,endDate=,location="));
 		cd.setCompositionString("NEWTBSTATUS");
 		return cd;
 	}
@@ -638,10 +642,9 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("NEWANDTxR", SsemrReportUtils.map(patientsNewlyInitiatedOnTBTreatmentCohortDefinition(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(), "startDate=,endDate=,location="));
+		cd.addSearch("NEWANDTxR",
+		    SsemrReportUtils.map(patientsNewlyInitiatedOnTBTreatmentCohortDefinition(), "startDate=,endDate=,location="));
 		cd.setCompositionString("NEWANDTxR");
 		return cd;
 	}
@@ -652,10 +655,9 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
-		cd.addSearch("NEWANDINH", SsemrReportUtils.map(patientsOnINHTreatmentCohortDefinition(),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(), "startDate=,endDate=,location="));
+		cd.addSearch("NEWANDINH",
+		    SsemrReportUtils.map(patientsOnINHTreatmentCohortDefinition(), "startDate=,endDate=,location="));
 		cd.setCompositionString("NEWANDINH");
 		return cd;
 	}
@@ -859,20 +861,24 @@ public class ArtCohortQueries {
 	}
 	
 	/**
-	 * Constructs a composite cohort definition of patients who are both currently on ART and on a first-line regimen.
-	 *
-	 * <p>This method combines two cohort definitions:
+	 * Constructs a composite cohort definition of patients who are both currently on ART and on a
+	 * first-line regimen.
+	 * <p>
+	 * This method combines two cohort definitions:
 	 * <ul>
-	 *   <li>a cohort filtered by patients' age at the start of ART and their current ART status (with a specified gender), and</li>
-	 *   <li>a cohort of patients on a first-line ART regimen.</li>
+	 * <li>a cohort filtered by patients' age at the start of ART and their current ART status (with
+	 * a specified gender), and</li>
+	 * <li>a cohort of patients on a first-line ART regimen.</li>
 	 * </ul>
-	 * The two cohorts are intersected using a logical AND. The resulting composite definition is parameterized
-	 * with <code>startDate</code>, <code>endDate</code>, and <code>location</code>, which must be supplied during evaluation.
-	 *
+	 * The two cohorts are intersected using a logical AND. The resulting composite definition is
+	 * parameterized with <code>startDate</code>, <code>endDate</code>, and <code>location</code>,
+	 * which must be supplied during evaluation.
+	 * 
 	 * @param minAge the minimum age (inclusive) for the ART initiation age filter
 	 * @param maxAge the maximum age (inclusive) for the ART initiation age filter
 	 * @param sex the gender used to filter the cohort
-	 * @return a composite CohortDefinition representing patients who are currently on ART and are on a first-line regimen
+	 * @return a composite CohortDefinition representing patients who are currently on ART and are
+	 *         on a first-line regimen
 	 */
 	public CohortDefinition getCurrentOnArtOnFirstLineRegimen(int minAge, int maxAge, String sex) {
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
@@ -881,22 +887,24 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		
-		cd.addSearch("currentOnArtFirstLine", SsemrReportUtils.map(getAgeAtStartOfARTonFirstLine(minAge, maxAge, sex),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("currentOnArtFirstLine",
+		    SsemrReportUtils.map(getAgeAtStartOfARTonFirstLine(minAge, maxAge, sex), "startDate=,endDate=,location="));
 		cd.setCompositionString("currentOnArtFirstLine");
 		return cd;
 	}
 	
 	/**
-	 * Constructs a composite cohort definition for patients currently on ART and on a second-line regimen.
-	 *
-	 * <p>This method creates a composition cohort that comprises two sub-cohorts:
+	 * Constructs a composite cohort definition for patients currently on ART and on a second-line
+	 * regimen.
+	 * <p>
+	 * This method creates a composition cohort that comprises two sub-cohorts:
 	 * <ul>
-	 *   <li>Patients filtered by age at ART initiation within the specified range and sex.</li>
-	 *   <li>Patients on a second-line antiretroviral regimen.</li>
+	 * <li>Patients filtered by age at ART initiation within the specified range and sex.</li>
+	 * <li>Patients on a second-line antiretroviral regimen.</li>
 	 * </ul>
-	 * The resulting cohort definition is parameterized with a start date, end date, and location for querying.
-	 *
+	 * The resulting cohort definition is parameterized with a start date, end date, and location
+	 * for querying.
+	 * 
 	 * @param minAge the minimum age (inclusive) at ART initiation
 	 * @param maxAge the maximum age (inclusive) at ART initiation
 	 * @param sex the sex to filter patients by
@@ -909,20 +917,22 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		
-		cd.addSearch("currentOnArtAndOnSecondLineRegimen", SsemrReportUtils.map(
-		    getAgeAtStartOfARTonSecondLine(minAge, maxAge, sex),
-		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("currentOnArtAndOnSecondLineRegimen",
+		    SsemrReportUtils.map(getAgeAtStartOfARTonSecondLine(minAge, maxAge, sex), "startDate=,endDate=,location="));
 		cd.setCompositionString("currentOnArtAndOnSecondLineRegimen");
 		return cd;
 	}
 	
 	/**
-	 * Returns a cohort definition for patients who are both newly initiated on ART and pregnant at their last clinical visit.
+	 * Returns a cohort definition for patients who are both newly initiated on ART and pregnant at
+	 * their last clinical visit.
 	 * <p>
-	 * The composition cohort is created by intersecting the cohort of patients newly started on ART with the cohort of pregnant women.
-	 * It requires the parameters <code>startDate</code>, <code>endDate</code>, and <code>location</code> to define the reporting period and facility context.
+	 * The composition cohort is created by intersecting the cohort of patients newly started on ART
+	 * with the cohort of pregnant women. It requires the parameters <code>startDate</code>,
+	 * <code>endDate</code>, and <code>location</code> to define the reporting period and facility
+	 * context.
 	 * </p>
-	 *
+	 * 
 	 * @return a cohort definition representing newly initiated ART patients who are pregnant
 	 */
 	public CohortDefinition getNewOnArtAndPregnant() {
@@ -939,16 +949,18 @@ public class ArtCohortQueries {
 	}
 	
 	/**
-	 * Creates a composite cohort definition for patients who were newly initiated on ART and are breastfeeding at their last clinical visit.
-	 *
-	 * <p>This cohort definition combines two criteria:
+	 * Creates a composite cohort definition for patients who were newly initiated on ART and are
+	 * breastfeeding at their last clinical visit.
+	 * <p>
+	 * This cohort definition combines two criteria:
 	 * <ul>
-	 *   <li>Patients who started ART during the reporting period.
-	 *   <li>Patients identified as breastfeeding based on their most recent clinical visit.
+	 * <li>Patients who started ART during the reporting period.
+	 * <li>Patients identified as breastfeeding based on their most recent clinical visit.
 	 * </ul>
-	 * It accepts three parameters—startDate, endDate, and location—to specify the reporting period and facility context.
+	 * It accepts three parameters—startDate, endDate, and location—to specify the reporting period
+	 * and facility context.
 	 * </p>
-	 *
+	 * 
 	 * @return a CohortDefinition representing patients meeting both criteria.
 	 */
 	public CohortDefinition getNewOnArtAndBreastfeeding() {
@@ -965,15 +977,16 @@ public class ArtCohortQueries {
 	}
 	
 	/**
-	 * Returns a cohort definition for patients who are newly initiated on ART and are on the TLD regimen.
-	 *
-	 * <p>This composite cohort definition intersects:
+	 * Returns a cohort definition for patients who are newly initiated on ART and are on the TLD
+	 * regimen.
+	 * <p>
+	 * This composite cohort definition intersects:
 	 * <ul>
-	 *   <li>patients who have newly started on ART (from {@code getNewOnARTCohortDefinition()}), and</li>
-	 *   <li>patients who are on the TLD regimen (from {@code getPatientsOnTLDCohortDefinition()}).</li>
+	 * <li>patients who have newly started on ART (from {@code getNewOnARTCohortDefinition()}), and</li>
+	 * <li>patients who are on the TLD regimen (from {@code getPatientsOnTLDCohortDefinition()}).</li>
 	 * </ul>
 	 * The definition requires "startDate", "endDate", and "location" parameters for query mapping.
-	 *
+	 * 
 	 * @return a CohortDefinition representing patients newly started on ART and on the TLD regimen
 	 */
 	public CohortDefinition getNewOnTLDRegimen() {
@@ -990,15 +1003,16 @@ public class ArtCohortQueries {
 	}
 	
 	/**
-	 * Returns a cohort definition for patients newly initiated on ART who are receiving a DTG-based regimen.
+	 * Returns a cohort definition for patients newly initiated on ART who are receiving a DTG-based
+	 * regimen.
 	 * <p>
 	 * This method creates a composition cohort by intersecting two criteria:
 	 * <ul>
-	 *   <li>Patients newly started on ART during the reporting period.</li>
-	 *   <li>Patients on a DTG regimen.</li>
+	 * <li>Patients newly started on ART during the reporting period.</li>
+	 * <li>Patients on a DTG regimen.</li>
 	 * </ul>
 	 * The resulting cohort is parameterized by a start date, an end date, and a facility location.
-	 *
+	 * 
 	 * @return a composition cohort definition for newly initiated patients on a DTG-based regimen
 	 */
 	public CohortDefinition getNewOnOtherDTGBasedRegimen() {
@@ -1015,11 +1029,14 @@ public class ArtCohortQueries {
 	}
 	
 	/**
-	 * Constructs a composition cohort definition for patients who are on ART with no recorded TB status.
-	 * 
-	 * <p>This method defines a cohort that combines two criteria: patients who have ever been on ART at the facility 
-	 * and patients for whom TB status is not recorded. It sets dynamic parameters for the reporting period start date, 
-	 * end date, and facility location to support flexible filtering based on the provided query mappings.</p>
+	 * Constructs a composition cohort definition for patients who are on ART with no recorded TB
+	 * status.
+	 * <p>
+	 * This method defines a cohort that combines two criteria: patients who have ever been on ART
+	 * at the facility and patients for whom TB status is not recorded. It sets dynamic parameters
+	 * for the reporting period start date, end date, and facility location to support flexible
+	 * filtering based on the provided query mappings.
+	 * </p>
 	 * 
 	 * @return a composition cohort definition representing patients on ART without TB status
 	 */
@@ -1030,19 +1047,22 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		
-		cd.addSearch("onArt", SsemrReportUtils.map(getCumulativeEverOnARTAtThisFacilityCohortDefinition(), mappings));
+		cd.addSearch("onArt",
+		    SsemrReportUtils.map(getCumulativeEverOnARTAtThisFacilityAtEndOfReportingCohortDefinition(), mappings));
 		cd.addSearch("noTbStatus", SsemrReportUtils.map(getPatientsWithNoTbCohortDefinition(), mappings));
 		cd.setCompositionString("onArt AND noTbStatus");
 		return cd;
 	}
 	
 	/**
-	 * Returns a cohort definition for patients with no indications of TB during the reporting period.
-	 * 
-	 * <p>This cohort definition constructs an SQL query to select patients from the HIV care follow-up records
-	 * whose TB status is recorded as "No Signs", filtering the results by location and the encounter date
-	 * range defined by the start and end dates. The resulting cohort definition relies on the parameters named
-	 * {@code startDate}, {@code endDate}, and {@code location}.</p>
+	 * Returns a cohort definition for patients with no indications of TB during the reporting
+	 * period.
+	 * <p>
+	 * This cohort definition constructs an SQL query to select patients from the HIV care follow-up
+	 * records whose TB status is recorded as "No Signs", filtering the results by location and the
+	 * encounter date range defined by the start and end dates. The resulting cohort definition
+	 * relies on the parameters named {@code startDate}, {@code endDate}, and {@code location}.
+	 * </p>
 	 * 
 	 * @return the cohort definition for patients with no TB signs during the reporting period
 	 */
@@ -1062,12 +1082,16 @@ public class ArtCohortQueries {
 	}
 	
 	/**
-	 * Constructs a cohort definition for identifying patients with a presumptive TB status during the reporting period.
-	 *
-	 * <p>This method creates a SQL-based cohort definition that retrieves patient IDs from the HIV care follow-up encounters table
-	 * for encounters occurring within the specified start and end dates at a given location, where the TB status equals "Pr TB - Presumptive TB".</p>
-	 *
-	 * @return a cohort definition representing patients with presumptive TB status during the reporting period
+	 * Constructs a cohort definition for identifying patients with a presumptive TB status during
+	 * the reporting period.
+	 * <p>
+	 * This method creates a SQL-based cohort definition that retrieves patient IDs from the HIV
+	 * care follow-up encounters table for encounters occurring within the specified start and end
+	 * dates at a given location, where the TB status equals "Pr TB - Presumptive TB".
+	 * </p>
+	 * 
+	 * @return a cohort definition representing patients with presumptive TB status during the
+	 *         reporting period
 	 */
 	public CohortDefinition getPresumptiveTbStatusCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
@@ -1087,11 +1111,11 @@ public class ArtCohortQueries {
 	/**
 	 * Constructs a cohort definition for patients on INH during the reporting period.
 	 * <p>
-	 * This method creates a SQL-based cohort that selects patient IDs from the HIV care follow-up encounters,
-	 * filtering by location and encounter dates between the specified start and end dates, and only includes
-	 * encounters where INH is indicated as 'Yes'.
+	 * This method creates a SQL-based cohort that selects patient IDs from the HIV care follow-up
+	 * encounters, filtering by location and encounter dates between the specified start and end
+	 * dates, and only includes encounters where INH is indicated as 'Yes'.
 	 * </p>
-	 *
+	 * 
 	 * @return a CohortDefinition identifying patients on INH during the reporting period
 	 */
 	public CohortDefinition getInhStatusCohortDefinition() {
@@ -1111,11 +1135,13 @@ public class ArtCohortQueries {
 	
 	/**
 	 * Returns a cohort definition for patients on TB treatment during the reporting period.
-	 *
-	 * <p>This method constructs a SQL-based cohort definition that filters patients based on their TB treatment status.
-	 * It selects patients with encounter records at the specified location and within the given start and end dates,
-	 * where the TB status is "TB Rx - currently on TB treatment" or the on_tb_treatment flag is set to "YES".</p>
-	 *
+	 * <p>
+	 * This method constructs a SQL-based cohort definition that filters patients based on their TB
+	 * treatment status. It selects patients with encounter records at the specified location and
+	 * within the given start and end dates, where the TB status is
+	 * "TB Rx - currently on TB treatment" or the on_tb_treatment flag is set to "YES".
+	 * </p>
+	 * 
 	 * @return a CohortDefinition representing patients on TB treatment during the reporting period.
 	 */
 	public CohortDefinition getTbTreatmentStatusCohortDefinition() {
@@ -1134,12 +1160,16 @@ public class ArtCohortQueries {
 	}
 	
 	/**
-	 * Returns a cohort definition for patients with no TB screening status recorded during the reporting period.
-	 *
-	 * <p>This cohort is defined by a SQL query that retrieves client identifiers from the encounter data where the TB status is null,
-	 * and the encounter occurred at the specified location between the start and end dates.</p>
-	 *
-	 * @return a configured CohortDefinition for patients without TB screening status during the reporting period
+	 * Returns a cohort definition for patients with no TB screening status recorded during the
+	 * reporting period.
+	 * <p>
+	 * This cohort is defined by a SQL query that retrieves client identifiers from the encounter
+	 * data where the TB status is null, and the encounter occurred at the specified location
+	 * between the start and end dates.
+	 * </p>
+	 * 
+	 * @return a configured CohortDefinition for patients without TB screening status during the
+	 *         reporting period
 	 */
 	public CohortDefinition getNoTbSCreeningStatusCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
@@ -1157,12 +1187,16 @@ public class ArtCohortQueries {
 	}
 	
 	/**
-	 * Creates a cohort definition for patients who initiated TB treatment during the reporting period.
-	 *
-	 * <p>This definition constructs a SQL-based cohort that selects patients from the HIV care follow-up encounters
-	 * where the TB treatment initiation date falls between the specified start and end dates for a given location.</p>
-	 *
-	 * @return a cohort definition identifying patients who started TB treatment within the reporting period
+	 * Creates a cohort definition for patients who initiated TB treatment during the reporting
+	 * period.
+	 * <p>
+	 * This definition constructs a SQL-based cohort that selects patients from the HIV care
+	 * follow-up encounters where the TB treatment initiation date falls between the specified start
+	 * and end dates for a given location.
+	 * </p>
+	 * 
+	 * @return a cohort definition identifying patients who started TB treatment within the
+	 *         reporting period
 	 */
 	public CohortDefinition getTbTreatmentStartedDuringReportingPeriod() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
@@ -1178,14 +1212,17 @@ public class ArtCohortQueries {
 	
 	/**
 	 * Returns a cohort definition for patients on TB treatment during the reporting period.
-	 *
-	 * <p>This method constructs a SQL-based cohort definition that retrieves patients from the HIV care follow-up encounters
-	 * where the patient is marked as being on TB treatment. The query filters encounters by a specified location and a date range 
-	 * defined by the "startDate" and "endDate" parameters.</p>
-	 *
-	 * <p>The returned cohort definition requires the following parameters when evaluated:
-	 * "startDate" (Date), "endDate" (Date), and "location" (Location).</p>
-	 *
+	 * <p>
+	 * This method constructs a SQL-based cohort definition that retrieves patients from the HIV
+	 * care follow-up encounters where the patient is marked as being on TB treatment. The query
+	 * filters encounters by a specified location and a date range defined by the "startDate" and
+	 * "endDate" parameters.
+	 * </p>
+	 * <p>
+	 * The returned cohort definition requires the following parameters when evaluated: "startDate"
+	 * (Date), "endDate" (Date), and "location" (Location).
+	 * </p>
+	 * 
 	 * @return a cohort definition for patients on TB treatment during the reporting period
 	 */
 	public CohortDefinition getOnTbTreatmentCohortDefinition() {
