@@ -26,7 +26,8 @@ public class ArtReportsConstants {
 	public static final List<String> childFirstLineRegimen = Arrays.asList("4a = AZT/3TC/NVP", "4b = AZT/3TC + EFV",
 	    "4c = ABC/3TC (120/60) + LPV/r", "4d = ABC/3TC (120/60) + DTG50", "4f = ABC/3TC + NVP",
 	    "4g = ABC/3TC (120/60) + EFV (200mg)", "4h = TDF/3TC/EFV", "4i  = ABC/3TC + LPV/r", "4j = AZT/3TC (60/30) + LPV/r",
-	    "4k = TDF/3TC + NVP", "4l = ABC/3TC + AZT", "4e = ABC/3TC(120/60mg)+DTG10");
+	    "4k = TDF/3TC + NVP", "4l = ABC/3TC + AZT", "4e = ABC/3TC(120/60mg)+DTG10", "4e = ABC/3TC (120/60)+DTG10",
+	    "4g = ABC/3TC (120/60) + EFV (200mg)");
 	
 	public static final List<String> childSecondLineRegimen = Arrays.asList("5a = AZT/3TC+LPV/r", "5b = AZT/3TC + RAL",
 	    "5c = ABC/3TC (120/60) + RAL", "5d = AZT/3TC + ATV/r", "5e = ABC/3TC + ATV/r", "5f = TDF/ 3TC + ATV/r",
