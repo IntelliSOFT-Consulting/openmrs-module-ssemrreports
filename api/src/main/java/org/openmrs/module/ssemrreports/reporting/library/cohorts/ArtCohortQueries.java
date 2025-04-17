@@ -37,8 +37,8 @@ public class ArtCohortQueries {
 	public CohortDefinition getCumulativeEverOnARTAtThisFacilityInPreviousReportingPeriodCohortDefinition() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sql = "SELECT su1.client_id FROM("
-		        
-		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
+		
+		+ "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_personal_family_tx_history "
 		        + " WHERE art_start_date IS NOT NULL AND art_start_date <= :endDate AND location_id=:location "
 		        
 		        + "UNION "
@@ -49,8 +49,7 @@ public class ArtCohortQueries {
 		        + "UNION "
 		        
 		        + "SELECT client_id FROM ssemr_etl.ssemr_flat_encounter_pediatric_intake_report "
-		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location "
-		        + ")su1";
+		        + " WHERE art_start_date IS NOT NULL AND art_start_date <=:endDate AND location_id=:location " + ")su1";
 		cd.setQuery(sql);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
