@@ -14,48 +14,48 @@ import java.util.Date;
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
 public class CustomAgeDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
-
-    public static final long serialVersionUID = 1L;
-
-    //****** PROPERTIES ******
-
-    @ConfigurationProperty(required = false)
-    private Date effectiveDate;
-
-    /**
-     * Default Constructor
-     */
-    public CustomAgeDataDefinition() {
-        super();
-    }
-
-    /**
-     * Constructor to populate name only
-     */
-    public CustomAgeDataDefinition(String name) {
-        super(name);
-    }
-
-    //***** INSTANCE METHODS *****
-
-    /**
-     * @see DataDefinition#getDataType()
-     */
-    public Class<?> getDataType() {
-        return Age.class;
-    }
-
-    /**
-     * @return the effectiveDate
-     */
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    /**
-     * @param effectiveDate the effectiveDate to set
-     */
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
+	
+	public static final long serialVersionUID = 1L;
+	
+	//****** PROPERTIES ******
+	
+	@ConfigurationProperty(required = false)
+	private Date effectiveDate;
+	
+	/**
+	 * Default Constructor
+	 */
+	public CustomAgeDataDefinition() {
+		super();
+	}
+	
+	/**
+	 * Constructor to populate name only
+	 */
+	public CustomAgeDataDefinition(String name) {
+		super(name);
+	}
+	
+	//***** INSTANCE METHODS *****
+	
+	/**
+	 * @see DataDefinition#getDataType()
+	 */
+	public Class<?> getDataType() {
+		return Age.class;
+	}
+	
+	/**
+	 * @return the effectiveDate
+	 */
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+	
+	/**
+	 * @param effectiveDate the effectiveDate to set
+	 */
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
 }

@@ -63,8 +63,9 @@ public class ArtCohortQueries {
 		comp.addParameter(new Parameter("endDate", "End Date", Date.class));
 		comp.addParameter(new Parameter("location", "Location", Location.class));
 		
-		comp.addSearch("CUMM", SsemrReportUtils.map(cd, "startDate=,endDate=,location="));
-		comp.addSearch("IIT", SsemrReportUtils.map(merCohortQueries.getIITPatientsOverPeriod(), "endDate=,location="));
+		comp.addSearch("CUMM", SsemrReportUtils.map(cd, "startDate=${startDate},endDate=${endDate},location=${location}"));
+		comp.addSearch("IIT",
+		    SsemrReportUtils.map(merCohortQueries.getIITPatientsOverPeriod(), "endDate=${endDate},location=${location}"));
 		
 		comp.setCompositionString("CUMM AND NOT IIT");
 		return comp;
@@ -128,8 +129,10 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(), "startDate=,endDate=,location="));
-		cd.addSearch("CTX", SsemrReportUtils.map(patientsOnCTXTreatmentCohortDefinition(), "startDate=,endDate=,location="));
+		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("CTX", SsemrReportUtils.map(patientsOnCTXTreatmentCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("NEW AND CTX");
 		return cd;
 	}
@@ -145,9 +148,10 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(), "startDate=,endDate=,location="));
-		cd.addSearch("DAP",
-		    SsemrReportUtils.map(patientsOnDapsoneTreatmentCohortDefinition(), "startDate=,endDate=,location="));
+		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("DAP", SsemrReportUtils.map(patientsOnDapsoneTreatmentCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("NEW AND DAP");
 		return cd;
 	}
@@ -631,7 +635,7 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		cd.addSearch("NEWTBSTATUS", SsemrReportUtils.map(patientsOnArtWithTbStatusWithStatusCohortDefinition(status),
-		    "startDate=,endDate=,location="));
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("NEWTBSTATUS");
 		return cd;
 	}
@@ -642,9 +646,10 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(), "startDate=,endDate=,location="));
-		cd.addSearch("NEWANDTxR",
-		    SsemrReportUtils.map(patientsNewlyInitiatedOnTBTreatmentCohortDefinition(), "startDate=,endDate=,location="));
+		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("NEWANDTxR", SsemrReportUtils.map(patientsNewlyInitiatedOnTBTreatmentCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("NEWANDTxR");
 		return cd;
 	}
@@ -655,9 +660,10 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(), "startDate=,endDate=,location="));
-		cd.addSearch("NEWANDINH",
-		    SsemrReportUtils.map(patientsOnINHTreatmentCohortDefinition(), "startDate=,endDate=,location="));
+		cd.addSearch("NEW", SsemrReportUtils.map(getNewOnARTCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
+		cd.addSearch("NEWANDINH", SsemrReportUtils.map(patientsOnINHTreatmentCohortDefinition(),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("NEWANDINH");
 		return cd;
 	}
@@ -887,8 +893,8 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		
-		cd.addSearch("currentOnArtFirstLine",
-		    SsemrReportUtils.map(getAgeAtStartOfARTonFirstLine(minAge, maxAge, sex), "startDate=,endDate=,location="));
+		cd.addSearch("currentOnArtFirstLine", SsemrReportUtils.map(getAgeAtStartOfARTonFirstLine(minAge, maxAge, sex),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("currentOnArtFirstLine");
 		return cd;
 	}
@@ -917,8 +923,9 @@ public class ArtCohortQueries {
 		cd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		cd.addParameter(new Parameter("location", "location", Location.class));
 		
-		cd.addSearch("currentOnArtAndOnSecondLineRegimen",
-		    SsemrReportUtils.map(getAgeAtStartOfARTonSecondLine(minAge, maxAge, sex), "startDate=,endDate=,location="));
+		cd.addSearch("currentOnArtAndOnSecondLineRegimen", SsemrReportUtils.map(
+		    getAgeAtStartOfARTonSecondLine(minAge, maxAge, sex),
+		    "startDate=${startDate},endDate=${endDate},location=${location}"));
 		cd.setCompositionString("currentOnArtAndOnSecondLineRegimen");
 		return cd;
 	}

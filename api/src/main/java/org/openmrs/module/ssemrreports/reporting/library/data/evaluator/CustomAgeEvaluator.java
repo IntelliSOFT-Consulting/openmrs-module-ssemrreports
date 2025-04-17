@@ -19,72 +19,74 @@ import java.util.Map;
 
 @Handler(supports = CustomAgeDataDefinition.class, order = 50)
 public class CustomAgeEvaluator implements PersonDataEvaluator {
-
-    @Autowired
-    PersonDataService personDataService;
-
-    /**
-     * @see PersonDataEvaluator#evaluate(PersonDataDefinition, EvaluationContext)
-     * @should return all ages for the given context
-     */
-    public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
-            throws EvaluationException {
-        CustomAgeDataDefinition add = (CustomAgeDataDefinition) definition;
-        EvaluatedPersonData ret = new EvaluatedPersonData(definition, context);
-
-        // Evaluate the BirthdateDataDefinition to get birthdates for the cohort
-        EvaluatedPersonData birthdateData = personDataService.evaluate(new BirthdateDataDefinition(), context);
-
-        EvaluatedPersonData vitalStatusData = personDataService.evaluate(new VitalStatusDataDefinition(), context);
-
-        for (Map.Entry<Integer, Object> e : birthdateData.getData().entrySet()) {
-            Integer personId = e.getKey();
-            Object birthDateObj = e.getValue();
-            if (birthDateObj == null) { continue; }
-
-            // Extract the actual birthdate from the Birthdate object
-            Date birthDate;
-            if (birthDateObj instanceof org.openmrs.module.reporting.common.Birthdate) {
-                birthDate = ((org.openmrs.module.reporting.common.Birthdate) birthDateObj).getBirthdate();
-            } else if (birthDateObj instanceof Date) {
-                birthDate = (Date) birthDateObj;
-            } else {
-                continue;
-            }
-
-            // Handle vital status and effective age date
-            VitalStatus vitalStatus = (VitalStatus) vitalStatusData.getData().get(personId);
-            Date effectiveAgeDate = ObjectUtil.nvl(add.getEffectiveDate(), new Date());
-            Date deathDate = (vitalStatus != null ? vitalStatus.getDeathDate() : null);
-
-            if (deathDate != null && deathDate.before(effectiveAgeDate)) {
-                effectiveAgeDate = deathDate;
-            }
-
-            // Calculate the age in days
-            long ageInDays = (effectiveAgeDate.getTime() - birthDate.getTime()) / (1000 * 60 * 60 * 24);
-
-            // Convert the age to years, months, weeks, or days
-            String ageWithUnit = formatAgeWithUnit(ageInDays);
-
-            // Add the formatted age to the result
-            ret.addData(personId, ageWithUnit);
-        }
-        return ret;
-    }
-
-    /**
-     * Format age dynamically into years, months, weeks, or days based on the number of days.
-     */
-    private String formatAgeWithUnit(long ageInDays) {
-        if (ageInDays < 7) {
-            return ageInDays + " day(s)";
-        } else if (ageInDays < 30) {
-            return (ageInDays / 7) + " week(s)";
-        } else if (ageInDays < 365) {
-            return (ageInDays / 30) + " month(s)";
-        } else {
-            return (ageInDays / 365) + " year(s)";
-        }
-    }
+	
+	@Autowired
+	PersonDataService personDataService;
+	
+	/**
+	 * @see PersonDataEvaluator#evaluate(PersonDataDefinition, EvaluationContext)
+	 * @should return all ages for the given context
+	 */
+	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
+	        throws EvaluationException {
+		CustomAgeDataDefinition add = (CustomAgeDataDefinition) definition;
+		EvaluatedPersonData ret = new EvaluatedPersonData(definition, context);
+		
+		// Evaluate the BirthdateDataDefinition to get birthdates for the cohort
+		EvaluatedPersonData birthdateData = personDataService.evaluate(new BirthdateDataDefinition(), context);
+		
+		EvaluatedPersonData vitalStatusData = personDataService.evaluate(new VitalStatusDataDefinition(), context);
+		
+		for (Map.Entry<Integer, Object> e : birthdateData.getData().entrySet()) {
+			Integer personId = e.getKey();
+			Object birthDateObj = e.getValue();
+			if (birthDateObj == null) {
+				continue;
+			}
+			
+			// Extract the actual birthdate from the Birthdate object
+			Date birthDate;
+			if (birthDateObj instanceof org.openmrs.module.reporting.common.Birthdate) {
+				birthDate = ((org.openmrs.module.reporting.common.Birthdate) birthDateObj).getBirthdate();
+			} else if (birthDateObj instanceof Date) {
+				birthDate = (Date) birthDateObj;
+			} else {
+				continue;
+			}
+			
+			// Handle vital status and effective age date
+			VitalStatus vitalStatus = (VitalStatus) vitalStatusData.getData().get(personId);
+			Date effectiveAgeDate = ObjectUtil.nvl(add.getEffectiveDate(), new Date());
+			Date deathDate = (vitalStatus != null ? vitalStatus.getDeathDate() : null);
+			
+			if (deathDate != null && deathDate.before(effectiveAgeDate)) {
+				effectiveAgeDate = deathDate;
+			}
+			
+			// Calculate the age in days
+			long ageInDays = (effectiveAgeDate.getTime() - birthDate.getTime()) / (1000 * 60 * 60 * 24);
+			
+			// Convert the age to years, months, weeks, or days
+			String ageWithUnit = formatAgeWithUnit(ageInDays);
+			
+			// Add the formatted age to the result
+			ret.addData(personId, ageWithUnit);
+		}
+		return ret;
+	}
+	
+	/**
+	 * Format age dynamically into years, months, weeks, or days based on the number of days.
+	 */
+	private String formatAgeWithUnit(long ageInDays) {
+		if (ageInDays < 7) {
+			return ageInDays + " day(s)";
+		} else if (ageInDays < 30) {
+			return (ageInDays / 7) + " week(s)";
+		} else if (ageInDays < 365) {
+			return (ageInDays / 30) + " month(s)";
+		} else {
+			return (ageInDays / 365) + " year(s)";
+		}
+	}
 }
