@@ -400,7 +400,7 @@ public class ArtCohortQueries {
 		        + " INNER JOIN ssemr_etl.mamba_dim_person p on p.person_id = e.client_id "
 		        + " INNER JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f on f.client_id = e.client_id "
 		        + " LEFT JOIN ssemr_etl.ssemr_flat_encounter_end_of_follow_up fup on e.client_id = fup.client_id "
-		        + " WHERE e.location_id=:location AND DATE(f.encounter_datetime) BETWEEN :startDate AND :endDate AND (fup.date_of_death IS NULL OR fup.date_of_death > DATE(:endDate)) "
+		        + " WHERE e.location_id=:location AND DATE(f.encounter_datetime) <=:endDate AND (fup.date_of_death IS NULL OR fup.date_of_death > DATE(:endDate)) "
 		        + " AND (fup.ltfu_date is null or fup.ltfu_date NOT BETWEEN DATE(:startDate) AND date(:endDate)) "
 		        + " GROUP BY e.client_id, f.encounter_datetime, p.gender, ageAtArtStart,fup.ltfu_date,f.art_regimen_no_of_days_dispensed, nextDrugApptDate "
 		        + " HAVING DATE_ADD(nextDrugApptDate, INTERVAL 30 DAY) > DATE(:endDate)) a "
