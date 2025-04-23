@@ -20,6 +20,8 @@ import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefi
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
+import org.springframework.stereotype.Component;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.NextAppointmentDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
@@ -29,8 +31,6 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusD
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.IndexDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
-import org.springframework.stereotype.Component;
 import org.openmrs.module.ssemrreports.reporting.calculation.CalculationResultDataConverter;
 import org.openmrs.api.PersonService;
 import org.openmrs.PersonAttributeType;
