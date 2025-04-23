@@ -25,7 +25,18 @@ import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculat
 import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
 import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.*;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.DaysMissedAppointmentDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastDrugVisitDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.MissedAppointmentDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.NextAppointmentDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.Reached28DaysAfterIITDateDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.IndexDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 
