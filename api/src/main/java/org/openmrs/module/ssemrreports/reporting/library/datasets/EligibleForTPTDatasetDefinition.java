@@ -19,6 +19,11 @@ import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefi
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
+import org.springframework.stereotype.Component;
+import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
+import org.openmrs.PersonAttributeType;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
@@ -33,11 +38,6 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.Pregnan
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTCompletedDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.IndexDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
-import org.springframework.stereotype.Component;
-import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
-import org.openmrs.PersonAttributeType;
 import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 
 @Component
