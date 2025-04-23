@@ -92,7 +92,7 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		TBStatusDataDefinition tbStatusDataDefinition = new TBStatusDataDefinition();
 		tbStatusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		dsd.addColumn("id", new PatientIdDataDefinition(), "");
+		dsd.addColumn("id", new IndexDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
