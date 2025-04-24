@@ -33,6 +33,6 @@ public class RecurrenceOfIITDataDefinition extends BaseDataDefinition implements
      * @see org.openmrs.module.reporting.data.DataDefinition#getDataType()
      */
     public Class<?> getDataType() {
-        return String.class;
+        return Integer.class;
     }
 }
