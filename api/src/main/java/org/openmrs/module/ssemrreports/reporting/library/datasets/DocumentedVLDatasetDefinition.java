@@ -40,6 +40,7 @@ import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.
 import org.springframework.stereotype.Component;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResultsDocumentedDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.DateVLSampleCollectedDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.IndexDataDefinition;
 
 @Component
 public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
@@ -112,7 +113,7 @@ public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
 		DateVLSampleCollectedDataDefinition dateVLSampleCollectedDataDefinition = new DateVLSampleCollectedDataDefinition();
 		dateVLSampleCollectedDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		dsd.addColumn("id", new PatientIdDataDefinition(), "");
+		dsd.addColumn("id", new IndexDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);

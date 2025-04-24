@@ -30,6 +30,7 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVName
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.IndexDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.calculation.CalculationResultDataConverter;
 import org.openmrs.api.PersonService;
 import org.openmrs.PersonAttributeType;
@@ -101,7 +102,7 @@ public class AppointmentsDueDatasetDefinition extends SsemrBaseDataSet {
 		MissedAppointmentStatusDataDefinition missedAppointmentStatusDataDefinition = new MissedAppointmentStatusDataDefinition();
 		missedAppointmentStatusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		dsd.addColumn("id", new PatientIdDataDefinition(), "");
+		dsd.addColumn("id", new IndexDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);

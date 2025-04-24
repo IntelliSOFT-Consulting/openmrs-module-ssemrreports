@@ -37,6 +37,7 @@ import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConv
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.TPTCompletedDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.IndexDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 
 @Component
@@ -110,7 +111,7 @@ public class EligibleForTPTDatasetDefinition extends SsemrBaseDataSet {
 		TPTCompletedDataDefinition tptCompletedDataDefinition = new TPTCompletedDataDefinition();
 		tptCompletedDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		dsd.addColumn("id", new PatientIdDataDefinition(), "");
+		dsd.addColumn("id", new IndexDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",

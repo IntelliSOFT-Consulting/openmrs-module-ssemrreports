@@ -36,6 +36,7 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastF
 import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLTestDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.IndexDataDefinition;
 
 @Component
 public class EligibleForVLDatasetDefinition extends SsemrBaseDataSet {
@@ -102,7 +103,7 @@ public class EligibleForVLDatasetDefinition extends SsemrBaseDataSet {
 		BreastFeedingDataDefinition breastfeedingDataDefinition = new BreastFeedingDataDefinition();
 		breastfeedingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		dsd.addColumn("id", new PatientIdDataDefinition(), "");
+		dsd.addColumn("id", new IndexDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);

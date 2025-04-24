@@ -36,6 +36,7 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.NextApp
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.Reached28DaysAfterIITDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.IndexDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 
@@ -108,7 +109,7 @@ public class IITDatasetDefinition extends SsemrBaseDataSet {
 		DaysMissedAppointmentDataDefinition daysMissedAppointmentDataDefinition = new DaysMissedAppointmentDataDefinition();
 		daysMissedAppointmentDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		dsd.addColumn("id", new PatientIdDataDefinition(), "");
+		dsd.addColumn("id", new IndexDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",

@@ -41,6 +41,7 @@ import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResul
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.RepeatVLSampleDateDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.RepeatVLResultDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.DateExtendedEACDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.IndexDataDefinition;
 import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
@@ -149,7 +150,7 @@ public class HighVLDatasetDefinition extends SsemrBaseDataSet {
 		DateExtendedEACDataDefinition dateExtendedEACDataDefinition = new DateExtendedEACDataDefinition();
 		dateExtendedEACDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		dsd.addColumn("id", new PatientIdDataDefinition(), "");
+		dsd.addColumn("id", new IndexDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
