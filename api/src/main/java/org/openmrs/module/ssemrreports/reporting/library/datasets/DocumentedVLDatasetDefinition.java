@@ -28,19 +28,9 @@ import org.openmrs.module.ssemrreports.reporting.calculation.LandmarkAddressCalc
 import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
 import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.StatusDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.DaysVLPendingDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastVLDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.*;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.VLResultsDocumentedDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.DateVLSampleCollectedDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.IndexDataDefinition;
 
 @Component
 public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
@@ -116,7 +106,7 @@ public class DocumentedVLDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("id", new IndexDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
-		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
+		dsd.addColumn("Age", new CustomAgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
