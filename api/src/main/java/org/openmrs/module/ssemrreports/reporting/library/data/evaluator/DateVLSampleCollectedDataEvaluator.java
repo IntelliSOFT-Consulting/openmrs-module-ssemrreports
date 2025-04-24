@@ -35,7 +35,7 @@ public class DateVLSampleCollectedDataEvaluator implements PersonDataEvaluator {
 	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-
+		
 		String qry = "SELECT client_id, DATE_FORMAT(max(date_vl_sample_collected), '%d-%m-%Y') as documented_date FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up where DATE(encounter_datetime) <= :endDate group by client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
