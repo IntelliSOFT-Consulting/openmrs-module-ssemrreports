@@ -119,18 +119,62 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		
 		BMIDataDefinition bmiDataDefinition = new BMIDataDefinition();
 		bmiDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		ClientRepresentedDataDefinition clientRepresentedDataDefinition = new ClientRepresentedDataDefinition();
+		clientRepresentedDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		TBScreeningDataDefinition tbScreeningDataDefinition = new TBScreeningDataDefinition();
+		tbScreeningDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		TBStatusDataDefinition tbStatusDataDefinition = new TBStatusDataDefinition();
+		tbStatusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		EDDDataDefinition eddDataDefinition = new EDDDataDefinition();
+		eddDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		LastRefillDateDefinition lastRefillDateDefinition = new LastRefillDateDefinition();
+		lastRefillDateDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		DateVLSampleCollectedDataDefinition dateVLSampleCollectedDataDefinition = new DateVLSampleCollectedDataDefinition();
+		dateVLSampleCollectedDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		DateVLSampleReceivedDataDefinition dateVLSampleReceivedDataDefinition = new DateVLSampleReceivedDataDefinition();
+		dateVLSampleReceivedDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		RepeatVLSampleDateDataDefinition repeatVLSampleDateDataDefinition = new RepeatVLSampleDateDataDefinition();
+		repeatVLSampleDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		CHWPhoneDataDefinition chwPhoneDataDefinition = new CHWPhoneDataDefinition();
+		chwPhoneDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		SuspectedVirologicalFailureDataDefinition suspectedVirologicalFailureDataDefinition = new SuspectedVirologicalFailureDataDefinition();
+		suspectedVirologicalFailureDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		AHDDataDefinition ahdDataDefinition = new AHDDataDefinition();
+		ahdDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		ClinicalStatusDataDefinition clinicalStatusDataDefinition = new ClinicalStatusDataDefinition();
+		clinicalStatusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+
+		RecurrenceOfIITDataDefinition recurrenceOfIITDataDefinition = new RecurrenceOfIITDataDefinition();
+		recurrenceOfIITDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		dsd.addColumn("id", new PatientIdDataDefinition(), "");
+		dsd.addColumn("id", new IndexDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
-		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
+		dsd.addColumn("Age", new CustomAgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		dsd.addColumn("Weight", weightDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("BMI", bmiDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Regimen", regimenDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", artStartDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Client Represented", clientRepresentedDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Screened for TB", tbScreeningDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("TB Status", tbStatusDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Pregnant", patientPregnantDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("EDD", eddDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", patientBreastfeedingDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last Refill Date", lastRefillDateDefinition, "endDate=${endDate}");
 		dsd.addColumn("Next Appointment Date", nextAppointmentDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("VL Due date", vlDueDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Repeat Viral Load result", repeatVLResultDataDefinition, "endDate=${endDate}");
@@ -142,6 +186,13 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Date reached 28 days after missed appointment", reached28DaysAfterIITDateDataDefinition,
 		    "endDate=${endDate}");
 		dsd.addColumn("Date returned to treatment", returnToTreatmentDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Recurrence of IIT", recurrenceOfIITDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Last VL sample collection Date", dateVLSampleCollectedDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date VL result received", dateVLSampleReceivedDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Date Repeat Viral Load sample collected", repeatVLSampleDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Suspected virological failure", suspectedVirologicalFailureDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Advanced HIV Disease", ahdDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Clinical Status", clinicalStatusDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Alternative telephone", new PersonAttributeDataDefinition("Alternative Phone Number",
@@ -150,6 +201,7 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Landmark", personLandmarkAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("CHW", covNameDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("CHW Phone", chwPhoneDataDefinition, "endDate=${endDate}");
 		
 		return dsd;
 	}

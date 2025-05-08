@@ -25,17 +25,7 @@ import org.openmrs.module.ssemrreports.reporting.calculation.BomaAddressCalculat
 import org.openmrs.module.ssemrreports.reporting.calculation.PayamAddressCalculation;
 import org.openmrs.module.ssemrreports.reporting.converter.CalculationResultConverter;
 import org.openmrs.module.ssemrreports.reporting.library.data.converter.PersonAttributeDataConverter;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.COVNameDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.CalculationDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.DaysMissedAppointmentDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.ETLArtStartDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LastDrugVisitDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.LinkedToCOVDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.MissedAppointmentDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.NextAppointmentDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.Reached28DaysAfterIITDateDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.PregnantDataDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.data.definition.BreastFeedingDataDefinition;
+import org.openmrs.module.ssemrreports.reporting.library.data.definition.*;
 import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.stereotype.Component;
 
@@ -108,14 +98,14 @@ public class IITDatasetDefinition extends SsemrBaseDataSet {
 		DaysMissedAppointmentDataDefinition daysMissedAppointmentDataDefinition = new DaysMissedAppointmentDataDefinition();
 		daysMissedAppointmentDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
-		dsd.addColumn("id", new PatientIdDataDefinition(), "");
+		dsd.addColumn("id", new IndexDataDefinition(), "");
 		dsd.addColumn("Identifier", identifierDef, (String) null);
 		dsd.addColumn("Name", nameDef, "");
 		dsd.addColumn("Telephone", new PersonAttributeDataDefinition("Phone Number", phoneNumber), "",
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Alternative telephone", new PersonAttributeDataDefinition("Alternative Phone Number",
 		        alternativePhoneNumber), "", new PersonAttributeDataConverter());
-		dsd.addColumn("Age", new AgeDataDefinition(), "", null);
+		dsd.addColumn("Age", new CustomAgeDataDefinition(), "", null);
 		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");

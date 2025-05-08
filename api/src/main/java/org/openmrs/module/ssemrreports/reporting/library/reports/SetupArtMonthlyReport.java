@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.openmrs.LocationAttributeType;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.ReportingException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -14,11 +12,9 @@ import org.openmrs.module.ssemrreports.manager.SsemrDataExportManager;
 import org.openmrs.module.ssemrreports.reporting.library.cohorts.BaseCohortQueries;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.ArtDatasetDefinition;
 import org.openmrs.module.ssemrreports.reporting.library.datasets.DistrictDatasetDefinition;
-import org.openmrs.module.ssemrreports.reporting.library.datasets.SsemrBaseDataSet;
-import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
-import org.openmrs.module.ssemrreports.reporting.utils.constants.reports.shared.SharedReportConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.openmrs.module.ssemrreports.reporting.utils.SsemrReportUtils;
 
 @Component
 public class SetupArtMonthlyReport extends SsemrDataExportManager {
@@ -57,6 +53,17 @@ public class SetupArtMonthlyReport extends SsemrDataExportManager {
 		return "ART Monthly Report Implementation";
 	}
 	
+	/**
+	 * Constructs and returns the report definition for the ART Monthly Report.
+	 * <p>
+	 * This method creates a new ReportDefinition and initializes it with the report's unique
+	 * identifier, name, and description. It adds parameters from the ART dataset definition and
+	 * registers datasets for cumulative and new ART patients, current ART patients by age and
+	 * regimen, viral load data, and tuberculosis status.
+	 * </p>
+	 * 
+	 * @return the configured ReportDefinition for the ART Monthly Report
+	 */
 	@Override
 	public ReportDefinition constructReportDefinition() {
 		String mappings = "startDate=${startDate},endDate=${endDate},location=${location}";

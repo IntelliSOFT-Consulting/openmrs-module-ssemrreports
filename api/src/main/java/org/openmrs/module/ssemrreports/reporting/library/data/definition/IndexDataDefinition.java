@@ -6,33 +6,19 @@ import org.openmrs.module.reporting.definition.configuration.ConfigurationProper
 import org.openmrs.module.reporting.evaluation.caching.Caching;
 
 /**
- * COV phone Data Definition
+ * Index Data Definition
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
-public class CHWPhoneDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
+public class IndexDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
 	
-	public static final long serialVersionUID = 1L;
+	private static int counter = 0;
 	
-	/**
-	 * Default Constructor
-	 */
-	public CHWPhoneDataDefinition() {
+	public IndexDataDefinition() {
 		super();
 	}
 	
-	/**
-	 * Constructor to populate name only
-	 */
-	public CHWPhoneDataDefinition(String name) {
-		super(name);
-	}
-	
-	//***** INSTANCE METHODS *****
-	
-	/**
-	 * @see org.openmrs.module.reporting.data.DataDefinition#getDataType()
-	 */
+	@Override
 	public Class<?> getDataType() {
-		return String.class;
+		return Integer.class;
 	}
 }

@@ -19,29 +19,29 @@ import java.util.Map;
  */
 @Handler(supports = ClientRepresentedDataDefinition.class, order = 50)
 public class ClientRepresentedDataEvaluator implements PersonDataEvaluator {
-
-    @Autowired
-    private EvaluationService evaluationService;
-
-    public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
-            throws EvaluationException {
-        EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-
-        String qry = "SELECT client_id, " + "CASE MAX(client_represented) WHEN 'Yes' THEN 'YES' WHEN 'No' THEN 'NO' ELSE 'N/A' END AS represented "
-                + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
-                + "WHERE encounter_datetime <= :endDate "
-                + "GROUP BY client_id";
-
-        SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
-        queryBuilder.append(qry);
-        Date startDate = (Date) context.getParameterValue("startDate");
-        Date endDate = (Date) context.getParameterValue("endDate");
-        queryBuilder.addParameter("endDate", endDate);
-        queryBuilder.addParameter("startDate", startDate);
-
-        Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
-        c.setData(data);
-        return c;
-    }
-
+	
+	@Autowired
+	private EvaluationService evaluationService;
+	
+	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
+	        throws EvaluationException {
+		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
+		
+		String qry = "SELECT client_id, "
+		        + "CASE MAX(client_represented) WHEN 'Yes' THEN 'YES' WHEN 'No' THEN 'NO' ELSE 'N/A' END AS represented "
+		        + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up " + "WHERE encounter_datetime <= :endDate "
+		        + "GROUP BY client_id";
+		
+		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
+		queryBuilder.append(qry);
+		Date startDate = (Date) context.getParameterValue("startDate");
+		Date endDate = (Date) context.getParameterValue("endDate");
+		queryBuilder.addParameter("endDate", endDate);
+		queryBuilder.addParameter("startDate", startDate);
+		
+		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
+		c.setData(data);
+		return c;
+	}
+	
 }
