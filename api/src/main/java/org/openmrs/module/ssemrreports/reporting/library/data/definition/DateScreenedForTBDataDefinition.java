@@ -10,29 +10,29 @@ import org.openmrs.module.reporting.evaluation.caching.Caching;
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
 public class DateScreenedForTBDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
-
-    public static final long serialVersionUID = 1L;
-
-    /**
-     * Default Constructor
-     */
-    public DateScreenedForTBDataDefinition() {
-        super();
-    }
-
-    /**
-     * Constructor to populate name only
-     */
-    public DateScreenedForTBDataDefinition(String name) {
-        super(name);
-    }
-
-    //***** INSTANCE METHODS *****
-
-    /**
-     * @see org.openmrs.module.reporting.data.DataDefinition#getDataType()
-     */
-    public Class<?> getDataType() {
-        return String.class;
-    }
+	
+	public static final long serialVersionUID = 1L;
+	
+	/**
+	 * Default Constructor
+	 */
+	public DateScreenedForTBDataDefinition() {
+		super();
+	}
+	
+	/**
+	 * Constructor to populate name only
+	 */
+	public DateScreenedForTBDataDefinition(String name) {
+		super(name);
+	}
+	
+	//***** INSTANCE METHODS *****
+	
+	/**
+	 * @see org.openmrs.module.reporting.data.DataDefinition#getDataType()
+	 */
+	public Class<?> getDataType() {
+		return String.class;
+	}
 }

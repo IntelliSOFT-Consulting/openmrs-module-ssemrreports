@@ -76,7 +76,7 @@ public class SetupDocumentedVLRegister extends SsemrDataExportManager {
 		ReportDesign reportDesign = null;
 		try {
 			reportDesign = createXlsReportDesign(reportDefinition, "documented_vl_register.xls",
-					"Line Lists for clients with viral load samples collected", getExcelDesignUuid(), null);
+			    "Line Lists for clients with viral load samples collected", getExcelDesignUuid(), null);
 			Properties props = new Properties();
 			props.put("repeatingSections", "sheet:1,row:4,dataset:DVLD");
 			props.put("sortWeight", "5000");
