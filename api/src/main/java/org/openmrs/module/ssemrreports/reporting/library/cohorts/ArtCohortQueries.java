@@ -473,10 +473,8 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition getPregnantPatientsOnRegimenCohortDefinition(String regimenName) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "SELECT "
-		        + " f.client_id "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
-		        + " WHERE f.location_id=:location AND DATE(f.encounter_datetime) BETWEEN DATE(:startDate) AND DATE(:endDate) "
+		String qry = "SELECT " + " f.client_id " + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
+		        + " WHERE f.location_id=:location AND DATE(f.encounter_datetime) <= DATE(:endDate) "
 		        + " AND f.art_regimen = ':artRegimen' and f.client_pregnant = 'Yes' ";
 		
 		qry.replace(":artRegimen", regimenName);
@@ -493,7 +491,7 @@ public class ArtCohortQueries {
 		String qry = "SELECT "
 		        + " f.client_id "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
-		        + " WHERE DATE(f.encounter_datetime) BETWEEN DATE(:startDate) AND DATE(:endDate) "
+		        + " WHERE DATE(f.encounter_datetime) <= DATE(:endDate) "
 		        + " AND f.location_id=:location AND f.art_regimen = ':artRegimen' AND (f.client_breastfeeding IS NOT NULL AND f.client_breastfeeding = 'Yes')";
 		
 		qry.replace(":artRegimen", regimenName);
