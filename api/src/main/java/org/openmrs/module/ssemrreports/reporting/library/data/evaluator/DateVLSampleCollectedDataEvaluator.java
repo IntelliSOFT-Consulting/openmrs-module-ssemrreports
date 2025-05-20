@@ -35,11 +35,11 @@ public class DateVLSampleCollectedDataEvaluator implements PersonDataEvaluator {
 	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-
+		
 		String qry = "SELECT client_id, "
-				+ "DATE_FORMAT(MAX(CASE WHEN date_vl_sample_collected IS NOT NULL THEN date_vl_sample_collected ELSE NULL END), '%d-%m-%Y') AS documented_date "
-				+ "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up " + "WHERE DATE(encounter_datetime) <= :endDate "
-				+ "GROUP BY client_id";
+		        + "DATE_FORMAT(MAX(CASE WHEN date_vl_sample_collected IS NOT NULL THEN date_vl_sample_collected ELSE NULL END), '%d-%m-%Y') AS documented_date "
+		        + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up " + "WHERE DATE(encounter_datetime) <= :endDate "
+		        + "GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

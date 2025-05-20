@@ -91,7 +91,7 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		
 		TBStatusDataDefinition tbStatusDataDefinition = new TBStatusDataDefinition();
 		tbStatusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		DateScreenedForTBDataDefinition dateScreenedForTBDataDefinition = new DateScreenedForTBDataDefinition();
 		dateScreenedForTBDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		

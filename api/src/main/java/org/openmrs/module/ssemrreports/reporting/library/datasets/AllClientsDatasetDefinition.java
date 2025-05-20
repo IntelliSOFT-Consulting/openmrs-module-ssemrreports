@@ -119,43 +119,43 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		
 		BMIDataDefinition bmiDataDefinition = new BMIDataDefinition();
 		bmiDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		ClientRepresentedDataDefinition clientRepresentedDataDefinition = new ClientRepresentedDataDefinition();
 		clientRepresentedDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		TBScreeningDataDefinition tbScreeningDataDefinition = new TBScreeningDataDefinition();
 		tbScreeningDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		TBStatusDataDefinition tbStatusDataDefinition = new TBStatusDataDefinition();
 		tbStatusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		EDDDataDefinition eddDataDefinition = new EDDDataDefinition();
 		eddDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		LastRefillDateDefinition lastRefillDateDefinition = new LastRefillDateDefinition();
 		lastRefillDateDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		DateVLSampleCollectedDataDefinition dateVLSampleCollectedDataDefinition = new DateVLSampleCollectedDataDefinition();
 		dateVLSampleCollectedDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		DateVLSampleReceivedDataDefinition dateVLSampleReceivedDataDefinition = new DateVLSampleReceivedDataDefinition();
 		dateVLSampleReceivedDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		RepeatVLSampleDateDataDefinition repeatVLSampleDateDataDefinition = new RepeatVLSampleDateDataDefinition();
 		repeatVLSampleDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		CHWPhoneDataDefinition chwPhoneDataDefinition = new CHWPhoneDataDefinition();
 		chwPhoneDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		SuspectedVirologicalFailureDataDefinition suspectedVirologicalFailureDataDefinition = new SuspectedVirologicalFailureDataDefinition();
 		suspectedVirologicalFailureDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		AHDDataDefinition ahdDataDefinition = new AHDDataDefinition();
 		ahdDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		ClinicalStatusDataDefinition clinicalStatusDataDefinition = new ClinicalStatusDataDefinition();
 		clinicalStatusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
-
+		
 		RecurrenceOfIITDataDefinition recurrenceOfIITDataDefinition = new RecurrenceOfIITDataDefinition();
 		recurrenceOfIITDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		

@@ -258,7 +258,7 @@ public class ArtCohortQueries {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String qry = "SELECT f.client_id "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
-		        + " WHERE f.location_id=:location and f.art_regimen IS NOT NULL AND DATE(f.encounter_datetime) BETWEEN :startDate AND DATE(:endDate) "
+		        + " WHERE f.location_id=:location and f.art_regimen IS NOT NULL AND DATE(f.encounter_datetime) <= DATE(:endDate) "
 		        + " GROUP BY f.client_id "
 		        + " HAVING REPLACE(MID(MAX(CONCAT(f.encounter_datetime, f.art_regimen)),20),' ','') = REPLACE(':artRegimen',' ','') ";
 		
@@ -473,10 +473,8 @@ public class ArtCohortQueries {
 	
 	public CohortDefinition getPregnantPatientsOnRegimenCohortDefinition(String regimenName) {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String qry = "SELECT "
-		        + " f.client_id "
-		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
-		        + " WHERE f.location_id=:location AND DATE(f.encounter_datetime) BETWEEN DATE(:startDate) AND DATE(:endDate) "
+		String qry = "SELECT " + " f.client_id " + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
+		        + " WHERE f.location_id=:location AND DATE(f.encounter_datetime) <= DATE(:endDate) "
 		        + " AND f.art_regimen = ':artRegimen' and f.client_pregnant = 'Yes' ";
 		
 		qry.replace(":artRegimen", regimenName);
@@ -493,7 +491,7 @@ public class ArtCohortQueries {
 		String qry = "SELECT "
 		        + " f.client_id "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up f "
-		        + " WHERE DATE(f.encounter_datetime) BETWEEN DATE(:startDate) AND DATE(:endDate) "
+		        + " WHERE DATE(f.encounter_datetime) <= DATE(:endDate) "
 		        + " AND f.location_id=:location AND f.art_regimen = ':artRegimen' AND (f.client_breastfeeding IS NOT NULL AND f.client_breastfeeding = 'Yes')";
 		
 		qry.replace(":artRegimen", regimenName);
