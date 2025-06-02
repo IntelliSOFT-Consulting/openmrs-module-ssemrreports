@@ -292,6 +292,17 @@ public class CommonQueries {
 		        + "left join ssemr_etl.ssemr_flat_encounter_personal_family_tx_history pfh on pfh.client_id = fp.client_id "
 		        + "left join ssemr_etl.ssemr_flat_encounter_vl_laboratory_request vlr on vlr.client_id = fp.client_id "
 		        + "left join ssemr_etl.ssemr_flat_encounter_high_viral_load hvl on hvl.client_id = fp.client_id "
+		        + "left join ssemr_etl.ssemr_flat_encounter_end_of_follow_up fup on fup.client_id = fp.client_id "
+		        + "left join ( "
+		        + "    SELECT p.patient_id, p.status, p.start_date_time "
+		        + "    FROM openmrs.patient_appointment p "
+		        + "    JOIN ( "
+		        + "        SELECT patient_id, MAX(start_date_time) AS max_start_date_time "
+		        + "        FROM openmrs.patient_appointment "
+		        + "        GROUP BY patient_id "
+		        + "    ) AS latest_appt ON p.patient_id = latest_appt.patient_id "
+		        + "    AND p.start_date_time = latest_appt.max_start_date_time "
+		        + ") appt ON appt.patient_id = fp.client_id "
 		        + "where ("
 		        
 		        // Criteria 1: Adult suppressed VL
@@ -342,7 +353,10 @@ public class CommonQueries {
 		        + "or (hvl.third_eac_session_date IS NOT NULL "
 		        + " AND TIMESTAMPDIFF(MONTH, hvl.third_eac_session_date, :endDate) >= 1)) "
 		        
-		        + " AND fp.encounter_datetime <= :endDate";
+		        + "and fp.encounter_datetime <= :endDate " + "and (fup.death IS NULL OR fup.death != 'Yes') "
+		        + "and (fup.transfer_out IS NULL OR fup.transfer_out != 'Yes') "
+		        + "and (fup.client_refused_treatment IS NULL OR fup.client_refused_treatment != 'Yes')"
+		        + "and (appt.status IS NULL OR appt.status != 'Missed' OR DATEDIFF(:endDate, appt.start_date_time) <= 28)";
 		
 		return query;
 	}
