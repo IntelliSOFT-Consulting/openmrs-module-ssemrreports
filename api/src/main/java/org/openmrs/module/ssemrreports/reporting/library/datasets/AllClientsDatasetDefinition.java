@@ -127,6 +127,7 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		tbScreeningDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		TBStatusDataDefinition tbStatusDataDefinition = new TBStatusDataDefinition();
+		tbStatusDataDefinition.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		tbStatusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		EDDDataDefinition eddDataDefinition = new EDDDataDefinition();
@@ -170,7 +171,7 @@ public class AllClientsDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Date of ART initiation", artStartDateDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Client Represented", clientRepresentedDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Screened for TB", tbScreeningDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("TB Status", tbStatusDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("TB Status", tbStatusDataDefinition, "startDate=${startDate},endDate=${endDate}");
 		dsd.addColumn("Pregnant", patientPregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("EDD", eddDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", patientBreastfeedingDateDataDefinition, "endDate=${endDate}");
