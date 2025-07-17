@@ -286,36 +286,77 @@ public class CommonQueries {
 	}
 	
 	public static String getPatientsEligibleForVL() {
-		String query = "WITH MaxSampleDate AS (SELECT client_id, MAX(date_vl_sample_collected) AS max_date_vl_sample_collected "
-		        + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up WHERE date_vl_sample_collected < :endDate "
-		        + "GROUP BY client_id), "
-		        + "RankedData AS (SELECT a.client_id, d.age, a.viral_load_value, a.vl_results, a.date_vl_sample_collected, "
-		        + "a.encounter_datetime, a.client_pregnant, b.art_start_date, c.third_eac_session_date, "
-		        + "ROW_NUMBER() OVER (PARTITION BY a.client_id ORDER BY "
-		        + "CASE WHEN a.date_vl_sample_collected IS NULL THEN 1 ELSE 0 END, "
-		        + "a.date_vl_sample_collected DESC, a.encounter_datetime DESC) AS rn "
-		        + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up a "
-		        + "JOIN ssemr_etl.mamba_dim_person d ON a.client_id = d.person_id "
-		        + "LEFT JOIN ssemr_etl.ssemr_flat_encounter_personal_family_tx_history b ON a.client_id = b.client_id "
-		        + "LEFT JOIN ssemr_etl.ssemr_flat_encounter_high_viral_load c ON a.client_id = c.client_id "
-		        + "JOIN MaxSampleDate ms ON a.client_id = ms.client_id "
-		        + "AND a.date_vl_sample_collected = ms.max_date_vl_sample_collected "
-		        + "WHERE a.encounter_datetime <= :endDate AND a.location_id = :location "
-		        + "AND (a.date_vl_sample_collected IS NULL OR a.encounter_datetime >= a.date_vl_sample_collected) "
-		        + "AND ((d.age > 18 "
-		        + "AND TIMESTAMPDIFF(MONTH, b.art_start_date, NOW()) >= 6 "
-		        + "AND TIMESTAMPDIFF(MONTH, a.date_vl_sample_collected, :endDate) >= 6 "
-		        + "AND (a.viral_load_value < 1000 OR a.vl_results = 'Below Detectable (BDL)')) "
-		        + "OR (d.age <= 18 "
-		        + "AND TIMESTAMPDIFF(MONTH, a.date_vl_sample_collected, :endDate) >= 6) "
-		        + "OR (c.third_eac_session_date IS NOT NULL "
-		        + "AND TIMESTAMPDIFF(MONTH, a.date_vl_sample_collected, :endDate) >= 1) "
-		        + "OR (a.client_pregnant = 'Yes' "
-		        + "AND TIMESTAMPDIFF(MONTH, b.art_start_date, :endDate) < 1) "
-		        + "OR (a.client_pregnant = 'Yes' "
-		        + "AND TIMESTAMPDIFF(MONTH, b.art_start_date, :endDate) >= 6 "
-		        + "AND TIMESTAMPDIFF(MONTH, a.date_vl_sample_collected, :endDate) > 3))) "
-		        + "SELECT client_id FROM RankedData WHERE rn = 1;";
+		String query = "select distinct fp.client_id from ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fp "
+		        + "join ssemr_etl.mamba_dim_person mp on fp.client_id = mp.person_id "
+		        + "left join ssemr_etl.ssemr_flat_encounter_hiv_care_enrolment en ON en.client_id = fp.client_id "
+		        + "left join ssemr_etl.ssemr_flat_encounter_personal_family_tx_history pfh on pfh.client_id = fp.client_id "
+		        + "left join ssemr_etl.ssemr_flat_encounter_vl_laboratory_request vlr on vlr.client_id = fp.client_id "
+		        + "left join ssemr_etl.ssemr_flat_encounter_high_viral_load hvl on hvl.client_id = fp.client_id "
+		        + "left join ssemr_etl.ssemr_flat_encounter_end_of_follow_up fup on fup.client_id = fp.client_id "
+		        + "left join ( "
+		        + "    SELECT p.patient_id, p.status, p.start_date_time "
+		        + "    FROM openmrs.patient_appointment p "
+		        + "    JOIN ( "
+		        + "        SELECT patient_id, MAX(start_date_time) AS max_start_date_time "
+		        + "        FROM openmrs.patient_appointment "
+		        + "        GROUP BY patient_id "
+		        + "    ) AS latest_appt ON p.patient_id = latest_appt.patient_id "
+		        + "    AND p.start_date_time = latest_appt.max_start_date_time "
+		        + ") appt ON appt.patient_id = fp.client_id "
+		        + "where ("
+		        
+		        // Criteria 1: Adult suppressed VL
+		        + "(mp.age > 18 AND pfh.art_start_date IS NOT NULL "
+		        + " AND TIMESTAMPDIFF(MONTH, pfh.art_start_date, :endDate) >= 6 "
+		        + " AND fp.client_pmtct = 'No' "
+		        + " AND (fp.viral_load_value < 1000 OR fp.vl_results = 'Below Detectable (BDL)') "
+		        + " AND ((EXISTS ("
+		        + "     SELECT 1 FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up prev "
+		        + "     WHERE prev.client_id = fp.client_id "
+		        + "     AND prev.date_vl_sample_collected < fp.date_vl_sample_collected "
+		        + "     AND (prev.viral_load_value < 1000 OR prev.vl_results = 'Below Detectable (BDL)') "
+		        + ") AND TIMESTAMPDIFF(MONTH, fp.date_vl_sample_collected, :endDate) >= 12) "
+		        + " OR (NOT EXISTS ("
+		        + "     SELECT 1 FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up prev "
+		        + "     WHERE prev.client_id = fp.client_id "
+		        + "     AND prev.date_vl_sample_collected < fp.date_vl_sample_collected "
+		        + "     AND (prev.viral_load_value < 1000 OR prev.vl_results = 'Below Detectable (BDL)') "
+		        + ") AND TIMESTAMPDIFF(MONTH, fp.date_vl_sample_collected, :endDate) >= 6)) "
+		        + ") "
+		        
+		        // Criteria 2: Adult newly on ART, no VL
+		        + "or (mp.age > 18 AND pfh.art_start_date IS NOT NULL "
+		        + " AND NOT EXISTS ("
+		        + "     SELECT 1 FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up v2 "
+		        + "     WHERE v2.client_id = fp.client_id AND v2.date_vl_sample_collected IS NOT NULL) "
+		        + " AND TIMESTAMPDIFF(MONTH, pfh.art_start_date, :endDate) >= 6) "
+		        
+		        // Criteria 3: Child/adolescent, based on ART or sample date
+		        + "or (mp.age <= 18 AND pfh.art_start_date IS NOT NULL "
+		        + " AND ((TIMESTAMPDIFF(MONTH, pfh.art_start_date, :endDate) >= 6) "
+		        + " OR (vlr.date_of_sample_collection IS NOT NULL "
+		        + " AND TIMESTAMPDIFF(MONTH, vlr.date_of_sample_collection, :endDate) >= 6))) "
+		        
+		        // Criteria 4: Pregnant newly on ART
+		        + "or (fp.client_pmtct = 'Yes' AND pfh.art_start_date IS NOT NULL "
+		        + " AND ((vlr.date_of_sample_collection IS NOT NULL "
+		        + " AND TIMESTAMPDIFF(MONTH, vlr.date_of_sample_collection, :endDate) >= 3) "
+		        + " OR (vlr.date_of_sample_collection IS NULL "
+		        + " AND TIMESTAMPDIFF(MONTH, fp.encounter_datetime, :endDate) >= 3))) "
+		        
+		        // Criteria 5: Pregnant, already on ART
+		        + "or (fp.client_pregnant = 'Yes' AND pfh.art_start_date IS NOT NULL "
+		        + " AND TIMESTAMPDIFF(MONTH, pfh.art_start_date, :endDate) >= 6 "
+		        + " AND fp.encounter_datetime <= :endDate) "
+		        
+		        // Criteria 6: Post EAC
+		        + "or (hvl.third_eac_session_date IS NOT NULL "
+		        + " AND TIMESTAMPDIFF(MONTH, hvl.third_eac_session_date, :endDate) >= 1)) "
+		        
+		        + "and fp.encounter_datetime <= :endDate " + "and (fup.death IS NULL OR fup.death != 'Yes') "
+		        + "and (fup.transfer_out IS NULL OR fup.transfer_out != 'Yes') "
+		        + "and (fup.client_refused_treatment IS NULL OR fup.client_refused_treatment != 'Yes')"
+		        + "and (appt.status IS NULL OR appt.status != 'Missed' OR DATEDIFF(:endDate, appt.start_date_time) <= 28)";
 		
 		return query;
 	}
