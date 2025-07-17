@@ -36,9 +36,15 @@ public class DaysVLPendingDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, CASE WHEN vl_results IS NOT NULL THEN DATEDIFF(DATE(date_vl_results_received), DATE(date_vl_sample_collected)) "
-		        + " ELSE DATEDIFF(:endDate, DATE(date_vl_sample_collected)) END AS days_difference FROM  ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
-		        + " WHERE encounter_datetime <= :endDate";
+		String qry = "SELECT fup.client_id, " + "CASE " + "  WHEN fup.date_vl_results_received IS NOT NULL "
+		        + "  THEN DATEDIFF(DATE(fup.date_vl_results_received), DATE(fup.date_vl_sample_collected)) "
+		        + "  ELSE DATEDIFF(:endDate, DATE(fup.date_vl_sample_collected)) " + "END AS days_difference "
+		        + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up fup " + "JOIN ( "
+		        + "  SELECT client_id, MAX(date_vl_sample_collected) AS latest_sample_date "
+		        + "  FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
+		        + "  WHERE date_vl_sample_collected IS NOT NULL AND encounter_datetime <= :endDate "
+		        + "  GROUP BY client_id " + ") AS latest "
+		        + "ON fup.client_id = latest.client_id AND fup.date_vl_sample_collected = latest.latest_sample_date;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
