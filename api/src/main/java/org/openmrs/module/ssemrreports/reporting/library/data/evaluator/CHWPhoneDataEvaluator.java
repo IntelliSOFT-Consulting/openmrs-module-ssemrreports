@@ -30,7 +30,7 @@ public class CHWPhoneDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "SELECT client_id, "
-		        + "SUBSTRING_INDEX(MAX(CONCAT(encounter_datetime, '|', chw_phone_number)), '|', -1) AS chw_phone "
+		        + "SUBSTRING_INDEX(MAX(CONCAT(encounter_datetime, '|', COALESCE(chw_phone_number, phone_of_smm, phone_of_chso, phone_of_mm, phone_of_cow))), '|', -1) AS chw_phone "
 		        + "FROM ssemr_etl.ssemr_flat_encounter_community_linkage " + "GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

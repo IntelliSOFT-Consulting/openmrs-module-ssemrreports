@@ -35,7 +35,7 @@ public class COVNameDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT client_id, mid(max(concat(encounter_datetime, name_of_cov_assigned)),20) as name_of_cov "
+		String qry = "SELECT client_id, mid(max(concat(encounter_datetime, coalesce(name_of_cov_assigned, name_of_smm, name_of_mm, name_of_chso, name_of_cow))), 20) as name_of_cov "
 		        + " FROM ssemr_etl.ssemr_flat_encounter_community_linkage group by client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
