@@ -367,7 +367,10 @@ public class CommonQueries {
 		        + "FROM openmrs.patient_appointment WHERE location_id =:location GROUP BY patient_id) AS latest_appt ON p.patient_id = latest_appt.patient_id "
 		        + "AND p.start_date_time = latest_appt.max_start_date_time LEFT JOIN ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up e "
 		        + "ON e.client_id = p.patient_id WHERE p.status = 'Missed' AND DATE(e.encounter_datetime) <= DATE(:endDate) "
-		        + "AND DATEDIFF(CURDATE(), p.start_date_time) > 28 ORDER BY  p.patient_id ASC) AS t;";
+		        + "AND DATEDIFF(CURDATE(), p.start_date_time) > 28 ORDER BY  p.patient_id ASC) AS t "
+		        + "WHERE NOT EXISTS (SELECT 1 FROM ssemr_etl.ssemr_flat_encounter_end_of_follow_up f WHERE f.client_id = t.patient_id AND ("
+		        + "(f.death = 'Yes' AND f.date_of_death IS NOT NULL) OR "
+		        + "(f.transfer_out = 'Yes' AND f.transfer_out_date IS NOT NULL)" + "));";
 		
 		return query;
 	}
