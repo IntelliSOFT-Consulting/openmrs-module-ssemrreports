@@ -11,6 +11,7 @@ import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.openmrs.module.ssemrreports.reporting.library.data.definition.CHWPhoneDataDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,15 +29,21 @@ public class CHWPhoneDataEvaluator implements PersonDataEvaluator {
 			throw new IllegalArgumentException("Definition must be of type CHWPhoneDataDefinition");
 		}
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
-		
+
 		String qry = "SELECT client_id, "
-		        + "SUBSTRING_INDEX(MAX(CONCAT(encounter_datetime, '|', COALESCE(chw_phone_number, phone_of_smm, phone_of_chso, phone_of_mm, phone_of_cow))), '|', -1) AS chw_phone "
-		        + "FROM ssemr_etl.ssemr_flat_encounter_community_linkage " + "GROUP BY client_id";
-		
+                + "CONCAT('\"', CAST(SUBSTRING_INDEX(MAX(CONCAT(encounter_datetime, '|', COALESCE(chw_phone_number, phone_of_smm, phone_of_chso, phone_of_mm, phone_of_cow))), '|', -1) AS CHAR), '\"') AS chw_phone "
+                + "FROM ssemr_etl.ssemr_flat_encounter_community_linkage " + "GROUP BY client_id";
+
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
-		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
-		c.setData(data);
+        Map<Integer, String> stringData = evaluationService.evaluateToMap(
+                queryBuilder,
+                Integer.class,
+                String.class,
+                context
+        );
+        Map<Integer, Object> objectData = new HashMap<>(stringData);
+        c.setData(objectData);
 		return c;
 	}
 }
