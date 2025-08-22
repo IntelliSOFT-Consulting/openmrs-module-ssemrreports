@@ -36,15 +36,34 @@ public class LastVLDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT t.client_id, " + "CASE "
-		        + "  WHEN t.last_vl_result = 'Viral Load Value' THEN t.last_vl_result_value "
-		        + "  WHEN t.last_vl_result = 'Below Detectable (BDL)' THEN 'BDL' " + "  ELSE t.last_vl_result "
-		        + "END AS final_vl_result " + "FROM ( " + "  SELECT client_id, "
-		        + "         MID(MAX(CONCAT(encounter_datetime, vl_results)), 20) AS last_vl_result, "
-		        + "         MID(MAX(CONCAT(encounter_datetime, viral_load_value)), 20) AS last_vl_result_value "
-		        + "  FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
-		        + "  WHERE (vl_results IS NOT NULL AND vl_results <> '') "
-		        + "  AND DATE(encounter_datetime) <= DATE(:endDate) " + "  GROUP BY client_id " + ") AS t;";
+		String qry = "WITH LatestFollowUp AS ( "
+		        + "    SELECT *, ROW_NUMBER() OVER(PARTITION BY client_id ORDER BY encounter_datetime DESC) as rn "
+		        + "    FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
+		        + "    WHERE encounter_datetime <= :endDate "
+		        + "), "
+		        + "LatestVlResultEncounter AS ( "
+		        + "    SELECT *, ROW_NUMBER() OVER(PARTITION BY client_id ORDER BY encounter_datetime DESC) as rn "
+		        + "    FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
+		        + "    WHERE encounter_datetime <= :endDate AND (vl_results IS NOT NULL AND vl_results <> '')"
+		        + "), "
+		        + "LatestHVL AS ( "
+		        + "    SELECT *, ROW_NUMBER() OVER(PARTITION BY client_id ORDER BY encounter_datetime DESC) as rn "
+		        + "    FROM ssemr_etl.ssemr_flat_encounter_high_viral_load "
+		        + "    WHERE encounter_datetime <= :endDate "
+		        + ") "
+		        + "SELECT "
+		        + "    latest_fp.client_id, "
+		        + "    CASE "
+		        + "        WHEN (latest_fp.date_vl_sample_collected IS NOT NULL AND latest_fp.date_vl_results_received IS NULL) "
+		        + "             OR (hvl.repeat_vl_sample_date IS NOT NULL AND hvl.repeat_vl_result_date IS NULL) "
+		        + "        THEN 'Pending Result' " + "        ELSE " + "            CASE "
+		        + "                WHEN vl_fp.vl_results = 'Viral Load Value' THEN CAST(vl_fp.viral_load_value AS CHAR) "
+		        + "                WHEN vl_fp.vl_results = 'Below Detectable (BDL)' THEN 'BDL' "
+		        + "                ELSE vl_fp.vl_results " + "            END " + "    END AS final_status "
+		        + "FROM LatestFollowUp latest_fp "
+		        + "LEFT JOIN LatestHVL hvl ON latest_fp.client_id = hvl.client_id AND hvl.rn = 1 "
+		        + "LEFT JOIN LatestVlResultEncounter vl_fp ON latest_fp.client_id = vl_fp.client_id AND vl_fp.rn = 1 "
+		        + "WHERE latest_fp.rn = 1";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

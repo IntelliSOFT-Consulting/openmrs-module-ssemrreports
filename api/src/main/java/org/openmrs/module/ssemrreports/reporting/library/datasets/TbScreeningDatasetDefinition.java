@@ -90,7 +90,6 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		breastfeedingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		TBStatusDataDefinition tbStatusDataDefinition = new TBStatusDataDefinition();
-		tbStatusDataDefinition.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		tbStatusDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 		
 		DateScreenedForTBDataDefinition dateScreenedForTBDataDefinition = new DateScreenedForTBDataDefinition();
@@ -108,7 +107,7 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");
-		dsd.addColumn("TB Status", tbStatusDataDefinition, "startDate=${startDate},endDate=${endDate}");
+		dsd.addColumn("TB Status", tbStatusDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date Screened for TB", dateScreenedForTBDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Payam", personPayamAddress(), "", new CalculationResultConverter());
 		dsd.addColumn("Boma", personBomaAddress(), "", new CalculationResultConverter());
