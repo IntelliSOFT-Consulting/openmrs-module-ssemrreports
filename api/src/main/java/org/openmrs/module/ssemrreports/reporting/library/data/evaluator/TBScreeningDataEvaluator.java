@@ -33,7 +33,7 @@ public class TBScreeningDataEvaluator implements PersonDataEvaluator {
 		        + "THEN 'YES' " + "WHEN MID(MAX(CONCAT(encounter_datetime, on_tb_treatment)), 20) = 'Yes' THEN 'NO' "
 		        + "WHEN MID(MAX(CONCAT(encounter_datetime, on_tb_treatment)), 20) IS NULL THEN 'N/A' "
 		        + "END AS tb_screening " + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
-		        + "WHERE encounter_datetime BETWEEN :startDate AND :endDate " + "GROUP BY client_id";
+		        + "WHERE encounter_datetime <= :endDate " + "GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

@@ -34,7 +34,7 @@ public class TBStatusDataEvaluator implements PersonDataEvaluator {
 		        + "    WHEN 'Pr TB - Presumptive TB' THEN 'Presumptive TB' "
 		        + "    WHEN 'ND - TB Screening not done' THEN 'Not done' " + "    ELSE 'N/A' " + "  END "
 		        + "END AS tb_status " + "FROM ssemr_etl.ssemr_flat_encounter_hiv_care_follow_up "
-		        + "WHERE encounter_datetime BETWEEN :startDate AND :endDate " + "GROUP BY client_id";
+		        + "WHERE encounter_datetime <= :endDate " + "GROUP BY client_id";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
