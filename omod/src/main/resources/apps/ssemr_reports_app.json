@@ -103,6 +103,15 @@
         "requiredPrivilege": ""
       },
       {
+        "id": "ssemr.art_initiiation.linelist",
+        "extensionPointId": "org.openmrs.module.ssemr.reports.registers",
+        "type": "link",
+        "label": "Art Initiation linelist",
+        "url": "ssemrreports/runReport.page?reportDefinition=b1e2a7c0-18a9-11ee-b962-0242ac120002",
+        "order": 30,
+        "requiredPrivilege": ""
+      },
+      {
         "id": "ssemr.today.appointment.Report",
         "extensionPointId": "orgpt.openmrs.module.ssemr.reports.registers",
         "type": "link",

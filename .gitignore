@@ -67,3 +67,4 @@ target
 api/target/
 omod/target/
 .idea/
+api/mockito-hamcrest-deps.xml

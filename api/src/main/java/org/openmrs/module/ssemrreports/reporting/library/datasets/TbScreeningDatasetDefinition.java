@@ -7,12 +7,12 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
+import org.openmrs.module.reporting.data.converter.BirthdateConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
-import org.openmrs.module.reporting.data.patient.definition.PatientIdDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
-import org.openmrs.module.reporting.data.person.definition.AgeDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.ConvertedPersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.GenderDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefinition;
@@ -102,8 +102,10 @@ public class TbScreeningDatasetDefinition extends SsemrBaseDataSet {
 		    new PersonAttributeDataConverter());
 		dsd.addColumn("Alternative telephone", new PersonAttributeDataDefinition("Alternative Phone Number",
 		        alternativePhoneNumber), "", new PersonAttributeDataConverter());
-		dsd.addColumn("Age", new CustomAgeDataDefinition(), "", null);
-		dsd.addColumn("Gender", new GenderDataDefinition(), "", null);
+		DataDefinition dobDef = new BirthdateDataDefinition();
+		dsd.addColumn("DOB", dobDef, "", new BirthdateConverter(DATE_FORMAT));
+		dsd.addColumn("Age", new CustomAgeDataDefinition(), "");
+		dsd.addColumn("Gender", new GenderDataDefinition(), "");
 		dsd.addColumn("Pregnant", pregnantDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Breastfeeding", breastfeedingDataDefinition, "endDate=${endDate}");
 		dsd.addColumn("Date of ART initiation", etlArtStartDateDataDefinition, "endDate=${endDate}");

@@ -44,4 +44,6 @@ public class SharedTemplatesConstants {
 	
 	public static final String CONTACTS_WITH_UNKNOWN_HIV_STATUS_TESTED_LIST_TEMPLATE = "1df4d01e-8e26-11ee-b9d1-0242ac120002";
 	
+	public static final String ART_INITIATIONS_TEMPLATE_UUID = "5c9dfa40-818c-465a-b3c7-4e6ef4b3319a";
+	
 }
